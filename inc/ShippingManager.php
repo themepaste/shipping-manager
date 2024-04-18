@@ -1,7 +1,12 @@
 <?php
 namespace Themepaste\ShippingManager;
 
-class ShippingManager {
+/**
+ * Main Plugin class
+ *
+ * @since TSM_SINCE
+ */
+final class ShippingManager {
 
 	private static $self;
 
@@ -14,6 +19,8 @@ class ShippingManager {
 
 	/**
 	 * Initializes self object and returns the object
+	 *
+	 * @since TSM_SINCE
 	 *
 	 * @return ShippingManager
 	 */
