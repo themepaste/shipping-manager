@@ -11,3 +11,5 @@
 defined('ABSPATH') || exit; // Security check
 
 require_once "vendor/autoload.php";
+
+\Themepaste\ShippingManager\ShippingManager::init();
