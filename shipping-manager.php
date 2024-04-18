@@ -4,6 +4,8 @@
  * Description: A simplified all in one shipping solution for WooCommerce.
  * Version: 1.00.0
  * Requires Plugins: woocommerce
+ *
+ * Requires PHP: 7.2
  */
 
 defined('ABSPATH') || exit; // Security check
