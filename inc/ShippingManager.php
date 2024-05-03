@@ -1,6 +1,8 @@
 <?php
 namespace Themepaste\ShippingManager;
 
+defined( 'ABSPATH' ) || exit;
+
 /**
  * Main Plugin class
  *
@@ -11,11 +13,20 @@ final class ShippingManager {
 	private static $self;
 
 	/**
+	 * This will contain all the initialized objects
+	 *
+	 * @var array
+	 */
+	private $container = [];
+
+	/**
 	 * Initializing the plugin
 	 *
 	 * @since TSM_SINCE
 	 */
-	private function __construct() {}
+	private function __construct() {
+		$this->container[ AddShippingSettingsPage::INSTANCE_KEY ] = new AddShippingSettingsPage();
+	}
 
 	/**
 	 * Initializes self object and returns the object

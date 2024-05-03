@@ -6,6 +6,7 @@
  * Requires Plugins: woocommerce
  *
  * Requires PHP: 7.2
+ * Text Domain: tsm-shipping-manager
  */
 
 defined('ABSPATH') || exit; // Security check
