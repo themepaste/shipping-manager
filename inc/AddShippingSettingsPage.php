@@ -55,7 +55,7 @@ class AddShippingSettingsPage {
 	 */
 	public function render_page() {
 		wp_enqueue_script( Assets::ADMIN_SHIPPING_SETTINGS_SCRIPT );
-		echo "TSM Shipping Settings Page";
+		( TemplateLoader::init() )->load( 'settings-layout.php' );
 	}
 
 }
