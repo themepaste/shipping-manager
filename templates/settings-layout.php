@@ -5,5 +5,28 @@ $sub_page = isset( $_GET['sub_page'] )
 	? sanitize_text_field( wp_unslash( $_GET['sub_page'] ) )
 	: 'home';
 $sub_page = in_array( $sub_page, [ 'home', 'add' ] ) ? $sub_page : 'home';
+?>
+<!DOCTYPE html>
+<html lang="en">
 
-include( $sub_page . '.php' );
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="row">
+        <div class="col-3 left-menu">
+            <div>
+                <h2>LOGO</h2>
+            </div>
+        </div>
+        <div class="col-9 main">
+		<?php include( $sub_page . '.php' ); ?>
+        </div>
+    </div>
+</body>
+
+</html>
+
+

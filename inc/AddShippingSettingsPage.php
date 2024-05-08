@@ -7,6 +7,7 @@ class AddShippingSettingsPage {
 
 	const INSTANCE_KEY = 'AddShippingSettingsPage';
 	const SETTINGS_PAGE_KEY = 'tsm_shipping_settings';
+	const BACK_PAGE_URL = '';
 
 	/**
 	 * Initializing necessary hooks

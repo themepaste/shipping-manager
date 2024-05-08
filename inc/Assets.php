@@ -29,11 +29,11 @@ class Assets {
 	 * @since TSM_SINCE
 	 */
 	function register_admin_scripts() {
+
 		wp_register_script(
 			self::ADMIN_SHIPPING_SETTINGS_SCRIPT,
 			TSM_ROOT_FOLDER_URL . 'assets/js/admin/shipping-settings.js'
 		);
-
 	}
 
 	function register_admin_styles() {
