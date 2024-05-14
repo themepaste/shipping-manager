@@ -7,9 +7,10 @@ $add_url = home_url(add_query_arg(NULL, NULL)) . '&sub_page=add';
     <?php
     // WP_Query arguments
     $args = array(
-        'post_type'              => array('tsm_rule'),
+        'post_type'              => array('tsm_custom_rule'),
         'post_status'            => array('publish'),
-        'post_per_page'          => 3
+        'post_per_page'          => 3,
+        'meta_key' => 'rule_title', // Meta key for the form field 'name'
     );
 
     $tcp_query = new WP_Query($args);
@@ -17,12 +18,12 @@ $add_url = home_url(add_query_arg(NULL, NULL)) . '&sub_page=add';
     if ($tcp_query->have_posts()) {
         while ($tcp_query->have_posts()) {
             $tcp_query->the_post();
-            // do something
+            $rule_title = get_post_meta(get_the_ID(), 'rule_title', true);
     ?>
             <div class="tsm-col-3">
                 <div class="tsm-first-box tsm-card">
-                    <h2><?php the_title(); ?></h2>
-                    <p><?php the_excerpt(); ?></p>
+                    <h2><?php echo $rule_title; ?></h2>
+                    <!-- <p><?php the_excerpt(); ?></p> -->
                     <a href="">Edit</a>
                 </div>
             </div>
