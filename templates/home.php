@@ -3,7 +3,7 @@ defined('ABSPATH') || exit;
 
 $add_url = home_url(add_query_arg(NULL, NULL)) . '&sub_page=add';
 ?>
-<div class="row">
+<div class="tsm-row">
     <?php
     // WP_Query arguments
     $args = array(
@@ -19,8 +19,8 @@ $add_url = home_url(add_query_arg(NULL, NULL)) . '&sub_page=add';
             $tcp_query->the_post();
             // do something
     ?>
-            <div class="col-4 ">
-                <div class="first-box">
+            <div class="tsm-col-3">
+                <div class="tsm-first-box tsm-card">
                     <h2><?php the_title(); ?></h2>
                     <p><?php the_excerpt(); ?></p>
                     <a href="">Edit</a>
@@ -33,9 +33,9 @@ $add_url = home_url(add_query_arg(NULL, NULL)) . '&sub_page=add';
     // Restore original Post Data
     wp_reset_postdata(); ?>
     
-    <div class="col-4 ">
-        <div class="add-box">
-            <a href="<?php echo $add_url ?>">ADD</a>
+    <div class="tsm-col-3">
+        <div class="tsm-add-box ">
+            <a class='tsm-py-100' href="<?php echo $add_url ?>">ADD</a>
         </div>
     </div>
 </div>

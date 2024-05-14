@@ -2,55 +2,66 @@
     box-sizing: border-box;
   }
   
-  a {
-    text-decoration: none;
-  }
   
-  .row::after {
+.tsm-body {
+  background-color: #f0f0f1;
+  padding-top: 10px;
+}
+
+.tsm-body a {
+  text-decoration: none;
+}
+.tsm-card{
+  box-shadow: -8px 12px 18px 0 #dadee8;
+}
+  
+  .tsm-row::after {
     content: "";
     clear: both;
     display: block;
   }
   
-  body {
-    background-color: #f0f0f1;
-  }
   
-  [class*="col-"] {
+  [class*="tsm-col-"] {
     float: left;
     padding: 15px;
   }
   
   
-  .left-menu {
-    background-color: #dbdee1;
-    min-height: 800px;
+  .tsm-left-menu {
+    background-color: #fff;
+    border-radius: 10px;
+    min-height: 700px;
   }
   
-  .left-menu div h2 {
+  .tsm-left-menu div h2 {
     font-size: 64px;
     text-align: center;
   }
+
+  .tsm-mt-30{
+    margin-top: 30px;
+  }
   
-  .main {
+  .tsm-main {
     background-color: #f0f0f1;
   }
   
-  .first-box {
-    background-color: #dbdee1;
+  .tsm-first-box {
+    background-color: #fff;
     padding: 15px;
-    border-radius: 5px;
+    border-radius: 10px;
   }
   
-  .first-box h2 {
+  .tsm-first-box h2 {
     font-size: 24px;
   }
   
-  .first-box p {
+  .tsm-first-box p {
     font-size: 16px;
   }
   
-  .first-box a {
+  .tsm-first-box a {
     font-size: 14px;
     background-color: #5c7cdb;
     padding: 5px 10px;
@@ -58,85 +69,87 @@
     border-radius: 5px;
   }
   
-  .add-box {
+  .tsm-add-box {
     background-color: #5c7cdb;
     border-radius: 5px;
   }
+  .tsm-py-100{
+    padding: 100px 0;
+  }
   
-  .add-box a {
+  .tsm-add-box a {
     font-size: 64px;
     display: block;
     text-align: center;
     align-items: center;
-    padding: 35px;
     color: #fff;
   }
   
   
   /* For desktop: */
-  .col-1 {
+  .tsm-col-1 {
     width: 8.33%;
   }
   
-  .col-2 {
+  .tsm-col-2 {
     width: 16.66%;
   }
   
-  .col-3 {
+  .tsm-col-3 {
     width: 25%;
   }
   
-  .col-4 {
+  .tsm-col-4 {
     width: 33.33%;
   }
   
-  .col-5 {
+  .tsm-col-5 {
     width: 41.66%;
   }
   
-  .col-6 {
+  .tsm-col-6 {
     width: 50%;
   }
   
-  .col-7 {
+  .tsm-col-7 {
     width: 58.33%;
   }
   
-  .col-8 {
+  .tsm-col-8 {
     width: 66.66%;
   }
   
-  .col-9 {
+  .tsm-col-9 {
     width: 75%;
   }
   
-  .col-10 {
+  .tsm-col-10 {
     width: 83.33%;
   }
   
-  .col-11 {
+  .tsm-col-11 {
     width: 91.66%;
   }
   
-  .col-12 {
+  .tsm-col-12 {
     width: 100%;
   }
   
   @media only screen and (max-width: 768px) {
   
     /* For mobile phones: */
-    [class*="col-"] {
+    [class*="tsm-col-"] {
       width: 100%;
     }
   }
   
-  .container {
+  .tsm-container {
     background-color: white;
     border-radius: 5px;
     padding: 10px;
   }
   
-  .form-control {
+  .tsm-form-control {
     background-color: #dbdee1;
     border: unset;
     border-radius: 5px;
@@ -144,14 +157,14 @@
     padding: 4px 8px;
   }
   
-  .label-box {
+  .tsm-label-box {
     background-color: #dbdee1;
     margin: 6px;
     padding: 4px;
     border-radius: 5px;
   }
   
-  .delete-btn {
+  .tsm-delete-btn {
     background-color: red;
     border: none;
     border-radius: 5px;
@@ -159,23 +172,23 @@
     padding: 3px 8px;
   }
   
-  .flex {
+  .tsm-flex {
     display: flex;
   }
   
-  .containt-right input {
+  .tsm-containt-right input {
     margin-left: 10px;
   }
   
-  .back-btn {
+  .tsm-back-btn {
     margin-left: 20px;
   }
   
-  .add-btn {
+  .tsm-add-btn {
     text-align: right;
   }
   
-  .add-btn button {
+  .tsm-add-btn button {
     font-size: 14px;
     background-color: #5c7cdb;
     padding: 5px 10px;
@@ -184,9 +197,9 @@
     border: none;
   }
   
-  .pointer {
+  .tsm-pointer {
     cursor: pointer;
   }
-  .text-center{
+  .tsm-text-center{
       text-align: center;
   }
