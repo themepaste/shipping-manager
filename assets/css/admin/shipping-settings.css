@@ -196,6 +196,15 @@
     border-radius: 5px;
     border: none;
   }
+
+  .tsm-add-btn-input {
+    font-size: 14px;
+    background-color: #5c7cdb;
+    padding: 5px 10px;
+    color: #fff;
+    border-radius: 5px;
+    border: none;
+  }
   
   .tsm-pointer {
     cursor: pointer;

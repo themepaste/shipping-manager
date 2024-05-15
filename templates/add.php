@@ -1,34 +1,21 @@
 <?php
+
+use Themepaste\ShippingManager\SaveRule;
+
 defined('ABSPATH') || exit;
 $output = home_url(add_query_arg(NULL, NULL));
 $back = str_replace("&sub_page=add", "", $output);
 
-if ($_POST) {
-    // Sanitize form data
-    $rule_title = sanitize_text_field($_POST['rule_title']);
-    $is_active = sanitize_text_field($_POST['is_active']);
 
-    // Create a new post (or update an existing one)
-    $post_args = array(
-        'post_title'    => 'TSM Rule', // You can change this to a more descriptive title
-        'post_content'  => '', // You can add content here if needed
-        'post_status'   => 'publish',
-        'post_type'     => 'tsm_custom_rule' // Change this to your desired post type
-    );
-
-    $post_id = wp_insert_post($post_args);
-
-    // Save form data as post meta
-    update_post_meta($post_id, 'rule_title', $rule_title);
-    update_post_meta($post_id, 'is_active', $is_active);
-
-    // Redirect user after form submission
-    wp_redirect(home_url('/wp-admin/admin.php?page=wc-settings&tab=shipping&section=tsm_shipping_settings'));
-    exit();
+if (isset($_POST['tsm_rules_form'])) {
+   $save_rule = new SaveRule();
+   // Call the method to render the form
+    $save_rule->handle_form_submission();
 }
 ?>
 <a class="tsm-back-btn" href="<?php echo $back;  ?>"> &lt; Back</a>
-<form action="add.php">
+<form action="add.php" method="post">
+    <input type="hidden" id="nonce" name="_wpnonce" value="<?php echo wp_create_nonce('tsm_shipping_rule') ?>">   
     <div class="tsm-row">
         <div class="tsm-col-6">
             <div class="">
@@ -81,6 +68,6 @@ if ($_POST) {
         </div>
     </div>
     <div class="tsm-add-btn col-6">
-        <button class="tsm-pointer" type="submit">Save</button>
+        <input class="tsm-pointer tsm-add-btn-input" type="submit" name="tsm_rules_form" value="Save">
     </div>
 </form>
