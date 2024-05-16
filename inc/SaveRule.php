@@ -19,7 +19,7 @@ class SaveRule {
 	 * @since TSM_SINCE
 	 */
 	public function __construct() {
-
+        add_action( 'admin_init', [ $this, 'process_form' ] );
 	}
 
 	/**
@@ -29,7 +29,7 @@ class SaveRule {
 	 */
 
 
-     public function handle_form_submission() {
+     public function process_form() {
         
         if (isset($_POST['tsm_rules_form'])) {
 
@@ -47,7 +47,7 @@ class SaveRule {
                 $rule_title = null;
             }
 
-            if ( isset($_POST['is_active'])) {
+            if ( !empty($_POST['is_active'])) {
                 $is_active = sanitize_text_field($_POST['is_active']);
             }else{
                 wp_die( 'Status is required' );

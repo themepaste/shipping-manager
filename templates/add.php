@@ -6,16 +6,10 @@ defined('ABSPATH') || exit;
 $output = home_url(add_query_arg(NULL, NULL));
 $back = str_replace("&sub_page=add", "", $output);
 
-
-if (isset($_POST['tsm_rules_form'])) {
-   $save_rule = new SaveRule();
-   // Call the method to render the form
-    $save_rule->handle_form_submission();
-}
 ?>
 <a class="tsm-back-btn" href="<?php echo $back;  ?>"> &lt; Back</a>
 <form action="add.php" method="post">
-    <input type="hidden" id="nonce" name="_wpnonce" value="<?php echo wp_create_nonce('tsm_shipping_rule') ?>">   
+    <input type="hidden" id="nonce" name="_wpnonce" value="<?php echo SaveRule::ADMIN_SHIPPING_TSM_RULE_NONCE ?>">   
     <div class="tsm-row">
         <div class="tsm-col-6">
             <div class="">
