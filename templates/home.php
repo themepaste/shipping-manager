@@ -1,6 +1,4 @@
 <?php
-use Themepaste\ShippingManager\QueryRuleData;
-
 defined('ABSPATH') || exit;
 
 $add_url = home_url(add_query_arg(NULL, NULL)) . '&sub_page=add';
