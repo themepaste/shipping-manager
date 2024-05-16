@@ -13,8 +13,8 @@ $back = str_replace("&sub_page=add", "", $output);
     <div class="tsm-row">
         <div class="tsm-col-6">
             <div class="">
-                <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike">
-                <label for="vehicle1"> Active</label><br>
+                <input type="checkbox" id="is_active" name="is_active">
+                <label for="is_active"> Active</label><br>
             </div>
             <div class="">
                 <h4>Product Rule</h4>

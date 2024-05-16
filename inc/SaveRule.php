@@ -37,7 +37,6 @@ class SaveRule {
             if ( ! wp_verify_nonce( $_POST['_wpnonce'], SaveRule::ADMIN_SHIPPING_TSM_RULE_NONCE ) ) {
                 wp_die( 'Are you cheating?' );
             } 
-
             
              // Check Required Files
             if ( !empty($_POST['rule_title'])) {
