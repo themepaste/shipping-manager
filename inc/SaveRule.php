@@ -11,7 +11,7 @@ defined( 'ABSPATH' ) || exit;
 class SaveRule {
 
     const INSTANCE_KEY = 'SaveRule';
-    const ADMIN_SHIPPING_TSM_RULE_NONCE = 'tsm_shipping_rule';
+    const ADD_RULE_NONCE = 'tsm_shipping_rule';
 
 	/**
 	 * Initializes the object
@@ -23,45 +23,47 @@ class SaveRule {
 	}
 
 	/**
+	 * This will validate user nonce and permission
+	 *
+	 * @since TSM_SINCE
+	 *
+	 * @return bool
+	 */
+	protected function validate_user(): bool {
+		// If nonce is available
+		if ( ! isset( $_POST[ self::ADD_RULE_NONCE ] ) ) {
+			return false;
+		}
+
+		// Is nonce valid
+		if (
+			! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST[ self::ADD_RULE_NONCE ] ) ), self::ADD_RULE_NONCE )
+		) {
+			return false;
+		}
+
+		// Is user has permission
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return false;
+		}
+		return true;
+	}
+
+	/**
 	 * Registers all admin scripts
 	 *
 	 * @since TSM_SINCE
 	 */
-
-
      public function process_form() {
-        
-        if (isset($_POST['tsm_rules_form'])) {
+		 if ( ! $this->validate_user() ) {
+			 return;
+		 }
 
-            // Check Nonce
-            if ( ! wp_verify_nonce( $_POST['_wpnonce'], SaveRule::ADMIN_SHIPPING_TSM_RULE_NONCE ) ) {
-                wp_die( 'Are you cheating?' );
-            } 
-            
-             // Check Required Files
-            if ( !empty($_POST['rule_title'])) {
-                $rule_title = sanitize_text_field($_POST['rule_title']);
-            }else{
-                wp_die( 'Rule Title is required' );
-                $rule_title = null;
-            }
+		 $rule_title = ! empty( $_POST['rule_title'] ) ? sanitize_text_field( wp_unslash( $_POST['rule_title'] ) ) : '';
+		 $is_active = ! empty( $_POST['is_active'] ) ? 'yes' : 'no';
 
-            if ( !empty($_POST['is_active'])) {
-                $is_active = sanitize_text_field($_POST['is_active']);
-            }else{
-                wp_die( 'Status is required' );
-                $is_active = null;
-            }
-            
+		 $this->save_data( $rule_title, $is_active );
 
-            // Save the data to the database
-            $this->save_data($rule_title,$is_active);
-
-
-             // Redirect user after form submission
-             wp_redirect(home_url('/wp-admin/admin.php?page=wc-settings&tab=shipping&section=tsm_shipping_settings'));
-             exit();
-        }
     }
 
     private function save_data($rule_title,$is_active) {

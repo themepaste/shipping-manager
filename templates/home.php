@@ -6,7 +6,7 @@ $add_url = home_url(add_query_arg(NULL, NULL)) . '&sub_page=add';
 <?php foreach( $rules as $rule ): ?>
     <div class="tsm-col-3">
       <div class="tsm-first-box tsm-card">
-        <h2><?php echo esc_html( $rule->post_title); ?></h2>
+        <h2><?php echo esc_html( get_post_meta( $rule->ID, 'rule_title', true ) /* $rule->post_title */); ?></h2>
 		    <a href="">Edit</a>
       </div>
     </div>

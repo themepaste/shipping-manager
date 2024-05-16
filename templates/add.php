@@ -9,7 +9,7 @@ $back = str_replace("&sub_page=add", "", $output);
 ?>
 <a class="tsm-back-btn" href="<?php echo $back;  ?>"> &lt; Back</a>
 <form action="add.php" method="post">
-    <input type="hidden" id="nonce" name="_wpnonce" value="<?php echo SaveRule::ADMIN_SHIPPING_TSM_RULE_NONCE ?>">   
+    <?php echo wp_nonce_field( SaveRule::ADD_RULE_NONCE, SaveRule::ADD_RULE_NONCE ); ?>
     <div class="tsm-row">
         <div class="tsm-col-6">
             <div class="">
