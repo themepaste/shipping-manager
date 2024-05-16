@@ -56,7 +56,8 @@ class AddShippingSettingsPage {
 	 */
 	public function render_page() {
 		wp_enqueue_script( Assets::ADMIN_SHIPPING_SETTINGS_SCRIPT );
-		( TemplateLoader::init() )->load( 'settings-layout.php' );
+		$rules = ( new RulesData() )->get_rules();
+		( TemplateLoader::init() )->load( 'settings-layout.php', [ 'rules' => $rules ] );
 	}
 
 }

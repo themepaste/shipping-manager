@@ -70,7 +70,7 @@ class SaveRule {
             'post_title'    => 'TSM Rule', // You can change this to a more descriptive title
             'post_content'  => '', // You can add content here if needed
             'post_status'   => 'publish',
-            'post_type'     => 'tsm_custom_rule' // Change this to your desired post type
+            'post_type'     => RulesData::POST_TYPE // Change this to your desired post type
         );
 
         $post_id = wp_insert_post($post_args);
