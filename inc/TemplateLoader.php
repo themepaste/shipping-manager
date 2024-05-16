@@ -31,8 +31,7 @@ class TemplateLoader {
 	 *
 	 * @return void
 	 */
-	public function load( $path, $args = [] ) {
-		extract( $args );
+	public function load( $path ) {
 		include TemplateLoader::TEMPLATE_PATH . $path;
 	}
 
