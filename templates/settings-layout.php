@@ -9,9 +9,10 @@ $sub_page = in_array( $sub_page, [ 'home', 'add' ] ) ? $sub_page : 'home';
 <div class="tsm-body">
     
 <div class="tsm-row">
-    <div class="tsm-col-3 tsm-left-menu tsm-card tsm-mt-30">
+    <div class="tsm-col-3 tsm-left-menu">
         <div>
-            <h2>LOGO</h2>
+            <h2>Shipping Manager</h2>
+            <p>by  THEMEPASTE</p>
         </div>
     </div>
     <div class="tsm-col-9 tsm-main">

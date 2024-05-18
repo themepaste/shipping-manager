@@ -1,10 +1,35 @@
+@font-face {
+  font-family: SortsMill;
+  src: url(fonts/SortsMillGoudy-Regular.ttf);
+}
+@font-face {
+  font-family: SourceSansBold;
+  src: url(fonts/SourceSansPro-Bold.otf);
+}
+@font-face {
+  font-family: SourceSansRegular;
+  src: url(fonts/SourceSansPro-Regular.otf);
+}
+
 * {
     box-sizing: border-box;
   }
-  
+.tsm-pl-1{
+  padding-left: 5px;
+}
+.tsm-m-0{
+  margin: 0;
+}
+.tsm-p-0{
+  padding: 0 !important;
+}
+
+.tsm-pb-2{
+  padding-bottom: 10px;
+}
   
 .tsm-body {
-  background-color: #f0f0f1;
+  background: #e8e9ea;
   padding-top: 10px;
 }
 
@@ -29,16 +54,30 @@
   
   
   .tsm-left-menu {
-    background-color: #fff;
-    border-radius: 10px;
+    background-color: #dbdee1;
     min-height: 700px;
   }
   
-  .tsm-left-menu div h2 {
-    font-size: 64px;
-    text-align: center;
+  .tsm-left-menu div{
+    margin: 0 70px;
   }
 
+  .tsm-left-menu div h2 {
+    font-size: 32px;
+    font-family: SortsMill;
+    margin-bottom: 5px;
+  }
+
+  .tsm-left-menu div p {
+    font-size: 16px;
+    font-family: SourceSansRegular;
+    text-align: right;
+    padding-right: 5px;
+  }
+
+  .tsm-pt-15{
+    padding-top: 15px;
+  }
   .tsm-mt-30{
     margin-top: 30px;
   }
@@ -50,28 +89,56 @@
   .tsm-first-box {
     background-color: #fff;
     padding: 15px;
-    border-radius: 10px;
+    border-radius: 5px;
   }
   
   .tsm-first-box h2 {
     font-size: 24px;
+    font-family: SortsMill; 
   }
   
   .tsm-first-box p {
     font-size: 16px;
+    font-family: SourceSansRegular;
+    padding-bottom: 20px;
   }
   
-  .tsm-first-box a {
+  .tsm-first-box div {
+    padding-bottom: 10px;
+  }
+  
+  
+  .tsm-first-box .button-left {
     font-size: 14px;
-    background-color: #5c7cdb;
-    padding: 5px 10px;
+    background-color: #708bda;
+    padding: 5px 15px;
     color: #fff;
     border-radius: 5px;
+    font-family: SourceSansBold;
   }
   
-  .tsm-add-box {
+  .tsm-first-box .button-right {
+    font-size: 14px;
+    background-color: #f45587;
+    padding: 5px 15px;
+    color: #fff;
+    border-radius: 5px;
+    font-family: SourceSansRegular;
+    float: right;
+  }
+  
+  .tsm-add-button {
     background-color: #5c7cdb;
     border-radius: 5px;
+    padding: 5px 15px;
+    font-size: 16px;
+    color: #fff;
+    font-family: SourceSansBold;
+    margin-top: -5px;
+  }
+
+  .tsm-add-button:hover {
+    color: #fff;
   }
   .tsm-py-100{
     padding: 100px 0;
@@ -181,10 +248,76 @@
   }
   
   .tsm-back-btn {
-    margin-left: 20px;
+    background-color: #73767a;
+    border-radius: 5px;
+    padding: 5px 15px;
+    font-size: 16px;
+    color: #fff;
+    font-family: SourceSansRegular;
   }
+
+  .tsm-back-btn:hover {
+    color: #fff;
+  }
+
+.tsm-table{
+  width: 100%;
+}
+
+.tsm-first-section td{
+  padding: 5px;
+}
+
+.tsm-first-section .tsm-input-td input{
+  width: 100px;
+  border: none;
+  background: #f4f2f2;
+}
+
+.tsm-first-section .tsm-input-td .tsm-second-input{
+  margin-left: 40px;
+}
+
+.tsm-first-section .tsm-dynamic-input{
+  width: 100%;
+  border: none;
+  background: #f4f2f2;
+}
+
+.tsm-tr-delete-button{
+    background-color: #f45587;
+    border-radius: 5px;
+    padding: 5px 10px;
+    font-size: 14px;
+    color: #fff;
+    font-family: SourceSansRegular;
+    cursor: pointer;
+}
+
+.tsm-tr-delete-button:hover{
+  color: #fff;
+}
+
+
+
+.tsm-first-section select{
+  background: #f4f2f2 url(data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%206l5%205%205-5%202%201-7%207-7-7%202-1z%22%20fill%3D%22%23555%22%2F%3E%3C%2Fsvg%3E) no-repeat right 5px top 55%;
+  border-radius: 5px;
+}
+
+.tsm-first-section select option{
+  font-size: 14px;
+  font-family: SourceSansRegular;
+
+}
   
   .tsm-add-btn {
+    text-align: center;
+    margin-top: 10px;
+  }
+
+  
+  .tsm-save-btn {
     text-align: right;
   }
   
@@ -195,15 +328,24 @@
     color: #fff;
     border-radius: 5px;
     border: none;
+    font-family: SourceSansBlod;
   }
 
-  .tsm-add-btn-input {
+  .tsm-label{
+    font-family: SourceSansRegular;
+    font-size: 16px;
+  }
+
+
+
+  .tsm-save-btn-input {
     font-size: 14px;
     background-color: #5c7cdb;
     padding: 5px 10px;
     color: #fff;
     border-radius: 5px;
     border: none;
+    margin-top: 10px;
   }
   
   .tsm-pointer {
@@ -215,3 +357,54 @@
   .tsm-rule-title{
     width: 84%;
   }
+
+  .tsm-selector-builder{
+    font-size: 18px;
+    font-family: SourceSansBold;
+  }
+
+
+  /* Tooltip design  */
+  .tsm-tooltip {
+    position: relative;
+    display: inline-block;
+    background: rgba(180, 174, 174, 0.2);
+    border: none;
+    font-size: 16px;
+    font-family: SourceSansBold;
+    margin-left: 25px;
+  }
+  
+  .tsm-tooltip .tsm-tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -60px;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  
+  .tsm-tooltip .tsm-tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+  }
+  
+  .tsm-tooltip:hover .tsm-tooltiptext {
+    visibility: visible;
+    opacity: 1;
+  }
+  /* Tooltip design  */
