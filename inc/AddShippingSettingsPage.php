@@ -7,6 +7,7 @@ class AddShippingSettingsPage {
 
 	const INSTANCE_KEY = 'AddShippingSettingsPage';
 	const SETTINGS_PAGE_KEY = 'tsm_shipping_settings';
+	const BACK_PAGE_URL = '';
 
 	/**
 	 * Initializing necessary hooks
@@ -55,7 +56,8 @@ class AddShippingSettingsPage {
 	 */
 	public function render_page() {
 		wp_enqueue_script( Assets::ADMIN_SHIPPING_SETTINGS_SCRIPT );
-		( TemplateLoader::init() )->load( 'settings-layout.php' );
+		$rules = ( new RulesData() )->get_rules();
+		( TemplateLoader::init() )->load( 'settings-layout.php', [ 'rules' => $rules ] );
 	}
 
 }

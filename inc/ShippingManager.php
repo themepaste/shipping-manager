@@ -27,6 +27,7 @@ final class ShippingManager {
 	private function __construct() {
 		$this->container[ AddShippingSettingsPage::INSTANCE_KEY ] = new AddShippingSettingsPage();
 		$this->container[ Assets::INSTANCE_KEY ] = new Assets();
+		$this->container[ SaveRule::INSTANCE_KEY ] = new SaveRule();
 	}
 
 	/**
