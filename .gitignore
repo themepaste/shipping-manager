@@ -1,5 +1,4 @@
+/vendor/
 .idea
-node_modules
-vendor
 *.lock
 *.cache

@@ -1,47 +1,59 @@
 <?php
 namespace Themepaste\ShippingManager;
 
-defined( 'ABSPATH' ) || exit;
-
 /**
- * Main Plugin class
+ * Main plugin file
  *
- * @since TSM_SINCE
+ * @since 1.0.0
  */
 final class ShippingManager {
 
-	private static $self;
+	/**
+	 * Plugin main class instance holder
+	 *
+	 * @since 1.0.0
+	 *
+	 * @var ShippingManager
+	 */
+	private static ShippingManager $instance;
 
 	/**
-	 * This will contain all the initialized objects
+	 * Container to track already initialized objects
+	 *
+	 * @since 1.0.0
 	 *
 	 * @var array
 	 */
-	private $container = [];
+	private static array $container = [];
 
 	/**
-	 * Initializing the plugin
+	 * Initializes the plugin
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.0.0
+	 *
+	 * @return void
 	 */
-	private function __construct() {
-		$this->container[ AddShippingSettingsPage::INSTANCE_KEY ] = new AddShippingSettingsPage();
-		$this->container[ Assets::INSTANCE_KEY ] = new Assets();
-		$this->container[ SaveRule::INSTANCE_KEY ] = new SaveRule();
-	}
+	private function __construct() {}
 
 	/**
-	 * Initializes self object and returns the object
+	 * Returns main plugin object or initialized plugin object with keys
 	 *
-	 * @since TSM_SINCE
+	 * @param string $key
 	 *
-	 * @return ShippingManager
+	 * @return object
 	 */
-	public static function init(): ShippingManager {
-		if ( empty( self::$self ) ) {
-			self::$self = new static();
+	public static function get_instance( string $key = '' ): object {
+		if ( empty( self::$instance ) ) {
+			self::$instance = new ShippingManager();
 		}
-		return self::$self;
-	}
 
+		if ( empty( $key ) ) {
+			return self::$instance;
+		} elseif ( ! isset( self::$container[ $key ] ) ) {
+				return self::$container[ $key ];
+			} else {
+				wp_trigger_error( __METHOD__, "$key object not found" );
+		}
+		return (object)[];
+	}
 }
