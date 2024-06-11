@@ -1,0 +1,28 @@
+{
+    "name": "themepaste/shipping-manager",
+    "description": "Shipping manager plugin for WordPress & WooCommerce",
+    "type": "project",
+    "license": "GPL-v3-or-later",
+    "autoload": {
+        "psr-4": {
+            "Themepaste\\ShippingManager\\": "inc/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Aftabul Islam",
+            "email": "toaihimel@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {},
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^3.9",
+        "wp-coding-standards/wpcs": "^3.1"
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    }
+}
