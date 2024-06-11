@@ -49,12 +49,10 @@ final class ShippingManager {
 
 		if ( empty( $key ) ) {
 			return self::$instance;
-		} else {
-			if ( ! isset( self::$container[ $key ] ) ) {
+		} elseif ( ! isset( self::$container[ $key ] ) ) {
 				return self::$container[ $key ];
 			} else {
 				wp_trigger_error( __METHOD__, "$key object not found" );
-			}
 		}
 		return (object)[];
 	}
