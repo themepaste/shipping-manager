@@ -1,6 +1,9 @@
 <?php
 namespace Themepaste\ShippingManager;
 
+use Themepaste\ShippingManager\Admin\Menu;
+use Themepaste\ShippingManager\Admin\Routes;
+
 /**
  * Main plugin file
  *
@@ -33,7 +36,10 @@ final class ShippingManager {
 	 *
 	 * @return void
 	 */
-	private function __construct() {}
+	private function __construct() {
+		self::$container[ Routes::INSTANCE_KEY ] = new Routes();
+		self::$container[ Menu::INSTANCE_KEY ] = new Menu();
+	}
 
 	/**
 	 * Returns main plugin object or initialized plugin object with keys
@@ -49,10 +55,10 @@ final class ShippingManager {
 
 		if ( empty( $key ) ) {
 			return self::$instance;
-		} elseif ( ! isset( self::$container[ $key ] ) ) {
+		} elseif ( isset( self::$container[ $key ] ) ) {
 				return self::$container[ $key ];
 			} else {
-				wp_trigger_error( __METHOD__, "$key object not found" );
+				wp_trigger_error( __METHOD__, "`$key` object not found" );
 		}
 		return (object)[];
 	}
