@@ -41,6 +41,6 @@ class Controller {
 	 * @return void
 	 */
 	public function render_admin_root_page() {
-		echo __CLASS__;
+		tsm_template( 'admin/index' );
 	}
 }
