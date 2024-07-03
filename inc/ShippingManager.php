@@ -4,6 +4,7 @@ namespace Themepaste\ShippingManager;
 use Themepaste\ShippingManager\Admin\Controller;
 use Themepaste\ShippingManager\Admin\Menu;
 use Themepaste\ShippingManager\Admin\Routes;
+use Themepaste\ShippingManager\Admin\Template;
 
 /**
  * Main plugin file
@@ -38,6 +39,7 @@ final class ShippingManager {
 	 * @return void
 	 */
 	private function __construct() {
+		self::$container[ Template::INSTANCE_KEY ] = new Template();
 		self::$container[ Routes::INSTANCE_KEY ] = new Routes();
 		self::$container[ Menu::INSTANCE_KEY ] = new Menu();
 		self::$container[ Controller::INSTANCE_KEY ] = new Controller();

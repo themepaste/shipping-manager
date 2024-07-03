@@ -10,4 +10,6 @@ require 'vendor/autoload.php';
 
 use Themepaste\ShippingManager\ShippingManager;
 
+defined( 'TSM_PLUGIN_ROOT_PATH' ) || define( 'TSM_PLUGIN_ROOT_PATH', dirname( __FILE__ ) );
+
 ShippingManager::get_instance();
