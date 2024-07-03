@@ -3,6 +3,7 @@ namespace Themepaste\ShippingManager;
 
 use Themepaste\ShippingManager\Admin\Controller;
 use Themepaste\ShippingManager\Admin\Menu;
+use Themepaste\ShippingManager\Admin\Messages;
 use Themepaste\ShippingManager\Admin\Routes;
 use Themepaste\ShippingManager\Admin\Template;
 
@@ -39,6 +40,7 @@ final class ShippingManager {
 	 * @return void
 	 */
 	private function __construct() {
+		self::$container[ Messages::INSTANCE_KEY ] = new Messages();
 		self::$container[ Template::INSTANCE_KEY ] = new Template();
 		self::$container[ Routes::INSTANCE_KEY ] = new Routes();
 		self::$container[ Menu::INSTANCE_KEY ] = new Menu();

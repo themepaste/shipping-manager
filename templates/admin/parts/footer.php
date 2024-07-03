@@ -6,4 +6,4 @@
  */
 defined( 'ABSPATH' ) || exit;
 ?>
-footer.php
+Copyright Themepaste LTD. Distributed under GPLv3 or later.

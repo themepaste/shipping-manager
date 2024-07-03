@@ -1,6 +1,8 @@
 <?php
 namespace Themepaste\ShippingManager\Admin;
 
+use Themepaste\ShippingManager\ShippingManager;
+
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -72,6 +74,20 @@ class Template {
 	}
 
 	/**
+	 * Set messages to template args for rendering
+	 *
+	 * @since TSM_SINCE
+	 *
+	 * @param array $args
+	 *
+	 * @return array
+	 */
+	private function set_messages( array $args ): array {
+		$args['messages'] = ( ShippingManager::get_instance( Messages::INSTANCE_KEY ) )->get_sorted_messages_by_type();
+		return $args;
+	}
+
+	/**
 	 * Loads template and passes arguments to the template files
 	 *
 	 * @since TSM_SINCE
@@ -83,6 +99,8 @@ class Template {
 	 */
 	public function load_template( string $name, array $args = [] ): bool {
 		$args = $this->validate_page( $args );
+		$args = $this->set_messages( $args );
+
 		$template_path = $this->template_dir  . $name . '.php';
 		if ( ! file_exists( $template_path ) ) {
 			wp_trigger_error( __METHOD__, "`$template_path` file not found." );
