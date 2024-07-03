@@ -32,6 +32,10 @@ class Template {
 	 */
 	private string $template_dir = '';
 
+	private array $pages = [
+		'free-shipping' => 'free-shipping', // first page is default page
+	];
+
 	public function __construct() {
 		/**
 		 * @filter `tsm_template_root_dir` filter to manipulate root directory for template paths
@@ -46,6 +50,28 @@ class Template {
 	}
 
 	/**
+	 * Validates arguments if page is added in the argument.
+	 *
+	 * @since TSM_SINCE
+	 *
+	 * @param array $args
+	 *
+	 * @return array
+	 */
+	private function validate_page( array $args ): array {
+		if ( isset( $args['page'] ) ) {
+			if ( ! in_array( $args['page'], $this->pages, true ) ) {
+				$passed_page = $args['page'];
+				wp_trigger_error( __METHOD__, "$passed_page is not a valid admin page." );
+				$args['page'] = current( $this->pages ); // setting default page
+			}
+		} else {
+			$args['page'] = current( $this->pages ); // setting default page;
+		}
+		return $args;
+	}
+
+	/**
 	 * Loads template and passes arguments to the template files
 	 *
 	 * @since TSM_SINCE
@@ -56,7 +82,8 @@ class Template {
 	 * @return bool
 	 */
 	public function load_template( string $name, array $args = [] ): bool {
-		$template_path = $this->template_dir  . $name;
+		$args = $this->validate_page( $args );
+		$template_path = $this->template_dir  . $name . '.php';
 		if ( ! file_exists( $template_path ) ) {
 			wp_trigger_error( __METHOD__, "`$template_path` file not found." );
 			return false;

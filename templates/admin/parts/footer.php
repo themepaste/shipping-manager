@@ -1,9 +1,9 @@
 <?php
 /**
- * Free Shipping Menu Page
+ * Layout footer part
  *
  * @since TSM_SINCE
  */
 defined( 'ABSPATH' ) || exit;
 ?>
-free-shipping.php
+footer.php
