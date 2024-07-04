@@ -9,7 +9,7 @@ defined( 'ABSPATH' ) || exit;
 ?>
 
 <?php if ( empty( $messages ) ) : ?>
-	No message found
+
 <?php else: ?>
 
 	<?php foreach( $messages as $type => $specific_type_message ) : ?>
