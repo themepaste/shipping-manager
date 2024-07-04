@@ -11,7 +11,8 @@ defined( 'ABSPATH' ) || exit;
 use Themepaste\ShippingManager\{
 	ShippingManager,
 	Admin\Routes,
-	Admin\Template
+	Admin\Template,
+	Admin\Controller
 };
 
 
@@ -40,4 +41,26 @@ function tsm_route( string $name ): string {
  */
 function tsm_template( string $template, array $args = [] ): bool {
 	return ( ShippingManager::get_instance( Template::INSTANCE_KEY ) )->load_template( $template, $args );
+}
+
+/**
+ * Shortcut for checking if current page is inside shipping manager admin dashboard
+ *
+ * @since TSM_SINCE
+ *
+ * @return bool
+ */
+function tsm_is_admin_dashboard(): bool {
+	return (ShippingManager::get_instance( Controller::INSTANCE_KEY ) )->is_admin_dashboard();
+}
+
+/**
+ * Shortcut for getting current admin settings page
+ *
+ * @since TSM_SINCE
+ *
+ * @retun string
+ */
+function tsm_current_admin_settings_page(): string {
+	return (ShippingManager::get_instance( Controller::INSTANCE_KEY ) )->current_page();
 }

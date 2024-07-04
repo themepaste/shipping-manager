@@ -6,7 +6,7 @@
  */
 defined( 'ABSPATH' ) || exit;
 ?>
-<div class="log-wrapper">
+<div class="logo-wrapper">
   <h3>Shipping Manager</h3>
   <span>by Themepaste</span>
 </div>
