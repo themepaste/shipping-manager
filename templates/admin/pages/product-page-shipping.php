@@ -6,4 +6,3 @@
  */
 defined( 'ABSPATH' ) || exit;
 ?>
-Product Page Shipping

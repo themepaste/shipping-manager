@@ -6,4 +6,3 @@
  */
 defined( 'ABSPATH' ) || exit;
 ?>
-Track Shipping

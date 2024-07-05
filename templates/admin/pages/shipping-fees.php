@@ -6,4 +6,3 @@
  */
 defined( 'ABSPATH' ) || exit;
 ?>
-Shipping Fees

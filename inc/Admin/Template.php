@@ -34,6 +34,13 @@ class Template {
 	 */
 	private string $template_dir = '';
 
+	/**
+	 * A list of pages with routes
+	 *
+	 * @since TSM_SINCE
+	 *
+	 * @var array
+	 */
 	private array $pages = [
 		Routes::SHIPPING_FEES => Routes::SHIPPING_FEES, // first page is default page
 		Routes::FREE_SHIPPING => Routes::FREE_SHIPPING,

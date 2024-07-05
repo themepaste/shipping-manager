@@ -35,6 +35,28 @@ class Controller {
 	 */
 	public function __construct() {
 		add_action( 'tsm_render_admin_root_page', [ $this, 'render_admin_root_page' ] );
+		add_filter( 'tsm_template_page_title', [ $this, 'page_title' ] );
+	}
+
+	/**
+	 * Assigns page titles to corresponding pages
+	 *
+	 * @since TSM_SINCE
+	 *
+	 * @param $page
+	 *
+	 * @return string
+	 */
+	public function page_title( string  $page ): string {
+		$page_title = [
+			Routes::SHIPPING_FEES => __( 'Shipping Fees', 'shipping-manager' ),
+			Routes::FREE_SHIPPING => __( 'Free Shipping', 'shipping-manager' ),
+			Routes::PER_PRODUCT_SHIPPING => __( 'Per Product Shipping', 'shipping-manager' ),
+			Routes::PRODUCT_PAGE_SHIPPING => __( 'Product Page Shipping', 'shipping-manager' ),
+			Routes::TRACK_SHIPPING => __( 'Track Shipping', 'shipping-manager' ),
+		];
+
+		return $page_title[ $page ] ?? '';
 	}
 
 	/**
