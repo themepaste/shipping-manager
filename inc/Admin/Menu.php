@@ -41,7 +41,7 @@ class Menu {
 			__( 'Shipping Manager by Themepaste', 'shipping-manager' ),
 			__( 'Shipping Manager', 'shipping-manager' ),
 			'manage_options', // @TODO Add a new role and capability named `tsm_manager` || admin > shop_manager > tsm_manager
-			tsm_route( Routes::ROOT ),
+			Routes::ROOT,
 			[ $this, 'render_menu_page' ]
 		);
 	}

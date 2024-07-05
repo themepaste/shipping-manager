@@ -2,6 +2,7 @@
 namespace Themepaste\ShippingManager\Admin;
 
 use Themepaste\ShippingManager\Admin\Routes;
+use Themepaste\ShippingManager\ShippingManager;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -46,21 +47,29 @@ class Controller {
 	public function is_admin_dashboard(): bool {
 		global $pagenow;
 		if ( 'admin.php' === $pagenow ) {
-			return ( isset( $_GET['page'] ) && sanitize_text_field( $_GET['page'] ) === tsm_route( Routes::ROOT ) );
+			$page = isset( $_GET['page'] ) ? sanitize_text_field( $_GET['page'] ) : '';
+			return $page === Routes::ROOT;
 		}
 		return false;
 	}
 
 	/**
-	 * Retrieve current page for admin settings
+	 * Retrieve current page for admin settings from URL
 	 *
 	 * @since TSM_SINCE
 	 *
 	 * @return string
 	 */
 	public function current_page(): string {
-		// @TODO Retrieve current page from URL
-		return 'free-shipping';
+		$page = isset( $_GET['page'] ) ? sanitize_text_field( $_GET['page'] ) : '';
+		$tsm_page = isset( $_GET['tsm-page'] ) ? sanitize_text_field( $_GET['tsm-page'] ) : '';
+		if ( $this->is_admin_dashboard() ) {
+			$pages = ( ShippingManager::get_instance( Template::INSTANCE_KEY ) )->get_pages();
+			if ( in_array( $tsm_page, ( ShippingManager::get_instance( Template::INSTANCE_KEY ) )->get_pages() ) ) {
+				return $tsm_page;
+			}
+		}
+		return '';
 	}
 
 	/**
@@ -71,6 +80,6 @@ class Controller {
 	 * @return void
 	 */
 	public function render_admin_root_page() {
-		tsm_template( 'admin/index' );
+		tsm_template( 'admin/index', [ 'page' => $this->current_page() ] );
 	}
 }

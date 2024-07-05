@@ -3,10 +3,72 @@ namespace Themepaste\ShippingManager\Admin;
 
 defined( 'ABSPATH' ) || exit;
 
+/**
+ * Manges admin routes and url
+ *
+ * @since TSM_SINCE
+ */
 class Routes {
+	/**
+	 * Unique id for initialized object
+	 *
+	 * @since TSM_SINCE
+	 */
 	const INSTANCE_KEY = 'admin_routes';
 
-	const ROOT = 'root';
+	/**
+	 * ID for main shipping manager admin settings page
+	 *
+	 * @since TSM_SINCE
+	 *
+	 * @var string
+	 */
+	const ROOT = 'shipping-manager';
+
+	/**
+	 * ID for Shipping Fees TSM sub-page
+	 *
+	 * @since TSM_SINCE
+	 *
+	 * @var string
+	 */
+	const SHIPPING_FEES = 'shipping-fees';
+
+	/**
+	 * ID for Free Shipping TSM sub-page
+	 *
+	 * @since TSM_SINCE
+	 *
+	 * @var string
+	 */
+	const FREE_SHIPPING = 'free-shipping';
+
+	/**
+	 * ID for Per Product Shipping TSM sub-page
+	 *
+	 * @since TSM_SINCE
+	 *
+	 * @var string
+	 */
+	const PER_PRODUCT_SHIPPING = 'per-product-shipping';
+
+	/**
+	 * ID for Product Page Shipping TSM sub-page
+	 *
+	 * @since TSM_SINCE
+	 *
+	 * @var string
+	 */
+	const PRODUCT_PAGE_SHIPPING = 'product-page-shipping';
+
+	/**
+	 * ID for Track Shipping TSM sub-page
+	 *
+	 * @since TSM_SINCE
+	 *
+	 * @var string
+	 */
+	const TRACK_SHIPPING = 'track-shipping';
 
 	/**
 	 * Stores all named routes against their string
@@ -16,24 +78,52 @@ class Routes {
 	 * @var array
 	 */
 	private array $routes = [
-		self::ROOT => 'shipping-manager',
+		self::ROOT => [
+			'page' => 'shipping-manager'
+		],
+		self::SHIPPING_FEES => [
+			'page' => 'shipping-manager',
+			'tsm-page' => 'shipping-fees'
+		],
+		self::FREE_SHIPPING => [
+			'page' => 'shipping-manager',
+			'tsm-page' => 'free-shipping'
+		],
+		self::PER_PRODUCT_SHIPPING => [
+			'page' => 'shipping-manager',
+			'tsm-page' => 'per-product-shipping'
+		],
+		self::PRODUCT_PAGE_SHIPPING => [
+			'page' => 'shipping-manager',
+			'tsm-page' => 'product-page-shipping'
+		],
+		self::TRACK_SHIPPING => [
+			'page' => 'shipping-manager',
+			'tsm-page' => 'track-shipping'
+		],
 	];
 
 	/**
-	 * Returns actual route string from route name
+	 * Builds url from route name
 	 *
 	 * @since TSM_SINCE
 	 *
-	 * @param string $key
+	 * @param string $route_name
+	 * @param array  $args
 	 *
 	 * @return string
 	 */
-	public function get_route( string $key = '' ): string {
-		if ( isset( $this->routes[ $key ] ) ) {
-			return $this->routes[ $key ];
+	public function get_url( string $route_name = '', array $args = [] ): string {
+		$url = admin_url();
+		if ( isset( $this->routes[ $route_name ] ) ) {
+			$url .= 'admin.php?' . http_build_query( $this->routes[ $route_name ] );
+			if ( ! empty( $args ) ) {
+				$url .= '&' . http_build_query( $args );
+			}
+		} else {
+			wp_trigger_error( __METHOD__, "`$route_name` named route not found." );
 		}
-		wp_trigger_error( __METHOD__, "`$key` named route not found" );
-		return '';
+		return $url;
 	}
 
 	/**
@@ -44,6 +134,6 @@ class Routes {
 	 * @return array|string[]
 	 */
 	public function get_all_routes(): array {
-		return $this->routes;
+		return array_keys( $this->routes );
 	}
 }

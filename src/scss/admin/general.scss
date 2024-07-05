@@ -89,6 +89,20 @@ $transition_duration: 0.3s;
       }
       .body-wrapper {
         min-height: 450px;
+        .tsm-admin-settings-form {
+          padding: 32px 0;
+          .input-wrapper {
+            padding: 0 0 32px 0;
+            lable {
+              margin: 0 16px 0 0;
+            }
+            .help-tip {
+              margin: 8px 0 0 0;
+              font-size: $font_size_small;
+              color: $font_size_small;
+            }
+          }
+        }
       }
     }
     .footer {

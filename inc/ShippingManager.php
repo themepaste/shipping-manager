@@ -35,10 +35,10 @@ final class ShippingManager {
 	 * @return void
 	 */
 	private function __construct() {
+		self::$container[ Routes::INSTANCE_KEY ] = new Routes();
 		self::$container[ Assets::INSTANCE_KEY ] = new Assets();
 		self::$container[ Messages::INSTANCE_KEY ] = new Messages();
 		self::$container[ Template::INSTANCE_KEY ] = new Template();
-		self::$container[ Routes::INSTANCE_KEY ] = new Routes();
 		self::$container[ Menu::INSTANCE_KEY ] = new Menu();
 		self::$container[ Controller::INSTANCE_KEY ] = new Controller();
 	}

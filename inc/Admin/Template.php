@@ -35,20 +35,43 @@ class Template {
 	private string $template_dir = '';
 
 	private array $pages = [
-		'free-shipping' => 'free-shipping', // first page is default page
+		Routes::SHIPPING_FEES => Routes::SHIPPING_FEES, // first page is default page
+		Routes::FREE_SHIPPING => Routes::FREE_SHIPPING,
+		Routes::PER_PRODUCT_SHIPPING => Routes::PER_PRODUCT_SHIPPING,
+		Routes::PRODUCT_PAGE_SHIPPING => Routes::PRODUCT_PAGE_SHIPPING,
+		Routes::TRACK_SHIPPING => Routes::TRACK_SHIPPING,
 	];
 
+	/**
+	 * All the passed arguments will be saved here. This is later used to pass to load template parts
+	 *
+	 * @since TSM_SINCE
+	 *
+	 * @var array
+	 */
+	private array $args = [];
+
+	/**
+	 * Initializes:
+	 * Template root directory
+	 *
+	 * @since TSM_SINCE
+	 *
+	 * @return void
+	 */
 	public function __construct() {
-		/**
-		 * @filter `tsm_template_root_dir` filter to manipulate root directory for template paths
-		 *
-		 * @since TSM_SINCE
-		 *
-		 * @param string
-		 *
-		 * @retun string
-		 */
-		$this->template_dir = apply_filters( 'tsm_template_root_dir', self::TEMPLATE_ROOT_DIR );
+		$this->template_dir = self::TEMPLATE_ROOT_DIR;
+	}
+
+	/**
+	 * Returns all pages
+	 *
+	 * @since TSM_SINCE
+	 *
+	 * @return array
+	 */
+	public function get_pages(): array {
+		return array_values( $this->pages );
 	}
 
 	/**
@@ -62,7 +85,7 @@ class Template {
 	 */
 	private function validate_page( array $args ): array {
 		if ( isset( $args['page'] ) ) {
-			if ( ! in_array( $args['page'], $this->pages, true ) ) {
+			if ( ! in_array( $args['page'], array_keys( $this->pages ), true ) ) {
 				$passed_page = $args['page'];
 				wp_trigger_error( __METHOD__, "$passed_page is not a valid admin page." );
 				$args['page'] = current( $this->pages ); // setting default page
@@ -118,8 +141,32 @@ class Template {
 		 */
 		$template_path = apply_filters( 'tsm_template_path', $template_path );
 
-		extract( $args );
+		$this->args = apply_filters( 'tsm_template_args', $args, $template_path );
+
+		extract( $this->args );
 		include $template_path;
+		return true;
+	}
+
+	/**
+	 * Loads templates parts passing arguments from load_template function
+	 *
+	 * @since TSM_SINCE
+	 *
+	 * @param string $name
+	 *
+	 * @return bool
+	 */
+	public function load_template_parts( string $name ): bool {
+		$template_parts_path = $this->template_dir . $name . '.php';
+		if ( ! file_exists( $template_parts_path ) ) {
+			wp_trigger_error( __METHOD__, "`$template_parts_path` file not found." );
+			return false;
+		}
+
+		$template_parts_path = apply_filters( 'tsm_template_parts_path', $template_parts_path );
+		extract( $this->args );
+		include $template_parts_path;
 		return true;
 	}
 }
