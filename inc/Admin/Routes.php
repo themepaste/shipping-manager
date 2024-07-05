@@ -127,13 +127,13 @@ class Routes {
 	}
 
 	/**
-	 * Returns the list of all routes
+	 * Returns the list of all routes with query string data
 	 *
 	 * @since TSM_SINCE
 	 *
 	 * @return array|string[]
 	 */
 	public function get_all_routes(): array {
-		return array_keys( $this->routes );
+		return $this->routes;
 	}
 }

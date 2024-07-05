@@ -80,3 +80,24 @@ function tsm_current_admin_settings_page(): string {
 function tsm_url( string $route_name ): string {
 	return (ShippingManager::get_instance( Routes::INSTANCE_KEY ) )->get_url( $route_name );
 }
+
+/**
+ * Check if it is current route the prints provided class name and returns true
+ *
+ * @since TSM_SINCE
+ *
+ * @param string $route_name
+ * @param string $class_name
+ *
+ * @return bool
+ */
+function tsm_is_active_menu( string $route_name, string $class_name = '' ): bool {
+	if ( ( ShippingManager::get_instance( Controller::INSTANCE_KEY ) )->is_current_page( $route_name ) ) {
+		if ( ! empty( $class_name ) ) {
+			echo esc_attr( $class_name );
+		}
+		return true;
+	} else {
+		return false;
+	}
+}

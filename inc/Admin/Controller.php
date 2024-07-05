@@ -61,15 +61,37 @@ class Controller {
 	 * @return string
 	 */
 	public function current_page(): string {
-		$page = isset( $_GET['page'] ) ? sanitize_text_field( $_GET['page'] ) : '';
 		$tsm_page = isset( $_GET['tsm-page'] ) ? sanitize_text_field( $_GET['tsm-page'] ) : '';
 		if ( $this->is_admin_dashboard() ) {
-			$pages = ( ShippingManager::get_instance( Template::INSTANCE_KEY ) )->get_pages();
 			if ( in_array( $tsm_page, ( ShippingManager::get_instance( Template::INSTANCE_KEY ) )->get_pages() ) ) {
 				return $tsm_page;
 			}
 		}
 		return '';
+	}
+
+	/**
+	 * Checks if route name matches current page
+	 *
+	 * @since TSM_SINCE
+	 *
+	 * @param string $route_name
+	 *
+	 * @return bool
+	 */
+	public function is_current_page( string $route_name ): bool {
+		$current_page = $this->current_page();
+		$current_route = '';
+
+		// Get route name from current page
+		$routes = ( ShippingManager::get_instance( Routes::INSTANCE_KEY ) )->get_all_routes();
+		foreach ( $routes as $key => $route_data ) {
+			if ( $route_data['tsm-page'] === $current_page ) {
+				$current_route = $key;
+			}
+		}
+
+		return $route_name === $current_route;
 	}
 
 	/**
