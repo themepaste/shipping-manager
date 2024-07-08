@@ -82,6 +82,17 @@ class Template {
 	}
 
 	/**
+	 * Returns the default page for admin settings page
+	 *
+	 * @since TSM_SINCE
+	 *
+	 * @return string
+	 */
+	public function get_default_page(): string  {
+		return current( $this->get_pages() );
+	}
+
+	/**
 	 * Validates arguments if page is added in the argument.
 	 *
 	 * @since TSM_SINCE
@@ -91,14 +102,14 @@ class Template {
 	 * @return array
 	 */
 	private function validate_page( array $args ): array {
-		if ( isset( $args['page'] ) ) {
+		if ( ! empty( $args['page'] ) ) {
 			if ( ! in_array( $args['page'], array_keys( $this->pages ), true ) ) {
 				$passed_page = $args['page'];
 				wp_trigger_error( __METHOD__, "$passed_page is not a valid admin page." );
-				$args['page'] = current( $this->pages ); // setting default page
+				$args['page'] = $this->get_default_page(); // setting default page
 			}
 		} else {
-			$args['page'] = current( $this->pages ); // setting default page;
+			$args['page'] = $this->get_default_page(); // setting default page;
 		}
 		return $args;
 	}
