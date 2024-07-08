@@ -1,16 +1,11 @@
 <?php
 namespace Themepaste\ShippingManager\Admin;
 
-use Themepaste\ShippingManager\Admin\Routes;
 use Themepaste\ShippingManager\ShippingManager;
 
 defined( 'ABSPATH' ) || exit;
 
 // @TODO Add an upgrader to run data upgrader
-// @TODO will parse the URL and check what is their inside the URL and if valid pass the data to renderer and render the appropriate template
-// @TODO Map requests GET/POST for data saving
-// @TODO Fetch data from options/data store and pass down to the rendered
-// @TODO Invoke data saver to save data
 
 /**
  * Manages Shipping Manager admin menu rendering and data manipulation
@@ -129,6 +124,56 @@ class Controller {
 	 * @return void
 	 */
 	public function render_admin_root_page() {
-		tsm_template( 'admin/index', [ 'page' => $this->current_page() ] );
+		$data = [];
+		$page = $this->current_page();
+
+		if ( $this->is_post_request() ) {
+			/**
+			 * To initiate form processing
+			 *
+			 * @since TSM_SINCE
+			 *
+			 * @param string $page
+			 *
+			 * @retun void
+			 */
+			do_action( 'tsm_process_admin_form_data', $page );
+
+			// To avoid form data resubmission when refreshed from browser
+			wp_safe_redirect( tsm_url( $page ) );
+		} else {
+			/**
+			 * Loads data for admin settings page value hydrating
+			 *
+			 * @since TSM_SINCE
+			 *
+			 * @param string $page
+			 *
+			 * @param array $data
+			 *
+			 * @return array Array with loaded data
+			 */
+			$data = apply_filters( 'tsm_fetch_admin_form_data', $page, $data );
+		}
+
+		tsm_template( 'admin/index', compact( 'page', 'data' ) );
+	}
+
+	/**
+	 * Checks if post request is submitted
+	 *
+	 * @since TSM_SINCE
+	 *
+	 * @return bool
+	 */
+	protected function is_post_request(): bool {
+		if ( isset( $_SERVER['REQUEST_METHOD'] ) ) {
+			$request_method = sanitize_text_field( $_SERVER['REQUEST_METHOD'] );
+			if ( 'POST' === $request_method ) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 }
