@@ -16,16 +16,17 @@ use Themepaste\ShippingManager\{
 
 
 /**
- * Shortcut function get route string from name
+ * Shortcut function get pagename from route name
  *
  * @since TSM_SINCE
  *
- * @param string $name
+ * @param string $route_name
  *
  * @return string
  */
-function tsm_route( string $name ): string {
-	return ShippingManager::get_instance( Routes::INSTANCE_KEY )->get_route( $name );
+function get_page( string $route_name ): string {
+	$all_routes = ShippingManager::get_instance( Routes::INSTANCE_KEY )->get_all_routes();
+	return $all_routes[ $route_name ][ 'tsm-page' ] ?? '';
 }
 
 /**
