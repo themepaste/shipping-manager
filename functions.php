@@ -24,7 +24,7 @@ use Themepaste\ShippingManager\{
  *
  * @return string
  */
-function get_page( string $route_name ): string {
+function tsm_get_page( string $route_name ): string {
 	$all_routes = ShippingManager::get_instance( Routes::INSTANCE_KEY )->get_all_routes();
 	return $all_routes[ $route_name ][ 'tsm-page' ] ?? '';
 }
