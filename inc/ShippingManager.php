@@ -1,7 +1,15 @@
 <?php
 namespace Themepaste\ShippingManager;
 
-use Themepaste\ShippingManager\Admin\{ Assets, Controller, Menu, Messages, Routes, Template };
+use Themepaste\ShippingManager\Admin\{
+	Assets,
+	Controller,
+	Menu,
+	Messages,
+	Routes,
+	Template,
+	Form\Manager as Form_Manager
+};
 /**
  * Main plugin file
  *
@@ -41,6 +49,7 @@ final class ShippingManager {
 		self::$container[ Template::INSTANCE_KEY ] = new Template();
 		self::$container[ Menu::INSTANCE_KEY ] = new Menu();
 		self::$container[ Controller::INSTANCE_KEY ] = new Controller();
+		self::$container[ Form_Manager::INSTANCE_KEY ] = new Form_Manager();
 	}
 
 	/**
