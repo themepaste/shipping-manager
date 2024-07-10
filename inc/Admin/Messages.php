@@ -42,7 +42,7 @@ class Messages {
 	 * @return void
 	 */
 	public function add_message( string $message, string $type = '' ): void {
-		$type = empty ( $type ) ? $type : current( self::TYPES );
+		$type = ! empty ( $type ) ? $type : current( self::TYPES );
 		$this->messages[] = [
 			'type' => $type,
 			'message' => $message,
