@@ -29,6 +29,7 @@ class Controller {
 	 * @return void
 	 */
 	public function __construct() {
+		add_action( 'init', [ $this, 'process_post_request' ] );
 		add_action( 'tsm_render_admin_root_page', [ $this, 'render_admin_root_page' ] );
 		add_filter( 'tsm_template_page_title', [ $this, 'page_title' ] );
 	}
@@ -127,7 +128,33 @@ class Controller {
 		$data = [];
 		$page = $this->current_page();
 
+		/**
+		 * Loads data for admin settings page value hydrating
+		 *
+		 * @since TSM_SINCE
+		 *
+		 * @param string $page
+		 *
+		 * @param array $data
+		 *
+		 * @return array Array with loaded data
+		 */
+		$data = apply_filters( 'tsm_fetch_admin_form_data', $page, $data );
+
+		tsm_template( 'admin/index', compact( 'page', 'data' ) );
+	}
+
+	/**
+	 * Initializes post request processing
+	 *
+	 * @since TSM_SINCE
+	 *
+	 * @return void
+	 */
+	public function process_post_request() {
 		if ( $this->is_post_request() ) {
+			$page = $this->current_page();
+
 			/**
 			 * To initiate form processing
 			 *
@@ -138,25 +165,7 @@ class Controller {
 			 * @retun void
 			 */
 			do_action( 'tsm_process_admin_form_data', $page );
-
-			// To avoid form data resubmission when refreshed from browser
-			wp_safe_redirect( tsm_url( $page ) );
-		} else {
-			/**
-			 * Loads data for admin settings page value hydrating
-			 *
-			 * @since TSM_SINCE
-			 *
-			 * @param string $page
-			 *
-			 * @param array $data
-			 *
-			 * @return array Array with loaded data
-			 */
-			$data = apply_filters( 'tsm_fetch_admin_form_data', $page, $data );
 		}
-
-		tsm_template( 'admin/index', compact( 'page', 'data' ) );
 	}
 
 	/**
