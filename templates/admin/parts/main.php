@@ -15,7 +15,7 @@ $page_title = apply_filters( 'tsm_template_page_title', $page );
 
 <div class="body-wrapper">
   <div class="message-wrapper">
-	  <?php tsm_template( 'admin/parts/messages' ); ?>
+	  <?php tsm_template_parts( 'admin/parts/messages' ); ?>
   </div>
   <div class="page-wrapper">
 	  <?php tsm_template_parts( 'admin/pages/' . $page ); ?>
