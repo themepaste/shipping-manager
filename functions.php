@@ -11,7 +11,9 @@ use Themepaste\ShippingManager\{
 	ShippingManager,
 	Admin\Routes,
 	Admin\Template,
-	Admin\Controller
+	Admin\Controller,
+	Admin\Messages,
+	Admin\Form\Authentication as FormAuthentication,
 };
 
 
@@ -101,4 +103,33 @@ function tsm_is_active_menu( string $route_name, string $class_name = '' ): bool
 	} else {
 		return false;
 	}
+}
+
+/**
+ * Shortcut to get nonce field for form
+ *
+ * @since TSM_SINCE
+ *
+ * @return void
+ */
+function tsm_admin_nonce_field() {
+	( new FormAuthentication() )
+		->nonce_field(
+			tsm_current_admin_settings_page()
+		);
+}
+
+/**
+ * Shortcut to add admin message
+ *
+ * @since TSM_SINCE
+ *
+ * @param string $message
+ * @param string $type
+ *
+ * @return void
+ */
+function tsm_admin_message( string $message, string $type = '' ) {
+	( ShippingManager::get_instance( Messages::INSTANCE_KEY ) )
+		->add_message( $message, $type );
 }
