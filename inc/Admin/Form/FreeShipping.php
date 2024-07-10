@@ -1,6 +1,8 @@
 <?php
 namespace Themepaste\ShippingManager\Admin\Form;
 
+use Themepaste\ShippingManager\Admin\Messages;
+
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -10,8 +12,14 @@ defined( 'ABSPATH' ) || exit;
  */
 class FreeShipping implements Process {
 
+	use Parser;
+
 	public function process() {
-		$x = 100;
+		$status = true;
+
+		if ( $status ) {
+			tsm_admin_message( __( 'Saved successfully.', 'shipping-manager' ), Messages::TYPES[2] );
+		}
 	}
 
 }
