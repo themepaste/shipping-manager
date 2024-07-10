@@ -1,8 +1,8 @@
 <?php
 namespace Themepaste\ShippingManager\Admin\Form;
 
+use Themepaste\ShippingManager\Admin\Messages;
 use Themepaste\ShippingManager\Admin\Routes;
-use Themepaste\ShippingManager\ShippingManager;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -40,15 +40,17 @@ class Manager {
 	 * @return void
 	 */
 	public function map_submission( string $page ) {
-		$routes = ( ShippingManager::get_instance( Routes::INSTANCE_KEY ) )->get_all_routes();
-		switch ( $page ) {
-			case tsm_get_page( Routes::FREE_SHIPPING ):
-				( new FreeShipping() )->process();
-				break;
-			default:
-				( new ShippingFees() )->process();
-				break;
+		if ( ( new Authentication() )->is_authenticated( $page ) ) {
+			switch ( $page ) {
+				case tsm_get_page( Routes::FREE_SHIPPING ):
+					( new FreeShipping() )->process();
+					break;
+				default:
+					( new ShippingFees() )->process();
+					break;
+			}
+		} else {
+			tsm_admin_message( __( 'Authentication failed.', 'shipping-manager' ), Messages::TYPES[0] );
 		}
 	}
-
 }
