@@ -37,10 +37,22 @@ class FreeShippingSettings extends Model {
 		self::AFTER_COUPON => Constants::NO,
 	];
 
+	/**
+	 * Initializing option keys
+	 *
+	 * @since TSM_SINCE
+	 */
 	public function __construct() {
 		parent::__construct( 'tsm_free_shipping' );
 	}
 
+	/**
+	 * Checks if the data is valid
+	 *
+	 * @since TSM_SINCE
+	 *
+	 * @return bool
+	 */
 	public function is_valid(): bool {
 		if ( parent::is_valid() ) {
 

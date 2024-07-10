@@ -121,4 +121,15 @@ abstract class Model {
 		}
 		return $this;
 	}
+
+	/**
+	 * Returns all the settings fields
+	 *
+	 * @since TSM_SINCE
+	 *
+	 * @return array
+	 */
+	public function get_fields(): array {
+		return array_keys( $this->settings );
+	}
 }
