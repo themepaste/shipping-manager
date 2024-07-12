@@ -61,17 +61,11 @@ abstract class Model {
 	 * @return bool
 	 */
 	public function save(): bool {
+		$saved = false;
 		if ( $this->is_valid() ) {
 			$saved = update_option( $this->option_key, $this->settings );
-		} else {
-			$saved = false;
 		}
-		if ( $saved ) {
-			return true;
-		} else {
-			wp_trigger_error( __METHOD__, 'Could not save settings.' );
-			return false;
-		}
+		return $saved;
 	}
 
 	/**

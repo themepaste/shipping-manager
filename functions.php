@@ -14,6 +14,7 @@ use Themepaste\ShippingManager\{
 	Admin\Controller,
 	Admin\Messages,
 	Admin\Form\Authentication as FormAuthentication,
+	Constants
 };
 
 
@@ -132,4 +133,25 @@ function tsm_admin_nonce_field() {
 function tsm_admin_message( string $message, string $type = '' ) {
 	( ShippingManager::get_instance( Messages::INSTANCE_KEY ) )
 		->add_message( $message, $type );
+}
+
+/**
+ * Shortcut for placing checked value
+ *
+ * @since TSM_SINCE
+ *
+ * @param string $value
+ * @param bool   $print
+ *
+ * @return bool
+ */
+function tsm_is_checked( string $value, bool $print = true ) {
+	$status = false;
+	if ( Constants::YES === $value ) {
+		$status = true;
+	}
+	if ( $status && $print ) {
+		echo "checked";
+	}
+	return $status;
 }
