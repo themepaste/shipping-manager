@@ -16,7 +16,19 @@ class Assets {
 	 */
 	const INSTANCE_KEY = 'admin_assets';
 
+	/**
+	 * General style handle
+	 *
+	 * @since TSM_SINCE
+	 */
 	const GENERAL_STYLE = 'tsm-general-style';
+
+	/**
+	 * Handle for free shipping page script
+	 *
+	 * @since TSM_SINCE
+	 */
+	const FREE_SHIPPING_SCRIPT = 'tsm-free-shipping-script';
 
 	/**
 	 * Initializes:
@@ -89,7 +101,15 @@ class Assets {
 	 *
 	 * @return void
 	 */
-	public function register_script() {}
+	public function register_script() {
+		wp_register_script(
+			self::FREE_SHIPPING_SCRIPT,
+			$this->get_assets_url( 'admin/js/free-shipping.js' ),
+			[ 'jquery' ],
+			$this->get_plugin_version(),
+			true
+		);
+	}
 
 	/**
 	 * Enqueues assets depending on necessity
@@ -101,6 +121,13 @@ class Assets {
 	public function enqueue_assets() {
 		if ( tsm_is_admin_dashboard() ) {
 			wp_enqueue_style( self::GENERAL_STYLE );
+			switch ( tsm_current_admin_settings_page() ) {
+				case Routes::FREE_SHIPPING:
+					wp_enqueue_script( self::FREE_SHIPPING_SCRIPT );
+					break;
+				default:
+					break;
+			}
 		}
 	}
 }

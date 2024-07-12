@@ -19,6 +19,20 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 //     }
 // }
 
+let free_shipping = {
+    mode: 'development',
+    ...defaultConfig,
+    ...{
+        entry: {
+            admin: './src/js/free-shipping.js',
+        },
+        output: {
+            filename: 'free-shipping.js',
+            path: __dirname + '/assets/build/admin/js',
+        }
+    }
+}
+
 let admin_dashboard_style = {
     mode: 'development',
     entry: './src/scss/admin/general.scss',
@@ -44,4 +58,4 @@ let admin_dashboard_style = {
     ],
 }
 
-module.exports = [ /* admin_dashboard_script , */ admin_dashboard_style ];
+module.exports = [ admin_dashboard_style, free_shipping ];
