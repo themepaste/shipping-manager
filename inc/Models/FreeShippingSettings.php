@@ -14,7 +14,7 @@ class FreeShippingSettings extends Model {
 	/**
 	 * List of keys
 	 *
-	 * @sinct TSM_SINCE
+	 * @since TSM_SINCE
 	 */
 	const HIDE_OTHERS = 'hide-others';
 	const FREE_SHIPPING_BAR = 'free-shipping-bar';
