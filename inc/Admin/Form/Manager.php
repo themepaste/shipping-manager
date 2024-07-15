@@ -4,6 +4,7 @@ namespace Themepaste\ShippingManager\Admin\Form;
 use Themepaste\ShippingManager\Admin\Messages;
 use Themepaste\ShippingManager\Admin\Routes;
 use Themepaste\ShippingManager\Models\FreeShippingSettings;
+use Themepaste\ShippingManager\Models\PerProductShippingSettings;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -47,6 +48,9 @@ class Manager {
 				case tsm_get_page( Routes::FREE_SHIPPING ):
 					( new FreeShipping() )->process();
 					break;
+				case tsm_get_page( Routes::PER_PRODUCT_SHIPPING ):
+					( new PerProductShipping() )->process();
+					break;
 				default:
 					( new ShippingFees() )->process();
 					break;
@@ -72,6 +76,8 @@ class Manager {
 			case tsm_get_page( Routes::FREE_SHIPPING ):
 				$fetched_data = ( new FreeShippingSettings() )->fetch()->get();
 				break;
+			case tsm_get_page( Routes::PER_PRODUCT_SHIPPING ):
+				$fetched_data = ( new PerProductShippingSettings() )->fetch()->get();
 			default:
 				break;
 		}

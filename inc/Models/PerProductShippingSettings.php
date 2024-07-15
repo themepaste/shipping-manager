@@ -16,12 +16,12 @@ class PerProductShippingSettings extends Model {
 	 *
 	 * @since TSM_SINCE
 	 */
-	const PER_PRODUCT_SHIPPING = 'per-product-shipping';
-	const HIDE_OTHERS = 'hide-others';
+	const PER_PRODUCT_SHIPPING = 'enable-per-product-shipping';
+	const OVERRIDE_OTHERS = 'override-others';
 
 	protected array $settings = [
 		self::PER_PRODUCT_SHIPPING => Constants::NO,
-		self::HIDE_OTHERS => Constants::NO
+		self::OVERRIDE_OTHERS => Constants::NO
 	];
 
 	public function __construct() {
