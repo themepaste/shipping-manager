@@ -5,6 +5,7 @@ use Themepaste\ShippingManager\Admin\Messages;
 use Themepaste\ShippingManager\Admin\Routes;
 use Themepaste\ShippingManager\Models\FreeShippingSettings;
 use Themepaste\ShippingManager\Models\PerProductShippingSettings;
+use Themepaste\ShippingManager\Models\ProductPageShippingSettings;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -51,6 +52,9 @@ class Manager {
 				case tsm_get_page( Routes::PER_PRODUCT_SHIPPING ):
 					( new PerProductShipping() )->process();
 					break;
+				case tsm_get_page( Routes::PRODUCT_PAGE_SHIPPING ):
+					( new ProductPageShipping() )->process();
+					break;
 				default:
 					( new ShippingFees() )->process();
 					break;
@@ -78,6 +82,10 @@ class Manager {
 				break;
 			case tsm_get_page( Routes::PER_PRODUCT_SHIPPING ):
 				$fetched_data = ( new PerProductShippingSettings() )->fetch()->get();
+				break;
+			case tsm_get_page( Routes::PRODUCT_PAGE_SHIPPING ):
+				$fetched_data = ( new ProductPageShippingSettings() )->fetch()->get();
+				break;
 			default:
 				break;
 		}
