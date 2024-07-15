@@ -8,8 +8,12 @@ use Themepaste\ShippingManager\Admin\{
 	Messages,
 	Routes,
 	Template,
-	Form\Manager as Form_Manager
+	Form\Manager as Form_Manager,
 };
+use Themepaste\ShippingManager\BusinessLogic\ {
+	Manager as BusinessManager
+};
+
 /**
  * Main plugin file
  *
@@ -50,6 +54,8 @@ final class ShippingManager {
 		self::$container[ Menu::INSTANCE_KEY ] = new Menu();
 		self::$container[ Controller::INSTANCE_KEY ] = new Controller();
 		self::$container[ Form_Manager::INSTANCE_KEY ] = new Form_Manager();
+
+		self::$container[ BusinessManager::INSTANCE_KEY ] = new BusinessManager();
 	}
 
 	/**
