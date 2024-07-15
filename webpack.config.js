@@ -5,19 +5,19 @@
 const defaultConfig = require( '@wordpress/scripts/config/webpack.config.js' );
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-// let admin_dashboard_script = {
-//     mode: 'development',
-//     ...defaultConfig,
-//     ...{
-//         entry: {
-//             admin: './src/js/admin-dashboard-app-script.js',
-//         },
-//         output: {
-//             filename: 'admin-dashboard-app-script.js',
-//             path: __dirname + '/assets/js/admin',
-//         }
-//     }
-// }
+let shipping_fees = {
+    mode: 'development',
+    ...defaultConfig,
+    ...{
+        entry: {
+            admin: './src/js/shipping-fees.js',
+        },
+        output: {
+            filename: 'shipping-fees.js',
+            path: __dirname + '/assets/build/admin/js',
+        }
+    }
+}
 
 let free_shipping = {
     mode: 'development',
@@ -58,4 +58,4 @@ let admin_dashboard_style = {
     ],
 }
 
-module.exports = [ admin_dashboard_style, free_shipping ];
+module.exports = [ admin_dashboard_style, shipping_fees, free_shipping ];

@@ -46,14 +46,14 @@ use Themepaste\ShippingManager\Admin\Routes;
           <?php esc_html_e( 'Product Page Shipping', 'shipping-manager' ); ?>
       </a>
     </li>
-    <li>
-      <a
-        class='<?php tsm_is_active_menu( Routes::TRACK_SHIPPING, 'active' ); ?>'
-        href='<?php echo esc_attr( tsm_url( Routes::TRACK_SHIPPING ) ); ?>'
-      >
-          <?php esc_html_e( 'Track Shipping', 'shipping-manager' ); ?>
-      </a>
-    </li>
+<!--    <li>-->
+<!--      <a-->
+<!--        class='--><?php //tsm_is_active_menu( Routes::TRACK_SHIPPING, 'active' ); ?><!--'-->
+<!--        href='--><?php //echo esc_attr( tsm_url( Routes::TRACK_SHIPPING ) ); ?><!--'-->
+<!--      >-->
+<!--          --><?php //esc_html_e( 'Track Shipping', 'shipping-manager' ); ?>
+<!--      </a>-->
+<!--    </li>-->
   </ul>
 </div>
 <div class="misalliances-links">

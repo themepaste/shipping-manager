@@ -29,6 +29,7 @@ class Assets {
 	 * @since TSM_SINCE
 	 */
 	const FREE_SHIPPING_SCRIPT = 'tsm-free-shipping-script';
+	const SHIPPING_FEES_SCRIPT = 'tsm-shipping-fees-script';
 
 	/**
 	 * Initializes:
@@ -109,6 +110,13 @@ class Assets {
 			$this->get_plugin_version(),
 			true
 		);
+		wp_register_script(
+			self::SHIPPING_FEES_SCRIPT,
+			$this->get_assets_url( 'admin/js/shipping-fees.js' ),
+			[ 'jquery' ],
+			$this->get_plugin_version(),
+			true
+		);
 	}
 
 	/**
@@ -122,6 +130,9 @@ class Assets {
 		if ( tsm_is_admin_dashboard() ) {
 			wp_enqueue_style( self::GENERAL_STYLE );
 			switch ( tsm_current_admin_settings_page() ) {
+				case Routes::SHIPPING_FEES:
+					wp_enqueue_script( self::SHIPPING_FEES_SCRIPT );
+					break;
 				case Routes::FREE_SHIPPING:
 					wp_enqueue_script( self::FREE_SHIPPING_SCRIPT );
 					break;

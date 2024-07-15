@@ -6,6 +6,7 @@ use Themepaste\ShippingManager\Admin\Routes;
 use Themepaste\ShippingManager\Models\FreeShippingSettings;
 use Themepaste\ShippingManager\Models\PerProductShippingSettings;
 use Themepaste\ShippingManager\Models\ProductPageShippingSettings;
+use Themepaste\ShippingManager\Models\ShippingFeesSettings;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -77,6 +78,9 @@ class Manager {
 	public function map_data( string $page, array $data ): array {
 		$fetched_data = [];
 		switch ( $page ) {
+			case tsm_get_page( Routes::SHIPPING_FEES ):
+				$fetched_data = ( new ShippingFeesSettings() )->fetch()->get();
+				break;
 			case tsm_get_page( Routes::FREE_SHIPPING ):
 				$fetched_data = ( new FreeShippingSettings() )->fetch()->get();
 				break;
