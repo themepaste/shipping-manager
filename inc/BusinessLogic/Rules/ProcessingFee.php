@@ -11,8 +11,20 @@ defined( 'ABSPATH' ) || exit;
  * @since TSM_SINCE
  */
 class ProcessingFee extends AbstractRules implements RulesInterface {
+	/**
+	 * Unique name for rules
+	 *
+	 * @since TSM_SINCE
+	 */
 	const RULES_KEY = 'tsm-processing-fee';
 
+	/**
+	 * Calculates current rules fees
+	 *
+	 * @since TSM_SINCE
+	 *
+	 * @return float
+	 */
 	public function calculate(): float {
 		$cost = 0.00;
 		$shipping_fees = new ShippingFeesSettings();
