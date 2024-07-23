@@ -2,6 +2,7 @@
 namespace Themepaste\ShippingManager\BusinessLogic;
 
 use Themepaste\ShippingManager\BusinessLogic\Rules\ProcessingFee;
+use Themepaste\ShippingManager\BusinessLogic\Rules\WeightFee;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -39,7 +40,8 @@ class ShippingCost {
 	 */
 	public function additional_cost( float $cost, array $package ): float {
 		$list_of_rules = [
-			ProcessingFee::RULES_KEY => ProcessingFee::class
+			ProcessingFee::RULES_KEY => ProcessingFee::class,
+			WeightFee::RULES_KEY => WeightFee::class,
 		];
 
 		$list_of_rules = apply_filters( 'tsm_shipping_cost_rules_list', $list_of_rules, $package );
