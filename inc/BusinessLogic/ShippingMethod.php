@@ -20,11 +20,6 @@ class ShippingMethod extends WC_Shipping_Method {
 		$this->title   = __( 'Shipping Manager Method', 'shipping-manager' );
 
 		$this->init();
-
-		$this->supports = array(
-			'shipping-zones',
-			'instance-settings',
-		);
 	}
 
 	function init() {
@@ -37,30 +32,30 @@ class ShippingMethod extends WC_Shipping_Method {
 	public function init_form_fields() {
 		$this->form_fields = array(
 			'enabled' => array(
-				'title'       => __( 'Enable/Disable' ),
+				'title'       => __( 'Enable', 'shipping-manager' ),
 				'type'        => 'checkbox',
-				'description' => __( 'Enable this shipping method' ),
-				'default'     => 'yes',
+				'description' => __( 'Enable Shipping Manager' ),
+				'default'     => Constants::YES,
 			),
 			'title' => array(
-				'title'       => __( 'Title' ),
+				'title'       => __( 'Shipping Manager', 'shipping-manager' ),
 				'type'        => 'text',
-				'description' => __( 'Title to be displayed in checkout' ),
-				'default'     => __( 'Custom Shipping Method' ),
+				'description' => __( 'Shipping Manager title to be displayed to user while checking out.', 'shipping-manager' ),
+				'default'     => __( 'Shipping Manager Method', 'shipping-manager' ),
 			),
-			'cost' => array(
-				'title'       => __( 'Cost' ),
-				'type'        => 'text',
-				'description' => __( 'Cost for this shipping method' ),
-				'default'     => '10',
-			),
+//			'cost' => array(
+//				'title'       => __( 'Cost' ),
+//				'type'        => 'text',
+//				'description' => __( 'Cost for this shipping method' ),
+//				'default'     => '10',
+//			),
 		);
 	}
 
-	public function calculate_shipping( $package = array() ) {
+	public function calculate_shipping( $package = [] ) {
 		$rate = array(
 			'label'   => $this->title,
-			'cost'    => $this->settings['cost'],
+			'cost'    => 25.35, // $this->settings['cost'],
 			'package' => $package,
 		);
 
