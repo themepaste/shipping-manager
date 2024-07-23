@@ -11,7 +11,8 @@ use Themepaste\ShippingManager\Admin\{
 	Form\Manager as Form_Manager,
 };
 use Themepaste\ShippingManager\BusinessLogic\ {
-	Manager as BusinessManager
+	Manager as BusinessManager,
+	ShippingCost
 };
 
 /**
@@ -54,8 +55,8 @@ final class ShippingManager {
 		self::$container[ Menu::INSTANCE_KEY ] = new Menu();
 		self::$container[ Controller::INSTANCE_KEY ] = new Controller();
 		self::$container[ Form_Manager::INSTANCE_KEY ] = new Form_Manager();
-
 		self::$container[ BusinessManager::INSTANCE_KEY ] = new BusinessManager();
+		self::$container[ ShippingCost::INSTANCE_KEY ] = new ShippingCost();
 	}
 
 	/**
