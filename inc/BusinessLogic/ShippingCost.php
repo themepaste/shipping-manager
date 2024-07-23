@@ -45,7 +45,7 @@ class ShippingCost {
 		$list_of_rules = apply_filters( 'tsm_shipping_cost_rules_list', $list_of_rules, $package );
 
 		foreach( $list_of_rules as $rule ) {
-			$rule_object = new $rule();
+			$rule_object = new $rule( $package );
 			$cost = $rule_object->add( $cost );
 		}
 		return $cost;

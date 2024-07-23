@@ -10,6 +10,24 @@ defined( 'ABSPATH' ) || exit;
  */
 abstract class AbstractRules implements RulesInterface {
 	/**
+	 * Shipping package
+	 *
+	 * @since TSM_SINCE
+	 *
+	 * @var array
+	 */
+	protected array $package = [];
+
+	/**
+	 * Initializes shipping package
+	 *
+	 * @since TSM_SINCE
+	 */
+	public function __construct( array $package = [] ) {
+		$this->package = $package;
+	}
+
+	/**
 	 * Adds specific rule cost to overall shipping cost
 	 *
 	 * @since TSM_SINCE
