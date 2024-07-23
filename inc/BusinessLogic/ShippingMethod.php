@@ -6,10 +6,20 @@ defined( 'ABSPATH' ) || exit;
 use Themepaste\ShippingManager\Constants;
 use \WC_Shipping_Method;
 
+/**
+ * Extended shipping method to be activated and applied by WooCommerce admin
+ *
+ * @since TSM_SINCE
+ */
 class ShippingMethod extends WC_Shipping_Method {
 
 	const INSTANCE_KEY = 'tsm-shipping-manager-shipping-method';
 
+	/**
+	 * Mandatory shipping details
+	 *
+	 * @since TSM_SINCE
+	 */
 	public function __construct() {
 		parent::__construct();
 		$this->id                 = self::INSTANCE_KEY;
@@ -22,6 +32,13 @@ class ShippingMethod extends WC_Shipping_Method {
 		$this->init();
 	}
 
+	/**
+	 * Initialize Shipping Manager Custom shipping method
+	 *
+	 * @since TSM_SINCE
+	 *
+	 * @return void
+	 */
 	function init() {
 		$this->init_form_fields();
 		$this->init_settings();
@@ -29,37 +46,47 @@ class ShippingMethod extends WC_Shipping_Method {
 		add_action( 'woocommerce_update_options_shipping_' . $this->id, [ $this, 'process_admin_options' ] );
 	}
 
+	/**
+	 * From fields to be filled and configured by WooCommerce admin
+	 *
+	 * @since TSM_SINCE
+	 *
+	 * @return void
+	 */
 	public function init_form_fields() {
 		$this->form_fields = array(
-			'enabled' => array(
+			'enabled' => [
 				'title'       => __( 'Enable', 'shipping-manager' ),
 				'type'        => 'checkbox',
 				'description' => __( 'Enable Shipping Manager' ),
 				'default'     => Constants::YES,
-			),
-			'title' => array(
+			],
+			'title' => [
 				'title'       => __( 'Shipping Manager', 'shipping-manager' ),
 				'type'        => 'text',
 				'description' => __( 'Shipping Manager title to be displayed to user while checking out.', 'shipping-manager' ),
 				'default'     => __( 'Shipping Manager Method', 'shipping-manager' ),
-			),
-//			'cost' => array(
-//				'title'       => __( 'Cost' ),
-//				'type'        => 'text',
-//				'description' => __( 'Cost for this shipping method' ),
-//				'default'     => '10',
-//			),
+			],
 		);
 	}
 
+	/**
+	 * Calculates shipping fees for shipping manager
+	 *
+	 * @since TSM_SINCE
+	 *
+	 * @param array $package
+	 *
+	 * @return void
+	 */
 	public function calculate_shipping( $package = [] ) {
-		$rate = array(
+		$cost = apply_filters( 'tsm_additional_shipping_cost', 0.00, $package );
+		$rate = [
 			'label'   => $this->title,
-			'cost'    => 25.35, // $this->settings['cost'],
+			'cost'    => $cost,
 			'package' => $package,
-		);
+		];
 
 		$this->add_rate( $rate );
 	}
-
 }
