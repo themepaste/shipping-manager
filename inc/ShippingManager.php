@@ -1,6 +1,20 @@
 <?php
 namespace Themepaste\ShippingManager;
 
+use Themepaste\ShippingManager\Admin\{
+	Assets,
+	Controller,
+	Menu,
+	Messages,
+	Routes,
+	Template,
+	Form\Manager as Form_Manager,
+};
+use Themepaste\ShippingManager\BusinessLogic\ {
+	Manager as BusinessManager,
+	ShippingCost
+};
+
 /**
  * Main plugin file
  *
@@ -33,7 +47,17 @@ final class ShippingManager {
 	 *
 	 * @return void
 	 */
-	private function __construct() {}
+	private function __construct() {
+		self::$container[ Routes::INSTANCE_KEY ] = new Routes();
+		self::$container[ Assets::INSTANCE_KEY ] = new Assets();
+		self::$container[ Messages::INSTANCE_KEY ] = new Messages();
+		self::$container[ Template::INSTANCE_KEY ] = new Template();
+		self::$container[ Menu::INSTANCE_KEY ] = new Menu();
+		self::$container[ Controller::INSTANCE_KEY ] = new Controller();
+		self::$container[ Form_Manager::INSTANCE_KEY ] = new Form_Manager();
+		self::$container[ BusinessManager::INSTANCE_KEY ] = new BusinessManager();
+		self::$container[ ShippingCost::INSTANCE_KEY ] = new ShippingCost();
+	}
 
 	/**
 	 * Returns main plugin object or initialized plugin object with keys
@@ -49,10 +73,10 @@ final class ShippingManager {
 
 		if ( empty( $key ) ) {
 			return self::$instance;
-		} elseif ( ! isset( self::$container[ $key ] ) ) {
+		} elseif ( isset( self::$container[ $key ] ) ) {
 				return self::$container[ $key ];
 			} else {
-				wp_trigger_error( __METHOD__, "$key object not found" );
+				wp_trigger_error( __METHOD__, "`$key` object not found" );
 		}
 		return (object)[];
 	}
