@@ -21,9 +21,12 @@ class ShippingFeesSettings extends Model {
 	const ENABLE_WEIGHT_BASED_FEES = 'enable-weight-based-fees';
 	const WEIGHT_BASED_SHIPPING_FEES_TYPE = 'weight-based-shipping-fees-type'; // value: per-unit, unit-range
 	const WEIGHT_BASED_PER_UNIT_AMOUNT_FEES = 'weight-based-per-unit-amount-fees';
-	const WEIGHT_BASED_RANGE_UNIT_RULES = 'weight-based-range-unit-rules';
 	const WEIGHT_PER_UNIT = 'weight-per-unit';
 	const WEIGHT_RANGE_UNIT = 'weight-range-unit';
+	const WEIGHT_BASED_RANGE_UNIT_RULES = 'weight-based-range-unit-rules';
+	const WEIGHT_FROM = 'weight-from';
+	const WEIGHT_TO = 'weight-to';
+	const WEIGHT_RANGE_FEE = 'weight-range-fee';
 
 	/**
 	 * Declaring default settings

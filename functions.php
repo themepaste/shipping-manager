@@ -142,12 +142,14 @@ function tsm_admin_message( string $message, string $type = '' ) {
  *
  * @param string $value
  * @param bool   $print
+ * @param string $compare
  *
  * @return bool
  */
-function tsm_is_checked( string $value, bool $print = true ) {
+function tsm_is_checked( string $value, bool $print = true, string $compare = '' ) {
 	$status = false;
-	if ( Constants::YES === $value ) {
+	$compare = $compare === '' ? Constants::YES : $compare;
+	if ( $compare === $value ) {
 		$status = true;
 	}
 	if ( $status && $print ) {
