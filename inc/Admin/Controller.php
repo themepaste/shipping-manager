@@ -65,7 +65,7 @@ class Controller {
 	public function is_admin_dashboard(): bool {
 		global $pagenow;
 		if ( 'admin.php' === $pagenow ) {
-			$page = isset( $_GET['page'] ) ? sanitize_text_field( $_GET['page'] ) : '';
+			$page = isset( $_GET['page'] ) ? sanitize_text_field( $_GET['page'] ) : ''; // WP admin URL parameter
 			return $page === Routes::ROOT;
 		}
 		return false;
@@ -79,7 +79,7 @@ class Controller {
 	 * @return string
 	 */
 	public function current_page(): string {
-		$tsm_page = isset( $_GET['tsm-page'] ) ? sanitize_text_field( $_GET['tsm-page'] ) : '';
+		$tsm_page = isset( $_GET['tsm-page'] ) ? sanitize_text_field( $_GET['tsm-page'] ) : ''; // WP admin URL parameter
 		$template = ( ShippingManager::get_instance( Template::INSTANCE_KEY ) );
 		if ( $this->is_admin_dashboard() ) {
 			if ( in_array( $tsm_page, $template->get_pages() ) ) {

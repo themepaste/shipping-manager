@@ -4,6 +4,7 @@
  * Version: 1.0.0
  * Description: An simple plugin to manage your shipping
  * Text Domain: shipping-manager
+ * License: GPLv3-or-later
  */
 
 require 'vendor/autoload.php';

@@ -16,11 +16,11 @@ function tsm_get_weight_range_value( int $serial, string $name ): string {
 
 ?>
 <div class="input-wrapper checkbox">
-	<label for="<?php echo ShippingFeesSettings::ENABLE_WEIGHT_BASED_FEES; ?>"><?php esc_html_e( 'Weight Based Fee', 'shipping-manager' ); ?></label>
+	<label for="<?php echo esc_attr( ShippingFeesSettings::ENABLE_WEIGHT_BASED_FEES ); ?>"><?php esc_html_e( 'Weight Based Fee', 'shipping-manager' ); ?></label>
 	<input
-		id="<?php echo ShippingFeesSettings::ENABLE_WEIGHT_BASED_FEES; ?>"
-		name="<?php echo ShippingFeesSettings::ENABLE_WEIGHT_BASED_FEES; ?>"
-		value="<?php echo Constants::YES; ?>"
+		id="<?php echo esc_attr( ShippingFeesSettings::ENABLE_WEIGHT_BASED_FEES ); ?>"
+		name="<?php echo esc_attr( ShippingFeesSettings::ENABLE_WEIGHT_BASED_FEES ); ?>"
+		value="<?php echo esc_attr( Constants::YES ); ?>"
 		type="checkbox"
 		<?php tsm_is_checked( $data[ ShippingFeesSettings::ENABLE_WEIGHT_BASED_FEES ] ); ?>
 	>
@@ -30,8 +30,8 @@ function tsm_get_weight_range_value( int $serial, string $name ): string {
 	<div class="single-radio-option">
 		<input
 			type="radio"
-			value="<?php echo ShippingFeesSettings::WEIGHT_PER_UNIT; ?>"
-			name="<?php echo ShippingFeesSettings::WEIGHT_BASED_SHIPPING_FEES_TYPE; ?>"
+			value="<?php echo esc_attr( ShippingFeesSettings::WEIGHT_PER_UNIT ); ?>"
+			name="<?php echo esc_attr( ShippingFeesSettings::WEIGHT_BASED_SHIPPING_FEES_TYPE ); ?>"
 			<?php tsm_is_checked( $data[ ShippingFeesSettings::WEIGHT_BASED_SHIPPING_FEES_TYPE ], true, ShippingFeesSettings::WEIGHT_PER_UNIT ); ?>
 		>
 		<label for=""><?php esc_html_e( 'Per Unit', 'shipping-manager' ); ?></label>
@@ -40,8 +40,8 @@ function tsm_get_weight_range_value( int $serial, string $name ): string {
 	<div class="single-radio-option">
 		<input
 			type="radio"
-			value="<?php echo ShippingFeesSettings::WEIGHT_RANGE_UNIT; ?>"
-			name="<?php echo ShippingFeesSettings::WEIGHT_BASED_SHIPPING_FEES_TYPE; ?>"
+			value="<?php echo esc_attr( ShippingFeesSettings::WEIGHT_RANGE_UNIT ); ?>"
+			name="<?php echo esc_attr( ShippingFeesSettings::WEIGHT_BASED_SHIPPING_FEES_TYPE ); ?>"
 			<?php tsm_is_checked( $data[ ShippingFeesSettings::WEIGHT_BASED_SHIPPING_FEES_TYPE ], true, ShippingFeesSettings::WEIGHT_RANGE_UNIT ); ?>
 		>
 		<label for=""><?php esc_html_e( 'Unit Range', 'shipping-manager' ); ?></label>
@@ -49,10 +49,10 @@ function tsm_get_weight_range_value( int $serial, string $name ): string {
 	</div>
 </div>
 <div class="input-wrapper amount">
-	<label for="<?php echo ShippingFeesSettings::WEIGHT_BASED_PER_UNIT_AMOUNT_FEES; ?>"><?php esc_html_e( 'Weight Flat Fee', 'shipping-manager' ); ?></label>
+	<label for="<?php echo esc_attr( ShippingFeesSettings::WEIGHT_BASED_PER_UNIT_AMOUNT_FEES ); ?>"><?php esc_html_e( 'Weight Flat Fee', 'shipping-manager' ); ?></label>
 	<input
-		id="<?php echo ShippingFeesSettings::WEIGHT_BASED_PER_UNIT_AMOUNT_FEES; ?>"
-		name="<?php echo ShippingFeesSettings::WEIGHT_BASED_PER_UNIT_AMOUNT_FEES; ?>"
+		id="<?php echo esc_attr( ShippingFeesSettings::WEIGHT_BASED_PER_UNIT_AMOUNT_FEES ); ?>"
+		name="<?php echo esc_attr( ShippingFeesSettings::WEIGHT_BASED_PER_UNIT_AMOUNT_FEES ); ?>"
 		type="text"
 		value="<?php echo esc_attr( $data[ ShippingFeesSettings::WEIGHT_BASED_PER_UNIT_AMOUNT_FEES ] );?>"
 	>

@@ -14,12 +14,12 @@ use \Themepaste\ShippingManager\Models\ProductPageShippingSettings;
 
 	<?php tsm_admin_nonce_field(); ?>
 	<div  class="input-wrapper checkbox">
-		<label for="<?php echo ProductPageShippingSettings::PRODUCT_PAGE_SHIPPING; ?>"><?php esc_html_e( 'Enable Product Page Shipping', 'shipping-manager' ); ?></label>
+		<label for="<?php echo esc_attr( ProductPageShippingSettings::PRODUCT_PAGE_SHIPPING ); ?>"><?php esc_html_e( 'Enable Product Page Shipping', 'shipping-manager' ); ?></label>
 		<input
 			type="checkbox"
-			id="<?php echo ProductPageShippingSettings::PRODUCT_PAGE_SHIPPING; ?>"
-			name="<?php echo ProductPageShippingSettings::PRODUCT_PAGE_SHIPPING; ?>"
-			value="<?php echo Constants::YES; ?>"
+			id="<?php echo esc_attr( ProductPageShippingSettings::PRODUCT_PAGE_SHIPPING ); ?>"
+			name="<?php echo esc_attr( ProductPageShippingSettings::PRODUCT_PAGE_SHIPPING ); ?>"
+			value="<?php echo esc_attr( Constants::YES ); ?>"
 			<?php tsm_is_checked( $data[ ProductPageShippingSettings::PRODUCT_PAGE_SHIPPING ] ); ?>
 		>
 		<div class="help-tip"><?php esc_html_e('This will enable product page shipping calculator for logged in users.', 'shipping-manager'); ?></div>
