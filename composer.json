@@ -6,7 +6,8 @@
     "autoload": {
         "psr-4": {
             "Themepaste\\ShippingManager\\": "inc/"
-        }
+        },
+        "files": [ "functions.php" ]
     },
     "authors": [
         {

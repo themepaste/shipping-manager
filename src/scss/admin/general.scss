@@ -1,0 +1,178 @@
+$color_primary: #f25500;
+$color_positive: #13c413;
+$background_color_light: #f6f9f9;
+$text_color_regular: #3d444b;
+$text_color_light: #737171;
+
+$font_size_large: 2rem;
+$font_size_regular: 0.9rem;
+$font_size_small: 0.7rem;
+
+$border_radius_general: 5px;
+$border_radius_light: 3px;
+
+$transition_duration: 0.3s;
+
+
+.tsm-admin-wrapper {
+  margin: 15px;
+  width: 800px;
+  border-radius: $border_radius_general;
+  display: flex;
+  flex-direction: column;
+  color: $text_color_regular;
+  font-size: $font_size_regular;
+  background-color: #fff;
+  .row-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    .sidebar {
+      width: 200px;
+      border-radius: $border_radius_general 0 0 $border_radius_general;
+      background-color: $background_color_light;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 16px;
+      .logo-wrapper {
+        h3 {
+          color: $color_primary;
+        }
+        span {
+          color: $text_color_light;
+        }
+      }
+      .sidebar-menu-links {
+        ul {
+          text-decoration: none;
+          li {
+            a {
+              text-decoration: none;
+              color: $text_color_regular;
+              width: 100%;
+              display: block;
+              padding: 8px 0 8px 8px;
+              font-weight: 500;
+              border-radius: 3px;
+              transition-duration: $transition_duration;
+              &:hover {
+                background-color: #fff;
+                transition-duration: $transition_duration;
+              }
+              &.active {
+                background-color: #fff;
+                color: $color_primary;
+              }
+            }
+          }
+        }
+      }
+      .misalliances-links {
+        ul {
+          li {
+            padding: 4px 0 4px 8px;
+            a {
+              text-decoration: none;
+              font-size: $font_size_small;
+              color: $text_color_light;
+            }
+          }
+        }
+      }
+    }
+    .main {
+      width: 600px;
+      padding: 16px;
+      .title-bar {
+        min-height: 40px;
+      }
+      .body-wrapper {
+        min-height: 450px;
+        .tsm-admin-settings-form {
+          padding: 32px 0;
+          .input-wrapper {
+            padding: 0 0 32px 0;
+            lable {
+              margin: 0 16px 0 0;
+            }
+            .help-tip {
+              margin: 8px 0 0 0;
+              font-size: $font_size_small;
+              color: $font_size_small;
+            }
+            &.radio {
+              display: flex;
+              justify-content: space-between;
+              .single-radio-option {
+              }
+            }
+            &.submit {
+              button {
+                background-color: #007cba; // WooCommerce save button color
+                font-weight: 700;
+                border-radius: $border_radius_light;
+              }
+            }
+            &.range {
+              label {
+                display: block;
+                margin-bottom: 16px;
+              }
+              .range-row-wrapper {
+                input[type=text] {
+                  width: 80px;
+                }
+                .remove-row-button {
+                  border: 1px solid black;
+                  display: inline-block;
+                  padding: 4px 8px;
+                  margin: 8px 16px;
+                  &:hover {
+                    cursor: pointer;
+                  }
+                }
+              }
+              .add-new-row-button {
+                .add-new-button-text {
+                  border: 1px solid black;
+                  display: inline-block;
+                  padding: 4px 8px;
+                  margin: 8px 16px;
+                  &:hover {
+                    cursor: pointer;
+                  }
+                }
+              }
+            }
+          }
+        }
+        .message-wrapper {
+          .admin-messages {
+            .admin-single-message {
+              margin-bottom: 16px;
+            }
+            &.message-type-error, &.message-type-success {
+              padding: 16px 0 4px 8px;
+              background-color: $background-color_light;
+            }
+            &.message-type-error {
+              border-left: 4px solid #d63638;
+            }
+            &.message-type-success {
+              border-left: 4px solid #7ad03a;
+            }
+          }
+        }
+      }
+    }
+    .footer {
+      width: 100%;
+      justify-content: center;
+      display: flex;
+      padding: 8px 0;
+      font-size: $font_size_small;
+      color: $text_color_light;
+    }
+  }
+}
