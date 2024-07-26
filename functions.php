@@ -2,7 +2,7 @@
 /**
  * Shortcut functions
  *
- * @since TSM_SINCE
+ * @since 1.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -21,7 +21,7 @@ use Themepaste\ShippingManager\{
 /**
  * Shortcut function get pagename from route name
  *
- * @since TSM_SINCE
+ * @since 1.1.0
  *
  * @param string $route_name
  *
@@ -35,7 +35,7 @@ function tsm_get_page( string $route_name ): string {
 /**
  * Shortcut for loading template
  *
- * @since TSM_SINCE
+ * @since 1.1.0
  *
  * @param string $template
  * @param array  $args
@@ -53,7 +53,7 @@ function tsm_template_parts( string $template ): bool {
 /**
  * Shortcut for checking if current page is inside shipping manager admin dashboard
  *
- * @since TSM_SINCE
+ * @since 1.1.0
  *
  * @return bool
  */
@@ -64,7 +64,7 @@ function tsm_is_admin_dashboard(): bool {
 /**
  * Shortcut for getting current admin settings page
  *
- * @since TSM_SINCE
+ * @since 1.1.0
  *
  * @retun string
  */
@@ -75,7 +75,7 @@ function tsm_current_admin_settings_page(): string {
 /**
  * Shortcut to get url from route name
  *
- * @since TSM_SINCE
+ * @since 1.1.0
  *
  * @param string $route_name
  *
@@ -88,7 +88,7 @@ function tsm_url( string $route_name ): string {
 /**
  * Check if it is current route the prints provided class name and returns true
  *
- * @since TSM_SINCE
+ * @since 1.1.0
  *
  * @param string $route_name
  * @param string $class_name
@@ -109,7 +109,7 @@ function tsm_is_active_menu( string $route_name, string $class_name = '' ): bool
 /**
  * Shortcut to get nonce field for form
  *
- * @since TSM_SINCE
+ * @since 1.1.0
  *
  * @return void
  */
@@ -123,7 +123,7 @@ function tsm_admin_nonce_field() {
 /**
  * Shortcut to add admin message
  *
- * @since TSM_SINCE
+ * @since 1.1.0
  *
  * @param string $message
  * @param string $type
@@ -138,7 +138,7 @@ function tsm_admin_message( string $message, string $type = '' ) {
 /**
  * Shortcut for placing checked value
  *
- * @since TSM_SINCE
+ * @since 1.1.0
  *
  * @param string $value
  * @param bool   $print

@@ -6,7 +6,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Imposes process interface
  *
- * @since TSM_SINCE
+ * @since 1.1.0
  */
 interface Process {
 	public function process();

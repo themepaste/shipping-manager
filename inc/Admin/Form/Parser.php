@@ -6,13 +6,13 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Parses $_POST data
  *
- * @since TSM_SINCE
+ * @since 1.1.0
  */
 trait Parser {
 	/**
 	 * Parses $_POST data according to allowed fields
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.1.0
 	 *
 	 * @param array $allowed_fields List of allowed fields
 	 *

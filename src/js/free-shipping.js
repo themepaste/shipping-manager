@@ -1,7 +1,7 @@
 /**
  * Admin settings script for free-shipping page
  *
- * @since TSM_SINCE
+ * @since 1.1.0
  */
 const INPUT_WRAPPER = '.input-wrapper';
 const MINIMUM_AMOUNT_ID = '#minimum-amount';

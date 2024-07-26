@@ -13,20 +13,20 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Manages form submission for admin settings
  *
- * @since TSM_SINCE
+ * @since 1.1.0
  */
 class Manager {
 	/**
 	 * Unique id for initialized object
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.1.0
 	 */
 	const INSTANCE_KEY = 'admin_form_manager';
 
 	/**
 	 * Initializes form management
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.1.0
 	 *
 	 * @retun void
 	 */
@@ -38,7 +38,7 @@ class Manager {
 	/**
 	 * Maps form manager to appropriate handler
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.1.0
 	 *
 	 * @param string $page Name of the current page
 	 *
@@ -68,7 +68,7 @@ class Manager {
 	/**
 	 * Maps data to appropriate form
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.1.0
 	 *
 	 * @param string $page
 	 * @param array  $data

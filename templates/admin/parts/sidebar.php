@@ -2,7 +2,7 @@
 /**
  * Layout sidebar part
  *
- * @since TSM_SINCE
+ * @since 1.1.0
  */
 defined( 'ABSPATH' ) || exit;
 

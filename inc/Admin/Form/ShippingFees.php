@@ -9,7 +9,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Manages shipping fees form submission
  *
- * @since TSM_SINCE
+ * @since 1.1.0
  */
 class ShippingFees implements Process {
 

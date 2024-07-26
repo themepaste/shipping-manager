@@ -6,20 +6,20 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Manges admin routes and url
  *
- * @since TSM_SINCE
+ * @since 1.1.0
  */
 class Routes {
 	/**
 	 * Unique id for initialized object
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.1.0
 	 */
 	const INSTANCE_KEY = 'admin_routes';
 
 	/**
 	 * ID for main shipping manager admin settings page
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.1.0
 	 *
 	 * @var string
 	 */
@@ -28,7 +28,7 @@ class Routes {
 	/**
 	 * ID for Shipping Fees TSM sub-page
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.1.0
 	 *
 	 * @var string
 	 */
@@ -37,7 +37,7 @@ class Routes {
 	/**
 	 * ID for Free Shipping TSM sub-page
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.1.0
 	 *
 	 * @var string
 	 */
@@ -46,7 +46,7 @@ class Routes {
 	/**
 	 * ID for Per Product Shipping TSM sub-page
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.1.0
 	 *
 	 * @var string
 	 */
@@ -55,7 +55,7 @@ class Routes {
 	/**
 	 * ID for Product Page Shipping TSM sub-page
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.1.0
 	 *
 	 * @var string
 	 */
@@ -64,7 +64,7 @@ class Routes {
 	/**
 	 * ID for Track Shipping TSM sub-page
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.1.0
 	 *
 	 * @var string
 	 */
@@ -73,7 +73,7 @@ class Routes {
 	/**
 	 * Stores all named routes against their string
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.1.0
 	 *
 	 * @var array
 	 */
@@ -106,7 +106,7 @@ class Routes {
 	/**
 	 * Builds url from route name
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.1.0
 	 *
 	 * @param string $route_name
 	 * @param array  $args
@@ -129,7 +129,7 @@ class Routes {
 	/**
 	 * Returns the list of all routes with query string data
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.1.0
 	 *
 	 * @return array|string[]
 	 */

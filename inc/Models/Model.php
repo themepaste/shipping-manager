@@ -7,7 +7,7 @@ abstract class Model {
 	/**
 	 * Option key for a model
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.1.0
 	 *
 	 * @var string
 	 */
@@ -16,7 +16,7 @@ abstract class Model {
 	/**
 	 * All the settings stay here
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.1.0
 	 *
 	 * @var array
 	 */
@@ -25,7 +25,7 @@ abstract class Model {
 	/**
 	 * Validation error messages
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.1.0
 	 *
 	 * @var array
 	 */
@@ -34,7 +34,7 @@ abstract class Model {
 	/**
 	 * Initializes the model
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.1.0
 	 *
 	 * @param $option_key
 	 */
@@ -45,7 +45,7 @@ abstract class Model {
 	/**
 	 * Validation rules will go here and push error messages to $validation_messages
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.1.0
 	 *
 	 * @return bool
 	 */
@@ -56,7 +56,7 @@ abstract class Model {
 	/**
 	 * Saves option to WordPress options
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.1.0
 	 *
 	 * @return bool
 	 */

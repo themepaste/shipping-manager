@@ -2,7 +2,7 @@
 /**
  * Layout main part
  *
- * @since TSM_SINCE
+ * @since 1.1.0
  */
 defined( 'ABSPATH' ) || exit;
 $page_title = apply_filters( 'tsm_template_page_title', $page );
