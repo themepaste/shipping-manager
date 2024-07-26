@@ -8,27 +8,27 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Manages template files loading and passed data
  *
- * @since TSM_SINCE
+ * @since 1.1.0
  */
 class Template {
 	/**
 	 * Unique id for initialized object
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.1.0
 	 */
 	const INSTANCE_KEY = 'admin_template';
 
 	/**
 	 * Template root directory constant
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.1.0
 	 */
 	const TEMPLATE_ROOT_DIR = TSM_PLUGIN_ROOT_PATH . '/templates/';
 
 	/**
 	 * Variable root template directory
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.1.0
 	 *
 	 * @var string
 	 */
@@ -37,7 +37,7 @@ class Template {
 	/**
 	 * A list of pages with routes
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.1.0
 	 *
 	 * @var array
 	 */
@@ -52,7 +52,7 @@ class Template {
 	/**
 	 * All the passed arguments will be saved here. This is later used to pass to load template parts
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.1.0
 	 *
 	 * @var array
 	 */
@@ -62,7 +62,7 @@ class Template {
 	 * Initializes:
 	 * Template root directory
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.1.0
 	 *
 	 * @return void
 	 */
@@ -73,7 +73,7 @@ class Template {
 	/**
 	 * Returns all pages
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.1.0
 	 *
 	 * @return array
 	 */
@@ -84,7 +84,7 @@ class Template {
 	/**
 	 * Returns the default page for admin settings page
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.1.0
 	 *
 	 * @return string
 	 */
@@ -95,7 +95,7 @@ class Template {
 	/**
 	 * Validates arguments if page is added in the argument.
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.1.0
 	 *
 	 * @param array $args
 	 *
@@ -117,7 +117,7 @@ class Template {
 	/**
 	 * Set messages to template args for rendering
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.1.0
 	 *
 	 * @param array $args
 	 *
@@ -131,7 +131,7 @@ class Template {
 	/**
 	 * Loads template and passes arguments to the template files
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.1.0
 	 *
 	 * @param string $name
 	 * @param array $args
@@ -151,7 +151,7 @@ class Template {
 		/**
 		 * @filter `tsm_template_path` filter to manipulate single template path
 		 *
-		 * @since TSM_SINCE
+		 * @since 1.1.0
 		 *
 		 * @param string
 		 *
@@ -169,7 +169,7 @@ class Template {
 	/**
 	 * Loads templates parts passing arguments from load_template function
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.1.0
 	 *
 	 * @param string $name
 	 *

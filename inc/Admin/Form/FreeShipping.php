@@ -9,7 +9,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Manages free shipping form submission
  *
- * @since TSM_SINCE
+ * @since 1.1.0
  */
 class FreeShipping implements Process {
 
@@ -18,7 +18,7 @@ class FreeShipping implements Process {
 	/**
 	 * Processes free shipping submission
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.1.0
 	 *
 	 * @return void
 	 */

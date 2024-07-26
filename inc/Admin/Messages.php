@@ -6,13 +6,13 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Manages admin form messages
  *
- * @since TSM_SINCE
+ * @since 1.1.0
  */
 class Messages {
 	/**
 	 * Unique id for initialized object
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.1.0
 	 */
 	const INSTANCE_KEY = 'admin_messages';
 
@@ -21,14 +21,14 @@ class Messages {
 	 * First one is set to default if types is not defined while message is added
 	 * The messages are rendered as is in the serial
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.1.0
 	 */
 	const TYPES = [ 'error', 'warning', 'success', 'info' ]; // first one is default type and serial is maintained while rendering messages
 
 	/**
 	 * Holds all the message in this variable and rendered from here
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.1.0
 	 *
 	 * @var array
 	 */
@@ -52,7 +52,7 @@ class Messages {
 	/**
 	 * Returns specific or all messages stored
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.1.0
 	 *
 	 * @param string $types
 	 *
@@ -74,7 +74,7 @@ class Messages {
 	/**
 	 * Sorts messages according to its type
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.1.0
 	 *
 	 * @return array
 	 */
@@ -94,7 +94,7 @@ class Messages {
 	/**
 	 * Flushes all the messages
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.1.0
 	 *
 	 * @return void
 	 */

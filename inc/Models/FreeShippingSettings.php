@@ -8,13 +8,13 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Datasource for free shipping
  *
- * @since TSM_SINCE
+ * @since 1.1.0
  */
 class FreeShippingSettings extends Model {
 	/**
 	 * List of keys
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.1.0
 	 */
 	const HIDE_OTHERS = 'hide-others';
 	const FREE_SHIPPING_BAR = 'free-shipping-bar';
@@ -25,7 +25,7 @@ class FreeShippingSettings extends Model {
 	/**
 	 * Declaring default settings
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.1.0
 	 *
 	 * @var array
 	 */
@@ -40,7 +40,7 @@ class FreeShippingSettings extends Model {
 	/**
 	 * Initializing option keys
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.1.0
 	 */
 	public function __construct() {
 		parent::__construct( 'tsm_free_shipping' );
@@ -49,7 +49,7 @@ class FreeShippingSettings extends Model {
 	/**
 	 * Checks if the data is valid
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.1.0
 	 *
 	 * @return bool
 	 */

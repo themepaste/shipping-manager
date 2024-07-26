@@ -6,27 +6,27 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Manages admin assets for admin settings
  *
- * @since TSM_SINCE
+ * @since 1.1.0
  */
 class Assets {
 	/**
 	 * Unique id for initialized object
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.1.0
 	 */
 	const INSTANCE_KEY = 'admin_assets';
 
 	/**
 	 * General style handle
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.1.0
 	 */
 	const GENERAL_STYLE = 'tsm-general-style';
 
 	/**
 	 * Handle for free shipping page script
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.1.0
 	 */
 	const FREE_SHIPPING_SCRIPT = 'tsm-free-shipping-script';
 	const SHIPPING_FEES_SCRIPT = 'tsm-shipping-fees-script';
@@ -35,7 +35,7 @@ class Assets {
 	 * Initializes:
 	 * Hooks for assets registration and enqueuing
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.1.0
 	 *
 	 * @return void
 	 */
@@ -51,7 +51,7 @@ class Assets {
 	/**
 	 * Generates assets URL
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.1.0
 	 *
 	 * @param string $relative_url_path
 	 *
@@ -70,7 +70,7 @@ class Assets {
 	/**
 	 * Fetches the plugin version and returns it
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.1.0
 	 *
 	 * @return string
 	 */
@@ -81,7 +81,7 @@ class Assets {
 	/**
 	 * Registers styles for admin
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.1.0
 	 *
 	 * @return void
 	 */
@@ -98,7 +98,7 @@ class Assets {
 	/**
 	 * Register scripts for admin
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.1.0
 	 *
 	 * @return void
 	 */
@@ -122,7 +122,7 @@ class Assets {
 	/**
 	 * Enqueues assets depending on necessity
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.1.0
 	 *
 	 * @return void
 	 */

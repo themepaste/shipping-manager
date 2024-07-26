@@ -6,13 +6,13 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Manages admin dashboard menu
  *
- * @since TSM_SINCE
+ * @since 1.1.0
  */
 class Menu {
 	/**
 	 * Unique id for initialized object
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.1.0
 	 */
 	const INSTANCE_KEY = 'admin_menu';
 
@@ -20,7 +20,7 @@ class Menu {
 	 * Initializes:
 	 * 	WooCommerce submenu hook
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.1.0
 	 *
 	 * @return void
 	 */
@@ -31,7 +31,7 @@ class Menu {
 	/**
 	 * Invokes submenu for WooCommerce main menu
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.1.0
 	 *
 	 * @return void
 	 */
@@ -49,7 +49,7 @@ class Menu {
 	/**
 	 * Invokes Shipping Manager admin menu controller
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.1.0
 	 *
 	 * @return void
 	 */

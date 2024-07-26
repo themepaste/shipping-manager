@@ -6,14 +6,14 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Authentication and authorization check
  *
- * @since
+ * @since 1.1.0
  */
 class Authentication {
 
 	/**
 	 * Prints nonce filed, should be inside form
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.1.0
 	 *
 	 * @param string $handle
 	 *
@@ -26,7 +26,7 @@ class Authentication {
 	/**
 	 * Verifies nonce filed for form submission
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.1.0
 	 *
 	 * @param string $handle
 	 *
@@ -39,7 +39,7 @@ class Authentication {
 	/**
 	 * Checks if current user is authenticated and nonce is validated
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.1.0
 	 *
 	 * @param string $nonce_handle
 	 *

@@ -10,13 +10,13 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Manages Shipping Manager admin menu rendering and data manipulation
  *
- * @since TSM_SINCE
+ * @since 1.1.0
  */
 class Controller {
 	/**
 	 * Unique id for initialized object
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.1.0
 	 */
 	const INSTANCE_KEY = 'admin_controller';
 
@@ -24,7 +24,7 @@ class Controller {
 	 * Initializes:
 	 * 	Admin Root Page
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.1.0
 	 *
 	 * @return void
 	 */
@@ -37,7 +37,7 @@ class Controller {
 	/**
 	 * Assigns page titles to corresponding pages
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.1.0
 	 *
 	 * @param $page
 	 *
@@ -58,7 +58,7 @@ class Controller {
 	/**
 	 * Check if current page is shipping manager admin dashboard
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.1.0
 	 *
 	 * @return bool
 	 */
@@ -74,7 +74,7 @@ class Controller {
 	/**
 	 * Retrieve current page for admin settings from URL
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.1.0
 	 *
 	 * @return string
 	 */
@@ -92,7 +92,7 @@ class Controller {
 	/**
 	 * Checks if route name matches current page
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.1.0
 	 *
 	 * @param string $route_name
 	 *
@@ -120,7 +120,7 @@ class Controller {
 	/**
 	 * Invokes template and renders admin root menu layout
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.1.0
 	 *
 	 * @return void
 	 */
@@ -131,7 +131,7 @@ class Controller {
 		/**
 		 * Loads data for admin settings page value hydrating
 		 *
-		 * @since TSM_SINCE
+		 * @since 1.1.0
 		 *
 		 * @param string $page
 		 *
@@ -147,7 +147,7 @@ class Controller {
 	/**
 	 * Initializes post request processing
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.1.0
 	 *
 	 * @return void
 	 */
@@ -158,7 +158,7 @@ class Controller {
 			/**
 			 * To initiate form processing
 			 *
-			 * @since TSM_SINCE
+			 * @since 1.1.0
 			 *
 			 * @param string $page
 			 *
@@ -171,7 +171,7 @@ class Controller {
 	/**
 	 * Checks if post request is submitted
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.1.0
 	 *
 	 * @return bool
 	 */

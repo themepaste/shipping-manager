@@ -6,7 +6,7 @@ defined('ABSPATH') || exit;
 /**
  * Plugin wide constant declaration
  *
- * @since TSM_SINCE
+ * @since 1.1.0
  */
 class Constants {
 	const YES = 'yes';
