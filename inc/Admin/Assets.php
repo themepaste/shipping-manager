@@ -1,6 +1,9 @@
 <?php
 namespace Themepaste\ShippingManager\Admin;
 
+use Themepaste\ShippingManager\Constants;
+use Themepaste\ShippingManager\Models\ProductPageShippingSettings;
+
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -30,6 +33,7 @@ class Assets {
 	 */
 	const FREE_SHIPPING_SCRIPT = 'tsm-free-shipping-script';
 	const SHIPPING_FEES_SCRIPT = 'tsm-shipping-fees-script';
+	const PRODUCT_PAGE_SHIPPING_SCRIPT = 'tsm-product-page-shipping-script';
 
 	/**
 	 * Initializes:
@@ -40,12 +44,16 @@ class Assets {
 	 * @return void
 	 */
 	public function __construct() {
-		// Register assets
-		add_action( 'admin_enqueue_scripts', [ $this, 'register_style' ] );
-		add_action( 'admin_enqueue_scripts', [ $this, 'register_script' ] );
+		// Register admin assets
+		add_action( 'admin_enqueue_scripts', [ $this, 'register_admin_style' ] );
+		add_action( 'admin_enqueue_scripts', [ $this, 'register_admin_script' ] );
+		// Register frontend assets
+		add_action( 'wp_enqueue_scripts', [ $this, 'register_frontend_scripts' ] );
 
-		// Load assets
-		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
+		// Load admin assets
+		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_admin_assets' ] );
+		// Enqueue frontend assets
+		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_frontend_assets' ] );
 	}
 
 	/**
@@ -85,7 +93,7 @@ class Assets {
 	 *
 	 * @return void
 	 */
-	public function register_style() {
+	public function register_admin_style() {
 		// general.css
 		wp_register_style(
 			self::GENERAL_STYLE,
@@ -102,7 +110,7 @@ class Assets {
 	 *
 	 * @return void
 	 */
-	public function register_script() {
+	public function register_admin_script() {
 		wp_register_script(
 			self::FREE_SHIPPING_SCRIPT,
 			$this->get_assets_url( 'admin/js/free-shipping.js' ),
@@ -119,6 +127,16 @@ class Assets {
 		);
 	}
 
+	public function register_frontend_scripts() {
+		wp_register_script(
+			self::PRODUCT_PAGE_SHIPPING_SCRIPT,
+			$this->get_assets_url( 'admin/js/product-page-shipping.js' ),
+			[ 'jquery' ],
+			$this->get_plugin_version(),
+			true
+		);
+	}
+
 	/**
 	 * Enqueues assets depending on necessity
 	 *
@@ -126,7 +144,7 @@ class Assets {
 	 *
 	 * @return void
 	 */
-	public function enqueue_assets() {
+	public function enqueue_admin_assets() {
 		if ( tsm_is_admin_dashboard() ) {
 			wp_enqueue_style( self::GENERAL_STYLE );
 			switch ( tsm_current_admin_settings_page() ) {
@@ -138,6 +156,22 @@ class Assets {
 					break;
 				default:
 					break;
+			}
+		}
+	}
+
+	/**
+	 * Loads frontend assets conditionally
+	 *
+	 * @since TSM_SINCE
+	 *
+	 * @return void
+	 */
+	public function enqueue_frontend_assets() {
+		$product_page_shipping_enabled = ( new ProductPageShippingSettings() )->fetch()->get( ProductPageShippingSettings::PRODUCT_PAGE_SHIPPING );
+		if ( tsm_is_checked( $product_page_shipping_enabled, false, Constants::YES ) ) {
+			if ( tps_manager_is_single_product_page() ) {
+				wp_enqueue_script( self::PRODUCT_PAGE_SHIPPING_SCRIPT );
 			}
 		}
 	}

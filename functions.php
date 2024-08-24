@@ -157,3 +157,14 @@ function tsm_is_checked( string $value, bool $print = true, string $compare = ''
 	}
 	return $status;
 }
+
+/**
+ * Checks if current page is single product page
+ *
+ * @since TSM_SINCE
+ *
+ * @return bool
+ */
+function tps_manager_is_single_product_page(): bool {
+	return function_exists( 'is_product' ) && is_product();
+}
