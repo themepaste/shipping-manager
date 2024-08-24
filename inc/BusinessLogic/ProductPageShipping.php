@@ -1,6 +1,7 @@
 <?php
 namespace Themepaste\ShippingManager\BusinessLogic;
 
+use Themepaste\ShippingManager\Admin\Assets;
 use Themepaste\ShippingManager\Models\ProductPageShippingSettings;
 
 defined( 'ABSPATH' ) || exit;
@@ -20,7 +21,21 @@ class ProductPageShipping {
         add_action( 'woocommerce_after_add_to_cart_form', [ $this, 'render_shipping_calculator_form' ] );
         add_action('wp_ajax_calculate_shipping', [ $this, 'handle_calculate_shipping' ] );
         add_action('wp_ajax_nopriv_calculate_shipping', [ $this, 'handle_calculate_shipping' ] );
+        add_action( 'wp_enqueue_scripts', [ $this, 'add_data_to_script' ] );
       }
+    }
+
+    /**
+     * Adds data to frontend scripts for product page shipping
+     *
+     * @since TSM_SINCE
+     *
+     * @return void
+	  */
+    public function add_data_to_script() {
+//		if (  )
+        global $post;
+        wp_localize_script( Assets::PRODUCT_PAGE_SHIPPING_SCRIPT, 'tps_manager', [ 'product_id' => $post->ID ] );
     }
 
     public function render_shipping_calculator_form() {
@@ -58,37 +73,7 @@ class ProductPageShipping {
       echo '<button type="submit" name="calc_shipping" value="1" class="button">' . esc_html__('Calculate Shipping', 'woocommerce') . '</button>';
       echo '</form>';
       echo '</div>';
-      echo '<div class="tsm-shipping-result"></div>'
-
-      // Optional: Add custom JavaScript to handle form submission via AJAX, if needed
-      // This will require additional code to handle the AJAX request
-      ?>
-      <script>
-              jQuery(document).ready(function($) {
-                  $('.woocommerce-shipping-calculator').on('submit', function(e) {
-                      e.preventDefault();
-
-                      var country = $('#calc_shipping_country').val();
-                      var postcode = $('#calc_shipping_postcode').val();
-
-                      $.ajax({
-                          type: 'POST',
-                          url: woocommerce_params.ajax_url,
-                          data: {
-                              action: 'calculate_shipping',
-                              country: country,
-                              postcode: postcode,
-                              product_id: <?php echo esc_js( $product_id ); ?> // pass the product ID
-                          },
-                          success: function(response) {
-                              // Handle the response (display the shipping rates)
-                              $('.tsm-shipping-result').html(response);
-                          }
-                      });
-                  });
-              });
-      </script>
-      <?php
+      echo '<div class="tsm-shipping-result"></div>';
     }
 
     public function handle_calculate_shipping() {
@@ -118,16 +103,18 @@ class ProductPageShipping {
       );
 
       $shipping_methods = WC()->shipping->calculate_shipping_for_package($package);
-
-      // Display the results
-      if (!empty($shipping_methods['rates'])) {
-        foreach ($shipping_methods['rates'] as $rate) {
-          echo '<p>' . esc_html($rate->label) . ': ' . esc_html( wc_price($rate->cost) ) . '</p>';
-        }
-      } else {
-        echo esc_html__('No shipping options were found.', 'woocommerce');
-      }
-
+	  if ( ! empty( $shipping_methods ) ) {
+		  $shipping_rates = [];
+		  foreach ( $shipping_methods[ 'rates' ] as $rate ) {
+			  $shipping_rates[] = [
+				  'label' => esc_html( $rate->label ),
+				  'cost' => esc_html( $rate->cost ),
+			  ];
+		  }
+		  wp_send_json_success( [ 'shipping_rates' => $shipping_rates ] );
+	  } else {
+		  wp_send_json_error( [ 'message' => esc_html__('No shipping methods found.', 'tps-manager') ] );
+	  }
       wp_die();
     }
 

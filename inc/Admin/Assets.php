@@ -172,6 +172,7 @@ class Assets {
 		if ( tsm_is_checked( $product_page_shipping_enabled, false, Constants::YES ) ) {
 			if ( tps_manager_is_single_product_page() ) {
 				wp_enqueue_script( self::PRODUCT_PAGE_SHIPPING_SCRIPT );
+				wp_set_script_translations ( self::PRODUCT_PAGE_SHIPPING_SCRIPT, 'tps-manager' );
 			}
 		}
 	}
