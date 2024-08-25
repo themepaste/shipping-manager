@@ -3,7 +3,7 @@
  * Plugin Name: Shipping Manager
  * Version: 1.1.0
  * Description: An simple plugin to manage your shipping
- * Text Domain: shipping-manager
+ * Text Domain: tps-manager
  * License: GPLv3-or-later
  */
 

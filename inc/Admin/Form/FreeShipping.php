@@ -27,7 +27,7 @@ class FreeShipping implements Process {
 		$parsed_data = $this->parse_post_data( $allowed_fields );
 		$status = ( new FreeShippingSettings() )->set( $parsed_data )->save();
 		if ( $status ) {
-			tsm_admin_message( __( 'Saved successfully.', 'shipping-manager' ), Messages::TYPES[2] );
+			tsm_admin_message( __( 'Saved successfully.', 'tps-manager' ), Messages::TYPES[2] );
 		}
 	}
 }

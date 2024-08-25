@@ -23,11 +23,11 @@ class ShippingMethod extends WC_Shipping_Method {
 	public function __construct() {
 		parent::__construct();
 		$this->id                 = self::INSTANCE_KEY;
-		$this->method_title       = __( 'Shipping Manager Method', 'shipping-manager' );
-		$this->method_description = __( 'A very flexible shipping method to manage shipping fees in a robust way.', 'shipping-manager' );
+		$this->method_title       = __( 'Shipping Manager Method', 'tps-manager' );
+		$this->method_description = __( 'A very flexible shipping method to manage shipping fees in a robust way.', 'tps-manager' );
 
 		$this->enabled = Constants::YES;
-		$this->title   = __( 'Shipping Manager Method', 'shipping-manager' );
+		$this->title   = __( 'Shipping Manager Method', 'tps-manager' );
 
 		$this->init();
 	}
@@ -56,16 +56,16 @@ class ShippingMethod extends WC_Shipping_Method {
 	public function init_form_fields() {
 		$this->form_fields = array(
 			'enabled' => [
-				'title'       => __( 'Enable', 'shipping-manager' ),
+				'title'       => __( 'Enable', 'tps-manager' ),
 				'type'        => 'checkbox',
 				'description' => __( 'Enable Shipping Manager' ),
 				'default'     => Constants::YES,
 			],
 			'title' => [
-				'title'       => __( 'Shipping Manager', 'shipping-manager' ),
+				'title'       => __( 'Shipping Manager', 'tps-manager' ),
 				'type'        => 'text',
-				'description' => __( 'Shipping Manager title to be displayed to user while checking out.', 'shipping-manager' ),
-				'default'     => __( 'Shipping Manager Method', 'shipping-manager' ),
+				'description' => __( 'Shipping Manager title to be displayed to user while checking out.', 'tps-manager' ),
+				'default'     => __( 'Shipping Manager Method', 'tps-manager' ),
 			],
 		);
 	}

@@ -16,7 +16,7 @@ function tsm_get_weight_range_value( int $serial, string $name ): string {
 
 ?>
 <div class="input-wrapper checkbox">
-	<label for="<?php echo esc_attr( ShippingFeesSettings::ENABLE_WEIGHT_BASED_FEES ); ?>"><?php esc_html_e( 'Weight Based Fee', 'shipping-manager' ); ?></label>
+	<label for="<?php echo esc_attr( ShippingFeesSettings::ENABLE_WEIGHT_BASED_FEES ); ?>"><?php esc_html_e( 'Weight Based Fee', 'tps-manager' ); ?></label>
 	<input
 		id="<?php echo esc_attr( ShippingFeesSettings::ENABLE_WEIGHT_BASED_FEES ); ?>"
 		name="<?php echo esc_attr( ShippingFeesSettings::ENABLE_WEIGHT_BASED_FEES ); ?>"
@@ -24,7 +24,7 @@ function tsm_get_weight_range_value( int $serial, string $name ): string {
 		type="checkbox"
 		<?php tsm_is_checked( $data[ ShippingFeesSettings::ENABLE_WEIGHT_BASED_FEES ] ); ?>
 	>
-	<div class="help-tip"><?php esc_html_e( 'Adds weight based fee for product.', 'shipping-manager' ); ?></div>
+	<div class="help-tip"><?php esc_html_e( 'Adds weight based fee for product.', 'tps-manager' ); ?></div>
 </div>
 <div class="input-wrapper radio">
 	<div class="single-radio-option">
@@ -34,8 +34,8 @@ function tsm_get_weight_range_value( int $serial, string $name ): string {
 			name="<?php echo esc_attr( ShippingFeesSettings::WEIGHT_BASED_SHIPPING_FEES_TYPE ); ?>"
 			<?php tsm_is_checked( $data[ ShippingFeesSettings::WEIGHT_BASED_SHIPPING_FEES_TYPE ], true, ShippingFeesSettings::WEIGHT_PER_UNIT ); ?>
 		>
-		<label for=""><?php esc_html_e( 'Per Unit', 'shipping-manager' ); ?></label>
-		<div class="help-tip"><?php esc_html_e( 'Add fees based on per unit', 'shipping-manager' ); ?></div>
+		<label for=""><?php esc_html_e( 'Per Unit', 'tps-manager' ); ?></label>
+		<div class="help-tip"><?php esc_html_e( 'Add fees based on per unit', 'tps-manager' ); ?></div>
 	</div>
 	<div class="single-radio-option">
 		<input
@@ -44,22 +44,22 @@ function tsm_get_weight_range_value( int $serial, string $name ): string {
 			name="<?php echo esc_attr( ShippingFeesSettings::WEIGHT_BASED_SHIPPING_FEES_TYPE ); ?>"
 			<?php tsm_is_checked( $data[ ShippingFeesSettings::WEIGHT_BASED_SHIPPING_FEES_TYPE ], true, ShippingFeesSettings::WEIGHT_RANGE_UNIT ); ?>
 		>
-		<label for=""><?php esc_html_e( 'Unit Range', 'shipping-manager' ); ?></label>
-		<div class="help-tip"><?php esc_html_e( 'Add fees based on unit range', 'shipping-manager' ); ?></div>
+		<label for=""><?php esc_html_e( 'Unit Range', 'tps-manager' ); ?></label>
+		<div class="help-tip"><?php esc_html_e( 'Add fees based on unit range', 'tps-manager' ); ?></div>
 	</div>
 </div>
 <div class="input-wrapper amount">
-	<label for="<?php echo esc_attr( ShippingFeesSettings::WEIGHT_BASED_PER_UNIT_AMOUNT_FEES ); ?>"><?php esc_html_e( 'Weight Flat Fee', 'shipping-manager' ); ?></label>
+	<label for="<?php echo esc_attr( ShippingFeesSettings::WEIGHT_BASED_PER_UNIT_AMOUNT_FEES ); ?>"><?php esc_html_e( 'Weight Flat Fee', 'tps-manager' ); ?></label>
 	<input
 		id="<?php echo esc_attr( ShippingFeesSettings::WEIGHT_BASED_PER_UNIT_AMOUNT_FEES ); ?>"
 		name="<?php echo esc_attr( ShippingFeesSettings::WEIGHT_BASED_PER_UNIT_AMOUNT_FEES ); ?>"
 		type="text"
 		value="<?php echo esc_attr( $data[ ShippingFeesSettings::WEIGHT_BASED_PER_UNIT_AMOUNT_FEES ] );?>"
 	>
-	<div class="help-tip"><?php esc_html_e( 'Fees for per unit weight for product shipping.', 'shipping-manager' ); ?></div>
+	<div class="help-tip"><?php esc_html_e( 'Fees for per unit weight for product shipping.', 'tps-manager' ); ?></div>
 </div>
 <div class="input-wrapper range">
-	<label for=""><?php esc_html_e( 'Weight Range Fee', 'shipping-manager' ); ?></label>
+	<label for=""><?php esc_html_e( 'Weight Range Fee', 'tps-manager' ); ?></label>
 	<div class="range-row-wrapper">
 		from
 		<input
@@ -87,5 +87,5 @@ function tsm_get_weight_range_value( int $serial, string $name ): string {
 	<div class="add-new-row-button">
 		<div class="add-new-button-text">Add New</div>
 	</div>
-	<div class="help-tip"><?php esc_html_e( 'Fees for unit range weight for product shipping.', 'shipping-manager' ); ?></div>
+	<div class="help-tip"><?php esc_html_e( 'Fees for unit range weight for product shipping.', 'tps-manager' ); ?></div>
 </div>

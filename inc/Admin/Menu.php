@@ -38,8 +38,8 @@ class Menu {
 	public function add_menu(): void {
 		add_submenu_page(
 			'woocommerce',
-			__( 'Shipping Manager by Themepaste', 'shipping-manager' ),
-			__( 'Shipping Manager', 'shipping-manager' ),
+			__( 'Shipping Manager by Themepaste', 'tps-manager' ),
+			__( 'Shipping Manager', 'tps-manager' ),
 			'manage_options', // @TODO Add a new role and capability named `tsm_manager` || admin > shop_manager > tsm_manager
 			Routes::ROOT,
 			[ $this, 'render_menu_page' ]

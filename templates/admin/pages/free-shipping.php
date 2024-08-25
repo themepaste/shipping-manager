@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 <form class="tsm-admin-settings-form" method="POST">
   <?php tsm_admin_nonce_field(); ?>
   <div class="input-wrapper checkbox">
-    <lable for="<?php echo esc_attr( FreeShippingSettings::HIDE_OTHERS ); ?>"><?php esc_html_e( 'Hide Others', 'shipping-manager' ); ?></lable>
+    <lable for="<?php echo esc_attr( FreeShippingSettings::HIDE_OTHERS ); ?>"><?php esc_html_e( 'Hide Others', 'tps-manager' ); ?></lable>
     <input
       type="checkbox"
       id="<?php echo esc_attr( FreeShippingSettings::HIDE_OTHERS ); ?>"
@@ -24,7 +24,7 @@ defined( 'ABSPATH' ) || exit;
     <div class="help-tip"><?php esc_html_e( "Hide other shipping methods while free shipping is available." ); ?></div>
   </div>
   <div class="input-wrapper checkbox">
-    <lable for="<?php echo esc_attr( FreeShippingSettings::FREE_SHIPPING_BAR ); ?>"><?php esc_html_e( 'Free Shipping Bar', 'shipping-manager' ); ?></lable>
+    <lable for="<?php echo esc_attr( FreeShippingSettings::FREE_SHIPPING_BAR ); ?>"><?php esc_html_e( 'Free Shipping Bar', 'tps-manager' ); ?></lable>
     <input
       type="checkbox"
       id="<?php echo esc_attr( FreeShippingSettings::FREE_SHIPPING_BAR ); ?>"
@@ -35,7 +35,7 @@ defined( 'ABSPATH' ) || exit;
     <div class="help-tip"><?php esc_html_e( "Enable free shipping bar for customers. Customers will see a bar for target to achieve free shipping." ); ?></div>
   </div>
   <div class="input-wrapper checkbox">
-    <lable for="<?php echo esc_attr( FreeShippingSettings::MINIMUM_AMOUNT ); ?>"><?php esc_html_e( 'Minimum Amount', 'shipping-manager' ); ?></lable>
+    <lable for="<?php echo esc_attr( FreeShippingSettings::MINIMUM_AMOUNT ); ?>"><?php esc_html_e( 'Minimum Amount', 'tps-manager' ); ?></lable>
     <input
       type="checkbox"
       id="<?php echo esc_attr( FreeShippingSettings::MINIMUM_AMOUNT ); ?>"
@@ -46,7 +46,7 @@ defined( 'ABSPATH' ) || exit;
     <div class="help-tip"><?php esc_html_e( "This will enable a custom minimum amount for free shipping. Otherwise it will use default minimum amount set in WooCommerce free shipping." ); ?></div>
   </div>
   <div class="input-wrapper amount">
-    <lable for="<?php echo esc_attr( FreeShippingSettings::CART_AMOUNT ); ?>"><?php esc_html_e( 'Cart Amount', 'shipping-manager' ); ?></lable>
+    <lable for="<?php echo esc_attr( FreeShippingSettings::CART_AMOUNT ); ?>"><?php esc_html_e( 'Cart Amount', 'tps-manager' ); ?></lable>
     <input
       type="text"
       id="<?php echo esc_attr( FreeShippingSettings::CART_AMOUNT ); ?>"
@@ -56,7 +56,7 @@ defined( 'ABSPATH' ) || exit;
     <div class="help-tip"><?php esc_html_e( "Cart minimum amount for free shipping." ); ?></div>
   </div>
   <div class="input-wrapper checkbox">
-    <lable for="<?php echo esc_attr( FreeShippingSettings::AFTER_COUPON ); ?>"><?php esc_html_e( 'After Coupon', 'shipping-manager' ); ?></lable>
+    <lable for="<?php echo esc_attr( FreeShippingSettings::AFTER_COUPON ); ?>"><?php esc_html_e( 'After Coupon', 'tps-manager' ); ?></lable>
     <input
       type="checkbox"
       id="<?php echo esc_attr( FreeShippingSettings::AFTER_COUPON ); ?>"

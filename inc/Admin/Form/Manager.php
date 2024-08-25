@@ -61,7 +61,7 @@ class Manager {
 					break;
 			}
 		} else {
-			tsm_admin_message( __( 'Authentication failed.', 'shipping-manager' ), Messages::TYPES[0] );
+			tsm_admin_message( __( 'Authentication failed.', 'tps-manager' ), Messages::TYPES[0] );
 		}
 	}
 

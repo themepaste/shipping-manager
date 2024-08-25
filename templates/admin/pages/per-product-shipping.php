@@ -14,7 +14,7 @@ use \Themepaste\ShippingManager\Models\PerProductShippingSettings;
 
 	<?php tsm_admin_nonce_field(); ?>
   <div  class="input-wrapper checkbox">
-    <label for="<?php echo esc_attr( PerProductShippingSettings::PER_PRODUCT_SHIPPING ); ?>"><?php esc_html_e( 'Enable Per Product Shipping', 'shipping-manager' ); ?></label>
+    <label for="<?php echo esc_attr( PerProductShippingSettings::PER_PRODUCT_SHIPPING ); ?>"><?php esc_html_e( 'Enable Per Product Shipping', 'tps-manager' ); ?></label>
     <input
       type="checkbox"
       id="<?php echo esc_attr( PerProductShippingSettings::PER_PRODUCT_SHIPPING ); ?>"
@@ -26,7 +26,7 @@ use \Themepaste\ShippingManager\Models\PerProductShippingSettings;
   </div>
 
   <div  class="input-wrapper checkbox">
-    <label for="<?php echo esc_attr( PerProductShippingSettings::OVERRIDE_OTHERS ); ?>"><?php esc_html_e( 'Override Others', 'shipping-manager' ); ?></label>
+    <label for="<?php echo esc_attr( PerProductShippingSettings::OVERRIDE_OTHERS ); ?>"><?php esc_html_e( 'Override Others', 'tps-manager' ); ?></label>
     <input
       type="checkbox"
       id="<?php echo esc_attr( PerProductShippingSettings::OVERRIDE_OTHERS ); ?>"
@@ -38,6 +38,6 @@ use \Themepaste\ShippingManager\Models\PerProductShippingSettings;
   </div>
 
   <div class="input-wrapper submit">
-    <button class="woocommerce-save-button components-button is-primary" value="free-shipping"><?php esc_html_e( 'Save', 'shipping-manager' ); ?></button>
+    <button class="woocommerce-save-button components-button is-primary" value="free-shipping"><?php esc_html_e( 'Save', 'tps-manager' ); ?></button>
   </div>
 </form>

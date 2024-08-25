@@ -45,11 +45,11 @@ class Controller {
 	 */
 	public function page_title( string  $page ): string {
 		$page_title = [
-			Routes::SHIPPING_FEES => __( 'Shipping Fees', 'shipping-manager' ),
-			Routes::FREE_SHIPPING => __( 'Free Shipping', 'shipping-manager' ),
-			Routes::PER_PRODUCT_SHIPPING => __( 'Per Product Shipping', 'shipping-manager' ),
-			Routes::PRODUCT_PAGE_SHIPPING => __( 'Product Page Shipping', 'shipping-manager' ),
-			Routes::TRACK_SHIPPING => __( 'Track Shipping', 'shipping-manager' ),
+			Routes::SHIPPING_FEES => __( 'Shipping Fees', 'tps-manager' ),
+			Routes::FREE_SHIPPING => __( 'Free Shipping', 'tps-manager' ),
+			Routes::PER_PRODUCT_SHIPPING => __( 'Per Product Shipping', 'tps-manager' ),
+			Routes::PRODUCT_PAGE_SHIPPING => __( 'Product Page Shipping', 'tps-manager' ),
+			Routes::TRACK_SHIPPING => __( 'Track Shipping', 'tps-manager' ),
 		];
 
 		return $page_title[ $page ] ?? '';
