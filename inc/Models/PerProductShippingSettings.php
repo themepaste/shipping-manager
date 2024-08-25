@@ -25,6 +25,6 @@ class PerProductShippingSettings extends Model {
 	];
 
 	public function __construct() {
-		parent::__construct( 'tsm_per_product_shipping' );
+		parent::__construct( 'tps_manager_per_product_shipping' );
 	}
 }

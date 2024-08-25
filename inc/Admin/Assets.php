@@ -145,9 +145,9 @@ class Assets {
 	 * @return void
 	 */
 	public function enqueue_admin_assets() {
-		if ( tsm_is_admin_dashboard() ) {
+		if ( tps_manager_is_admin_dashboard() ) {
 			wp_enqueue_style( self::GENERAL_STYLE );
-			switch ( tsm_current_admin_settings_page() ) {
+			switch ( tps_manager_current_admin_settings_page() ) {
 				case Routes::SHIPPING_FEES:
 					wp_enqueue_script( self::SHIPPING_FEES_SCRIPT );
 					break;
@@ -169,7 +169,7 @@ class Assets {
 	 */
 	public function enqueue_frontend_assets() {
 		$product_page_shipping_enabled = ( new ProductPageShippingSettings() )->fetch()->get( ProductPageShippingSettings::PRODUCT_PAGE_SHIPPING );
-		if ( tsm_is_checked( $product_page_shipping_enabled, false, Constants::YES ) ) {
+		if ( tps_manager_is_checked( $product_page_shipping_enabled, false, Constants::YES ) ) {
 			if ( tps_manager_is_single_product_page() ) {
 				wp_enqueue_script( self::PRODUCT_PAGE_SHIPPING_SCRIPT );
 				wp_set_script_translations ( self::PRODUCT_PAGE_SHIPPING_SCRIPT, 'tps-manager' );

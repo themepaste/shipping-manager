@@ -80,7 +80,7 @@ class ShippingMethod extends WC_Shipping_Method {
 	 * @return void
 	 */
 	public function calculate_shipping( $package = [] ) {
-		$cost = apply_filters( 'tsm_additional_shipping_cost', 0.00, $package );
+		$cost = apply_filters( 'tps_manager_additional_shipping_cost', 0.00, $package );
 		$rate = [
 			'label'   => $this->settings['title'],
 			'cost'    => $cost,

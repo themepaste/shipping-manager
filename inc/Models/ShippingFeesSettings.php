@@ -50,6 +50,6 @@ class ShippingFeesSettings extends Model {
 	 * @since TSM_SINCE
 	 */
 	public function __construct() {
-		parent::__construct( 'tsm_shipping_fees' );
+		parent::__construct( 'tps_manager_shipping_fees' );
 	}
 }

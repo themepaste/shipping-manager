@@ -30,8 +30,8 @@ class Controller {
 	 */
 	public function __construct() {
 		add_action( 'init', [ $this, 'process_post_request' ] );
-		add_action( 'tsm_render_admin_root_page', [ $this, 'render_admin_root_page' ] );
-		add_filter( 'tsm_template_page_title', [ $this, 'page_title' ] );
+		add_action( 'tps_manager_render_admin_root_page', [ $this, 'render_admin_root_page' ] );
+		add_filter( 'tps_manager_template_page_title', [ $this, 'page_title' ] );
 	}
 
 	/**
@@ -79,11 +79,11 @@ class Controller {
 	 * @return string
 	 */
 	public function current_page(): string {
-		$tsm_page = isset( $_GET['tsm-page'] ) ? sanitize_text_field( $_GET['tsm-page'] ) : ''; // WP admin URL parameter
+		$tps_manager_page = isset( $_GET['tsm-page'] ) ? sanitize_text_field( $_GET['tsm-page'] ) : ''; // WP admin URL parameter
 		$template = ( ShippingManager::get_instance( Template::INSTANCE_KEY ) );
 		if ( $this->is_admin_dashboard() ) {
-			if ( in_array( $tsm_page, $template->get_pages() ) ) {
-				return $tsm_page;
+			if ( in_array( $tps_manager_page, $template->get_pages() ) ) {
+				return $tps_manager_page;
 			}
 		}
 		return $template->get_default_page();
@@ -139,9 +139,9 @@ class Controller {
 		 *
 		 * @return array Array with loaded data
 		 */
-		$data = apply_filters( 'tsm_fetch_admin_form_data', $page, $data );
+		$data = apply_filters( 'tps_manager_fetch_admin_form_data', $page, $data );
 
-		tsm_template( 'admin/index', compact( 'page', 'data' ) );
+		tps_manager_template( 'admin/index', compact( 'page', 'data' ) );
 	}
 
 	/**
@@ -164,7 +164,7 @@ class Controller {
 			 *
 			 * @retun void
 			 */
-			do_action( 'tsm_process_admin_form_data', $page );
+			do_action( 'tps_manager_process_admin_form_data', $page );
 		}
 	}
 

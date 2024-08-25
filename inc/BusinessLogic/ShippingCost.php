@@ -25,7 +25,7 @@ class ShippingCost {
 	 * @since TSM_SINCE
 	 */
 	public function __construct() {
-		add_filter( 'tsm_additional_shipping_cost', [ $this, 'additional_cost' ], 10, 2 );
+		add_filter( 'tps_manager_additional_shipping_cost', [ $this, 'additional_cost' ], 10, 2 );
 	}
 
 	/**
@@ -44,7 +44,7 @@ class ShippingCost {
 			WeightFee::RULES_KEY => WeightFee::class,
 		];
 
-		$list_of_rules = apply_filters( 'tsm_shipping_cost_rules_list', $list_of_rules, $package );
+		$list_of_rules = apply_filters( 'tps_manager_shipping_cost_rules_list', $list_of_rules, $package );
 
 		foreach( $list_of_rules as $rule ) {
 			$rule_object = new $rule( $package );

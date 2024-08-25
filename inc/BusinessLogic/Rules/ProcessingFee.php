@@ -28,7 +28,7 @@ class ProcessingFee extends AbstractRules implements RulesInterface {
 	public function calculate(): float {
 		$cost = 0.00;
 		$shipping_fees = new ShippingFeesSettings();
-		if ( tsm_is_checked( $shipping_fees->fetch()->get( ShippingFeesSettings::ENABLE_PROCESSING_FEES ), false ) ) {
+		if ( tps_manager_is_checked( $shipping_fees->fetch()->get( ShippingFeesSettings::ENABLE_PROCESSING_FEES ), false ) ) {
 			$cost = $shipping_fees->get( ShippingFeesSettings::PROCESSING_FEES_AMOUNT );
 		}
 		return $cost;

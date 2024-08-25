@@ -16,40 +16,40 @@ use Themepaste\ShippingManager\Admin\Routes;
   <ul>
     <li>
       <a
-        class='<?php tsm_is_active_menu( Routes::SHIPPING_FEES, 'active' ); ?>'
-        href='<?php echo esc_attr( tsm_url( Routes::SHIPPING_FEES ) ); ?>'
+        class='<?php tps_manager_is_active_menu( Routes::SHIPPING_FEES, 'active' ); ?>'
+        href='<?php echo esc_attr( tps_manager_url( Routes::SHIPPING_FEES ) ); ?>'
       >
           <?php esc_html_e( 'Shipping Fees', 'tps-manager' ); ?>
       </a>
     </li>
     <li>
       <a
-        class='<?php tsm_is_active_menu( Routes::FREE_SHIPPING, 'active' ); ?>'
-        href='<?php echo esc_attr( tsm_url( Routes::FREE_SHIPPING ) ); ?>'
+        class='<?php tps_manager_is_active_menu( Routes::FREE_SHIPPING, 'active' ); ?>'
+        href='<?php echo esc_attr( tps_manager_url( Routes::FREE_SHIPPING ) ); ?>'
       >
           <?php esc_html_e( 'Free Shipping', 'tps-manager' ); ?>
       </a>
     </li>
     <li>
       <a
-        class='<?php tsm_is_active_menu( Routes::PER_PRODUCT_SHIPPING, 'active' ); ?>'
-        href='<?php echo esc_attr( tsm_url( Routes::PER_PRODUCT_SHIPPING ) ); ?>'
+        class='<?php tps_manager_is_active_menu( Routes::PER_PRODUCT_SHIPPING, 'active' ); ?>'
+        href='<?php echo esc_attr( tps_manager_url( Routes::PER_PRODUCT_SHIPPING ) ); ?>'
       >
           <?php esc_html_e( 'Per Product Shipping', 'tps-manager' ); ?>
       </a>
     </li>
     <li>
       <a
-        class='<?php tsm_is_active_menu( Routes::PRODUCT_PAGE_SHIPPING, 'active' ); ?>'
-        href='<?php echo esc_attr( tsm_url( Routes::PRODUCT_PAGE_SHIPPING ) ); ?>'
+        class='<?php tps_manager_is_active_menu( Routes::PRODUCT_PAGE_SHIPPING, 'active' ); ?>'
+        href='<?php echo esc_attr( tps_manager_url( Routes::PRODUCT_PAGE_SHIPPING ) ); ?>'
       >
           <?php esc_html_e( 'Product Page Shipping', 'tps-manager' ); ?>
       </a>
     </li>
 <!--    <li>-->
 <!--      <a-->
-<!--        class='--><?php //tsm_is_active_menu( Routes::TRACK_SHIPPING, 'active' ); ?><!--'-->
-<!--        href='--><?php //echo esc_attr( tsm_url( Routes::TRACK_SHIPPING ) ); ?><!--'-->
+<!--        class='--><?php //tps_manager_is_active_menu( Routes::TRACK_SHIPPING, 'active' ); ?><!--'-->
+<!--        href='--><?php //echo esc_attr( tps_manager_url( Routes::TRACK_SHIPPING ) ); ?><!--'-->
 <!--      >-->
 <!--          --><?php //esc_html_e( 'Track Shipping', 'tps-manager' ); ?>
 <!--      </a>-->

@@ -21,7 +21,7 @@ class ProductPageShipping {
 
     public function __construct() {
       $product_page_shipping = new ProductPageShippingSettings();
-      if ( tsm_is_checked( $product_page_shipping->fetch()->get( ProductPageShippingSettings::PRODUCT_PAGE_SHIPPING ), false ) ) {
+      if ( tps_manager_is_checked( $product_page_shipping->fetch()->get( ProductPageShippingSettings::PRODUCT_PAGE_SHIPPING ), false ) ) {
         add_action( 'woocommerce_after_add_to_cart_form', [ $this, 'render_shipping_calculator_form' ] );
         add_action('wp_ajax_calculate_shipping', [ $this, 'handle_calculate_shipping' ] );
         add_action('wp_ajax_nopriv_calculate_shipping', [ $this, 'handle_calculate_shipping' ] );
@@ -59,7 +59,7 @@ class ProductPageShipping {
 	  if ( ! is_product() ) {
 		return;
 	  }
-	  tsm_template( 'frontend/product-page-shipping/customer-address' );
+	  tps_manager_template( 'frontend/product-page-shipping/customer-address' );
     }
 
 	/**

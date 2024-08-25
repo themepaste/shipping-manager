@@ -27,5 +27,4 @@ trait Parser {
 		}
 		return $data;
 	}
-
 }

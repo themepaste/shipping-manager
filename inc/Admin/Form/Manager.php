@@ -31,8 +31,8 @@ class Manager {
 	 * @retun void
 	 */
 	public function __construct() {
-		add_action( 'tsm_process_admin_form_data', [ $this, 'map_submission' ] );
-		add_action( 'tsm_fetch_admin_form_data', [ $this, 'map_data' ], 10, 2 );
+		add_action( 'tps_manager_process_admin_form_data', [ $this, 'map_submission' ] );
+		add_action( 'tps_manager_fetch_admin_form_data', [ $this, 'map_data' ], 10, 2 );
 	}
 
 	/**
@@ -47,13 +47,13 @@ class Manager {
 	public function map_submission( string $page ) {
 		if ( ( new Authentication() )->is_authenticated( $page ) ) {
 			switch ( $page ) {
-				case tsm_get_page( Routes::FREE_SHIPPING ):
+				case tps_manager_get_page( Routes::FREE_SHIPPING ):
 					( new FreeShipping() )->process();
 					break;
-				case tsm_get_page( Routes::PER_PRODUCT_SHIPPING ):
+				case tps_manager_get_page( Routes::PER_PRODUCT_SHIPPING ):
 					( new PerProductShipping() )->process();
 					break;
-				case tsm_get_page( Routes::PRODUCT_PAGE_SHIPPING ):
+				case tps_manager_get_page( Routes::PRODUCT_PAGE_SHIPPING ):
 					( new ProductPageShipping() )->process();
 					break;
 				default:
@@ -61,7 +61,7 @@ class Manager {
 					break;
 			}
 		} else {
-			tsm_admin_message( __( 'Authentication failed.', 'tps-manager' ), Messages::TYPES[0] );
+			tps_manager_admin_message( __( 'Authentication failed.', 'tps-manager' ), Messages::TYPES[0] );
 		}
 	}
 
@@ -78,16 +78,16 @@ class Manager {
 	public function map_data( string $page, array $data ): array {
 		$fetched_data = [];
 		switch ( $page ) {
-			case tsm_get_page( Routes::SHIPPING_FEES ):
+			case tps_manager_get_page( Routes::SHIPPING_FEES ):
 				$fetched_data = ( new ShippingFeesSettings() )->fetch()->get();
 				break;
-			case tsm_get_page( Routes::FREE_SHIPPING ):
+			case tps_manager_get_page( Routes::FREE_SHIPPING ):
 				$fetched_data = ( new FreeShippingSettings() )->fetch()->get();
 				break;
-			case tsm_get_page( Routes::PER_PRODUCT_SHIPPING ):
+			case tps_manager_get_page( Routes::PER_PRODUCT_SHIPPING ):
 				$fetched_data = ( new PerProductShippingSettings() )->fetch()->get();
 				break;
-			case tsm_get_page( Routes::PRODUCT_PAGE_SHIPPING ):
+			case tps_manager_get_page( Routes::PRODUCT_PAGE_SHIPPING ):
 				$fetched_data = ( new ProductPageShippingSettings() )->fetch()->get();
 				break;
 			default:

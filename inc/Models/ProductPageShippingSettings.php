@@ -23,6 +23,6 @@ class ProductPageShippingSettings extends Model {
 	];
 
 	public function __construct() {
-		parent::__construct( 'tsm_product_page_shipping' );
+		parent::__construct( 'tps_manager_product_page_shipping' );
 	}
 }

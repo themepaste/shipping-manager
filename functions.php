@@ -27,7 +27,7 @@ use Themepaste\ShippingManager\{
  *
  * @return string
  */
-function tsm_get_page( string $route_name ): string {
+function tps_manager_get_page( string $route_name ): string {
 	$all_routes = ShippingManager::get_instance( Routes::INSTANCE_KEY )->get_all_routes();
 	return $all_routes[ $route_name ][ 'tsm-page' ] ?? '';
 }
@@ -42,11 +42,11 @@ function tsm_get_page( string $route_name ): string {
  *
  * @return bool
  */
-function tsm_template( string $template, array $args = [] ): bool {
+function tps_manager_template( string $template, array $args = [] ): bool {
 	return ( ShippingManager::get_instance( Template::INSTANCE_KEY ) )->load_template( $template, $args );
 }
 
-function tsm_template_parts( string $template ): bool {
+function tps_manager_template_parts( string $template ): bool {
 	return ( ShippingManager::get_instance( Template::INSTANCE_KEY ) )->load_template_parts( $template );
 }
 
@@ -57,7 +57,7 @@ function tsm_template_parts( string $template ): bool {
  *
  * @return bool
  */
-function tsm_is_admin_dashboard(): bool {
+function tps_manager_is_admin_dashboard(): bool {
 	return (ShippingManager::get_instance( Controller::INSTANCE_KEY ) )->is_admin_dashboard();
 }
 
@@ -68,7 +68,7 @@ function tsm_is_admin_dashboard(): bool {
  *
  * @retun string
  */
-function tsm_current_admin_settings_page(): string {
+function tps_manager_current_admin_settings_page(): string {
 	return (ShippingManager::get_instance( Controller::INSTANCE_KEY ) )->current_page();
 }
 
@@ -81,7 +81,7 @@ function tsm_current_admin_settings_page(): string {
  *
  * @return string
  */
-function tsm_url( string $route_name ): string {
+function tps_manager_url( string $route_name ): string {
 	return (ShippingManager::get_instance( Routes::INSTANCE_KEY ) )->get_url( $route_name );
 }
 
@@ -95,7 +95,7 @@ function tsm_url( string $route_name ): string {
  *
  * @return bool
  */
-function tsm_is_active_menu( string $route_name, string $class_name = '' ): bool {
+function tps_manager_is_active_menu( string $route_name, string $class_name = '' ): bool {
 	if ( ( ShippingManager::get_instance( Controller::INSTANCE_KEY ) )->is_current_page( $route_name ) ) {
 		if ( ! empty( $class_name ) ) {
 			echo esc_attr( $class_name );
@@ -113,10 +113,10 @@ function tsm_is_active_menu( string $route_name, string $class_name = '' ): bool
  *
  * @return void
  */
-function tsm_admin_nonce_field() {
+function tps_manager_admin_nonce_field() {
 	( new FormAuthentication() )
 		->nonce_field(
-			tsm_current_admin_settings_page()
+			tps_manager_current_admin_settings_page()
 		);
 }
 
@@ -130,7 +130,7 @@ function tsm_admin_nonce_field() {
  *
  * @return void
  */
-function tsm_admin_message( string $message, string $type = '' ) {
+function tps_manager_admin_message( string $message, string $type = '' ) {
 	( ShippingManager::get_instance( Messages::INSTANCE_KEY ) )
 		->add_message( $message, $type );
 }
@@ -146,7 +146,7 @@ function tsm_admin_message( string $message, string $type = '' ) {
  *
  * @return bool
  */
-function tsm_is_checked( string $value, bool $print = true, string $compare = '' ) {
+function tps_manager_is_checked( string $value, bool $print = true, string $compare = '' ) {
 	$status = false;
 	$compare = $compare === '' ? Constants::YES : $compare;
 	if ( $compare === $value ) {
