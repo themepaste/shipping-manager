@@ -35,6 +35,6 @@ use \Themepaste\ShippingManager\Models\ShippingFeesSettings;
 	</div>
   <?php tsm_template_parts( 'admin/pages/shipping-fees/weight-settings' ); ?>
   <div class="input-wrapper submit">
-    <button class="woocommerce-save-button components-button is-primary" value="free-shipping"><?php esc_html_e( 'Save', 'free-shipping' ); ?></button>
+    <button class="woocommerce-save-button components-button is-primary" value="free-shipping"><?php esc_html_e( 'Save', 'tps-manager' ); ?></button>
   </div>
 </form>

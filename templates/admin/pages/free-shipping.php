@@ -32,7 +32,7 @@ defined( 'ABSPATH' ) || exit;
       value="<?php echo esc_attr( Constants::YES ); ?>"
 		  <?php tsm_is_checked( $data[ FreeShippingSettings::FREE_SHIPPING_BAR ] ); ?>
     >
-    <div class="help-tip"><?php esc_html_e( "Enable free shipping bar for customers. Customers will see a bar for target to achieve free shipping." ); ?></div>
+    <div class="help-tip"><?php esc_html_e( "Enable free shipping bar for customers. Customers will see a bar for target to achieve free shipping.", 'tps-manager' ); ?></div>
   </div>
   <div class="input-wrapper checkbox">
     <lable for="<?php echo esc_attr( FreeShippingSettings::MINIMUM_AMOUNT ); ?>"><?php esc_html_e( 'Minimum Amount', 'tps-manager' ); ?></lable>
@@ -67,6 +67,6 @@ defined( 'ABSPATH' ) || exit;
     <div class="help-tip"><?php esc_html_e( "Enable this to calculate free shipping after coupon discount has been applied for product." ); ?></div>
   </div>
   <div class="input-wrapper submit">
-    <button class="woocommerce-save-button components-button is-primary" value="free-shipping"><?php esc_html_e( 'Save', 'free-shipping' ); ?></button>
+    <button class="woocommerce-save-button components-button is-primary" value="free-shipping"><?php esc_html_e( 'Save', 'tps-manager' ); ?></button>
   </div>
 </form>

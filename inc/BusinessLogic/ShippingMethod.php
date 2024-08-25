@@ -58,7 +58,7 @@ class ShippingMethod extends WC_Shipping_Method {
 			'enabled' => [
 				'title'       => __( 'Enable', 'tps-manager' ),
 				'type'        => 'checkbox',
-				'description' => __( 'Enable Shipping Manager' ),
+				'description' => __( 'Enable Shipping Manager', 'tps-manager' ),
 				'default'     => Constants::YES,
 			],
 			'title' => [
