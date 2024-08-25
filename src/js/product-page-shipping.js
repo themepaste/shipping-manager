@@ -11,6 +11,7 @@ const { __ } = wp.i18n;
             url: woocommerce_params.ajax_url,
             data: {
                 action: 'calculate_shipping',
+                rates_nonce: tps_manager.rates_nonce,
                 country: country,
                 postcode: postcode,
                 product_id: tps_manager.product_id,

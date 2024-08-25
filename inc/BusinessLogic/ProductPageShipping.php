@@ -12,8 +12,12 @@ defined( 'ABSPATH' ) || exit;
  * @since TSM_SINCE
  */
 class ProductPageShipping {
-
+	/**
+	 * Instance key to include
+	 */
     const INSTANCE_KEY = 'business_logic_product_page_shipping';
+
+	const AJAX_NONCE_HANDLE_RATES = 'tps-manager-shipping-rates-nonce';
 
     public function __construct() {
       $product_page_shipping = new ProductPageShippingSettings();
@@ -33,56 +37,53 @@ class ProductPageShipping {
      * @return void
 	  */
     public function add_data_to_script() {
-//		if (  )
         global $post;
-        wp_localize_script( Assets::PRODUCT_PAGE_SHIPPING_SCRIPT, 'tps_manager', [ 'product_id' => $post->ID ] );
+        wp_localize_script(
+			Assets::PRODUCT_PAGE_SHIPPING_SCRIPT,
+			'tps_manager',
+			[
+				'rates_nonce' => wp_create_nonce( self::AJAX_NONCE_HANDLE_RATES ),
+				'product_id' => $post->ID
+			]
+		);
     }
 
+	/**
+	 * Renders shipping calculator form on single product page
+	 *
+	 * @since TSM_SINCE
+	 *
+	 * @return void
+	 */
     public function render_shipping_calculator_form() {
-      if ( ! is_product() ) {
-        return;
-      }
-
-      // Get the current product's ID
-      global $product;
-      $product_id = $product->get_id();
-
-      // Create the shipping calculator form
-      echo '<div class="shipping-calculator-wrapper">';
-      echo '<h2>' . esc_html__('Calculate Shipping', 'woocommerce') . '</h2>';
-      echo '<form class="woocommerce-shipping-calculator" action="" method="post">';
-
-      // Country dropdown
-      echo '<p class="form-row form-row-wide">';
-      echo '<label for="calc_shipping_country">' . esc_html__('Country', 'woocommerce') . '</label>';
-      echo '<select name="calc_shipping_country" id="calc_shipping_country">';
-      echo '<option value="">' . esc_html__('Select a country...', 'woocommerce') . '</option>';
-      foreach (WC()->countries->get_shipping_countries() as $key => $value) {
-        echo '<option value="' . esc_attr($key) . '">' . esc_html($value) . '</option>';
-      }
-      echo '</select>';
-      echo '</p>';
-
-      // Postcode input
-      echo '<p class="form-row form-row-wide">';
-      echo '<label for="calc_shipping_postcode">' . esc_html__('Postcode / ZIP', 'woocommerce') . '</label>';
-      echo '<input type="text" name="calc_shipping_postcode" id="calc_shipping_postcode" />';
-      echo '</p>';
-
-      // Calculate button
-      echo '<button type="submit" name="calc_shipping" value="1" class="button">' . esc_html__('Calculate Shipping', 'woocommerce') . '</button>';
-      echo '</form>';
-      echo '</div>';
-      echo '<div class="tsm-shipping-result"></div>';
+	  if ( ! is_product() ) {
+		return;
+	  }
+	  tsm_template( 'frontend/product-page-shipping/customer-address' );
     }
 
+	/**
+	 * Calculate shipping fees and return response
+	 *
+	 * @since TSM_SINCE
+	 *
+	 * @return void
+	 */
     public function handle_calculate_shipping() {
+		if ( ! check_ajax_referer( self::AJAX_NONCE_HANDLE_RATES, 'rates_nonce', false ) ) {
+			wp_send_json_error( [
+				'message' => esc_html__( 'Nonce not valid', 'tps-manager' )
+			] );
+			wp_die();
+		}
       $country = isset($_POST['country']) ? sanitize_text_field($_POST['country']) : '';
       $postcode = isset($_POST['postcode']) ? sanitize_text_field($_POST['postcode']) : '';
       $product_id = isset($_POST['product_id']) ? sanitize_text_field($_POST['product_id']) : '';
 
       if (empty($country) || empty($postcode)) {
-        echo esc_html__('Please enter both a country and a postcode.', 'woocommerce');
+		  wp_send_json_error(
+			[ 'message' => esc_html__( 'Please enter both a country and a postcode.', 'tps-manager' ) ]
+		  );
         wp_die();
       }
 
