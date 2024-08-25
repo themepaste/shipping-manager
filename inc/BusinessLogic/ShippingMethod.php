@@ -9,7 +9,7 @@ use \WC_Shipping_Method;
 /**
  * Extended shipping method to be activated and applied by WooCommerce admin
  *
- * @since TPS_MANAGER_SINCE
+ * @since 1.1.1
  */
 class ShippingMethod extends WC_Shipping_Method {
 
@@ -18,7 +18,7 @@ class ShippingMethod extends WC_Shipping_Method {
 	/**
 	 * Mandatory shipping details
 	 *
-	 * @since TPS_MANAGER_SINCE
+	 * @since 1.1.1
 	 */
 	public function __construct() {
 		parent::__construct();
@@ -35,7 +35,7 @@ class ShippingMethod extends WC_Shipping_Method {
 	/**
 	 * Initialize Shipping Manager Custom shipping method
 	 *
-	 * @since TPS_MANAGER_SINCE
+	 * @since 1.1.1
 	 *
 	 * @return void
 	 */
@@ -49,7 +49,7 @@ class ShippingMethod extends WC_Shipping_Method {
 	/**
 	 * From fields to be filled and configured by WooCommerce admin
 	 *
-	 * @since TPS_MANAGER_SINCE
+	 * @since 1.1.1
 	 *
 	 * @return void
 	 */
@@ -73,7 +73,7 @@ class ShippingMethod extends WC_Shipping_Method {
 	/**
 	 * Calculates shipping fees for shipping manager
 	 *
-	 * @since TPS_MANAGER_SINCE
+	 * @since 1.1.1
 	 *
 	 * @param array $package
 	 *

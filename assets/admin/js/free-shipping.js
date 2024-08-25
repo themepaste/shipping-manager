@@ -6,7 +6,7 @@ var __webpack_exports__ = {};
 /**
  * Admin settings script for free-shipping page
  *
- * @since TPS_MANAGER_SINCE
+ * @since 1.1.1
  */
 const INPUT_WRAPPER = '.input-wrapper';
 const MINIMUM_AMOUNT_ID = '#minimum-amount';
@@ -17,7 +17,7 @@ const DISPLAY_TYPE = 'medium';
     /**
      * Minimum amount toggle
      *
-     * @since TPS_MANAGER_SINCE
+     * @since 1.1.1
      */
     function cart_amount() {
       let minimum_amount_field = $(MINIMUM_AMOUNT_ID);

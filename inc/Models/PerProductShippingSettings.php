@@ -8,13 +8,13 @@ use Themepaste\ShippingManager\Constants;
 /**
  * Data source for per product shipping
  *
- * @since TPS_MANAGER_SINCE
+ * @since 1.1.1
  */
 class PerProductShippingSettings extends Model {
 	/**
 	 * List of keys
 	 *
-	 * @since TPS_MANAGER_SINCE
+	 * @since 1.1.1
 	 */
 	const PER_PRODUCT_SHIPPING = 'enable-per-product-shipping';
 	const OVERRIDE_OTHERS = 'override-others';

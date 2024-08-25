@@ -8,20 +8,20 @@ use Themepaste\ShippingManager\Models\ShippingFeesSettings;
 /**
  * Enforces rules interface
  *
- * @since TPS_MANAGER_SINCE
+ * @since 1.1.1
  */
 class WeightFee extends AbstractRules implements RulesInterface {
 	/**
 	 * Unique name for rules
 	 *
-	 * @since TPS_MANAGER_SINCE
+	 * @since 1.1.1
 	 */
 	const RULES_KEY = 'tsm-weight-fee';
 
 	/**
 	 * Calculates current rules fees
 	 *
-	 * @since TPS_MANAGER_SINCE
+	 * @since 1.1.1
 	 *
 	 * @return float
 	 */
