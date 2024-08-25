@@ -13,7 +13,7 @@ const DISPLAY_TYPE = 'medium';
     /**
      * Minimum amount toggle
      *
-     * @since TSM_SINCE
+     * @since TPS_MANAGER_SINCE
      */
     function cart_amount() {
         let minimum_amount_field = $( MINIMUM_AMOUNT_ID );

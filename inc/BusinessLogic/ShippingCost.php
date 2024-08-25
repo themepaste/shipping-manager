@@ -9,20 +9,20 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Calculates Shipping cost Rules
  *
- * @since TSM_SINCE
+ * @since TPS_MANAGER_SINCE
  */
 class ShippingCost {
 	/**
 	 * Unique object identifer key
 	 *
-	 * @since TSM_SINCE
+	 * @since TPS_MANAGER_SINCE
 	 */
 	const INSTANCE_KEY = 'business_logic_shipping_cost';
 
 	/**
 	 * Initializes hooks
 	 *
-	 * @since TSM_SINCE
+	 * @since TPS_MANAGER_SINCE
 	 */
 	public function __construct() {
 		add_filter( 'tps_manager_additional_shipping_cost', [ $this, 'additional_cost' ], 10, 2 );
@@ -31,7 +31,7 @@ class ShippingCost {
 	/**
 	 * Adds additional cost for shipping
 	 *
-	 * @since TSM_SINCE
+	 * @since TPS_MANAGER_SINCE
 	 *
 	 * @param float $cost
 	 * @param array $package

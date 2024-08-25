@@ -11,7 +11,7 @@ class ProductPageShipping implements Process {
 	/**
 	 * Processes free shipping submission
 	 *
-	 * @since TSM_SINCE
+	 * @since TPS_MANAGER_SINCE
 	 *
 	 * @return void
 	 */

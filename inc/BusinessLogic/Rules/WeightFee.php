@@ -8,20 +8,20 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Enforces rules interface
  *
- * @since TSM_SINCE
+ * @since TPS_MANAGER_SINCE
  */
 class WeightFee extends AbstractRules implements RulesInterface {
 	/**
 	 * Unique name for rules
 	 *
-	 * @since TSM_SINCE
+	 * @since TPS_MANAGER_SINCE
 	 */
 	const RULES_KEY = 'tsm-weight-fee';
 
 	/**
 	 * Calculates current rules fees
 	 *
-	 * @since TSM_SINCE
+	 * @since TPS_MANAGER_SINCE
 	 *
 	 * @return float
 	 */

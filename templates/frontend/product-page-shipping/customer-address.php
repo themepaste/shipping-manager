@@ -2,7 +2,7 @@
 /**
  * Product page shipping single product page shipping calculator customer form
  *
- * @since TSM_SINCE
+ * @since TPS_MANAGER_SINCE
  */
 defined('ABSPATH') || exit;
 ?>

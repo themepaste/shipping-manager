@@ -8,13 +8,13 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Datasource for free shipping
  *
- * @since TSM_SINCE
+ * @since TPS_MANAGER_SINCE
  */
 class ShippingFeesSettings extends Model {
 	/**
 	 * List of keys
 	 *
-	 * @since TSM_SINCE
+	 * @since TPS_MANAGER_SINCE
 	 */
 	const ENABLE_PROCESSING_FEES = 'enable-processing-fees';
 	const PROCESSING_FEES_AMOUNT = 'processing-fees-amount';
@@ -31,7 +31,7 @@ class ShippingFeesSettings extends Model {
 	/**
 	 * Declaring default settings
 	 *
-	 * @since TSM_SINCE
+	 * @since TPS_MANAGER_SINCE
 	 *
 	 * @var array
 	 */
@@ -47,7 +47,7 @@ class ShippingFeesSettings extends Model {
 	/**
 	 * Initializing option keys
 	 *
-	 * @since TSM_SINCE
+	 * @since TPS_MANAGER_SINCE
 	 */
 	public function __construct() {
 		parent::__construct( 'tps_manager_shipping_fees' );

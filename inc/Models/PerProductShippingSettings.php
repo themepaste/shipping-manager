@@ -8,13 +8,13 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Data source for per product shipping
  *
- * @since TSM_SINCE
+ * @since TPS_MANAGER_SINCE
  */
 class PerProductShippingSettings extends Model {
 	/**
 	 * List of keys
 	 *
-	 * @since TSM_SINCE
+	 * @since TPS_MANAGER_SINCE
 	 */
 	const PER_PRODUCT_SHIPPING = 'enable-per-product-shipping';
 	const OVERRIDE_OTHERS = 'override-others';

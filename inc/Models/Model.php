@@ -71,7 +71,7 @@ abstract class Model {
 	/**
 	 * Fetches data form data store
 	 *
-	 * @since TSM_SINCE
+	 * @since TPS_MANAGER_SINCE
 	 *
 	 * @return $this
 	 */
@@ -84,7 +84,7 @@ abstract class Model {
 	/**
 	 * Get all settings or a single settings from data
 	 *
-	 * @since TSM_SINCE
+	 * @since TPS_MANAGER_SINCE
 	 *
 	 * @param string $key
 	 *
@@ -101,7 +101,7 @@ abstract class Model {
 	/**
 	 * Set value for model
 	 *
-	 * @since TSM_SINCE
+	 * @since TPS_MANAGER_SINCE
 	 *
 	 * @param array $data
 	 *
@@ -119,7 +119,7 @@ abstract class Model {
 	/**
 	 * Returns all the settings fields
 	 *
-	 * @since TSM_SINCE
+	 * @since TPS_MANAGER_SINCE
 	 *
 	 * @return array
 	 */

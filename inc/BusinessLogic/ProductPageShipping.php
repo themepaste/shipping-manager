@@ -9,7 +9,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Frontend logic for product page shipping
  *
- * @since TSM_SINCE
+ * @since TPS_MANAGER_SINCE
  */
 class ProductPageShipping {
 	/**
@@ -32,7 +32,7 @@ class ProductPageShipping {
     /**
      * Adds data to frontend scripts for product page shipping
      *
-     * @since TSM_SINCE
+     * @since TPS_MANAGER_SINCE
      *
      * @return void
 	  */
@@ -51,7 +51,7 @@ class ProductPageShipping {
 	/**
 	 * Renders shipping calculator form on single product page
 	 *
-	 * @since TSM_SINCE
+	 * @since TPS_MANAGER_SINCE
 	 *
 	 * @return void
 	 */
@@ -65,7 +65,7 @@ class ProductPageShipping {
 	/**
 	 * Calculate shipping fees and return response
 	 *
-	 * @since TSM_SINCE
+	 * @since TPS_MANAGER_SINCE
 	 *
 	 * @return void
 	 */

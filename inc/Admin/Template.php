@@ -23,7 +23,7 @@ class Template {
 	 *
 	 * @since 1.1.0
 	 */
-	const TEMPLATE_ROOT_DIR = TSM_PLUGIN_ROOT_PATH . '/templates/';
+	const TEMPLATE_ROOT_DIR = TPS_MANAGER_PLUGIN_ROOT_PATH . '/templates/';
 
 	/**
 	 * Variable root template directory

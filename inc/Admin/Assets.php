@@ -66,10 +66,10 @@ class Assets {
 	 * @return string
 	 */
 	private function get_assets_url( string $relative_url_path = '' ): string {
-		if ( defined( 'TSM_DEVELOP') ) {
-			$assets_root_url = TSM_ASSET_ROOT_URL . 'assets/build/';
+		if ( defined( 'TPS_MANAGER_DEVELOP') ) {
+			$assets_root_url = TPS_MANAGER_ASSET_ROOT_URL . 'assets/build/';
 		} else {
-			$assets_root_url = TSM_ASSET_ROOT_URL . 'assets/';
+			$assets_root_url = TPS_MANAGER_ASSET_ROOT_URL . 'assets/';
 		}
 
 		return $assets_root_url . $relative_url_path;
@@ -83,7 +83,7 @@ class Assets {
 	 * @return string
 	 */
 	private function get_plugin_version(): string {
-		return TSM_SHIPPING_MANAGER_PLUGIN_VERSION;
+		return TPS_MANAGER_SHIPPING_MANAGER_PLUGIN_VERSION;
 	}
 
 	/**
@@ -163,7 +163,7 @@ class Assets {
 	/**
 	 * Loads frontend assets conditionally
 	 *
-	 * @since TSM_SINCE
+	 * @since TPS_MANAGER_SINCE
 	 *
 	 * @return void
 	 */

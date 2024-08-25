@@ -6,13 +6,13 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Rules abstraction
  *
- * @since TSM_SINCE
+ * @since TPS_MANAGER_SINCE
  */
 abstract class AbstractRules implements RulesInterface {
 	/**
 	 * Shipping package
 	 *
-	 * @since TSM_SINCE
+	 * @since TPS_MANAGER_SINCE
 	 *
 	 * @var array
 	 */
@@ -21,7 +21,7 @@ abstract class AbstractRules implements RulesInterface {
 	/**
 	 * Initializes shipping package
 	 *
-	 * @since TSM_SINCE
+	 * @since TPS_MANAGER_SINCE
 	 */
 	public function __construct( array $package = [] ) {
 		$this->package = $package;
@@ -30,7 +30,7 @@ abstract class AbstractRules implements RulesInterface {
 	/**
 	 * Adds specific rule cost to overall shipping cost
 	 *
-	 * @since TSM_SINCE
+	 * @since TPS_MANAGER_SINCE
 	 *
 	 * @param float $cost Total cost of shipping before additional shipping cost is calculated
 	 *
@@ -43,7 +43,7 @@ abstract class AbstractRules implements RulesInterface {
 	/**
 	 * Removes specific rule cost to overall shipping cost
 	 *
-	 * @since TSM_SINCE
+	 * @since TPS_MANAGER_SINCE
 	 *
 	 * @param float $cost Total cost of shipping after additional shipping cost is calculated
 	 *

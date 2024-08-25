@@ -8,13 +8,13 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Data source for per product shipping
  *
- * @since TSM_SINCE
+ * @since TPS_MANAGER_SINCE
  */
 class ProductPageShippingSettings extends Model {
 	/**
 	 * List of keys
 	 *
-	 * @since TSM_SINCE
+	 * @since TPS_MANAGER_SINCE
 	 */
 	const PRODUCT_PAGE_SHIPPING = 'enable-product-page-shipping';
 
