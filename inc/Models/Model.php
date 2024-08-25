@@ -39,7 +39,7 @@ abstract class Model {
 	 * @param $option_key
 	 */
 	public function __construct( $option_key ) {
-		$this->option_key = $option_key;
+		$this->option_key = 'tps_manager_' . $option_key;
 	}
 
 	/**
