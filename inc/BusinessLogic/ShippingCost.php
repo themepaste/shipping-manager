@@ -9,20 +9,20 @@ use Themepaste\ShippingManager\BusinessLogic\Rules\WeightFee;
 /**
  * Calculates Shipping cost Rules
  *
- * @since 1.1.1
+ * @since 1.2.1
  */
 class ShippingCost {
 	/**
 	 * Unique object identifer key
 	 *
-	 * @since 1.1.1
+	 * @since 1.2.1
 	 */
 	const INSTANCE_KEY = 'business_logic_shipping_cost';
 
 	/**
 	 * Initializes hooks
 	 *
-	 * @since 1.1.1
+	 * @since 1.2.1
 	 */
 	public function __construct() {
 		add_filter( 'tps_manager_additional_shipping_cost', [ $this, 'additional_cost' ], 10, 2 );
@@ -31,7 +31,7 @@ class ShippingCost {
 	/**
 	 * Adds additional cost for shipping
 	 *
-	 * @since 1.1.1
+	 * @since 1.2.1
 	 *
 	 * @param float $cost
 	 * @param array $package

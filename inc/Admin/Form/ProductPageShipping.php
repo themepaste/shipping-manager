@@ -13,7 +13,7 @@ class ProductPageShipping implements Process {
 	/**
 	 * Processes free shipping submission
 	 *
-	 * @since 1.1.1
+	 * @since 1.2.1
 	 *
 	 * @return void
 	 */

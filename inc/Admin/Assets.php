@@ -163,7 +163,7 @@ class Assets {
 	/**
 	 * Loads frontend assets conditionally
 	 *
-	 * @since 1.1.1
+	 * @since 1.2.1
 	 *
 	 * @return void
 	 */

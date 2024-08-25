@@ -6,7 +6,7 @@ Tested up to: 6.6
 WC requires at least: 6.6
 WC tested up to: 8.9
 Requires PHP: 7.4
-Stable tag: 1.1.1
+Stable tag: 1.2.1
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -23,7 +23,7 @@ You can find the full source code of the plugin here at github: https://github.c
 = 1.0.0 ( 11 June 2024 ) =
 * Initial Release
 
-= 1.1.1 ( 25 August 2024 ) =
+= 1.2.1 ( 25 August 2024 ) =
 * Prefix updated
 * Security fix
 * Source code optimized

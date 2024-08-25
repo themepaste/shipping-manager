@@ -161,7 +161,7 @@ function tps_manager_is_checked( string $value, bool $print = true, string $comp
 /**
  * Checks if current page is single product page
  *
- * @since 1.1.1
+ * @since 1.2.1
  *
  * @return bool
  */

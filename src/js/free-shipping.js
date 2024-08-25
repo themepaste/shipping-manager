@@ -13,7 +13,7 @@ const DISPLAY_TYPE = 'medium';
     /**
      * Minimum amount toggle
      *
-     * @since 1.1.1
+     * @since 1.2.1
      */
     function cart_amount() {
         let minimum_amount_field = $( MINIMUM_AMOUNT_ID );

@@ -6,13 +6,13 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Enforces rules interface
  *
- * @since 1.1.1
+ * @since 1.2.1
  */
 interface RulesInterface {
 	/**
 	 * Adds fees to the cost
 	 *
-	 * @since 1.1.1
+	 * @since 1.2.1
 	 *
 	 * @param float $cost
 	 *
@@ -23,7 +23,7 @@ interface RulesInterface {
 	/**
 	 * Removes fee from cost
 	 *
-	 * @since 1.1.1
+	 * @since 1.2.1
 	 *
 	 * @param float $cost
 	 *
@@ -34,7 +34,7 @@ interface RulesInterface {
 	/**
 	 * Calculates and returns shipping costs
 	 *
-	 * @since 1.1.1
+	 * @since 1.2.1
 	 *
 	 * @return float
 	 */

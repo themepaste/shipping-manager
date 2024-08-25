@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Shipping Manager
- * Version: 1.1.1
+ * Version: 1.2.1
  * Description: An simple plugin to manage your shipping
  * Requires Plugins: woocommerce
  * Text Domain: tps-manager
