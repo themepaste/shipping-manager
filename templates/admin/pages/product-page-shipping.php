@@ -4,10 +4,12 @@
  *
  * @since 1.1.0
  */
+
 defined( 'ABSPATH' ) || exit;
 
 use \Themepaste\ShippingManager\Constants;
 use \Themepaste\ShippingManager\Models\ProductPageShippingSettings;
+
 ?>
 
 <form class="tsm-admin-settings-form" method="POST">

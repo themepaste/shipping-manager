@@ -5,10 +5,11 @@
  * @since 1.1.0
  */
 
+defined( 'ABSPATH' ) || exit;
+
 use \Themepaste\ShippingManager\Constants;
 use \Themepaste\ShippingManager\Models\FreeShippingSettings;
 
-defined( 'ABSPATH' ) || exit;
 ?>
 <form class="tsm-admin-settings-form" method="POST">
   <?php tps_manager_admin_nonce_field(); ?>

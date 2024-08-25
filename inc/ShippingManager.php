@@ -1,6 +1,8 @@
 <?php
 namespace Themepaste\ShippingManager;
 
+defined( 'ABSPATH' ) || exit;
+
 use Themepaste\ShippingManager\Admin\{
 	Assets,
 	Controller,

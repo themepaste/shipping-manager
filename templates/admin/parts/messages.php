@@ -6,6 +6,7 @@
  */
 
 defined( 'ABSPATH' ) || exit;
+
 ?>
 <?php if ( ! empty( $messages ) ) : ?>
 	<?php foreach( $messages as $type => $specific_type_message ) : ?>

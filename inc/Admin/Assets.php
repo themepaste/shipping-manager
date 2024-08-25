@@ -1,10 +1,10 @@
 <?php
 namespace Themepaste\ShippingManager\Admin;
 
+defined( 'ABSPATH' ) || exit;
+
 use Themepaste\ShippingManager\Constants;
 use Themepaste\ShippingManager\Models\ProductPageShippingSettings;
-
-defined( 'ABSPATH' ) || exit;
 
 /**
  * Manages admin assets for admin settings

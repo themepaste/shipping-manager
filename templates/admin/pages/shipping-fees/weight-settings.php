@@ -1,4 +1,7 @@
 <?php
+
+defined( 'ABSPATH' ) || exit;
+
 use \Themepaste\ShippingManager\Constants;
 use \Themepaste\ShippingManager\Models\ShippingFeesSettings;
 

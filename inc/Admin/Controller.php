@@ -1,9 +1,9 @@
 <?php
 namespace Themepaste\ShippingManager\Admin;
 
-use Themepaste\ShippingManager\ShippingManager;
-
 defined( 'ABSPATH' ) || exit;
+
+use Themepaste\ShippingManager\ShippingManager;
 
 // @TODO Add an upgrader to run data upgrader
 

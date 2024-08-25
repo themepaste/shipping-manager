@@ -4,8 +4,11 @@
  *
  * @since 1.1.0
  */
+
 defined( 'ABSPATH' ) || exit;
+
 $page_title = apply_filters( 'tps_manager_template_page_title', $page );
+
 ?>
 <div class="title-bar">
   <h4>

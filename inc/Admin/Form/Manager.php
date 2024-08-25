@@ -1,14 +1,14 @@
 <?php
 namespace Themepaste\ShippingManager\Admin\Form;
 
+defined( 'ABSPATH' ) || exit;
+
 use Themepaste\ShippingManager\Admin\Messages;
 use Themepaste\ShippingManager\Admin\Routes;
 use Themepaste\ShippingManager\Models\FreeShippingSettings;
 use Themepaste\ShippingManager\Models\PerProductShippingSettings;
 use Themepaste\ShippingManager\Models\ProductPageShippingSettings;
 use Themepaste\ShippingManager\Models\ShippingFeesSettings;
-
-defined( 'ABSPATH' ) || exit;
 
 /**
  * Manages form submission for admin settings

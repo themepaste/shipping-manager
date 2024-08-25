@@ -7,6 +7,8 @@
  * License: GPLv3-or-later
  */
 
+defined( 'ABSPATH' ) || exit;
+
 require 'vendor/autoload.php';
 
 use Themepaste\ShippingManager\ShippingManager;

@@ -1,9 +1,9 @@
 <?php
 namespace Themepaste\ShippingManager\BusinessLogic\Rules;
 
-use Themepaste\ShippingManager\Models\ShippingFeesSettings;
-
 defined( 'ABSPATH' ) || exit;
+
+use Themepaste\ShippingManager\Models\ShippingFeesSettings;
 
 /**
  * Enforces rules interface

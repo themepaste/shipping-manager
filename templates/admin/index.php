@@ -4,7 +4,9 @@
  *
  * @since 1.1.0
  */
+
 defined( 'ABSPATH' ) || exit;
+
 ?>
 <div class="tsm-admin-wrapper">
   <div class="row-wrapper">

@@ -1,6 +1,8 @@
 <?php
 namespace Themepaste\ShippingManager\Admin\Form;
 
+defined( 'ABSPATH' ) || exit;
+
 use Themepaste\ShippingManager\Admin\Messages;
 use Themepaste\ShippingManager\Models\PerProductShippingSettings;
 

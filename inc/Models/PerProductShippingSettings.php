@@ -1,9 +1,9 @@
 <?php
 namespace Themepaste\ShippingManager\Models;
 
-use Themepaste\ShippingManager\Constants;
-
 defined( 'ABSPATH' ) || exit;
+
+use Themepaste\ShippingManager\Constants;
 
 /**
  * Data source for per product shipping

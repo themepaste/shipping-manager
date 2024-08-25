@@ -1,10 +1,10 @@
 <?php
 namespace Themepaste\ShippingManager\BusinessLogic;
 
+defined( 'ABSPATH' ) || exit;
+
 use Themepaste\ShippingManager\BusinessLogic\Rules\ProcessingFee;
 use Themepaste\ShippingManager\BusinessLogic\Rules\WeightFee;
-
-defined( 'ABSPATH' ) || exit;
 
 /**
  * Calculates Shipping cost Rules
