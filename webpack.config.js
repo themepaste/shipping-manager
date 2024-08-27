@@ -33,6 +33,20 @@ let free_shipping = {
     }
 }
 
+let product_page_shipping = {
+    mode: 'development',
+    ...defaultConfig,
+    ...{
+        entry: {
+            admin: './src/js/product-page-shipping.js',
+        },
+        output: {
+            filename: 'product-page-shipping.js',
+            path: __dirname + '/assets/build/admin/js',
+        }
+    }
+}
+
 let admin_dashboard_style = {
     mode: 'development',
     entry: './src/scss/admin/general.scss',
@@ -58,4 +72,4 @@ let admin_dashboard_style = {
     ],
 }
 
-module.exports = [ admin_dashboard_style, shipping_fees, free_shipping ];
+module.exports = [ admin_dashboard_style, shipping_fees, free_shipping, product_page_shipping ];

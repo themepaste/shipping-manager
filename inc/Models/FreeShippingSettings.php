@@ -1,9 +1,9 @@
 <?php
 namespace Themepaste\ShippingManager\Models;
 
-use Themepaste\ShippingManager\Constants;
-
 defined( 'ABSPATH' ) || exit;
+
+use Themepaste\ShippingManager\Constants;
 
 /**
  * Datasource for free shipping
@@ -43,7 +43,7 @@ class FreeShippingSettings extends Model {
 	 * @since 1.1.0
 	 */
 	public function __construct() {
-		parent::__construct( 'tsm_free_shipping' );
+		parent::__construct( 'tps_manager_free_shipping' );
 	}
 
 	/**

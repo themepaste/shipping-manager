@@ -39,7 +39,7 @@ abstract class Model {
 	 * @param $option_key
 	 */
 	public function __construct( $option_key ) {
-		$this->option_key = $option_key;
+		$this->option_key = 'tps_manager_' . $option_key;
 	}
 
 	/**
@@ -71,7 +71,7 @@ abstract class Model {
 	/**
 	 * Fetches data form data store
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.2.1
 	 *
 	 * @return $this
 	 */
@@ -84,7 +84,7 @@ abstract class Model {
 	/**
 	 * Get all settings or a single settings from data
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.2.1
 	 *
 	 * @param string $key
 	 *
@@ -101,7 +101,7 @@ abstract class Model {
 	/**
 	 * Set value for model
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.2.1
 	 *
 	 * @param array $data
 	 *
@@ -119,7 +119,7 @@ abstract class Model {
 	/**
 	 * Returns all the settings fields
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.2.1
 	 *
 	 * @return array
 	 */

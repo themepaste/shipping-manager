@@ -9,7 +9,7 @@ use \WC_Shipping_Method;
 /**
  * Extended shipping method to be activated and applied by WooCommerce admin
  *
- * @since TSM_SINCE
+ * @since 1.2.1
  */
 class ShippingMethod extends WC_Shipping_Method {
 
@@ -18,16 +18,16 @@ class ShippingMethod extends WC_Shipping_Method {
 	/**
 	 * Mandatory shipping details
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.2.1
 	 */
 	public function __construct() {
 		parent::__construct();
 		$this->id                 = self::INSTANCE_KEY;
-		$this->method_title       = __( 'Shipping Manager Method', 'shipping-manager' );
-		$this->method_description = __( 'A very flexible shipping method to manage shipping fees in a robust way.', 'shipping-manager' );
+		$this->method_title       = __( 'Shipping Manager Method', 'tps-manager' );
+		$this->method_description = __( 'A very flexible shipping method to manage shipping fees in a robust way.', 'tps-manager' );
 
 		$this->enabled = Constants::YES;
-		$this->title   = __( 'Shipping Manager Method', 'shipping-manager' );
+		$this->title   = __( 'Shipping Manager Method', 'tps-manager' );
 
 		$this->init();
 	}
@@ -35,7 +35,7 @@ class ShippingMethod extends WC_Shipping_Method {
 	/**
 	 * Initialize Shipping Manager Custom shipping method
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.2.1
 	 *
 	 * @return void
 	 */
@@ -49,23 +49,23 @@ class ShippingMethod extends WC_Shipping_Method {
 	/**
 	 * From fields to be filled and configured by WooCommerce admin
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.2.1
 	 *
 	 * @return void
 	 */
 	public function init_form_fields() {
 		$this->form_fields = array(
 			'enabled' => [
-				'title'       => __( 'Enable', 'shipping-manager' ),
+				'title'       => __( 'Enable', 'tps-manager' ),
 				'type'        => 'checkbox',
-				'description' => __( 'Enable Shipping Manager' ),
+				'description' => __( 'Enable Shipping Manager', 'tps-manager' ),
 				'default'     => Constants::YES,
 			],
 			'title' => [
-				'title'       => __( 'Shipping Manager', 'shipping-manager' ),
+				'title'       => __( 'Shipping Manager', 'tps-manager' ),
 				'type'        => 'text',
-				'description' => __( 'Shipping Manager title to be displayed to user while checking out.', 'shipping-manager' ),
-				'default'     => __( 'Shipping Manager Method', 'shipping-manager' ),
+				'description' => __( 'Shipping Manager title to be displayed to user while checking out.', 'tps-manager' ),
+				'default'     => __( 'Shipping Manager Method', 'tps-manager' ),
 			],
 		);
 	}
@@ -73,14 +73,14 @@ class ShippingMethod extends WC_Shipping_Method {
 	/**
 	 * Calculates shipping fees for shipping manager
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.2.1
 	 *
 	 * @param array $package
 	 *
 	 * @return void
 	 */
 	public function calculate_shipping( $package = [] ) {
-		$cost = apply_filters( 'tsm_additional_shipping_cost', 0.00, $package );
+		$cost = apply_filters( 'tps_manager_additional_shipping_cost', 0.00, $package );
 		$rate = [
 			'label'   => $this->settings['title'],
 			'cost'    => $cost,

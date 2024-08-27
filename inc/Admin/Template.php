@@ -1,9 +1,9 @@
 <?php
 namespace Themepaste\ShippingManager\Admin;
 
-use Themepaste\ShippingManager\ShippingManager;
-
 defined( 'ABSPATH' ) || exit;
+
+use Themepaste\ShippingManager\ShippingManager;
 
 /**
  * Manages template files loading and passed data
@@ -23,7 +23,7 @@ class Template {
 	 *
 	 * @since 1.1.0
 	 */
-	const TEMPLATE_ROOT_DIR = TSM_PLUGIN_ROOT_PATH . '/templates/';
+	const TEMPLATE_ROOT_DIR = TPS_MANAGER_PLUGIN_ROOT_PATH . '/templates/';
 
 	/**
 	 * Variable root template directory
@@ -149,7 +149,7 @@ class Template {
 		}
 
 		/**
-		 * @filter `tsm_template_path` filter to manipulate single template path
+		 * @filter `tps_manager_template_path` filter to manipulate single template path
 		 *
 		 * @since 1.1.0
 		 *
@@ -157,9 +157,9 @@ class Template {
 		 *
 		 * @retun string
 		 */
-		$template_path = apply_filters( 'tsm_template_path', $template_path );
+		$template_path = apply_filters( 'tps_manager_template_path', $template_path );
 
-		$this->args = apply_filters( 'tsm_template_args', $args, $template_path );
+		$this->args = apply_filters( 'tps_manager_template_args', $args, $template_path );
 
 		extract( $this->args );
 		include $template_path;
@@ -182,7 +182,7 @@ class Template {
 			return false;
 		}
 
-		$template_parts_path = apply_filters( 'tsm_template_parts_path', $template_parts_path );
+		$template_parts_path = apply_filters( 'tps_manager_template_parts_path', $template_parts_path );
 		extract( $this->args );
 		include $template_parts_path;
 		return true;

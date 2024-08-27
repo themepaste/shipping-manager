@@ -1,20 +1,20 @@
 <?php
 namespace Themepaste\ShippingManager\Models;
 
-use Themepaste\ShippingManager\Constants;
-
 defined( 'ABSPATH' ) || exit;
+
+use Themepaste\ShippingManager\Constants;
 
 /**
  * Datasource for free shipping
  *
- * @since TSM_SINCE
+ * @since 1.2.1
  */
 class ShippingFeesSettings extends Model {
 	/**
 	 * List of keys
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.2.1
 	 */
 	const ENABLE_PROCESSING_FEES = 'enable-processing-fees';
 	const PROCESSING_FEES_AMOUNT = 'processing-fees-amount';
@@ -31,7 +31,7 @@ class ShippingFeesSettings extends Model {
 	/**
 	 * Declaring default settings
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.2.1
 	 *
 	 * @var array
 	 */
@@ -47,9 +47,9 @@ class ShippingFeesSettings extends Model {
 	/**
 	 * Initializing option keys
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.2.1
 	 */
 	public function __construct() {
-		parent::__construct( 'tsm_shipping_fees' );
+		parent::__construct( 'tps_manager_shipping_fees' );
 	}
 }

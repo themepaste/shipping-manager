@@ -1,6 +1,8 @@
 <?php
 namespace Themepaste\ShippingManager\Admin\Form;
 
+defined( 'ABSPATH' ) || exit;
+
 use Themepaste\ShippingManager\Admin\Messages;
 use Themepaste\ShippingManager\Models\ProductPageShippingSettings;
 
@@ -11,7 +13,7 @@ class ProductPageShipping implements Process {
 	/**
 	 * Processes free shipping submission
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.2.1
 	 *
 	 * @return void
 	 */
@@ -20,7 +22,7 @@ class ProductPageShipping implements Process {
 		$parsed_data    = $this->parse_post_data( $allowed_fields );
 		$status         = ( new ProductPageShippingSettings() )->set( $parsed_data )->save();
 		if ( $status ) {
-			tsm_admin_message( __( 'Saved successfully.', 'shipping-manager' ), Messages::TYPES[2] );
+			tps_manager_admin_message( __( 'Saved successfully.', 'tps-manager' ), Messages::TYPES[2] );
 		}
 	}
 }

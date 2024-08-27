@@ -1,20 +1,20 @@
 <?php
 namespace Themepaste\ShippingManager\Models;
 
-use Themepaste\ShippingManager\Constants;
-
 defined( 'ABSPATH' ) || exit;
+
+use Themepaste\ShippingManager\Constants;
 
 /**
  * Data source for per product shipping
  *
- * @since TSM_SINCE
+ * @since 1.2.1
  */
 class PerProductShippingSettings extends Model {
 	/**
 	 * List of keys
 	 *
-	 * @since TSM_SINCE
+	 * @since 1.2.1
 	 */
 	const PER_PRODUCT_SHIPPING = 'enable-per-product-shipping';
 	const OVERRIDE_OTHERS = 'override-others';
@@ -25,6 +25,6 @@ class PerProductShippingSettings extends Model {
 	];
 
 	public function __construct() {
-		parent::__construct( 'tsm_per_product_shipping' );
+		parent::__construct( 'tps_manager_per_product_shipping' );
 	}
 }

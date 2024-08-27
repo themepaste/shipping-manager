@@ -19,12 +19,12 @@ trait Parser {
 	 * @return array
 	 */
 	protected function parse_post_data( array $allowed_fields ): array {
-		$fields = array_intersect( $allowed_fields, array_keys( $_POST ) ); // Nonce already verified
 		$data = [];
-		foreach ( $fields as $key ) {
-			$data[ $key ] = sanitize_text_field( wp_unslash( $_POST[ $key ] ) ); // Nonce already verified
+		foreach( $allowed_fields as $valid_field_key ) {
+			if ( ! empty( $_POST[ $valid_field_key ] ) ) {
+				$data[ $valid_field_key ] = sanitize_text_field( wp_unslash( $_POST[ $valid_field_key ] ) );
+			}
 		}
 		return $data;
 	}
-
 }
