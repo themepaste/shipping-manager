@@ -163,7 +163,7 @@ class Assets {
 	/**
 	 * Loads frontend assets conditionally
 	 *
-	 * @since TPS_MANAGER_SINCE
+	 * @since 1.2.1
 	 *
 	 * @return void
 	 */
