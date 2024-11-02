@@ -113,14 +113,14 @@ class Assets {
 	public function register_admin_script() {
 		wp_register_script(
 			self::FREE_SHIPPING_SCRIPT,
-			$this->get_assets_url( 'admin/js/free-shipping.js' ),
+			$this->get_assets_url( 'build/admin/js/free-shipping.js' ),
 			[ 'jquery' ],
 			$this->get_plugin_version(),
 			true
 		);
 		wp_register_script(
 			self::SHIPPING_FEES_SCRIPT,
-			$this->get_assets_url( 'admin/js/shipping-fees.js' ),
+			$this->get_assets_url( 'build/admin/js/shipping-fees.js' ),
 			[ 'jquery' ],
 			$this->get_plugin_version(),
 			true
