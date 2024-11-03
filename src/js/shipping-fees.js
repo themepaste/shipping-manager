@@ -124,21 +124,21 @@ const WEIGHT_RANGE_ADD_ID = '#add-new-range';
 		$( '.range-row-wrapper' )
 			.last()
 			.find( 'input:first-of-type' )
-			.prop( 'id', `weight-ranges-from-${ totalRange + 1 }` )
-			.prop( 'name', `weight-ranges[${ totalRange + 1 }][]` )
+			.prop( 'id', `weight-ranges-from-${ totalRange }` )
+			.prop( 'name', `weight-ranges[${ totalRange }][]` )
 			.val( null );
 		$( '.range-row-wrapper' )
 			.last()
 			.find( 'input:nth-child(2)' )
-			.prop( 'id', `weight-ranges-to-${ totalRange + 1 }` )
-			.prop( 'name', `weight-ranges[${ totalRange + 1 }][]` )
+			.prop( 'id', `weight-ranges-to-${ totalRange }` )
+			.prop( 'name', `weight-ranges[${ totalRange }][]` )
 			.val( null );
 		$( '.range-row-wrapper' )
 			.last()
 			.find( 'input' )
 			.last()
-			.prop( 'id', `weight-ranges-fee-${ totalRange + 1 }` )
-			.prop( 'name', `weight-ranges[${ totalRange + 1 }][]` )
+			.prop( 'id', `weight-ranges-fee-${ totalRange }` )
+			.prop( 'name', `weight-ranges[${ totalRange }][]` )
 			.val( null );
 	}
 	$( document ).on( 'click', WEIGHT_RANGE_ADD_ID, clickAddRange );

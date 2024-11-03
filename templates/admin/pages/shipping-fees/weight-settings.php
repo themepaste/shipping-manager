@@ -17,7 +17,7 @@ function tps_manager_get_weight_range_value( int $serial, string $name ): string
 	return $data[ ShippingFeesSettings::WEIGHT_BASED_RANGE_UNIT_RULES ][ $serial ][ $name ] ?? '';
 }
 
-// $weight_ranges = ShippingFeesSettings::WEIGHT_BASED_RANGE_UNIT_RULES;
+$weight_ranges = get_option('tps_manager_tps_manager_shipping_fees')['weight-based-range-unit-rules'];
 // error_log( print_r( $weight_ranges, true ));
 
 ?>
@@ -76,8 +76,29 @@ function tps_manager_get_weight_range_value( int $serial, string $name ): string
 			<span>To</span>
 			<span>Fee</span>
 		</div>
+		<div class="range-row-wrapper" style="display: none;">
+			<input
+				id=""
+				name=""
+				value=""
+				type="text"
+			>
+			<input
+				id=""
+				name=""
+				value=""
+				type="text"
+			>
+			<input
+				id=""
+				name=""
+				value=""
+				type="text"
+			>
+			<div class="remove-row-button remove-range"><?php echo __( 'Remove', 'tps-manager' ); ?></div>
+		</div>
 		<?php
-		$weight_ranges = array( array( 0, 1, 5), array(1, 2, 10) );
+		// $weight_ranges = array( array( 0, 1, 5), array(1, 2, 10) );
 
 		if ( ! empty( $weight_ranges ) ) :
 			foreach ( $weight_ranges as $key => $values ) :

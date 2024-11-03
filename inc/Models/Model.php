@@ -68,7 +68,6 @@ abstract class Model {
 			}
 			$saved = update_option( $this->option_key, $this->settings );
 		}
-		error_log(print_r($this->settings, true));
 		return $saved;
 	}
 
