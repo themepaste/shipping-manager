@@ -63,6 +63,9 @@ abstract class Model {
 	public function save(): bool {
 		$saved = false;
 		if ( $this->is_valid() ) {
+			if ( $this->option_key == 'tps_manager_tps_manager_shipping_fees' && isset( $_POST['weight-ranges'] ) ) {
+				$this->settings['weight-based-range-unit-rules'] = $_POST['weight-ranges'];
+			}
 			$saved = update_option( $this->option_key, $this->settings );
 		}
 		error_log(print_r($this->settings, true));
