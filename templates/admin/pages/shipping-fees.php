@@ -25,7 +25,7 @@ use \Themepaste\ShippingManager\Models\ShippingFeesSettings;
     >
 		<div class="help-tip"><?php esc_html_e( 'Adds a flat processing fee to process the shipment.', 'tps-manager' ); ?></div>
 	</div>
-	<div class="input-wrapper amount">
+	<div class="input-wrapper amount" style="display:<?php echo ( tps_manager_is_checked( $data[ ShippingFeesSettings::ENABLE_PROCESSING_FEES ] ) ) ? 'block' : 'none'; ?>">
 		<label for="<?php echo esc_attr( ShippingFeesSettings::PROCESSING_FEES_AMOUNT ); ?>"><?php esc_html_e( 'Amount', 'tps-manager' ); ?></label>
 		<input
       id="<?php echo esc_attr( ShippingFeesSettings::PROCESSING_FEES_AMOUNT ); ?>"

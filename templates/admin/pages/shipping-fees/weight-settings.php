@@ -29,8 +29,7 @@ function tps_manager_get_weight_range_value( int $serial, string $name ): string
 	>
 	<div class="help-tip"><?php esc_html_e( 'Adds weight based fee for product.', 'tps-manager' ); ?></div>
 </div>
-<div id="weight-base-fee-wrapper">
-<!-- <div class="input-wrapper radio"> -->
+<div id="weight-base-fee-wrapper" style="display:<?php echo ( tps_manager_is_checked( $data[ ShippingFeesSettings::ENABLE_WEIGHT_BASED_FEES ] ) ) ? 'block' : 'none'; ?>">
 	<div class="single-radio-option">
 		<input
 			type="radio"
@@ -43,8 +42,7 @@ function tps_manager_get_weight_range_value( int $serial, string $name ): string
 		<div class="help-tip"><?php esc_html_e( 'Add fees based on per unit', 'tps-manager' ); ?></div>
 	</div>
 	
-<!-- </div> -->
-<div class="input-wrapper amount">
+<div class="input-wrapper amount" style="display: <?php echo ( tps_manager_is_checked( $data[ ShippingFeesSettings::WEIGHT_BASED_SHIPPING_FEES_TYPE ], true, ShippingFeesSettings::WEIGHT_PER_UNIT ) ) ? 'block' : 'none'; ?>;">
 	<label for="<?php echo esc_attr( ShippingFeesSettings::WEIGHT_BASED_PER_UNIT_AMOUNT_FEES ); ?>"><?php esc_html_e( 'Weight Flat Fee', 'tps-manager' ); ?></label>
 	<input
 		id="<?php echo esc_attr( ShippingFeesSettings::WEIGHT_BASED_PER_UNIT_AMOUNT_FEES ); ?>"
@@ -67,34 +65,36 @@ function tps_manager_get_weight_range_value( int $serial, string $name ): string
 		<div class="help-tip"><?php esc_html_e( 'Add fees based on unit range', 'tps-manager' ); ?></div>
 	</div>
 	
-<div class="input-wrapper range">
+<div class="input-wrapper range" style="display: <?php echo ( tps_manager_is_checked( $data[ ShippingFeesSettings::WEIGHT_BASED_SHIPPING_FEES_TYPE ], true, ShippingFeesSettings::WEIGHT_RANGE_UNIT ) ) ? 'block' : 'none'; ?>;">
 	<label for=""><?php esc_html_e( 'Weight Range Fee', 'tps-manager' ); ?></label>
-	<div class="range-row-wrapper">
-		from
-		<input
-			id="<?php echo esc_attr( tps_manager_get_weight_range_id( 0, ShippingFeesSettings::WEIGHT_FROM ) ); ?>"
-			name="<?php echo esc_attr( tps_manager_get_weight_range_name( 0, ShippingFeesSettings::WEIGHT_FROM ) ); ?>"
-			value="<?php echo esc_attr( tps_manager_get_weight_range_value( 0, ShippingFeesSettings::WEIGHT_FROM ) ); ?>"
-			type="text"
-		>
-		to
-		<input
-			id="<?php echo esc_attr( tps_manager_get_weight_range_id( 0, ShippingFeesSettings::WEIGHT_TO ) ); ?>"
-			name="<?php echo esc_attr( tps_manager_get_weight_range_name( 0, ShippingFeesSettings::WEIGHT_TO ) ); ?>"
-			value="<?php echo esc_attr( tps_manager_get_weight_range_value( 0, ShippingFeesSettings::WEIGHT_TO ) ); ?>"
-			type="text"
-		>
-		fee
-		<input
-			id="<?php echo esc_attr( tps_manager_get_weight_range_id( 0, ShippingFeesSettings::WEIGHT_RANGE_FEE ) ); ?>"
-			name="<?php echo esc_attr( tps_manager_get_weight_range_name( 0, ShippingFeesSettings::WEIGHT_RANGE_FEE ) ); ?>"
-			value="<?php echo esc_attr( tps_manager_get_weight_range_value( 0, ShippingFeesSettings::WEIGHT_RANGE_FEE ) ); ?>"
-			type="text"
-		>
-		<div class="remove-row-button">Remove</div>
+	<div id="range-rows-wrapper">
+		<div class="range-row-wrapper">
+			from
+			<input
+				id="<?php echo esc_attr( tps_manager_get_weight_range_id( 0, ShippingFeesSettings::WEIGHT_FROM ) ); ?>"
+				name="<?php echo esc_attr( tps_manager_get_weight_range_name( 0, ShippingFeesSettings::WEIGHT_FROM ) ); ?>"
+				value="<?php echo esc_attr( tps_manager_get_weight_range_value( 0, ShippingFeesSettings::WEIGHT_FROM ) ); ?>"
+				type="text"
+			>
+			to
+			<input
+				id="<?php echo esc_attr( tps_manager_get_weight_range_id( 0, ShippingFeesSettings::WEIGHT_TO ) ); ?>"
+				name="<?php echo esc_attr( tps_manager_get_weight_range_name( 0, ShippingFeesSettings::WEIGHT_TO ) ); ?>"
+				value="<?php echo esc_attr( tps_manager_get_weight_range_value( 0, ShippingFeesSettings::WEIGHT_TO ) ); ?>"
+				type="text"
+			>
+			fee
+			<input
+				id="<?php echo esc_attr( tps_manager_get_weight_range_id( 0, ShippingFeesSettings::WEIGHT_RANGE_FEE ) ); ?>"
+				name="<?php echo esc_attr( tps_manager_get_weight_range_name( 0, ShippingFeesSettings::WEIGHT_RANGE_FEE ) ); ?>"
+				value="<?php echo esc_attr( tps_manager_get_weight_range_value( 0, ShippingFeesSettings::WEIGHT_RANGE_FEE ) ); ?>"
+				type="text"
+			>
+			<div class="remove-row-button remove-range"><?php echo __( 'Remove', 'tps-manager' ); ?></div>
+		</div>
 	</div>
 	<div class="add-new-row-button">
-		<div class="add-new-button-text">Add New</div>
+		<div class="add-new-button-text" id="add-new-range"><?php echo __( 'Add New', 'tps-manager' ); ?></div>
 	</div>
 	<div class="help-tip"><?php esc_html_e( 'Fees for unit range weight for product shipping.', 'tps-manager' ); ?></div>
 </div>

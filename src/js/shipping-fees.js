@@ -14,6 +14,11 @@ const WEIGHT_BASE_FEE_WRAPPER = '#weight-base-fee-wrapper';
 const PER_UNIT_WEIGHT_BASE_FEE_ID = '#weight-per-unit';
 const PER_UNIT_WEIGHT_BASE_FEE_FIELD = '#weight-based-per-unit-amount-fees';
 
+const WEIGHT_RANGE_BASE_FEE_ID = '#weight-range-unit';
+const WEIGHT_RANGE_BASE_FEE_FIELD = '.range-row-wrapper';
+
+const WEIGHT_RANGE_ADD_ID = '#add-new-range';
+
 ( function ( $ ) {
 	$( document ).ready( function () {} );
 
@@ -36,7 +41,7 @@ const PER_UNIT_WEIGHT_BASE_FEE_FIELD = '#weight-based-per-unit-amount-fees';
 	}
 
 	$( PROCESSING_FEE_ID ).on( 'change', processingFeeAmount );
-	processingFeeAmount();
+	// processingFeeAmount();
 
 	/**
 	 * Weight Base fee checkbox toggle
@@ -55,7 +60,7 @@ const PER_UNIT_WEIGHT_BASE_FEE_FIELD = '#weight-based-per-unit-amount-fees';
 	}
 
 	$( WEIGHT_BASE_FEE_CHECKBOX_ID ).on( 'change', weightBaseFee );
-	weightBaseFee();
+	// weightBaseFee();
 
 	/**
 	 * Per unit weight base fee radio toggle
@@ -77,6 +82,43 @@ const PER_UNIT_WEIGHT_BASE_FEE_FIELD = '#weight-based-per-unit-amount-fees';
 		}
 	}
 
-	$( PER_UNIT_WEIGHT_BASE_FEE_ID ).on( 'click', perUnitWeightBaseFee );
-	perUnitWeightBaseFee();
+	/**
+	 * Weight range base fee radio toggle
+	 *
+	 * @since 1.2.1
+	 */
+	function weightRangeBaseFee() {
+		const weightRangeBaseFeeEnableField = $( WEIGHT_RANGE_BASE_FEE_ID );
+		const weightRangeBaseFeeWrapper = $(
+			WEIGHT_RANGE_BASE_FEE_FIELD
+		).closest( INPUT_WRAPPER );
+
+		if ( weightRangeBaseFeeEnableField.is( ':checked' ) ) {
+			weightRangeBaseFeeWrapper.show( DISPLAY_TYPE );
+		} else {
+			weightRangeBaseFeeWrapper.hide( DISPLAY_TYPE );
+		}
+	}
+
+	$( 'input[name=weight-based-shipping-fees-type]:radio' ).on(
+		'change',
+		function () {
+			perUnitWeightBaseFee();
+			weightRangeBaseFee();
+		}
+	);
+	// perUnitWeightBaseFee();
+
+	/**
+	 * Click function on add new range
+	 *
+	 * @since 1.2.1
+	 */
+	function clickAddRange() {
+		$( '.range-row-wrapper' )
+			.first()
+			.clone()
+			.appendTo( '#range-rows-wrapper' );
+	}
+	$( document ).on( 'click', WEIGHT_RANGE_ADD_ID, clickAddRange );
 } )( jQuery );
