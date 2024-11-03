@@ -13,8 +13,7 @@ use Themepaste\ShippingManager\Admin\Routes;
 <div class="logo-wrapper">
   <h3>Shipping Manager</h3>
   <span>by Themepaste</span>
-</div>
-<div class="sidebar-menu-links">
+  <div class="sidebar-menu-links">
   <ul>
     <li>
       <a
@@ -58,6 +57,8 @@ use Themepaste\ShippingManager\Admin\Routes;
 <!--    </li>-->
   </ul>
 </div>
+</div>
+
 <div class="misalliances-links">
   <ul>
     <li><a href="#docs"><?php esc_html_e( 'Docs', 'tps-manager' ); ?></a></li>

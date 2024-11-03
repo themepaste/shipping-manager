@@ -44,6 +44,7 @@ $transition_duration: 0.3s;
         }
       }
       .sidebar-menu-links {
+        margin-top: 50px;
         ul {
           text-decoration: none;
           li {
@@ -115,19 +116,26 @@ $transition_duration: 0.3s;
               }
             }
             &.range {
+              .range-row-wrapper,
+              .range-table-header {
+                display: grid;
+                grid-template-columns: repeat( 4, 1fr);
+                margin-bottom: 15px;
+              }
               label {
                 display: block;
                 margin-bottom: 16px;
               }
               .range-row-wrapper {
+                
                 input[type=text] {
                   width: 80px;
+                  height: 70%;
                 }
                 .remove-row-button {
                   border: 1px solid black;
                   display: inline-block;
                   padding: 4px 8px;
-                  margin: 8px 16px;
                   &:hover {
                     cursor: pointer;
                   }
@@ -138,7 +146,6 @@ $transition_duration: 0.3s;
                   border: 1px solid black;
                   display: inline-block;
                   padding: 4px 8px;
-                  margin: 8px 16px;
                   &:hover {
                     cursor: pointer;
                   }

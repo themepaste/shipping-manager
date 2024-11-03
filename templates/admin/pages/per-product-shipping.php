@@ -40,6 +40,6 @@ use \Themepaste\ShippingManager\Models\PerProductShippingSettings;
   </div>
 
   <div class="input-wrapper submit">
-    <button class="woocommerce-save-button components-button is-primary" value="free-shipping"><?php esc_html_e( 'Save', 'tps-manager' ); ?></button>
+    <button class="woocommerce-save-button components-button is-primary"><?php esc_html_e( 'Save', 'tps-manager' ); ?></button>
   </div>
 </form>

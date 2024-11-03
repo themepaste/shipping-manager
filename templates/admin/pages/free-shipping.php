@@ -68,6 +68,6 @@ use \Themepaste\ShippingManager\Models\FreeShippingSettings;
     <div class="help-tip"><?php esc_html_e( "Enable this to calculate free shipping after coupon discount has been applied for product." ); ?></div>
   </div>
   <div class="input-wrapper submit">
-    <button class="woocommerce-save-button components-button is-primary" value="free-shipping"><?php esc_html_e( 'Save', 'tps-manager' ); ?></button>
+    <button class="woocommerce-save-button components-button is-primary"><?php esc_html_e( 'Save', 'tps-manager' ); ?></button>
   </div>
 </form>

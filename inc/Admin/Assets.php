@@ -97,7 +97,7 @@ class Assets {
 		// general.css
 		wp_register_style(
 			self::GENERAL_STYLE,
-			$this->get_assets_url( 'admin/css/general.css' ),
+			$this->get_assets_url( 'build/admin/css/general.css' ),
 			[],
 			$this->get_plugin_version()
 		);

@@ -115,10 +115,31 @@ const WEIGHT_RANGE_ADD_ID = '#add-new-range';
 	 * @since 1.2.1
 	 */
 	function clickAddRange() {
+		const totalRange = $( '.range-row-wrapper' ).length;
 		$( '.range-row-wrapper' )
 			.first()
 			.clone()
 			.appendTo( '#range-rows-wrapper' );
+
+		$( '.range-row-wrapper' )
+			.last()
+			.find( 'input:first-of-type' )
+			.prop( 'id', `weight-ranges-from-${ totalRange + 1 }` )
+			.prop( 'name', `weight-ranges[${ totalRange + 1 }][]` )
+			.val( null );
+		$( '.range-row-wrapper' )
+			.last()
+			.find( 'input:nth-child(2)' )
+			.prop( 'id', `weight-ranges-to-${ totalRange + 1 }` )
+			.prop( 'name', `weight-ranges[${ totalRange + 1 }][]` )
+			.val( null );
+		$( '.range-row-wrapper' )
+			.last()
+			.find( 'input' )
+			.last()
+			.prop( 'id', `weight-ranges-fee-${ totalRange + 1 }` )
+			.prop( 'name', `weight-ranges[${ totalRange + 1 }][]` )
+			.val( null );
 	}
 	$( document ).on( 'click', WEIGHT_RANGE_ADD_ID, clickAddRange );
 } )( jQuery );
