@@ -132,10 +132,7 @@ $transition_duration: 0.3s;
                   width: 80px;
                   height: 70%;
                 }
-                .remove-row-button {
-                  border: 1px solid black;
-                  display: inline-block;
-                  padding: 4px 8px;
+                .remove-range {
                   &:hover {
                     cursor: pointer;
                   }

@@ -17,6 +17,7 @@ function tps_manager_get_weight_range_value( int $serial, string $name ): string
 	return $data[ ShippingFeesSettings::WEIGHT_BASED_RANGE_UNIT_RULES ][ $serial ][ $name ] ?? '';
 }
 
+$weight_unit = get_option('woocommerce_weight_unit');
 $weight_ranges = get_option('tps_manager_tps_manager_shipping_fees')['weight-based-range-unit-rules'];
 // error_log( print_r( $weight_ranges, true ));
 
@@ -77,25 +78,33 @@ $weight_ranges = get_option('tps_manager_tps_manager_shipping_fees')['weight-bas
 			<span>Fee</span>
 		</div>
 		<div class="range-row-wrapper" style="display: none;">
-			<input
-				id=""
-				name=""
-				value=""
-				type="text"
-			>
-			<input
-				id=""
-				name=""
-				value=""
-				type="text"
-			>
-			<input
-				id=""
-				name=""
-				value=""
-				type="text"
-			>
-			<div class="remove-row-button remove-range"><?php echo __( 'Remove', 'tps-manager' ); ?></div>
+			<div class="range-from">
+				<input
+					id=""
+					name=""
+					value=""
+					type="text"
+				>
+				<span><?php echo $weight_unit; ?></span>
+			</div>
+			<div class="range-to">
+				<input
+					id=""
+					name=""
+					value=""
+					type="text"
+				>
+				<span><?php echo $weight_unit; ?></span>
+			</div>
+			<div class="range-fee">
+				<input
+					id=""
+					name=""
+					value=""
+					type="text"
+				>
+				<span class="dashicons dashicons-remove remove-range"></span>
+			</div>
 		</div>
 		<?php
 		// $weight_ranges = array( array( 0, 1, 5), array(1, 2, 10) );
@@ -104,25 +113,34 @@ $weight_ranges = get_option('tps_manager_tps_manager_shipping_fees')['weight-bas
 			foreach ( $weight_ranges as $key => $values ) :
 		?>
 		<div class="range-row-wrapper">
-			<input
-				id="<?php echo 'weight-ranges-from-' . esc_attr( $key ); ?>"
-				name="<?php echo 'weight-ranges[' . esc_attr( $key ) . '][]' ; ?>"
-				value="<?php echo esc_attr( $values[0] ); ?>"
-				type="text"
-			>
-			<input
-				id="<?php echo 'weight-ranges-to-' . esc_attr( $key ); ?>"
-				name="<?php echo 'weight-ranges[' . esc_attr( $key ) . '][]' ; ?>"
-				value="<?php echo esc_attr( $values[1] ); ?>"
-				type="text"
-			>
-			<input
-				id="<?php echo 'weight-ranges-fee-' . esc_attr( $key ); ?>"
-				name="<?php echo 'weight-ranges[' . esc_attr( $key ) . '][]' ; ?>"
-				value="<?php echo esc_attr( $values[2] ); ?>"
-				type="text"
-			>
-			<div class="remove-row-button remove-range"><?php echo __( 'Remove', 'tps-manager' ); ?></div>
+			<div class="range-from">
+				<input
+					id="<?php echo 'weight-ranges-from-' . esc_attr( $key ); ?>"
+					name="<?php echo 'weight-based-range-unit-rules[' . esc_attr( $key ) . '][]' ; ?>"
+					value="<?php echo esc_attr( $values[0] ); ?>"
+					type="text"
+				>
+				<span><?php echo $weight_unit; ?></span>
+			</div>
+			<div class="range-to">
+				<input
+					id="<?php echo 'weight-ranges-to-' . esc_attr( $key ); ?>"
+					name="<?php echo 'weight-based-range-unit-rules[' . esc_attr( $key ) . '][]' ; ?>"
+					value="<?php echo esc_attr( $values[1] ); ?>"
+					type="text"
+				>
+				<span><?php echo $weight_unit; ?></span>
+			</div>
+			<div class="range-fee">
+				<input
+					id="<?php echo 'weight-ranges-fee-' . esc_attr( $key ); ?>"
+					name="<?php echo 'weight-based-range-unit-rules[' . esc_attr( $key ) . '][]' ; ?>"
+					value="<?php echo esc_attr( $values[2] ); ?>"
+					type="text"
+				>
+				<span class="dashicons dashicons-remove remove-range"></span>
+			</div>
+			
 		</div>
 		<?php
 		endforeach;

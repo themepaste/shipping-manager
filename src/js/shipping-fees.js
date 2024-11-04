@@ -18,6 +18,7 @@ const WEIGHT_RANGE_BASE_FEE_ID = '#weight-range-unit';
 const WEIGHT_RANGE_BASE_FEE_FIELD = '.range-row-wrapper';
 
 const WEIGHT_RANGE_ADD_ID = '#add-new-range';
+const WEIGHT_RANGE_DELETE_CLASS = '.remove-range';
 
 ( function ( $ ) {
 	$( document ).ready( function () {} );
@@ -119,27 +120,40 @@ const WEIGHT_RANGE_ADD_ID = '#add-new-range';
 		$( '.range-row-wrapper' )
 			.first()
 			.clone()
-			.appendTo( '#range-rows-wrapper' );
+			.appendTo( '#range-rows-wrapper' )
+			.show();
 
 		$( '.range-row-wrapper' )
 			.last()
 			.find( 'input:first-of-type' )
 			.prop( 'id', `weight-ranges-from-${ totalRange }` )
-			.prop( 'name', `weight-ranges[${ totalRange }][]` )
+			.prop( 'name', `weight-based-range-unit-rules[${ totalRange }][]` )
 			.val( null );
 		$( '.range-row-wrapper' )
 			.last()
 			.find( 'input:nth-child(2)' )
 			.prop( 'id', `weight-ranges-to-${ totalRange }` )
-			.prop( 'name', `weight-ranges[${ totalRange }][]` )
+			.prop( 'name', `weight-based-range-unit-rules[${ totalRange }][]` )
 			.val( null );
 		$( '.range-row-wrapper' )
 			.last()
 			.find( 'input' )
 			.last()
 			.prop( 'id', `weight-ranges-fee-${ totalRange }` )
-			.prop( 'name', `weight-ranges[${ totalRange }][]` )
+			.prop( 'name', `weight-based-range-unit-rules[${ totalRange }][]` )
 			.val( null );
 	}
 	$( document ).on( 'click', WEIGHT_RANGE_ADD_ID, clickAddRange );
+
+	/**
+	 * Click remove range
+	 *
+	 * @param e object
+	 * @since 1.2.1
+	 */
+	function removeRange( e ) {
+		e.preventDefault();
+		e.target.closest( '.range-row-wrapper' ).remove();
+	}
+	$( document ).on( 'click', WEIGHT_RANGE_DELETE_CLASS, removeRange );
 } )( jQuery );
