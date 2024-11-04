@@ -18,6 +18,7 @@ function tps_manager_get_weight_range_value( int $serial, string $name ): string
 }
 
 $weight_unit = get_option('woocommerce_weight_unit');
+$currency_symbol = get_woocommerce_currency_symbol();
 $weight_ranges = get_option('tps_manager_tps_manager_shipping_fees')['weight-based-range-unit-rules'];
 // error_log( print_r( $weight_ranges, true ));
 
@@ -73,9 +74,9 @@ $weight_ranges = get_option('tps_manager_tps_manager_shipping_fees')['weight-bas
 	<label for=""><?php esc_html_e( 'Weight Range Fee', 'tps-manager' ); ?></label>
 	<div id="range-rows-wrapper">
 		<div class="range-table-header">
-			<span>From</span>
-			<span>To</span>
-			<span>Fee</span>
+			<span><?php echo __( 'From', 'tps-manager' ); ?></span>
+			<span><?php echo __( 'To', 'tps-manager' ); ?></span>
+			<span><?php echo __( 'Fee', 'tps-manager' ); ?></span>
 		</div>
 		<div class="range-row-wrapper" style="display: none;">
 			<div class="range-from">
@@ -103,12 +104,11 @@ $weight_ranges = get_option('tps_manager_tps_manager_shipping_fees')['weight-bas
 					value=""
 					type="text"
 				>
-				<span class="dashicons dashicons-remove remove-range"></span>
+				<span><?php echo $currency_symbol; ?></span>
 			</div>
+			<span class="dashicons dashicons-remove remove-range"></span>
 		</div>
 		<?php
-		// $weight_ranges = array( array( 0, 1, 5), array(1, 2, 10) );
-
 		if ( ! empty( $weight_ranges ) ) :
 			foreach ( $weight_ranges as $key => $values ) :
 		?>
@@ -138,17 +138,17 @@ $weight_ranges = get_option('tps_manager_tps_manager_shipping_fees')['weight-bas
 					value="<?php echo esc_attr( $values[2] ); ?>"
 					type="text"
 				>
-				<span class="dashicons dashicons-remove remove-range"></span>
+				<span><?php echo $currency_symbol; ?></span>
 			</div>
-			
+			<span class="dashicons dashicons-remove remove-range"></span>
 		</div>
 		<?php
-		endforeach;
+			endforeach;
 		endif;
 		?>
 	</div>
 	<div class="add-new-row-button">
-		<div class="add-new-button-text" id="add-new-range"><?php echo __( 'Add New', 'tps-manager' ); ?></div>
+		<div class="add-new-button-text" id="add-new-range"><?php echo __( 'Add New Weight Range', 'tps-manager' ); ?></div>
 	</div>
 	<div class="help-tip"><?php esc_html_e( 'Fees for unit range weight for product shipping.', 'tps-manager' ); ?></div>
 </div>
