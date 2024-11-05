@@ -20,8 +20,6 @@ function tps_manager_get_weight_range_value( int $serial, string $name ): string
 $weight_unit = get_option('woocommerce_weight_unit');
 $currency_symbol = get_woocommerce_currency_symbol();
 $weight_ranges = get_option('tps_manager_tps_manager_shipping_fees')['weight-based-range-unit-rules'];
-// error_log( print_r( $weight_ranges, true ));
-
 ?>
 <div class="input-wrapper checkbox">
 	<label for="<?php echo esc_attr( ShippingFeesSettings::ENABLE_WEIGHT_BASED_FEES ); ?>"><?php esc_html_e( 'Weight Based Fee', 'tps-manager' ); ?></label>
@@ -148,7 +146,7 @@ $weight_ranges = get_option('tps_manager_tps_manager_shipping_fees')['weight-bas
 		?>
 	</div>
 	<div class="add-new-row-button">
-		<div class="add-new-button-text" id="add-new-range"><?php echo __( 'Add New Weight Range', 'tps-manager' ); ?></div>
+		<div class="button button-primary" id="add-new-range"><?php echo __( 'Add New Weight Range', 'tps-manager' ); ?></div>
 	</div>
 	<div class="help-tip"><?php esc_html_e( 'Fees for unit range weight for product shipping.', 'tps-manager' ); ?></div>
 </div>

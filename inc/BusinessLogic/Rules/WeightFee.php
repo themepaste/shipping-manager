@@ -37,7 +37,6 @@ class WeightFee extends AbstractRules implements RulesInterface {
 					$quantity = $product_data['quantity'];
 					$cost += $quantity * $fee_per_unit;
 				}
-				
 			}
 
 			if ( $fee_type === 'weight-range-unit' ) {

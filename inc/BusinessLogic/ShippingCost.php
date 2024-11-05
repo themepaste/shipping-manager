@@ -5,6 +5,7 @@ defined( 'ABSPATH' ) || exit;
 
 use Themepaste\ShippingManager\BusinessLogic\Rules\ProcessingFee;
 use Themepaste\ShippingManager\BusinessLogic\Rules\WeightFee;
+use Themepaste\ShippingManager\BusinessLogic\Rules\FreeShipping;
 
 /**
  * Calculates Shipping cost Rules
@@ -42,6 +43,7 @@ class ShippingCost {
 		$list_of_rules = [
 			ProcessingFee::RULES_KEY => ProcessingFee::class,
 			WeightFee::RULES_KEY => WeightFee::class,
+			FreeShipping::RULES_KEY => FreeShipping::class,
 		];
 
 		$list_of_rules = apply_filters( 'tps_manager_shipping_cost_rules_list', $list_of_rules, $package );

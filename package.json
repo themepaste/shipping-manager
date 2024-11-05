@@ -12,12 +12,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/aihimel/shipping-manager.git"
+    "url": "git+https://github.com/themepaste/shipping-manager.git"
   },
-  "author": "Aftabul Islam <toaihimel@gmail.com>",
+  "author": "Themepaste Ltd. <info@themepaste.com>",
   "license": "GPL-3.0-or-later",
   "bugs": {
-    "url": "https://github.com/aihimel/shipping-manager/issues"
+    "url": "https://github.com/themepaste/shipping-manager/issues"
   },
   "devDependencies": {
     "@wordpress/eslint-plugin": "^21.4.0",
@@ -36,6 +36,6 @@
   "overrides": {
     "graceful-fs": "^4.2.11"
   },
-  "homepage": "https://github.com/aihimel/shipping-manager#readme",
+  "homepage": "https://github.com/themepaste/shipping-manager#readme",
   "prettier": "@wordpress/prettier-config"
 }

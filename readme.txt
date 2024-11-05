@@ -1,5 +1,5 @@
 === Shipping Manager ===
-Contributors: themepaste, aihimel
+Contributors: themepaste
 Tags: shipping, woocommerce shipping, shipping manager, flexible shipping
 Requires at least: 5.8
 Tested up to: 6.6
