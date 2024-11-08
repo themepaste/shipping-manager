@@ -6,6 +6,7 @@ defined( 'ABSPATH' ) || exit;
 use Themepaste\ShippingManager\Constants;
 use \WC_Shipping_Method;
 
+
 /**
  * Extended shipping method to be activated and applied by WooCommerce admin
  *
@@ -44,6 +45,10 @@ class ShippingMethod extends WC_Shipping_Method {
 		$this->init_settings();
 
 		add_action( 'woocommerce_update_options_shipping_' . $this->id, [ $this, 'process_admin_options' ] );
+
+		
+
+		
 	}
 
 	/**
@@ -90,4 +95,6 @@ class ShippingMethod extends WC_Shipping_Method {
 
 		$this->add_rate( $rate );
 	}
+
+	
 }

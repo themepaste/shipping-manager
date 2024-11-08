@@ -47,6 +47,22 @@ use Themepaste\ShippingManager\Admin\Routes;
           <?php esc_html_e( 'Product Page Shipping', 'tps-manager' ); ?>
       </a>
     </li>
+    <li>
+      <a
+        class='<?php tps_manager_is_active_menu( Routes::BOX_SHIPPING, 'active' ); ?>'
+        href='<?php echo esc_attr( tps_manager_url( Routes::BOX_SHIPPING ) ); ?>'
+      >
+          <?php esc_html_e( 'Box Shipping', 'tps-manager' ); ?>
+      </a>
+    </li>
+    <li>
+      <a
+        class='<?php tps_manager_is_active_menu( Routes::DISTANCE_SHIPPING, 'active' ); ?>'
+        href='<?php echo esc_attr( tps_manager_url( Routes::DISTANCE_SHIPPING ) ); ?>'
+      >
+          <?php esc_html_e( 'Distance Shipping', 'tps-manager' ); ?>
+      </a>
+    </li>
 <!--    <li>-->
 <!--      <a-->
 <!--        class='--><?php //tps_manager_is_active_menu( Routes::TRACK_SHIPPING, 'active' ); ?><!--'-->

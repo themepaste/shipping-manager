@@ -16,7 +16,9 @@ use Themepaste\ShippingManager\{
 	Admin\Form\Authentication as FormAuthentication,
 	Constants
 };
-
+use Themepaste\ShippingManager\Admin\Form\PerProductShipping;
+use Themepaste\ShippingManager\Models\FreeShippingSettings;
+use Themepaste\ShippingManager\Models\PerProductShippingSettings;
 
 /**
  * Shortcut function get pagename from route name
@@ -167,4 +169,103 @@ function tps_manager_is_checked( string $value, bool $print = true, string $comp
  */
 function tps_manager_is_single_product_page(): bool {
 	return function_exists( 'is_product' ) && is_product();
+}
+
+/**
+ * Shipping bar functionality
+ * 
+ * @since 1.2.1
+ */
+$shipping_fees = new FreeShippingSettings();
+$free_shipping_bar = $shipping_fees->fetch()->get( FreeShippingSettings::FREE_SHIPPING_BAR );
+if ( 'yes' === $free_shipping_bar ) {
+    // add_filter( 'render_block', 'tps_woocommerce_cart_block_do_actions', 9, 2 );
+
+    // add_action( 'tps_after_woocommerce/cart-order-summary-subtotal-block', 'tps_shipping_bar', 9 );
+
+	// add_action( 'woocommerce_before_cart', 'tps_free_bar_update' );
+}
+
+function tps_woocommerce_cart_block_do_actions( $block_content, $block ) {
+	$blocks = array(
+		'woocommerce/cart-order-summary-subtotal-block',
+	);
+
+	if ( in_array( $block['blockName'], $blocks ) ) {
+		ob_start();
+		do_action( 'tps_before_' . $block['blockName'] );
+		echo $block_content;
+		do_action( 'tps_after_' . $block['blockName'] );
+		$block_content = ob_get_contents();
+		ob_end_clean();
+	}
+	return $block_content;
+}
+
+function tps_shipping_bar() {
+	if ( is_admin() ) return;
+	$cart_total = WC()->cart->get_subtotal();
+    $cart_remaining = 100 - $cart_total;
+    if ($cart_total < 100 ) {
+        echo '<div style="display: flex; align-items: center;">';
+        echo '<span style="margin-right: 10px;">' . get_woocommerce_currency_symbol() . '0</span>';
+        echo '<progress id="freeshippingprogress" max="100" value="'.$cart_total.'"></progress>';
+        echo '<span style="margin-left: 10px;">' . get_woocommerce_currency_symbol() . '100</span>';
+        echo '</div>';
+        echo '<span style="color:blue;">You\'re ' . get_woocommerce_currency_symbol() . $cart_remaining . ' away from free shipping!</span>';
+    } else {
+        echo '<span style="color:blue;">You\'ve unlocked free shipping!</span>';
+    }
+}
+
+function tps_free_bar_update() {
+	?>
+	<script>
+			jQuery(document.body).on( 'click', '.wc-block-components-quantity-selector__button', function(e) {
+			// 	e.preventDefault();
+			<?php 
+			$cart_total = WC()->cart->get_subtotal();
+			?>
+				// var subtotal = jQuery( '.wp-block-woocommerce-cart-order-summary-totals-block .wp-block-woocommerce-cart-order-summary-subtotal-block .wc-block-components-totals-item .wc-block-components-totals-item__value').text()
+				console.log(<?php echo $cart_total; ?>);
+				// jQuery('#tps-shipping-bar').html()
+			})
+	</script>
+	<?php
+
+	// Show 'Spend another X amount' on cart page.
+add_filter( 'woocommerce_cart_totals_before_shipping', 'ts_cart_page_progress_bar', 10 );
+function ts_cart_page_progress_bar() {
+    $cart_total = WC()->cart->get_subtotal();
+    $cart_remaining = 100 - $cart_total;
+    if ($cart_total < 100 ) {
+        echo '<div style="display: flex; align-items: center;">';
+        echo '<span style="margin-right: 10px;">' . get_woocommerce_currency_symbol() . '0</span>';
+        echo '<progress id="freeshippingprogress" max="100" value="'.$cart_total.'"></progress>';
+        echo '<span style="margin-left: 10px;">' . get_woocommerce_currency_symbol() . '100</span>';
+        echo '</div>';
+        echo '<span style="color:blue;">You\'re ' . get_woocommerce_currency_symbol() . $cart_remaining . ' away from free shipping!</span>';
+    } else {
+        echo '<span style="color:blue;">You\'ve unlocked free shipping!</span>';
+    }
+};
+
+}
+
+/**
+ * Per product shipping
+ * 
+ * @since 1.2.1
+ */
+$shipping_per_product = new PerProductShippingSettings();
+$enable_per_product = $shipping_per_product->fetch()->get( PerProductShippingSettings::PER_PRODUCT_SHIPPING );
+
+if ( 'yes' === $enable_per_product ) {
+	add_action('woocommerce_product_options_shipping_product_data', 'woocommerce_product_custom_fields');
+}
+
+function woocommerce_product_custom_fields() {
+	echo '<div class="options_group">';
+	echo 'hello field';
+	echo '</div>';
 }

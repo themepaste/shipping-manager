@@ -33,7 +33,8 @@ class FreeShipping extends AbstractRules implements RulesInterface {
 		$enable_minimum = $shipping_fees->fetch()->get( FreeShippingSettings::MINIMUM_AMOUNT );
 		$minimum_amount = $shipping_fees->fetch()->get( FreeShippingSettings::CART_AMOUNT );
 		$after_coupon = $shipping_fees->fetch()->get( FreeShippingSettings::AFTER_COUPON );
-		$cart_total = $woocommerce->cart->get_cart_contents_total();
+		$cart_total = $woocommerce->cart->cart_contents_total+$woocommerce->cart->tax_total;
+
 		if ( 'yes' === $after_coupon ) {
 			$cart_total = $cart_total + $woocommerce->cart->get_discount_total();
 		}

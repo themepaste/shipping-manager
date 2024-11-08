@@ -1,6 +1,7 @@
 <?php
 namespace Themepaste\ShippingManager;
 
+
 defined( 'ABSPATH' ) || exit;
 
 use Themepaste\ShippingManager\Admin\{
@@ -63,6 +64,8 @@ final class ShippingManager {
 		self::$container[ BusinessManager::INSTANCE_KEY ] = new BusinessManager();
 		self::$container[ ShippingCost::INSTANCE_KEY ] = new ShippingCost();
 		self::$container[ ProductPageShipping::INSTANCE_KEY ] = new ProductPageShipping();
+
+		
 	}
 
 	/**

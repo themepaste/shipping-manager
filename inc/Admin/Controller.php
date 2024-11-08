@@ -49,6 +49,8 @@ class Controller {
 			Routes::FREE_SHIPPING => __( 'Free Shipping', 'tps-manager' ),
 			Routes::PER_PRODUCT_SHIPPING => __( 'Per Product Shipping', 'tps-manager' ),
 			Routes::PRODUCT_PAGE_SHIPPING => __( 'Product Page Shipping', 'tps-manager' ),
+			Routes::BOX_SHIPPING => __( 'Box Shipping', 'tps-manager' ),
+			Routes::DISTANCE_SHIPPING => __( 'Distance Shipping', 'tps-manager' ),
 			Routes::TRACK_SHIPPING => __( 'Track Shipping', 'tps-manager' ),
 		];
 

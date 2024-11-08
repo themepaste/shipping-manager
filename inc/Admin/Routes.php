@@ -62,6 +62,24 @@ class Routes {
 	const PRODUCT_PAGE_SHIPPING = 'product-page-shipping';
 
 	/**
+	 * ID for Boxbased Shipping TSM sub-page
+	 *
+	 * @since 1.1.0
+	 *
+	 * @var string
+	 */
+	const BOX_SHIPPING = 'box-shipping';
+
+	/**
+	 * ID for Boxbased Shipping TSM sub-page
+	 *
+	 * @since 1.1.0
+	 *
+	 * @var string
+	 */
+	const DISTANCE_SHIPPING = 'distance-shipping';
+
+	/**
 	 * ID for Track Shipping TSM sub-page
 	 *
 	 * @since 1.1.0
@@ -100,6 +118,14 @@ class Routes {
 		self::TRACK_SHIPPING => [
 			'page' => 'shipping-manager',
 			'tsm-page' => 'track-shipping'
+		],
+		self::BOX_SHIPPING => [
+			'page' => 'shipping-manager',
+			'tsm-page' => 'box-shipping'
+		],
+		self::DISTANCE_SHIPPING => [
+			'page' => 'shipping-manager',
+			'tsm-page' => 'distance-shipping'
 		],
 	];
 
