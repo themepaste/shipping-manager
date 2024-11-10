@@ -16,8 +16,10 @@ class BoxShippingSettings extends Model {
 	 *
 	 * @since 1.1.0
 	 */
-	const BOX_SIZE_MANAGEMENT = 'box-size-management';
-	const MULTIPLE_BOX_SIZES = 'multiple-box-sizes';
+	const BOX_SIZE_MANAGEMENT = 'enable-box-size-management';
+	const BOX_SIZES = 'box-sizes';
+	const MULTIPLE_BOX_SIZES = 'enable-multiple-box-sizes';
+	const MULTIPLE_BOX = 'multiple-box';
 	const BOX_PRICE_CONFIGURATION = 'box-price-configuration';
 
 	/**
@@ -29,7 +31,9 @@ class BoxShippingSettings extends Model {
 	 */
 	protected array $settings = [
 		self::BOX_SIZE_MANAGEMENT => Constants::NO,
+		self::BOX_SIZES => [],
 		self::MULTIPLE_BOX_SIZES => Constants::NO,
+		self::MULTIPLE_BOX => 0,
 		self::BOX_PRICE_CONFIGURATION => Constants::NO,
 	];
 
