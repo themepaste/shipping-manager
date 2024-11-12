@@ -84,10 +84,12 @@ class FreeShipping extends AbstractRules implements RulesInterface {
 
 		$all_free_rates = array();
 
-		foreach ( $rates as $rate_id => $rate ) {
-			if ( 'tsm-shipping-manager-shipping-method' === $rate->method_id ) {
-				$rate->cost = 0;
-				break;
+		if ( ! empty ($rates) ) {
+			foreach ( $rates as $rate_id => $rate ) {
+				if ( 'tsm-shipping-manager-shipping-method' === $rate->method_id ) {
+					$rate->cost = 0.00;
+					break;
+				}
 			}
 		}
 

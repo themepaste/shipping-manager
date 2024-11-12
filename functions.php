@@ -262,10 +262,156 @@ $enable_per_product = $shipping_per_product->fetch()->get( PerProductShippingSet
 
 if ( 'yes' === $enable_per_product ) {
 	add_action('woocommerce_product_options_shipping_product_data', 'woocommerce_product_custom_fields');
+	add_action( 'admin_enqueue_scripts', 'add_tsm_admin_scripts', 10, 1 );
 }
 
+// Displaying quantity setting fields on admin product pages
 function woocommerce_product_custom_fields() {
-	echo '<div class="options_group">';
-	echo 'hello field';
+    global $product_object;
+
+    $values = $product_object->get_meta('_tsm_enable_per_product');
+
+    woocommerce_wp_checkbox( array( // Checkbox.
+        'id'            => '_tsm_enable_per_product',
+        'label'         => '',
+        'value'         => empty($values) ? 'yes' : $values,
+        'description'   => __( 'Enable per product shipping', 'woocommerce' ),
+    ) );
+
+	echo '<div class="tsm_table_per_product">';
+	?>
+	
+	<table>
+	<tr class="empty-row" style="display: none;">
+		<td></td>
+		<td><input type="text"></td>
+		<td><input type="text"></td>
+		<td><input type="text"></td>
+		<td><input type="text"></td>
+		<td><input type="text"></td>
+		<td><input type="text"></td>
+		<td><input type="text"></td>
+	</tr>
+		<tr class="header-row">
+			<th></th>
+			<th><?php echo __( 'Country Code[?]', 'tps-manager' ); ?></th>
+			<th><?php echo __( 'State Code[?]', 'tps-manager' ); ?></th>
+			<th><?php echo __( 'City Name[?]', 'tps-manager' ); ?></th>
+			<th><?php echo __( 'District Name[?]', 'tps-manager' ); ?></th>
+			<th><?php echo __( 'Zip Code[?]', 'tps-manager' ); ?></th>
+			<th><?php echo __( 'Line Cost (Excl. Tax)[?]', 'tps-manager' ); ?></th>
+			<th><?php echo __( 'Item Cost (Excl. Tax)[?]', 'tps-manager' ); ?></th>
+		</tr>
+		<?php
+		$product_shipping_rates = maybe_unserialize( $product_object->get_meta('_tsm_per_product_shipping_rates') );
+		foreach( $product_shipping_rates as $key => $product_shipping_rate ) {
+			?>
+			<tr>
+				<td></td>
+				<td><input type="text" name="product_shipping_rates[<?php echo esc_attr( $key ); ?>][]" value="<?php echo isset( $product_shipping_rate[0] ) ? $product_shipping_rate[0] : ''; ?>"></td>
+				<td><input type="text" name="product_shipping_rates[<?php echo esc_attr( $key ); ?>][]" value="<?php echo isset( $product_shipping_rate[1] ) ? $product_shipping_rate[1] : ''; ?>"></td>
+				<td><input type="text" name="product_shipping_rates[<?php echo esc_attr( $key ); ?>][]" value="<?php echo isset( $product_shipping_rate[2] ) ? $product_shipping_rate[2] : ''; ?>"></td>
+				<td><input type="text" name="product_shipping_rates[<?php echo esc_attr( $key ); ?>][]" value="<?php echo isset( $product_shipping_rate[3] ) ? $product_shipping_rate[3] : ''; ?>"></td>
+				<td><input type="text" name="product_shipping_rates[<?php echo esc_attr( $key ); ?>][]" value="<?php echo isset( $product_shipping_rate[4] ) ? $product_shipping_rate[4] : ''; ?>"></td>
+				<td><input type="text" name="product_shipping_rates[<?php echo esc_attr( $key ); ?>][]" value="<?php echo isset( $product_shipping_rate[5] ) ? $product_shipping_rate[5] : ''; ?>"></td>
+				<td><input type="text" name="product_shipping_rates[<?php echo esc_attr( $key ); ?>][]" value="<?php echo isset( $product_shipping_rate[6] ) ? $product_shipping_rate[6] : ''; ?>"></td>
+			</tr>
+			<?php
+		}
+		?>
+	</table>
+	<button class="button button-primary add-row-button"><?php echo __('Add row', 'tps_manager'); ?></button>
+	<button class="button button-danger remove-row-button"><?php echo __('Delete row', 'tps_manager'); ?></button>
+	<?php
 	echo '</div>';
+}
+
+// Save quantity setting fields values
+add_action( 'woocommerce_admin_process_product_object', 'save_custom_field_product_options_pricing' );
+function save_custom_field_product_options_pricing( $product ) {
+    $product->update_meta_data( '_tsm_enable_per_product', isset($_POST['_tsm_enable_per_product']) ? 'yes' : 'no' );
+
+	$product_shipping_rates = [];
+	if ( isset( $_POST['product_shipping_rates'] ) ) {
+		$product_shipping_rates = $_POST['product_shipping_rates'];
+	}
+	$product->update_meta_data( '_tsm_per_product_shipping_rates', $product_shipping_rates );
+}
+
+function add_tsm_admin_scripts( $hook ) {
+
+    global $post;
+
+    if ( $hook == 'post-new.php' || $hook == 'post.php' ) {
+        if ( 'product' === $post->post_type ) {     
+            wp_enqueue_script(  'tsm-per-product-script', plugin_dir_url( __FILE__ ). 'assets/build/admin/js/per-product-shipping.js', array( 'jquery' ) );
+        }
+    }
+}
+
+add_filter( 'woocommerce_package_rates', 'woocommerce_per_product_shipping_rates' );
+
+function woocommerce_per_product_shipping_rates( $rates ) {
+
+	global $woocommerce;
+	$country = $woocommerce->customer->get_shipping_country();
+	$city = $woocommerce->customer->get_shipping_city();
+	$postcode = $woocommerce->customer->get_shipping_postcode();
+	$cart = $woocommerce->cart->get_cart();
+	$cart_quantity = $woocommerce->cart->get_cart_contents_count();
+	static $cart_cost = 0;
+	static $per_product_cost = 0;
+	
+	static $number = 0;
+
+	
+foreach( $cart as $cart_item_key => $cart_item ) {
+	
+		if ( $number >= $cart_quantity ) {
+			break;
+		}
+		$product_id = $cart_item['product_id'];
+		$is_virtual = get_post_meta( $product_id, '_virtual', true );
+
+		if ( 'yes' == $is_virtual ) {
+			$cart_quantity = $cart_quantity - $cart_item['quantity'];
+		}
+		
+		$product = wc_get_product( $product_id );
+		$enable_per_product = $product->get_meta('_tsm_enable_per_product');
+
+		if ( 'yes' === $enable_per_product ) {
+			$cost = 0;
+			$per_product_shipping_rates = $product->get_meta('_tsm_per_product_shipping_rates');
+
+			foreach( $per_product_shipping_rates as $per_product_shipping_rate ) {
+
+				$shipping_rate_country = isset( $per_product_shipping_rate[0] ) ? $per_product_shipping_rate[0] : '';
+
+				if ( $country == $shipping_rate_country ) {
+
+					$cost = ( isset($per_product_shipping_rate[5]) ? (int)$per_product_shipping_rate[5] : 0 ) + ( isset( $per_product_shipping_rate[6] ) ? (int)$per_product_shipping_rate[6] : 0 );
+					
+					foreach ( $rates as $rate_id => $rate ) {
+						$quantity = $cart_item['quantity'];
+						$per_product_cost = ($cost * $quantity);
+					}
+				}
+			}
+		} else {
+			
+			foreach ( $rates as $rate_id => $rate ) {
+				$quantity = $cart_item['quantity'];
+				$per_product_shipping = ($rate->cost / $cart_quantity );
+				$cart_cost = $per_product_shipping * $quantity;
+			}
+		}
+		$number++;
+	}
+	if ( 'tsm-shipping-manager-shipping-method' === $rate->method_id ) {
+		foreach ( $rates as $rate_id => $rate ) {
+			$rate->cost = $cart_cost + $per_product_cost;
+		}
+	}
+	return $rates;
 }

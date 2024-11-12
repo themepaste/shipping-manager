@@ -46,6 +46,20 @@ let product_page_shipping = {
 	},
 };
 
+let per_product_shipping = {
+	mode: 'development',
+	...defaultConfig,
+	...{
+		entry: {
+			admin: './src/js/per-product-shipping.js',
+		},
+		output: {
+			filename: 'per-product-shipping.js',
+			path: __dirname + '/assets/build/admin/js',
+		},
+	},
+};
+
 let admin_dashboard_style = {
 	mode: 'development',
 	entry: './src/scss/admin/general.scss',
@@ -76,4 +90,5 @@ module.exports = [
 	shipping_fees,
 	free_shipping,
 	product_page_shipping,
+	per_product_shipping,
 ];
