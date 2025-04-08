@@ -15,8 +15,6 @@ require 'vendor/autoload.php';
 use Themepaste\ShippingManager\ShippingManager;
 
 
-
-
 defined( 'TPS_MANAGER_SHIPPING_MANAGER_PLUGIN_VERSION' ) || define( 'TPS_MANAGER_SHIPPING_MANAGER_PLUGIN_VERSION', '1.1.0' );
 defined( 'TPS_MANAGER_PLUGIN_ROOT_PATH' ) || define( 'TPS_MANAGER_PLUGIN_ROOT_PATH', dirname( __FILE__ ) );
 defined( 'TPS_MANAGER_ASSET_ROOT_URL' ) || define( 'TPS_MANAGER_ASSET_ROOT_URL', plugin_dir_url( __FILE__ ) );
