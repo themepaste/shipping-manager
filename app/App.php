@@ -24,7 +24,7 @@ final class App {
          * This hook is triggered only admin end.
          */
         if( is_admin() ) {
-
+            new Classes\Admin();
         }
         /**
          * Register hooks for Front end.

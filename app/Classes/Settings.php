@@ -1,0 +1,40 @@
+<?php 
+
+namespace ThemePaste\ShippingManager\Classes;
+
+use ThemePaste\ShippingManager\Traits\Hook;
+
+class Settings {
+
+    use Hook;
+
+    /**
+     * Intialize the plugin setting page
+     */
+    public function init() {
+        $this->action( 'admin_menu', [$this, 'shipping_manager_setting_page'] );
+    }
+
+    /**
+     * Register/Add submenu page as shipping manager settings page 
+     */
+    public function shipping_manager_setting_page() {
+        if ( class_exists( 'WooCommerce' ) ) {
+            add_submenu_page(
+                'woocommerce',                                           // Parent slug
+                __( 'Shipping Manager', 'shipping-manager' ),            // Page title
+                __( 'Shipping Manager', 'shipping-manager' ),            // Menu title
+                'manage_options',                                        // Capability
+                'custom-woocommerce-submenu',                            // Menu slug
+                [$this, 'settings_page_layout']                          // Callback function
+            );
+        }
+    }
+
+    /**
+     * Calling setting page layout
+     */
+    public function settings_page_layout() {
+        
+    }
+}
