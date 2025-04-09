@@ -1,3 +1,35 @@
-.themepaste-shipping-manager-wrapper {
-    background-color: red;
+.shipping-manager-container {
+    background-color: #fff;
+    display: flex;
+}
+.tpsm-siderbar-wrapper {
+    padding: 20px;
+    width: 200px;
+    background-color: #f6f9f9;
+}
+.tpsm-main-wrapper {
+    padding: 20px;
+    width: calc( 100% - 200px );
+}
+.tpsm-siderbar-wrapper ul {}
+.tpsm-siderbar-wrapper ul li {}
+.tpsm-siderbar-wrapper ul li a,
+.tpsm-siderbar-wrapper ul li a:active,
+.tpsm-siderbar-wrapper ul li a:focus,
+.tpsm-siderbar-wrapper ul li a:focus-visible,
+.tpsm-siderbar-wrapper ul li a:visited {
+    text-decoration: none;
+    display: block;
+    font-weight: 500;
+    border-radius: 3px;
+    transition: 0.3s all ease;
+    color:#3d444b;
+    outline: 0;
+    padding: 8px;
+    font-size: 14px;
+    box-shadow: none;
+}
+.tpsm-siderbar-wrapper ul li a.active {
+    color: #f25500;
+    background-color: #fff;
 }
