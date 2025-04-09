@@ -57,8 +57,8 @@ class Settings {
             );
             add_submenu_page(     
                 'shipping-manager',                                          // parent slug
-                __( 'Pro 🟢', 'shipping-manager' ),            // Page title
-                __( 'Pro 🟢', 'shipping-manager' ),            // Menu title
+                __( 'Shipping Manager Pro 🟢', 'shipping-manager' ),            // Page title
+                __( 'Shipping Manager Pro 🟢', 'shipping-manager' ),            // Menu title
                 'manage_options',                                            // Capability
                 'shipping-manager-pro',                                      // Menu slug
                 [$this, 'settings_page_layout_pro'],                             // Callback function
