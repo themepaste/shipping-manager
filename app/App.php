@@ -1,6 +1,8 @@
 <?php 
 namespace ThemePaste\ShippingManager;
 
+defined( 'ABSPATH' ) || exit;
+
 use ThemePaste\ShippingManager\Traits\Hook;
 
 final class App {

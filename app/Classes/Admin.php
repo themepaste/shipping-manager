@@ -2,6 +2,8 @@
 
 namespace ThemePaste\ShippingManager\Classes;
 
+defined( 'ABSPATH' ) || exit;
+
 use ThemePaste\ShippingManager\Traits\Hook;
 
 class Admin {
