@@ -4,6 +4,7 @@ namespace ThemePaste\ShippingManager\Classes;
 
 defined( 'ABSPATH' ) || exit;
 
+use ThemePaste\ShippingManager\Helpers\Utility;
 use ThemePaste\ShippingManager\Traits\Hook;
 
 class Settings {
@@ -27,7 +28,7 @@ class Settings {
                 __( 'Shipping Manager', 'shipping-manager' ),            // Page title
                 __( 'Shipping Manager', 'shipping-manager' ),            // Menu title
                 'manage_options',                                        // Capability
-                'custom-woocommerce-submenu',                            // Menu slug
+                'shipping-manager',                            // Menu slug
                 [$this, 'settings_page_layout']                          // Callback function
             );
         }
@@ -37,6 +38,6 @@ class Settings {
      * Calling setting page layout
      */
     public function settings_page_layout() {
-        
+        echo Utility::get_template( 'settings/layout.php' );
     }
 }
