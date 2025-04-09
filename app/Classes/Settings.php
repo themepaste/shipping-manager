@@ -46,13 +46,22 @@ class Settings {
      */
     public function shipping_manager_setting_page() {
         if ( class_exists( 'WooCommerce' ) ) {
-            add_submenu_page(
-                'woocommerce',                                           // Parent slug
+            add_menu_page(                                           
                 __( 'Shipping Manager', 'shipping-manager' ),            // Page title
                 __( 'Shipping Manager', 'shipping-manager' ),            // Menu title
                 'manage_options',                                        // Capability
                 'shipping-manager',                                      // Menu slug
-                [$this, 'settings_page_layout']                          // Callback function
+                [$this, 'settings_page_layout'],                         // Callback function
+                'dashicons-airplane',
+                56
+            );
+            add_submenu_page(     
+                'shipping-manager',                                          // parent slug
+                __( 'Pro 🟢', 'shipping-manager' ),            // Page title
+                __( 'Pro 🟢', 'shipping-manager' ),            // Menu title
+                'manage_options',                                            // Capability
+                'shipping-manager-pro',                                      // Menu slug
+                [$this, 'settings_page_layout_pro'],                             // Callback function
             );
         }
     }
@@ -73,5 +82,12 @@ class Settings {
             exit;
         }
         printf( Utility::get_template( 'settings/layout.php' ) );
+    }
+
+    /**
+     * Calling setting page layout pro
+     */
+    public function settings_page_layout_pro() {
+       esc_html_e( 'Pro Features Loading...', 'shipping-manager' );
     }
 }
