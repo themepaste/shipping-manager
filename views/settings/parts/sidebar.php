@@ -1,11 +1,14 @@
 <?php 
     $settings_option = tpsm_settings_options();
+    $current_screen  = isset( $_GET['tpsm-setting']) ? sanitize_text_field($_GET['tpsm-setting']) : null;
 ?>
+
 <div class="tpsm-siderbar-wrapper">
     <ul>
         <?php 
             foreach ( $settings_option as $key => $value ) {
-                printf( '<li><a href="%1$s">%2$s</a></li>', 
+                printf( '<li><a class="%1$s" href="%2$s">%3$s</a></li>', 
+                    $current_screen == $key ? 'active' : '',
                     add_query_arg( 
                         array(
                             'page' => 'shipping-manager',
@@ -17,8 +20,5 @@
                 );
             }
         ?>
-        <!-- <li><a class="active" href="#">Shipping Fees</a></li>
-        <li><a href="#">Free Shipping</a></li>
-        <li><a href="#">Per Product Shipping</a></li> -->
     </ul>
 </div>
