@@ -8,7 +8,11 @@ use ThemePaste\ShippingManager\Helpers\Utility;
     <?php 
         foreach ( $settings_option as $key => $value ) {
             if( $current_screen == $key ) {
-                echo Utility::get_template( 'settings/pages/' . $key . '.php' );
+                if( Utility::get_template( 'settings/pages/' . $key . '.php' ) ) {
+                    printf( Utility::get_template( 'settings/pages/' . $key . '.php' ) );
+                }else {
+                    echo esc_html_e( "Load From pro" , 'shiping-manager' );
+                }
             }
         }
     ?>

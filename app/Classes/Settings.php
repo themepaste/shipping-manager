@@ -19,6 +19,16 @@ class Settings {
     public function init() {
         $this->action( 'admin_menu', [$this, 'shipping_manager_setting_page'] );
         $this->action( 'admin_enqueue_scripts', [$this, 'admin_enqueue_scripts'] );
+        $this->filter( 'tpsm_settings_options', [$this, 'abc'] );
+    }
+
+    public function abc($args) {
+        $args['abc'] =  array(
+            'label' => __( 'Abc', 'shipping-manager' ),
+            'class' => '',
+        );
+
+        return $args;
     }
 
     /**
@@ -41,7 +51,7 @@ class Settings {
                 __( 'Shipping Manager', 'shipping-manager' ),            // Page title
                 __( 'Shipping Manager', 'shipping-manager' ),            // Menu title
                 'manage_options',                                        // Capability
-                'shipping-manager',                            // Menu slug
+                'shipping-manager',                                      // Menu slug
                 [$this, 'settings_page_layout']                          // Callback function
             );
         }
@@ -51,6 +61,17 @@ class Settings {
      * Calling setting page layout
      */
     public function settings_page_layout() {
-        echo Utility::get_template( 'settings/layout.php' );
+        if ( ! isset( $_GET['tpsm-setting'] ) ) {
+            $redirect_url = add_query_arg(
+                [
+                    'page' => 'shipping-manager',
+                    'tpsm-setting' => 'shipping-fees',
+                ],
+                admin_url( 'admin.php' )
+            );
+            wp_safe_redirect( $redirect_url );
+            exit;
+        }
+        printf( Utility::get_template( 'settings/layout.php' ) );
     }
 }
