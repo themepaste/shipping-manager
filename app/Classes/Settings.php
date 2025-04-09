@@ -5,17 +5,30 @@ namespace ThemePaste\ShippingManager\Classes;
 defined( 'ABSPATH' ) || exit;
 
 use ThemePaste\ShippingManager\Helpers\Utility;
+use ThemePaste\ShippingManager\Traits\Asset;
 use ThemePaste\ShippingManager\Traits\Hook;
 
 class Settings {
 
     use Hook;
+    use Asset;
 
     /**
      * Intialize the plugin setting page
      */
     public function init() {
         $this->action( 'admin_menu', [$this, 'shipping_manager_setting_page'] );
+        $this->action( 'admin_enqueue_scripts', [$this, 'admin_enqueue_scripts'] );
+    }
+
+    /**
+     * Load all admin stylesheet
+     */
+    public function admin_enqueue_scripts() {
+        $this->enqueue_style( 
+            'tpsm-settings',
+            TPSM_ASSETS_URL . '/admin/settings.css'
+        );
     }
 
     /**

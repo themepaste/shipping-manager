@@ -2,6 +2,8 @@
 
 namespace ThemePaste\ShippingManager\Traits;
 
+defined( 'ABSPATH' ) || exit;
+
 trait Hook {
 
 	/**
