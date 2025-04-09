@@ -1,9 +1,4 @@
-<?php 
-    defined( 'ABSPATH' ) || exit;
-    
-    $settings_option = tpsm_settings_options();
-    $current_screen  = isset( $_GET['tpsm-setting']) ? sanitize_text_field($_GET['tpsm-setting']) : null;
-?>
+<?php defined( 'ABSPATH' ) || exit; ?>
 
 <div class="tpsm-siderbar-wrapper">
     <ul>

@@ -54,5 +54,13 @@ class Utility {
 		}
 	}
 
+	/**
+	 * @param string $var the variable name 
+	 * @return string
+	 */
+	public static function get_screen( $var = '' ) {
+		return isset( $_GET[$var]) ? sanitize_text_field( $_GET[$var] ) : null;
+	}
+
 
 }
