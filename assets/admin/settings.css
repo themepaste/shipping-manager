@@ -38,6 +38,17 @@
 .tpsm-setting-row {
     display: flex;
     align-items: center;
+    margin-bottom: 35px;
+}
+.tpsm-setting-radio-wrapper {
+    gap: 50px;
+}
+.tpsm-setting-radio-wrapper .tpsm-shipping-radio label {
+    cursor: pointer;
+}
+.tpsm-shipping-fees-wrapper .tpsm-shipping-radio {
+    display: flex;
+    align-items: center;
 }
 .tpsm-shipping-fees-wrapper .tpsm-save-button {
     margin-top: 50px;
