@@ -39,3 +39,12 @@
     display: flex;
     align-items: center;
 }
+.tpsm-shipping-fees-wrapper .tpsm-save-button {
+    margin-top: 50px;
+}
+.tpsm-shipping-fees-wrapper .tpsm-save-button button {
+    padding: 8px 30px;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    border-radius: 4px;
+}
