@@ -18,30 +18,31 @@ class Settings {
      */
     public function init() {
         $this->action( 'admin_menu', [$this, 'shipping_manager_setting_page'] );
+        $this->action( 'admin_enqueue_scripts', [$this, 'admin_enqueue_css'] );
         $this->action( 'admin_enqueue_scripts', [$this, 'admin_enqueue_scripts'] );
-        // $this->filter( 'tpsm_settings_options', [$this, 'abc'] );
     }
-
-    // public function abc($args) {
-    //     $args['abc'] =  array(
-    //         'label' => __( 'Abc', 'shipping-manager' ),
-    //         'class' => '',
-    //     );
-
-    //     return $args;
-    // }
 
     /**
      * Load all admin stylesheet
      */
-    public function admin_enqueue_scripts() {
+    public function admin_enqueue_css() {
         $this->enqueue_style( 
             'tpsm-settings',
-            TPSM_ASSETS_URL . '/admin/settings.css'
+            TPSM_ASSETS_URL . '/admin/css/settings.css'
         );
         $this->enqueue_style( 
             'tpsm-fields',
-            TPSM_ASSETS_URL . '/admin/fields.css'
+            TPSM_ASSETS_URL . '/admin/css/fields.css'
+        );
+    }
+
+    /**
+     * Load All admin javascrit files
+     */
+    public function admin_enqueue_scripts() {
+        $this->enqueue_script( 
+            'tpsm-settings',
+            TPSM_ASSETS_URL . '/admin/js/settings.js'
         );
     }
 

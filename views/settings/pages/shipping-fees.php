@@ -18,6 +18,11 @@
             </div>
         </div>
 
+        <div class="tpsm-setting-flat-rat-container">
+            <label for="tpsm-flat-rate-amount">Flat rate Amount:</label>
+            <input type="text" id="tpsm-flat-rate-amount">
+        </div>
+
 
         <div class="tpsm-save-button">
             <button type="submit"><?php esc_html_e( 'Save', 'shipping-manager' ); ?></button>
