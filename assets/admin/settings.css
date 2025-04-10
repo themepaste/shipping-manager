@@ -11,6 +11,10 @@
     padding: 20px;
     width: calc( 100% - 200px );
 }
+.tpsm-siderbar-wrapper ul {
+    margin-top: 0;
+    margin-bottom: 0;
+}
 .tpsm-siderbar-wrapper ul li a,
 .tpsm-siderbar-wrapper ul li a:active,
 .tpsm-siderbar-wrapper ul li a:focus,
@@ -30,4 +34,8 @@
 .tpsm-siderbar-wrapper ul li a.active {
     color: #f25500;
     background-color: #fff;
+}
+.tpsm-setting-row {
+    display: flex;
+    align-items: center;
 }

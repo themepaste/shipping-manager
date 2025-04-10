@@ -1,3 +1,2 @@
-<?php defined( 'ABSPATH' ) || exit;
+<?php defined( 'ABSPATH' ) || exit; ?>
 
-echo "Free Shipping";
