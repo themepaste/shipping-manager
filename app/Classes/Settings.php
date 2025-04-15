@@ -26,7 +26,7 @@ class Settings {
      * Load all admin stylesheet
      */
     public function admin_enqueue_css( $screen ) {
-        if( 'toplavel_page_'.'shipping-manager' == $screen ) {
+        if( 'toplevel_page_'.'shipping-manager' == $screen ) {
             $this->enqueue_style( 
                 'tpsm-settings',
                 TPSM_ASSETS_URL . '/admin/css/settings.css'
@@ -42,7 +42,7 @@ class Settings {
      * Load All admin javascrit files
      */
     public function admin_enqueue_scripts( $screen ) {
-        if( 'toplavel_page_'.'shipping-manager' == $screen ) {
+        if( 'toplevel_page_'.'shipping-manager' == $screen ) {
             $this->enqueue_script( 
                 'tpsm-settings',
                 TPSM_ASSETS_URL . '/admin/js/settings.js'
