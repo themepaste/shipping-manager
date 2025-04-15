@@ -20,6 +20,19 @@ class Settings {
         $this->action( 'admin_menu', [$this, 'shipping_manager_setting_page'] );
         $this->action( 'admin_enqueue_scripts', [$this, 'admin_enqueue_css'] );
         $this->action( 'admin_enqueue_scripts', [$this, 'admin_enqueue_scripts'] );
+        $this->action( 'woocommerce_shipping_init', [$this, 'habib_shipping_method_init'] );
+        $this->filter( 'woocommerce_shipping_methods', [$this, 'habib_add_shipping_method'] );
+    }
+
+    public function habib_shipping_method_init() {
+        if (!class_exists('WC_Habib_Shipping_Method')) {
+            new WCShipping();
+        }
+    }
+
+    public function habib_add_shipping_method( $methods ) {
+        $methods['habib_shipping'] = 'WC_Habib_Shipping_Method';
+        return $methods;
     }
 
     /**
