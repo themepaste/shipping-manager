@@ -14,12 +14,8 @@ if( ! function_exists( 'tpsm_settings_options' ) ) {
                     'label' => __( 'Shipping Fees', 'shipping-manager' ),
                     'class' => '',
                 ),
-                'free-shipping' => array(
-                    'label' => __( 'Free Shipping', 'shipping-manager' ),
-                    'class' => '',
-                ),
-                'per-product-shipping' => array(
-                    'label' => __( 'Per Product Shipping', 'shipping-manager' ),
+                'others' => array(
+                    'label' => __( 'Others', 'shipping-manager' ),
                     'class' => '',
                 ),
             )
