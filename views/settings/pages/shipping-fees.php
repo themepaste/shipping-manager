@@ -9,7 +9,7 @@
 
         <div class="tpsm-setting-row tpsm-setting-radio-wrapper">
             <div class="tpsm-shipping-radio">
-                <input type="radio" id="tpsm-flat-rate-fee" name="tpsm-shipping-fee" value="tpsm-flat-rate-fee_value">
+                <input type="radio" id="tpsm-flat-rate-fee" name="tpsm-shipping-fee" value="tpsm-flat-rate-fee_value" checked>
                 <label for="tpsm-flat-rate-fee"><?php esc_html_e( 'Unit Weight Fee', 'shipping-manager' ) ?></label>
             </div>
             <div class="tpsm-shipping-radio">
@@ -19,7 +19,7 @@
         </div>
 
         <div class="tpsm-shipping-fees-container tpsm-setting-flat-rat-container" id="tpsm-flat-rate-fee_value">
-            <label for="tpsm-flat-rate-amount"><?php esc_html_e( 'Flat rate:', 'shipping-manager' ); ?></label>
+            <label for="tpsm-flat-rate-amount"><?php esc_html_e( 'Flat rate Per Unit:', 'shipping-manager' ); ?></label>
             <input type="text" id="tpsm-flat-rate-amount">
         </div>
 
