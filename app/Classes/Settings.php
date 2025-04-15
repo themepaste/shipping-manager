@@ -25,25 +25,29 @@ class Settings {
     /**
      * Load all admin stylesheet
      */
-    public function admin_enqueue_css() {
-        $this->enqueue_style( 
-            'tpsm-settings',
-            TPSM_ASSETS_URL . '/admin/css/settings.css'
-        );
-        $this->enqueue_style( 
-            'tpsm-fields',
-            TPSM_ASSETS_URL . '/admin/css/fields.css'
-        );
+    public function admin_enqueue_css( $screen ) {
+        if( 'toplavel_page_'.'shipping-manager' == $screen ) {
+            $this->enqueue_style( 
+                'tpsm-settings',
+                TPSM_ASSETS_URL . '/admin/css/settings.css'
+            );
+            $this->enqueue_style( 
+                'tpsm-fields',
+                TPSM_ASSETS_URL . '/admin/css/fields.css'
+            );
+        }
     }
 
     /**
      * Load All admin javascrit files
      */
-    public function admin_enqueue_scripts() {
-        $this->enqueue_script( 
-            'tpsm-settings',
-            TPSM_ASSETS_URL . '/admin/js/settings.js'
-        );
+    public function admin_enqueue_scripts( $screen ) {
+        if( 'toplavel_page_'.'shipping-manager' == $screen ) {
+            $this->enqueue_script( 
+                'tpsm-settings',
+                TPSM_ASSETS_URL . '/admin/js/settings.js'
+            );
+        }
     }
 
     /**
@@ -61,12 +65,12 @@ class Settings {
                 56
             );
             add_submenu_page(     
-                'shipping-manager',                                          // parent slug
+                'shipping-manager',                                             // parent slug
                 __( 'Shipping Manager Pro 🟢', 'shipping-manager' ),            // Page title
                 __( 'Shipping Manager Pro 🟢', 'shipping-manager' ),            // Menu title
-                'manage_options',                                            // Capability
-                'shipping-manager-pro',                                      // Menu slug
-                [$this, 'settings_page_layout_pro'],                             // Callback function
+                'manage_options',                                               // Capability
+                'shipping-manager-pro',                                         // Menu slug
+                [$this, 'settings_page_layout_pro'],                            // Callback function
             );
         }
     }
