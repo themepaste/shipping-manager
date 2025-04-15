@@ -21,11 +21,10 @@ class Settings {
         $this->action( 'admin_enqueue_scripts', [$this, 'admin_enqueue_css'] );
         $this->action( 'admin_enqueue_scripts', [$this, 'admin_enqueue_scripts'] );
         $this->filter( 'woocommerce_shipping_methods', [$this, 'habib_add_shipping_method'] );
-        $this->action( 'woocommerce_shipping_init', [$this, 'habib_shipping_init'] );
     }
 
     public function habib_add_shipping_method( $methods ) {
-        $methods['habib_shipping'] = '\ThemePaste\ShippingManager\Classes\WCShipping';
+        $methods['shipping-manager'] = ShippingMethod::class;
         return $methods;
     }
 

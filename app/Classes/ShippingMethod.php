@@ -5,15 +5,15 @@ defined( 'ABSPATH' ) || exit;
 
 use \WC_Shipping_Method;
 
-class WCShipping extends WC_Shipping_Method {
+class ShippingMethod extends WC_Shipping_Method {
     /**
      * Constructor for your shipping class
      */
-    public function __construct($instance_id = 0) {
-        $this->id = 'habib_shipping';
-        $this->instance_id = absint($instance_id);
-        $this->method_title = __('Habib Shipping', 'habib-shipping');
-        $this->method_description = __('Custom shipping method with fixed $10 rate', 'habib-shipping');
+    public function __construct( $instance_id = 0 ) {
+        $this->id           = 'shipping-manager';
+        $this->instance_id  = absint( $instance_id );
+        $this->method_title = __( 'Shipping Manager Method', 'shipping-manager');
+        $this->method_description = __('Shipping manager Method description');
         $this->supports = array(
             'shipping-zones',
             'instance-settings',
@@ -21,8 +21,8 @@ class WCShipping extends WC_Shipping_Method {
         
         $this->init();
         
-        $this->enabled = isset($this->settings['enabled']) ? $this->settings['enabled'] : 'yes';
-        $this->title = isset($this->settings['title']) ? $this->settings['title'] : __('Habib Shipping', 'habib-shipping');
+        $this->enabled = isset( $this->settings['enabled'] ) ? $this->settings['enabled'] : 'yes';
+        $this->title = isset( $this->settings['title'] ) ? $this->settings['title'] : __( 'Shipping Manager', 'habib-shipping' );
     }
 
     /**
@@ -33,7 +33,7 @@ class WCShipping extends WC_Shipping_Method {
         $this->init_settings();
         
         // Save settings in admin
-        add_action('woocommerce_update_options_shipping_' . $this->id, array($this, 'process_admin_options'));
+        add_action( 'woocommerce_update_options_shipping_' . $this->id, [$this, 'process_admin_options'] );
     }
 
     /**
@@ -42,9 +42,9 @@ class WCShipping extends WC_Shipping_Method {
     public function init_form_fields() {
         $this->form_fields = array(
             'enabled' => array(
-                'title' => __('Enable', 'habib-shipping'),
+                'title' => __( 'Enable', 'habib-shipping' ),
                 'type' => 'checkbox',
-                'description' => __('Enable this shipping method', 'habib-shipping'),
+                'description' => __( 'Enable this shipping method', 'habib-shipping' ),
                 'default' => 'yes'
             ),
             'title' => array(
@@ -63,10 +63,10 @@ class WCShipping extends WC_Shipping_Method {
         $rate = array(
             'id' => $this->id,
             'label' => $this->title,
-            'cost' => 10, // Fixed $10 rate
+            'cost' => 20,
             'calc_tax' => 'per_item'
         );
         
-        $this->add_rate($rate);
+        $this->add_rate( $rate );
     }
 }
