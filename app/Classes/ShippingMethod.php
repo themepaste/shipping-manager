@@ -10,10 +10,10 @@ class ShippingMethod extends WC_Shipping_Method {
      * Constructor for your shipping class
      */
     public function __construct( $instance_id = 0 ) {
-        $this->id           = 'shipping-manager';
+        $this->id           = 'tpsm_shipping_manager';
         $this->instance_id  = absint( $instance_id );
         $this->method_title = __( 'Shipping Manager Method', 'shipping-manager');
-        $this->method_description = __('Shipping manager Method description');
+        $this->method_description = __('Shipping manager Method description', 'shipping-manager');
         $this->supports = array(
             'shipping-zones',
             'instance-settings',
@@ -22,7 +22,7 @@ class ShippingMethod extends WC_Shipping_Method {
         $this->init();
         
         $this->enabled = isset( $this->settings['enabled'] ) ? $this->settings['enabled'] : 'yes';
-        $this->title = isset( $this->settings['title'] ) ? $this->settings['title'] : __( 'Shipping Manager', 'habib-shipping' );
+        $this->title = isset( $this->settings['title'] ) ? $this->settings['title'] : __( 'Shipping Manager', 'shipping-manager' );
     }
 
     /**
@@ -48,10 +48,10 @@ class ShippingMethod extends WC_Shipping_Method {
                 'default' => 'yes'
             ),
             'title' => array(
-                'title' => __('Title', 'habib-shipping'),
+                'title' => __( 'Title', 'habib-shipping' ),
                 'type' => 'text',
                 'description' => __('Title to be displayed at checkout', 'habib-shipping'),
-                'default' => __('Habib Shipping', 'habib-shipping')
+                'default' => __('Shipping Manager', 'habib-shipping')
             ),
         );
     }
@@ -59,11 +59,11 @@ class ShippingMethod extends WC_Shipping_Method {
     /**
      * Calculate shipping costs
      */
-    public function calculate_shipping($package = array()) {
+    public function calculate_shipping( $package = array() ) {
         $rate = array(
-            'id' => $this->id,
+            'id'    => $this->get_rate_id(),
             'label' => $this->title,
-            'cost' => 20,
+            'cost'  => 20,
             'calc_tax' => 'per_item'
         );
         

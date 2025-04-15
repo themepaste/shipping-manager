@@ -4,6 +4,7 @@ namespace ThemePaste\ShippingManager\Classes;
 
 defined( 'ABSPATH' ) || exit;
 
+use Automattic\WooCommerce\Admin\Features\OnboardingTasks\Tasks\Shipping;
 use ThemePaste\ShippingManager\Helpers\Utility;
 use ThemePaste\ShippingManager\Traits\Asset;
 use ThemePaste\ShippingManager\Traits\Hook;
@@ -20,11 +21,18 @@ class Settings {
         $this->action( 'admin_menu', [$this, 'shipping_manager_setting_page'] );
         $this->action( 'admin_enqueue_scripts', [$this, 'admin_enqueue_css'] );
         $this->action( 'admin_enqueue_scripts', [$this, 'admin_enqueue_scripts'] );
+        $this->action( 'woocommerce_shipping_init', [$this, 'abc'] );
         $this->filter( 'woocommerce_shipping_methods', [$this, 'tpsm_add_shipping_method'] );
     }
 
+    public function abc() {
+        if ( ! class_exists( 'ShippingMethod' ) ) {
+            new ShippingMethod();
+        }
+    }
+
     public function tpsm_add_shipping_method( $methods ) {
-        $methods['shipping-manager'] = ShippingMethod::class;
+        $methods['tpsm_shipping_manager'] = ShippingMethod::class;
         return $methods;
     }
 
