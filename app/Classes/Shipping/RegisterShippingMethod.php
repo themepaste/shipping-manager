@@ -63,9 +63,10 @@ class RegisterShippingMethod extends WC_Shipping_Method {
      * @return void
      */
     public function calculate_shipping( $package = array() ) {
+        $cost = apply_filters( 'tpsm_shipping_fees_cost', 0.00 );
         $rate = array(
             'label'     => $this->title,
-            'cost'      => isset( $this->tpsm_settings['flat-rate'] ) ? $this->tpsm_settings['flat-rate'] : 0.00,
+            'cost'      => $cost,
             'calc_tax'  => 'per_item'
         );
 
