@@ -63,7 +63,7 @@ $tpsm_shipping_fees_settings_values = $tpsm_shipping_fees_settings ? $tpsm_shipp
                                     <input type="text" name="fee[]">
                                 </div>
                                 <div class="tpsm-column-4">
-                                    <button type="button" class="delete-row">Delete</button>
+                                    <button type="button" class="delete-row"><?php esc_html_e( 'Delete', 'shipping-manager' ); ?></button>
                                 </div>
                             </div>
                         <?php
@@ -82,17 +82,18 @@ $tpsm_shipping_fees_settings_values = $tpsm_shipping_fees_settings ? $tpsm_shipp
                                         <input type="text" name="fee[]" value="<?php echo $value['fee']; ?>">
                                     </div>
                                     <div class="tpsm-column-4">
-                                        <button type="button" class="delete-row">Delete</button>
+                                        <button type="button" class="delete-row"><?php esc_html_e( 'Delete', 'shipping-manager' ); ?></button>
                                     </div>
                                 </div>
                             <?php 
                         }
                     }
                 ?>
-
-               
             </div>
-            <button type="button" id="addRowBtn">Add New</button>
+
+            <div class="tpsm-addrow-button">
+                <button type="button" id="tpsm-weight-range-pricing-add">Add New</button>
+            </div>
 
         </div>
 

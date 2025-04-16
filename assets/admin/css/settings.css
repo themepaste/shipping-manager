@@ -64,10 +64,18 @@
 .tpsm-shipping-fees-repeater {
     border: 1px solid #ddd;
     padding: 16px;
+    border-radius: 6px;
 }
 .tpsm-shipping-fees-repeater .tpsm-repeater-row {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 20px;
+}
+.tpsm-addrow-button {
+    margin-top: 20px;
+}
+.tpsm-addrow-button button {
+    padding: 5px;
+    cursor: pointer;
 }

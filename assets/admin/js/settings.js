@@ -5,9 +5,8 @@ jQuery(function($){
     });
 
     $(document).ready(function () {
-        $('#addRowBtn').click(function () {
-    
-            console.log("Hello");
+        $('#tpsm-weight-range-pricing-add').click(function () {
+            
             let newRow = `
             <div class="tpsm-repeater-row">
                 <div class="tpsm-column-1">
