@@ -15,5 +15,4 @@ class Admin {
             ( new Settings() )->init();
         } );
     }
-
 }

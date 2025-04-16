@@ -20,6 +20,7 @@ final class App {
          * and checks database versions.
          */
         new Classes\Install();
+        new Classes\Shipping\ShippingMethod();
 
         /**
          * Register hooks for Admin end.

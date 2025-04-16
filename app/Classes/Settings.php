@@ -20,12 +20,6 @@ class Settings {
         $this->action( 'admin_menu', [$this, 'shipping_manager_setting_page'] );
         $this->action( 'admin_enqueue_scripts', [$this, 'admin_enqueue_css'] );
         $this->action( 'admin_enqueue_scripts', [$this, 'admin_enqueue_scripts'] );
-        $this->filter( 'woocommerce_shipping_methods', [$this, 'tpsm_add_shipping_method'] );
-    }
-
-    public function tpsm_add_shipping_method( $methods ) {
-        $methods['tpsm-shipping-manager-habib'] = HabibMethod::class;
-        return $methods;
     }
 
     /**
