@@ -54,15 +54,22 @@ class Cart {
         $shipping_fees_settings = tpsm_get_shipping_fees_settings();
         $shipping_fees_type     = $shipping_fees_settings['type'] ?? '';
         $cost_per_unit          = $shipping_fees_settings['flat-rate'] ?? 0;
+        $weight_range_price     = $shipping_fees_settings['weight-range-price'] ?? [];
 
-        if( 'tpsm-weight-range-fee' == $shipping_fees_type ) {
+        if( 'tpsm-unit-weight-fee' == $shipping_fees_type ) {
             // Only calculate new cost if both weight and cost/unit are valid
             if ( $total_weight && $cost_per_unit ) {
                 return $cost_per_unit * $total_weight;
             }
         } 
         else if( 'tpsm-weight-range-fee' == $shipping_fees_type ) {
-            return $cost = 10;
+            if( ! empty( $weight_range_price ) ) {
+                foreach ( $weight_range_price as $key => $value) {
+                    if( $value['from'] <= $total_weight && $total_weight <= $value['from'] ) {
+                        return $value['fee'] * $total_weight;
+                    } 
+                }
+            }
         }
     }
 

@@ -15,14 +15,20 @@ class RegisterShippingMethod extends WC_Shipping_Method {
      */
     public function __construct( ) {
         $this->tpsm_settings    = tpsm_get_shipping_fees_settings();
+
         $this->id               = self::ID;
         $this->method_title     = __( 'Shipping Manager Method', 'shipping-manager');
         $this->method_description = __( 'Shipping manager Method description', 'shipping-manager' );
-        $this->enabled          = isset( $this->tpsm_settings['enabled'] ) && !empty( $this->tpsm_settings['enabled'] ) ? 'yes' : 'no';
+        $this->enabled          =  isset( $this->tpsm_settings['enabled'] ) && ! empty( $this->tpsm_settings['enabled'] ) && $this->get_tpsm_cost() ? 'yes' : 'no';
         $this->title            = isset( $this->settings['title'] ) ? $this->settings['title'] : __( 'Shipping Manager', 'shipping-manager' );
 
         $this->init();
     }
+
+    private function get_tpsm_cost() {
+        return apply_filters( 'tpsm_shipping_fees_cost', 0 );
+    }
+    
 
     /**
      * Init your settings
@@ -43,10 +49,9 @@ class RegisterShippingMethod extends WC_Shipping_Method {
      * @return void
      */
     public function calculate_shipping( $package = array() ) {
-        $cost = apply_filters( 'tpsm_shipping_fees_cost', 0.00 );
         $rate = array(
             'label'     => $this->title,
-            'cost'      => $cost,
+            'cost'      => $this->get_tpsm_cost(),
             'calc_tax'  => 'per_item'
         );
 
