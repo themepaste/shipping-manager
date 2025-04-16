@@ -36,26 +36,6 @@ class RegisterShippingMethod extends WC_Shipping_Method {
     }
 
     /**
-     * Define settings field for this shipping
-     */
-    // public function init_form_fields() {
-    //     $this->form_fields = array(
-    //         'enabled' => array(
-    //             'title' => __( 'Enable', 'shipping-manager' ),
-    //             'type' => 'checkbox',
-    //             'description' => __( 'Enable this shipping method', 'shipping-manager' ),
-    //             'default' => 'yes'
-    //         ),
-    //         'title' => array(
-    //             'title' => __( 'Title', 'shipping-manager' ),
-    //             'type' => 'text',
-    //             'description' => __( 'Title to be displayed at checkout', 'shipping-manager' ),
-    //             'default' => __( 'Shipping Manager', 'shipping-manager' )
-    //         ),
-    //     );
-    // }
-
-    /**
      * calculate_shipping function.
      *
      * @access public
