@@ -11,12 +11,12 @@ class ShippingMethod extends WC_Shipping_Method {
      */
     public function __construct( $instance_id = 0 ) {
         $this->id           = 'tpsm-shipping-manager';
-        // $this->instance_id  = absint( $instance_id );
+        $this->instance_id  = absint( $instance_id );
         $this->method_title = __( 'Shipping Manager Method', 'shipping-manager');
         $this->method_description = __('Shipping manager Method description', 'shipping-manager');
         $this->supports = array(
             'shipping-zones',
-            // 'instance-settings',
+            'instance-settings',
         );
         
         $this->init();
@@ -62,9 +62,9 @@ class ShippingMethod extends WC_Shipping_Method {
     public function calculate_shipping( $package = array() ) {
 
         $rate = array(
-            'id'    => $this->get_rate_id(),
+            'id'    => $this->id,
             'label' => $this->title,
-            'cost'  => 20,
+            'cost'  => 20.00,
             'calc_tax' => 'per_item'
         );
         
