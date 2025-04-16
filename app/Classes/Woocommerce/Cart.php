@@ -52,15 +52,18 @@ class Cart {
 
         // Get custom shipping fee settings from plugin options
         $shipping_fees_settings = tpsm_get_shipping_fees_settings();
-        $cost_per_unit = $shipping_fees_settings['flat-rate'] ?? 0;
+        $shipping_fees_type     = $shipping_fees_settings['type'] ?? '';
+        $cost_per_unit          = $shipping_fees_settings['flat-rate'] ?? 0;
 
-        // Only calculate new cost if both weight and cost/unit are valid
-        if ( $total_weight && $cost_per_unit ) {
-            return $cost_per_unit * $total_weight;
+        if( 'tpsm-weight-range-fee' == $shipping_fees_type ) {
+            // Only calculate new cost if both weight and cost/unit are valid
+            if ( $total_weight && $cost_per_unit ) {
+                return $cost_per_unit * $total_weight;
+            }
+        } 
+        else if( 'tpsm-weight-range-fee' == $shipping_fees_type ) {
+            return $cost = 10;
         }
-
-        // Return original cost if calculation conditions are not met
-        return $cost;
     }
 
     /**

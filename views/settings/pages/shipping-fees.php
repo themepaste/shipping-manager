@@ -112,7 +112,7 @@ $tpsm_shipping_fees_settings = get_option( 'tpsm-shipping-fees_settings' );
 
             $shipping_data = [];
 
-            foreach ($from as $index => $from_location) {
+            foreach ( $from as $index => $from_location ) {
                 // Sanitize each field using WordPress functions
                 $from_sanitized = sanitize_text_field( $from_location );
                 $to_sanitized   = sanitize_text_field( $to[$index] ?? '' );
@@ -122,7 +122,7 @@ $tpsm_shipping_fees_settings = get_option( 'tpsm-shipping-fees_settings' );
                 $fee_sanitized = is_numeric($fee_raw) ? floatval($fee_raw) : 0;
 
                 // Only include if at least 'from' and 'to' have values (you can modify this logic)
-                if ( !empty($from_sanitized) && !empty($to_sanitized) ) {
+                if ( !empty( $from_sanitized ) && !empty( $to_sanitized ) ) {
                     $shipping_data[] = [
                         'from' => $from_sanitized,
                         'to'   => $to_sanitized,
