@@ -59,3 +59,15 @@
     cursor: pointer;
     border-radius: 4px;
 }
+
+/* Repeater Fields design */
+.tpsm-shipping-fees-repeater {
+    border: 1px solid #ddd;
+    padding: 16px;
+}
+.tpsm-shipping-fees-repeater .tpsm-repeater-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
