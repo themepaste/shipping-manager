@@ -22,3 +22,9 @@ if( ! function_exists( 'tpsm_settings_options' ) ) {
         );
     }
 }
+
+if( !function_exists( 'tpsm_get_shipping_fees_settings' ) ) {
+    function tpsm_get_shipping_fees_settings() {
+        return get_option( 'tpsm-shipping-fees_settings' );
+    }
+}

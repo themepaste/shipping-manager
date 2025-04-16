@@ -1,10 +1,6 @@
 <?php 
 defined( 'ABSPATH' ) || exit; 
 $tpsm_shipping_fees_settings = get_option( 'tpsm-shipping-fees_settings' );
-
-// echo "<pre>";
-// print_r( $tpsm_shipping_fees_settings );
-// echo "</pre>";
 ?>
 
 <div class="tpsm-shipping-fees-wrapper">
@@ -66,7 +62,7 @@ $tpsm_shipping_fees_settings = get_option( 'tpsm-shipping-fees_settings' );
         $tpsm_shipping_fees_settings_values = [
             'enabled'   => $shipping_fees_enabled,
             'type'      => $tpsm_shipping_fee_type,
-            'falt-rate' => $tpsm_shipping_fee_flat_rate_amount,
+            'flat-rate' => $tpsm_shipping_fee_flat_rate_amount,
         ];
         
         update_option( 'tpsm-shipping-fees_settings', $tpsm_shipping_fees_settings_values );
