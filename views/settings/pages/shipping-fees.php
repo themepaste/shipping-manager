@@ -53,7 +53,6 @@ $tpsm_shipping_fees_settings = get_option( 'tpsm-shipping-fees_settings' );
                                     <input type="text" name="fee[]" value="<?php echo $value['fee']; ?>">
                                 </div>
                                 <div class="tpsm-column-4">
-                                    <button type="button">Edit</button>
                                     <button type="button" class="delete-row">Delete</button>
                                 </div>
                             </div>
