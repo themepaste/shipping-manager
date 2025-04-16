@@ -5,15 +5,15 @@ defined( 'ABSPATH' ) || exit;
 
 use \WC_Shipping_Method;
 
-class ShippingMethod extends WC_Shipping_Method {
+class HabibMethod extends WC_Shipping_Method {
     /**
      * Constructor for your shipping class
      */
     public function __construct( $instance_id = 0 ) {
-        $this->id           = 'tpsm-shipping-manager';
+        $this->id           = 'tpsm-shipping-manager-habib';
         $this->instance_id  = absint( $instance_id );
         $this->method_title = __( 'Shipping Manager Method', 'shipping-manager');
-        $this->method_description = __('Shipping manager Method description', 'shipping-manager');
+        $this->method_description = __( 'Shipping manager Method description', 'shipping-manager' );
         $this->supports = array(
             'shipping-zones',
             'instance-settings',
@@ -50,8 +50,8 @@ class ShippingMethod extends WC_Shipping_Method {
             'title' => array(
                 'title' => __( 'Title', 'habib-shipping' ),
                 'type' => 'text',
-                'description' => __('Title to be displayed at checkout', 'habib-shipping'),
-                'default' => __('Shipping Manager', 'habib-shipping')
+                'description' => __( 'Title to be displayed at checkout', 'habib-shipping' ),
+                'default' => __( 'Shipping Manager', 'habib-shipping' )
             ),
         );
     }

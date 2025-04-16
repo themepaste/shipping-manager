@@ -24,7 +24,7 @@ class Settings {
     }
 
     public function tpsm_add_shipping_method( $methods ) {
-        $methods['tpsm-shipping-manager'] = ShippingMethod::class;
+        $methods['tpsm-shipping-manager-habib'] = HabibMethod::class;
         return $methods;
     }
 
