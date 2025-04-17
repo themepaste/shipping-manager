@@ -1,35 +1,43 @@
-jQuery(function($){
-    $('input[name="tpsm-shipping-fee_type"]').change(function() {
-        $('.tpsm-shipping-fees-container').hide();
-        $('#' + $(this).val()).show();
+jQuery(function ($) {
+    /**
+     * Handles toggling visibility of the shipping fee containers
+     * based on the selected shipping fee type radio input.
+     */
+    $(document).ready(function () {
+        $('input[name="tpsm-shipping-fee_type"]').change(function () {
+            // Hide all shipping fee containers
+            $('.tpsm-shipping-fees-container').hide();
+
+            // Show the selected container by ID
+            $('#' + $(this).val()).show();
+        });
     });
 
+    /**
+     * Handles dynamic repeater functionality for adding/removing
+     * shipping fee rows in the weight range pricing section.
+     */
     $(document).ready(function () {
+        /**
+         * Adds a new row to the repeater section when the add button is clicked.
+         */
         $('#tpsm-weight-range-pricing-add').click(function () {
-            
-            let newRow = `
-            <div class="tpsm-repeater-row">
-                <div class="tpsm-column-1">
-                    <input type="text" name="from[]">
-                </div>
-                <div class="tpsm-column-2">
-                    <input type="text" name="to[]">
-                </div>
-                <div class="tpsm-column-3">
-                    <input type="text" name="fee[]">
-                </div>
-                <div class="tpsm-column-4">
-                    <button type="button" class="delete-row">Delete</button>
-                </div>
-            </div>`;
-            $('.tpsm-shipping-fees-repeater').append(newRow);
+            // Clone the last existing repeater row
+            let $clone = $('.tpsm-repeater-row').last().clone();
+
+            // Clear all input values within the cloned row
+            $clone.find('input').val('');
+
+            // Append the cloned and cleared row to the repeater container
+            $('.tpsm-shipping-fees-repeater').append($clone);
         });
-    
+
+        /**
+         * Removes a specific repeater row when the delete button is clicked.
+         */
         $(document).on('click', '.delete-row', function () {
+            // Remove the parent repeater row of the clicked delete button
             $(this).closest('.tpsm-repeater-row').remove();
         });
-    
     });
 });
-
-
