@@ -14,6 +14,10 @@ if( ! function_exists( 'tpsm_settings_options' ) ) {
                     'label' => __( 'Shipping Fees', 'shipping-manager' ),
                     'class' => '',
                 ),
+                'box-shipping' => array(
+                    'label' => __( 'Box Shipping', 'shipping-manager' ),
+                    'class' => '',
+                ),
                 'others' => array(
                     'label' => __( 'Others', 'shipping-manager' ),
                     'class' => '',
