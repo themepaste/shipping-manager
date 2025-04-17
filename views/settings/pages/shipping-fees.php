@@ -157,7 +157,7 @@ $currency_symbol = get_woocommerce_currency_symbol();
                 $fee_raw        = $fee[$index] ?? '';
 
                 // Validate the fee as a numeric value (you can also use is_numeric or regex)
-                $fee_sanitized = is_numeric($fee_raw) ? floatval($fee_raw) : 0;
+                $fee_sanitized = is_numeric( $fee_raw ) ? floatval($fee_raw) : 0;
 
                 // Only include if at least 'from' and 'to' have values (you can modify this logic)
                 if ( !empty( $from_sanitized ) && !empty( $to_sanitized ) ) {
@@ -175,7 +175,14 @@ $currency_symbol = get_woocommerce_currency_symbol();
         }
         
         update_option( 'tpsm-shipping-fees_settings', $tpsm_shipping_fees_settings_values );
-        wp_redirect( admin_url( 'admin.php?page=shipping-manager' ) );
+        wp_redirect( add_query_arg( 
+            array(
+                'page'          => 'shipping-manager',
+                'tpsm-setting'  => $args['current_screen'],
+            ),
+            admin_url( 'admin.php' )
+        ) );
+        
         exit;
     }
 ?>

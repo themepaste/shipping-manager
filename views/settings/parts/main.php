@@ -1,14 +1,13 @@
 <?php
-
+defined( 'ABSPATH' ) || exit; 
 use ThemePaste\ShippingManager\Helpers\Utility;
-
- defined( 'ABSPATH' ) || exit; ?>
+?>
 
 <div class="tpsm-main-wrapper">
     <?php 
         foreach ( $settings_option as $key => $value ) {
             if( $current_screen == $key ) {
-                $template = Utility::get_template( 'settings/pages/' . $key . '.php' );
+                $template = Utility::get_template( 'settings/pages/' . $key . '.php', $args );
                 if( $template ) {
                     echo $template;
                 } else {
