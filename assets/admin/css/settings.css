@@ -50,7 +50,7 @@
     display: flex;
     align-items: center;
 }
-.tpsm-shipping-fees-wrapper .tpsm-save-button {
+.tpsm-setting-wrapper .tpsm-save-button {
     margin-top: 50px;
 }
 .tpsm-setting-wrapper .tpsm-save-button button {
@@ -61,12 +61,14 @@
 }
 
 /* Repeater Fields design */
-.tpsm-shipping-fees-repeater {
+.tpsm-shipping-fees-repeater, .tpsm-box-size-repeater {
     border: 1px solid #ddd;
     padding: 16px;
     border-radius: 6px;
+    margin-top: 20px;
 }
-.tpsm-shipping-fees-repeater .tpsm-repeater-row {
+.tpsm-shipping-fees-repeater .tpsm-repeater-row,
+.tpsm-box-size-repeater .tpsm-box-size-repeater-row {
     display: flex;
     align-items: center;
     justify-content: space-between;

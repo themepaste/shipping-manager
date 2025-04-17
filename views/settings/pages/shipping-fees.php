@@ -7,7 +7,7 @@ $tpsm_shipping_fees_settings_values = $tpsm_shipping_fees_settings ? $tpsm_shipp
     'flat-rate' => '',
     'weight-range-price' => []
 ];
-$weight_unit = get_option('woocommerce_weight_unit');
+$weight_unit = get_option( 'woocommerce_weight_unit' );
 $currency_symbol = get_woocommerce_currency_symbol();
 ?>
 

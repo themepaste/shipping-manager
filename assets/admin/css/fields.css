@@ -1,3 +1,6 @@
+input[type="text"] {
+	width: 100px;
+}
 /*== switch style ==*/
 .tpsm-switch[type=checkbox]{
 	height: 0;
