@@ -66,7 +66,7 @@ class Cart {
             if( ! empty( $weight_range_price ) ) {
                 foreach ( $weight_range_price as $key => $value) {
                     if( $value['from'] <= $total_weight && $total_weight <= $value['to'] ) {
-                        return $value['fee'] * $total_weight;
+                        return $value['fee'];
                     } 
                 }
             }

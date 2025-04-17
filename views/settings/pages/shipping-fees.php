@@ -7,6 +7,8 @@ $tpsm_shipping_fees_settings_values = $tpsm_shipping_fees_settings ? $tpsm_shipp
     'flat-rate' => '',
     'weight-range-price' => []
 ];
+$weight_unit = get_option('woocommerce_weight_unit');
+$currency_symbol = get_woocommerce_currency_symbol();
 ?>
 
 <div class="tpsm-shipping-fees-wrapper">
@@ -35,6 +37,7 @@ $tpsm_shipping_fees_settings_values = $tpsm_shipping_fees_settings ? $tpsm_shipp
         <div class="tpsm-shipping-fees-container tpsm-setting-flat-rat-container" id="tpsm-unit-weight-fee" style="<?php echo $tpsm_shipping_fees_settings_values['type'] == 'tpsm-unit-weight-fee' ? '' : 'display:none'?>">
             <label for="tpsm-shipping-fees-flat-rate-amount"><?php esc_html_e( 'Flat rate Per Unit:', 'shipping-manager' ); ?></label>
             <input type="text" id="tpsm-shipping-fees-flat-rate-amount" name="tpsm-shipping-fees-flat-rate-amount" value="<?php echo $tpsm_shipping_fees_settings_values['flat-rate'] ?>">
+            <?php echo $currency_symbol ?>
         </div>
 
         <!-- Price Range Container  -->
@@ -55,11 +58,14 @@ $tpsm_shipping_fees_settings_values = $tpsm_shipping_fees_settings ? $tpsm_shipp
                             <div class="tpsm-repeater-row">
                                 <div class="tpsm-column-1">
                                     <input type="text" name="from[]">
+                                    <?php echo $weight_unit; ?>
                                 </div>
                                 <div class="tpsm-column-2">
                                     <input type="text" name="to[]">
+                                    <?php echo $weight_unit; ?>
                                 </div>
                                 <div class="tpsm-column-3">
+                                    <?php echo $currency_symbol; ?>
                                     <input type="text" name="fee[]">
                                 </div>
                                 <div class="tpsm-column-4">
@@ -74,11 +80,14 @@ $tpsm_shipping_fees_settings_values = $tpsm_shipping_fees_settings ? $tpsm_shipp
                                 <div class="tpsm-repeater-row">
                                     <div class="tpsm-column-1">
                                         <input type="text" name="from[]" value="<?php echo $value['from']; ?>">
+                                        <?php echo $weight_unit; ?>
                                     </div>
                                     <div class="tpsm-column-2">
                                         <input type="text" name="to[]" value="<?php echo $value['to']; ?>">
+                                        <?php echo $weight_unit; ?>
                                     </div>
                                     <div class="tpsm-column-3">
+                                        <?php echo $currency_symbol; ?>
                                         <input type="text" name="fee[]" value="<?php echo $value['fee']; ?>">
                                     </div>
                                     <div class="tpsm-column-4">
