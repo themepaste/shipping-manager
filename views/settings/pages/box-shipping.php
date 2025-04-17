@@ -41,20 +41,20 @@
                             <input type="text">
                         </div>
                         <div class="tpsm-column-4">
-                            <input type="text">
+                            <input type="text" disabled>
                         </div>
                         <div class="tpsm-column-4">
                             <input type="text">
                         </div>
                         <div class="tpsm-column-4">
-                            <button>Delete</button>
+                            <button type="button" class="delete-row"><?php esc_html_e( 'Delete', 'shipping-manager' ); ?></button>
                         </div>
                         <!-- <div class="tpsm-column-4">Fees per kg</div> -->
                     </div>
                 </div>
 
                 <div class="tpsm-addrow-button">
-                    <button type="button" id="tpsm-weight-range-pricing-add">Add New</button>
+                    <button type="button" id="tpsm-dimension-add">Add New</button>
                 </div>
             </div>
     
