@@ -18,6 +18,10 @@ if( ! function_exists( 'tpsm_settings_options' ) ) {
                     'label' => __( 'Box Shipping', 'shipping-manager' ),
                     'class' => '',
                 ),
+                'distance-calculation' => array(
+                    'label' => __( 'Distance Calculation', 'shipping-manager' ),
+                    'class' => '',
+                ),
                 'others' => array(
                     'label' => __( 'Others', 'shipping-manager' ),
                     'class' => '',
