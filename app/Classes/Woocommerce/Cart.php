@@ -49,7 +49,10 @@ class Cart {
 
         // Get total weight of products in the cart
         $total_weight = $this->cart_total_product_weights( $cart );
-        $total_dimension = $this->cart_total_dimension( $cart );
+        
+        $total_dimension_cost = $this->cart_total_dimension_fee( $cart );
+
+        return $total_dimension_cost;
 
         // Get custom shipping fee settings from plugin options
         $shipping_fees_settings = tpsm_get_shipping_fees_settings();
@@ -100,24 +103,40 @@ class Cart {
         return $total_weight;
     }
 
-    private function cart_total_dimension( $cart ) {
-        $total_dimension = 0;
+    private function cart_total_dimension_fee( $cart ) {
+        $tpsm_dimensions_settings = tpsm_get_box_shipping_settings()['box-shipping'];
+        $total_fee = 0;
     
         foreach ( $cart->get_cart() as $cart_item ) {
-            $product  = $cart_item['data'];
-            $quantity = $cart_item['quantity'];
-    
-            $length = floatval( $product->get_length() );
-            $width  = floatval( $product->get_width() );
-            $height = floatval( $product->get_height() );
-    
+            $product    = $cart_item['data'];
+            $quantity   = $cart_item['quantity'];
+            $length     = floatval( $product->get_length() );
+            $width      = floatval( $product->get_width() );
+            $height     = floatval( $product->get_height() );
+            $fee        = 0;
+
             // Check if all dimensions are valid (greater than zero)
             if ( $length > 0 && $width > 0 && $height > 0 ) {
-                $volume = $length * $width * $height;
-                $total_dimension += $volume * $quantity;
+
+                foreach ( $tpsm_dimensions_settings as $value) {
+                    $tpsm_length    = $value['length'];
+                    $tpsm_width     = $value['width'];
+                    $tpsm_height    = $value['height'];
+
+                    if( $length <= $tpsm_length && $width <= $tpsm_width && $height <= $tpsm_height ) {
+                        $fee  = $value['fee'];
+                        break;
+                    }
+                }
+                $total_fee += $fee * $quantity;
             }
+
         }
     
-        return $total_dimension;
+        return $total_fee;
     }
 }
+
+
+
+
