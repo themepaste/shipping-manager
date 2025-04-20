@@ -32,7 +32,6 @@
                         <div class="tpsm-column-1">Length (<?php echo $dimension_unit;?> )</div>
                         <div class="tpsm-column-2">Width (<?php echo $dimension_unit;?> )</div>
                         <div class="tpsm-column-3">Height (<?php echo $dimension_unit;?> )</div>
-                        <!-- <div class="tpsm-column-4">Dimensions (<?php echo $dimension_unit;?><sup>3</sup> )</div> -->
                         <div class="tpsm-column-4">Fee (<?php echo $currency_symbol;?>)</div>
                         <div class="tpsm-column-4">Action</div>
                     </div>
