@@ -29,7 +29,7 @@ class RegisterShippingMethod extends WC_Shipping_Method {
         $this->id                   = self::ID;
         $this->method_title         = __( 'Shipping Manager Method', 'shipping-manager');
         $this->method_description   = __( 'Shipping manager Method description', 'shipping-manager' );
-        $this->enabled              =  'yes';
+        $this->enabled              =  $this->get_tpsm_cost() ? 'yes' : 'no';
         $this->title                = isset( $this->settings['title'] ) ? $this->settings['title'] : __( 'Shipping Manager', 'shipping-manager' );
 
         $this->init();

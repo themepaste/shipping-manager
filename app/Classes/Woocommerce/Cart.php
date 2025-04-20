@@ -20,12 +20,18 @@ class Cart {
     use Hook;
     use Asset;
 
+    public $shipping_fees_settings;
+    public $box_shipping_settings;
+
     /**
      * Cart constructor.
      *
      * Registers necessary filters/hooks.
      */
     public function __construct() {
+        $this->shipping_fees_settings   = tpsm_get_shipping_fees_settings();
+        $this->box_shipping_settings    = tpsm_get_box_shipping_settings();
+
         $this->filter( 'tpsm_shipping_fees_cost', [ $this, 'shipping_fees_cost' ] );
     }
 
@@ -40,6 +46,7 @@ class Cart {
      * @return float The modified shipping cost based on total weight.
      */
     public function shipping_fees_cost( $cost ) {
+        $shipping_fee = 0;
         $cart = WC()->cart;
 
         // Return original cost if cart is not available (e.g., not loaded yet)
@@ -49,32 +56,38 @@ class Cart {
 
         // Get total weight of products in the cart
         $total_weight = $this->cart_total_product_weights( $cart );
-        
         $total_dimension_cost = $this->cart_total_dimension_fee( $cart );
 
-        return $total_dimension_cost;
-
         // Get custom shipping fee settings from plugin options
-        $shipping_fees_settings = tpsm_get_shipping_fees_settings();
+        $shipping_fees_settings = $this->shipping_fees_settings;
         $shipping_fees_type     = $shipping_fees_settings['type'] ?? '';
         $cost_per_unit          = $shipping_fees_settings['flat-rate'] ?? 0;
         $weight_range_price     = $shipping_fees_settings['weight-range-price'] ?? [];
+        $is_shipping_fees_enabled = $shipping_fees_settings['enabled'] ?? false;
 
-        if( 'tpsm-unit-weight-fee' == $shipping_fees_type ) {
+        if( 'tpsm-unit-weight-fee' == $shipping_fees_type && $is_shipping_fees_enabled ) {
             // Only calculate new cost if both weight and cost/unit are valid
             if ( $total_weight && $cost_per_unit ) {
-                return $cost_per_unit * $total_weight;
+                $cost = $cost_per_unit * $total_weight;
+                $shipping_fee += $cost;
             }
         } 
-        else if( 'tpsm-weight-range-fee' == $shipping_fees_type ) {
+        else if( 'tpsm-weight-range-fee' == $shipping_fees_type && $is_shipping_fees_enabled ) {
             if( ! empty( $weight_range_price ) ) {
                 foreach ( $weight_range_price as $key => $value) {
                     if( $value['from'] <= $total_weight && $total_weight <= $value['to'] ) {
-                        return $value['fee'];
+                        $shipping_fee += $value['fee'];
                     } 
                 }
             }
         }
+
+        $is_box_shipping_enabled = $this->box_shipping_settings['enabled'] ?? false;
+        
+        if( $is_box_shipping_enabled ) {
+            $shipping_fee += $total_dimension_cost;
+        }
+        return $shipping_fee;
     }
 
     /**
@@ -104,7 +117,7 @@ class Cart {
     }
 
     private function cart_total_dimension_fee( $cart ) {
-        $tpsm_dimensions_settings = tpsm_get_box_shipping_settings()['box-shipping'];
+        $tpsm_dimensions_settings = $this->box_shipping_settings['box-shipping'];
         $total_fee = 0;
     
         foreach ( $cart->get_cart() as $cart_item ) {
