@@ -25,7 +25,7 @@
 
             <!-- Box size Shipping -->
             <div class="tpsm-box-size-shipping-wrapper">
-                <h1>Box Size Shipping Settings</h1>
+                <h1>Box Size Shipping Settings for per <?php echo $weight_unit; ?></h1>
 
                 <div class="tpsm-box-size-repeater tpsm-box-size-shipping-table-wrapper">
                     <div class="tpsm-box-size-repeater-row">
@@ -33,7 +33,7 @@
                         <div class="tpsm-column-2">Width (<?php echo $dimension_unit;?> )</div>
                         <div class="tpsm-column-3">Height (<?php echo $dimension_unit;?> )</div>
                         <div class="tpsm-column-4">Dimensions (<?php echo $dimension_unit;?><sup>3</sup> )</div>
-                        <div class="tpsm-column-4">Fee (<?php echo $currency_symbol;?> )</div>
+                        <div class="tpsm-column-4">Fee (<?php echo $currency_symbol;?>)</div>
                         <div class="tpsm-column-4">Action</div>
                     </div>
                     <?php 

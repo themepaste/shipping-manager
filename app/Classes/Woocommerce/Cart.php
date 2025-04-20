@@ -49,6 +49,7 @@ class Cart {
 
         // Get total weight of products in the cart
         $total_weight = $this->cart_total_product_weights( $cart );
+        $total_dimension = $this->cart_total_dimension( $cart );
 
         // Get custom shipping fee settings from plugin options
         $shipping_fees_settings = tpsm_get_shipping_fees_settings();
@@ -97,5 +98,26 @@ class Cart {
         }
 
         return $total_weight;
+    }
+
+    private function cart_total_dimension( $cart ) {
+        $total_dimension = 0;
+    
+        foreach ( $cart->get_cart() as $cart_item ) {
+            $product  = $cart_item['data'];
+            $quantity = $cart_item['quantity'];
+    
+            $length = floatval( $product->get_length() );
+            $width  = floatval( $product->get_width() );
+            $height = floatval( $product->get_height() );
+    
+            // Check if all dimensions are valid (greater than zero)
+            if ( $length > 0 && $width > 0 && $height > 0 ) {
+                $volume = $length * $width * $height;
+                $total_dimension += $volume * $quantity;
+            }
+        }
+    
+        return $total_dimension;
     }
 }
