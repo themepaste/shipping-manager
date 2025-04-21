@@ -14,6 +14,8 @@
  
 <div class="tpsm-setting-wrapper">
     <div class="tpsm-box-shipping-wrapper">
+        <h1>Box Size Shipping Settings</h1>
+        <br>
         <form method="POST">
             <?php wp_nonce_field( 'tpsm-nonce_action', 'tpsm-nonce_name' ); ?>
     
@@ -25,8 +27,6 @@
 
             <!-- Box size Shipping -->
             <div class="tpsm-box-size-shipping-wrapper">
-                <h1>Box Size Shipping Settings</h1>
-
                 <div class="tpsm-box-size-repeater tpsm-box-size-shipping-table-wrapper">
                     <div class="tpsm-box-size-repeater-row">
                         <div class="tpsm-column-1">Length (<?php echo $dimension_unit;?> )</div>

@@ -13,6 +13,8 @@ $currency_symbol = get_woocommerce_currency_symbol();
 
 <div class="tpsm-setting-wrapper">
     <div class="tpsm-shipping-fees-wrapper">
+        <h1>Shipping Fees Settings</h1>
+        <br>
         <form method="POST">
             <?php wp_nonce_field( 'tpsm-nonce_action', 'tpsm-nonce_name' ); ?>
     
@@ -182,7 +184,7 @@ $currency_symbol = get_woocommerce_currency_symbol();
             ),
             admin_url( 'admin.php' )
         ) );
-        
+
         exit;
     }
 ?>
