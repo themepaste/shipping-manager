@@ -48,7 +48,9 @@ $settings_fields = [
             <!-- Print All Field releated to this screen -->
             <?php 
                 foreach ( $settings_fields as $key => $field ) {
-                    $field['value'] = isset( $saved_settings[ $key ] ) ? $saved_settings[ $key ] : '';
+                    if( isset( $saved_settings ) && ! empty( $saved_settings ) ) {
+                        $field['value'] = isset( $saved_settings[ $key ] ) ? $saved_settings[ $key ] : '';
+                    }
 
                     // Check Field Type 
                     if( 'switch' == $field['type'] ) {
@@ -75,7 +77,7 @@ $settings_fields = [
                             $field['value'],                                    // Field Value
                             $currency_symbol,                                   // Woocommerce Currency Symbol
                             $prefix . '-' . $screen_slug . '_' . $key . '_wrapper', // Whole Field Wrapper
-                            $saved_settings[$parent_field_key] == 1 ? 'block' : 'none',
+                            isset( $saved_settings[$parent_field_key] ) ? ( $saved_settings[$parent_field_key] == 1 ? 'block' : 'none' ) : 'none',
                         );
                     }
                 } 

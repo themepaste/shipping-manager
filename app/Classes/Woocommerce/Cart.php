@@ -35,11 +35,27 @@ class Cart {
         $this->box_shipping_settings    = tpsm_get_box_shipping_settings();
         $this->free_shipping_settings   = tpsm_get_free_shipping_settings();
 
+        if( $this->free_shipping_settings['minimum-amount'] ) {
+            $this->action( 'wp_footer', [$this, 'free_shipping_bar'] );
+        }
         // RegisterShippingMethod::get_tpsm_cost()
         if( $this->free_shipping_settings['hide-other'] ) {
             $this->filter( 'woocommerce_package_rates', [ $this, 'filter_shipping_methods' ], 10, 2 );
         }
         $this->filter( 'tpsm_shipping_fees_cost', [ $this, 'shipping_fees_cost' ] );
+    }
+
+    public function free_shipping_bar() {
+        if( is_checkout() ) {
+            $cart   = WC()->cart;
+            $total  = $cart->get_total();
+            $minimum_cart_ammount = $this->free_shipping_settings['cart-amount'];
+            ?>
+                <div class="tpsm-free-shipping-bar-wrapper">
+                    <h1>Hello Footer</h1>
+                </div>
+            <?php
+        }
     }
 
     public function filter_shipping_methods($rates, $package) {
