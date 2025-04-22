@@ -46,3 +46,9 @@ if( !function_exists( 'tpsm_get_box_shipping_settings' ) ) {
         return get_option( 'tpsm-box-shipping_settings' );
     }
 }
+
+if( !function_exists( 'tpsm_get_free_shipping_settings' ) ) {
+    function tpsm_get_free_shipping_settings() {
+        return get_option( 'tpsm-free-shipping_settings' );
+    }
+}

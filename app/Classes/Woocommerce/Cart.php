@@ -23,6 +23,7 @@ class Cart {
 
     public $shipping_fees_settings;
     public $box_shipping_settings;
+    public $free_shipping_settings;
 
     /**
      * Cart constructor.
@@ -32,8 +33,12 @@ class Cart {
     public function __construct() {
         $this->shipping_fees_settings   = tpsm_get_shipping_fees_settings();
         $this->box_shipping_settings    = tpsm_get_box_shipping_settings();
+        $this->free_shipping_settings   = tpsm_get_free_shipping_settings();
 
-        // $this->filter( 'woocommerce_package_rates', [ $this, 'filter_shipping_methods' ], 10, 2 );
+        // RegisterShippingMethod::get_tpsm_cost()
+        if( $this->free_shipping_settings['hide-other'] ) {
+            $this->filter( 'woocommerce_package_rates', [ $this, 'filter_shipping_methods' ], 10, 2 );
+        }
         $this->filter( 'tpsm_shipping_fees_cost', [ $this, 'shipping_fees_cost' ] );
     }
 

@@ -39,7 +39,7 @@ class RegisterShippingMethod extends WC_Shipping_Method {
         return isset( $this->$settings['enabled'] ) && ! empty( $this->$settings['enabled'] ) &&  $cost = $this->get_tpsm_cost() ? 'yes' : 'no';
     }
 
-    private function get_tpsm_cost() {
+    public function get_tpsm_cost() {
         return apply_filters( 'tpsm_shipping_fees_cost', 0 );
     }
     
