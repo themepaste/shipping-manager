@@ -7,6 +7,7 @@ defined( 'ABSPATH' ) || exit;
 use ThemePaste\ShippingManager\Helpers\Utility;
 use ThemePaste\ShippingManager\Traits\Asset;
 use ThemePaste\ShippingManager\Traits\Hook;
+use ThemePaste\ShippingManager\Classes\Shipping\RegisterShippingMethod;
 
 /**
  * Class Cart
@@ -32,7 +33,20 @@ class Cart {
         $this->shipping_fees_settings   = tpsm_get_shipping_fees_settings();
         $this->box_shipping_settings    = tpsm_get_box_shipping_settings();
 
+        // $this->filter( 'woocommerce_package_rates', [ $this, 'filter_shipping_methods' ], 10, 2 );
         $this->filter( 'tpsm_shipping_fees_cost', [ $this, 'shipping_fees_cost' ] );
+    }
+
+    public function filter_shipping_methods($rates, $package) {
+        $allowed_shipping_method = RegisterShippingMethod::ID; // Change this to your method's ID
+    
+        foreach ($rates as $rate_id => $rate) {
+            if ($rate->method_id !== $allowed_shipping_method) {
+                unset($rates[$rate_id]);
+            }
+        }
+    
+        return $rates;
     }
 
     /**
