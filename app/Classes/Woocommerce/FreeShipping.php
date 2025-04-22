@@ -33,10 +33,30 @@ class FreeShipping {
         if( $is_enable = $this->free_shipping_bar && $is_enable = $this->minimum_amount ) {
             $this->action( 'wp_footer', [$this, 'free_shipping_bar'] );
         }
+        if( $is_enable = $this->minimum_amount ) {
+            $this->filter( 'tpsm_minimum_amount_setting', [$this, 'tpsm_minimum_amount_setting'] );
+        } 
         // RegisterShippingMethod::get_tpsm_cost()
         if( $is_enable = $this->hide_other ) {
             $this->filter( 'woocommerce_package_rates', [ $this, 'filter_shipping_methods' ], 10, 2 );
         }
+    }
+
+    private function is_able_tpsm_shipping_free() {
+        $cart   = WC()->cart;
+        $cart_total           = $cart->get_subtotal();
+        $minimum_cart_ammount = $this->cart_amount;
+
+        if( $cart_total > $minimum_cart_ammount && $is_enable = $this->minimum_amount ) {
+            __return_true(  );
+        }
+        else {
+            __return_false(  );
+        }
+    }
+
+    public function tpsm_minimum_amount_setting( $is_enable ) {
+        return $this->is_able_tpsm_shipping_free() ? true : false;
     }
 
     public function free_shipping_bar() {
@@ -62,15 +82,17 @@ class FreeShipping {
     }
 
     public function filter_shipping_methods($rates, $package) {
-        $allowed_shipping_method = RegisterShippingMethod::ID; // Change this to your method's ID
-    
-        foreach ($rates as $rate_id => $rate) {
-            if ($rate->method_id !== $allowed_shipping_method) {
-                unset($rates[$rate_id]);
+        if( $this->is_able_tpsm_shipping_free() ) {
+            $allowed_shipping_method = RegisterShippingMethod::ID; // Change this to your method's ID
+        
+            foreach ($rates as $rate_id => $rate) {
+                if ($rate->method_id !== $allowed_shipping_method) {
+                    unset($rates[$rate_id]);
+                }
             }
+        
+            return $rates;
         }
-    
-        return $rates;
     }
 
 }

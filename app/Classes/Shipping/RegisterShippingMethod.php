@@ -29,7 +29,7 @@ class RegisterShippingMethod extends WC_Shipping_Method {
         $this->id                   = self::ID;
         $this->method_title         = __( 'Shipping Manager Method', 'shipping-manager');
         $this->method_description   = __( 'Shipping manager Method description', 'shipping-manager' );
-        $this->enabled              =  $this->get_tpsm_cost() ? 'yes' : 'no';
+        $this->enabled              = $this->tpsm_minimum_amount_setting() || $this->get_tpsm_cost() ? 'yes' : 'no';
         $this->title                = isset( $this->settings['title'] ) ? $this->settings['title'] : __( 'Shipping Manager', 'shipping-manager' );
 
         $this->init();
@@ -39,9 +39,19 @@ class RegisterShippingMethod extends WC_Shipping_Method {
         return isset( $this->$settings['enabled'] ) && ! empty( $this->$settings['enabled'] ) &&  $cost = $this->get_tpsm_cost() ? 'yes' : 'no';
     }
 
-    public function get_tpsm_cost() {
-        return apply_filters( 'tpsm_shipping_fees_cost', 0 );
+    private function get_tpsm_cost() {
+        if ( $is_enable = $this->tpsm_minimum_amount_setting() ) {
+            return 0;
+        }else {
+            return apply_filters( 'tpsm_shipping_fees_cost', 0 );
+        }
     }
+
+    // if it true than minimun order will be fire and calculate the minimumn order 
+    private function tpsm_minimum_amount_setting() {
+        return apply_filters( 'tpsm_minimum_amount_setting', false );
+    }
+
     
     /**
      * Init your settings

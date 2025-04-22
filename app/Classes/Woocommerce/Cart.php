@@ -92,6 +92,7 @@ class Cart {
         if( $is_box_shipping_enabled ) {
             $shipping_fee += $total_dimension_cost;
         }
+
         return $shipping_fee;
     }
 
