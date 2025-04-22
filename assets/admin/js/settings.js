@@ -64,4 +64,16 @@ jQuery(function ($) {
             $(this).closest('.tpsm-box-size-repeater-row').remove();
         });
     });
+
+    $(document).ready(function() {
+        $('#tpsm-free-shipping_minimum-amount').change(function() {
+            if ($(this).is(':checked')) {
+                $('.tpsm-free-shipping_cart-amount_wrapper').show();
+            } else {
+                $('.tpsm-free-shipping_cart-amount_wrapper').hide();
+            }
+        });
+    });
+    
+    
 });

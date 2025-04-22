@@ -52,7 +52,7 @@ $settings_fields = [
                     }
                     else if( 'text' == $value['type'] ) {
                         printf(
-                            '<div class="tpsm-setting-row">
+                            '<div class="tpsm-setting-row %5$s" style="display:none">
                                 <label>%1$s: </label>
                                 <input type="text" id="%2$s" name="%2$s" value="%3$s" />%4$s
                             </div>
@@ -60,7 +60,8 @@ $settings_fields = [
                             $value['label'],
                             'tpsm-' . $screen_slug . '_' . $key,
                             $value['value'],
-                            $currency_symbol
+                            $currency_symbol,
+                            'tpsm-' . $screen_slug . '_' . $key . '_wrapper',
                         );
                     }
                 } 
