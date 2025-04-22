@@ -30,13 +30,17 @@ class FreeShipping {
         $this->minimum_amount     = $settings['minimum-amount'] ?? '';
         $this->cart_amount        = $settings['cart-amount'] ?? '';
 
+        // If free shipping bar enable
         if( $is_enable = $this->free_shipping_bar && $is_enable = $this->minimum_amount ) {
             $this->action( 'wp_footer', [$this, 'free_shipping_bar'] );
         }
+
+        //If Minimum amount enable
         if( $is_enable = $this->minimum_amount ) {
             $this->filter( 'tpsm_minimum_amount_setting', [$this, 'tpsm_minimum_amount_setting'] );
         } 
-        // RegisterShippingMethod::get_tpsm_cost()
+        
+        //If hide other shipping when free is ok
         if( $is_enable = $this->hide_other ) {
             $this->filter( 'woocommerce_package_rates', [ $this, 'filter_shipping_methods' ], 10, 2 );
         }
@@ -48,15 +52,16 @@ class FreeShipping {
         $minimum_cart_ammount = $this->cart_amount;
 
         if( $cart_total > $minimum_cart_ammount && $is_enable = $this->minimum_amount ) {
-            __return_true(  );
+            return true;
         }
         else {
-            __return_false(  );
+            return false;
         }
     }
 
     public function tpsm_minimum_amount_setting( $is_enable ) {
-        return $this->is_able_tpsm_shipping_free() ? true : false;
+        $is_enable = $this->is_able_tpsm_shipping_free() ? true : false;
+        return $is_enable;
     }
 
     public function free_shipping_bar() {
@@ -93,6 +98,7 @@ class FreeShipping {
         
             return $rates;
         }
+        return $rates;
     }
 
 }
