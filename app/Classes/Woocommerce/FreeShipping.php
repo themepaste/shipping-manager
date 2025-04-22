@@ -30,7 +30,7 @@ class FreeShipping {
         $this->minimum_amount     = $settings['minimum-amount'] ?? '';
         $this->cart_amount        = $settings['cart-amount'] ?? '';
 
-        if( $is_enable = $this->free_shipping_bar ) {
+        if( $is_enable = $this->free_shipping_bar && $is_enable = $this->minimum_amount ) {
             $this->action( 'wp_footer', [$this, 'free_shipping_bar'] );
         }
         // RegisterShippingMethod::get_tpsm_cost()
@@ -42,13 +42,22 @@ class FreeShipping {
     public function free_shipping_bar() {
         if( is_checkout() ) {
             $cart   = WC()->cart;
-            $total  = $cart->get_total();
-            $minimum_cart_ammount = $this->minimum_amount;
-            ?>
-                <div class="tpsm-free-shipping-bar-wrapper">
-                    <progress id="file" value="70" max="100"> 32% </progress>
-                </div>
-            <?php
+            $cart_total           = $cart->get_subtotal();
+            $currency_symbol      = get_woocommerce_currency_symbol();
+            $minimum_cart_ammount = $this->cart_amount;
+            $progress_bar_value   = ( $cart_total / $minimum_cart_ammount ) * 100;
+
+            if( $minimum_cart_ammount > $cart_total ):
+                printf(
+                    '<div class="tpsm-free-shipping-bar-wrapper">
+                        <span>You need %1$s%2$s more in your cart to qualify for free shipping.</span>
+                        <progress id="file" value="%3$s" max="100"></progress>
+                    </div>',
+                    $currency_symbol,
+                    $minimum_cart_ammount - $cart_total,
+                    $progress_bar_value
+                );
+            endif;
         }
     }
 
