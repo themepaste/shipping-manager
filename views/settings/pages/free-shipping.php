@@ -31,7 +31,7 @@ $settings_fields = [
 
 <div class="tpsm-setting-wrapper">
     <div class="tpsm-free-shipping-wrapper">
-        <h1>Free Shipping Settings</h1>
+        <h1><?php esc_html_e( 'Free Shipping Settings', 'shipping-manager' ); ?></h1>
         <br>
         <form action="">
             <?php wp_nonce_field( 'tpsm-nonce_action', 'tpsm-nonce_name' ); ?>
@@ -66,26 +66,9 @@ $settings_fields = [
                 } 
             ?>
 
-            <!-- Show Free Shipping Bar  -->
-            <!-- <div class="tpsm-setting-row">
-                <label><?php esc_html_e( 'Show Free shipping bar:', 'shipping-manager' ); ?></label>
-                <input class="tpsm-switch" type="checkbox" id="tpsm-box-shipping-disable-enable" name="tpsm-box-shipping-disable-enable" /><label for="tpsm-box-shipping-disable-enable" class="tpsm-switch-label"></label>
-            </div> -->
-
-            <!-- Minimum Amount to enable free shipping  -->
-            <!-- <div class="tpsm-setting-row">
-                <label><?php esc_html_e( 'Minimum Amount:', 'shipping-manager' ); ?></label>
-                <input class="tpsm-switch" type="checkbox" id="tpsm-box-shipping-disable-enable" name="tpsm-box-shipping-disable-enable" /><label for="tpsm-box-shipping-disable-enable" class="tpsm-switch-label"></label>
-            </div> -->
-
-            <!-- <div class="tpsm-setting-row">
-                <label><?php esc_html_e( 'Cart Amount:', 'shipping-manager' ); ?></label>
-                <input type="text">
-            </div> -->
-            
-
             <div class="tpsm-save-button">
-                <button type="submit" name="tpsm-box-shipping_submit"><?php esc_html_e( 'Save', 'shipping-manager' ); ?></button>
+                <?php $submit_button = 'tpsm-' . $screen_slug . '_submit'; ?>
+                <button type="submit" name="<?php echo $submit_button ?>"><?php esc_html_e( 'Save', 'shipping-manager' ); ?></button>
             </div>
         </form>
     </div>
