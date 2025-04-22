@@ -34,7 +34,7 @@ final class App {
          * This hook is triggered only front end.
          */
         if( ! is_admin() ) {
-
+            new Classes\Front();
         }
         /**
          * Register hooks for Common.
