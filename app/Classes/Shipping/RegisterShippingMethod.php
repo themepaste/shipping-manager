@@ -43,7 +43,6 @@ class RegisterShippingMethod extends WC_Shipping_Method {
         return apply_filters( 'tpsm_shipping_fees_cost', 0 );
     }
     
-
     /**
      * Init your settings
      */
