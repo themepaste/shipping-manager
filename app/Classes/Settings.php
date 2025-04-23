@@ -1,4 +1,11 @@
-<?php 
+<?php
+/**
+ * Settings Page Class
+ *
+ * Handles the settings page registration and assets for the Shipping Manager plugin.
+ *
+ * @package ThemePaste\ShippingManager
+ */
 
 namespace ThemePaste\ShippingManager\Classes;
 
@@ -8,30 +15,72 @@ use ThemePaste\ShippingManager\Helpers\Utility;
 use ThemePaste\ShippingManager\Traits\Asset;
 use ThemePaste\ShippingManager\Traits\Hook;
 
+/**
+ * Class Settings
+ *
+ * Register settings page, enqueue assets, and add settings link in plugin list.
+ */
 class Settings {
 
     use Hook;
     use Asset;
 
     /**
-     * Intialize the plugin setting page
+     * Settings Page Slug
+     */
+    const SETTING_PAGE_ID = 'shipping-manager';
+
+    /**
+     * Initialize the plugin settings page and hook into WordPress actions/filters.
+     *
+     * @return void
      */
     public function init() {
-        $this->action( 'admin_menu', [$this, 'shipping_manager_setting_page'] );
-        $this->action( 'admin_enqueue_scripts', [$this, 'admin_enqueue_css'] );
-        $this->action( 'admin_enqueue_scripts', [$this, 'admin_enqueue_scripts'] );
+        $this->action( 'admin_menu', [ $this, 'shipping_manager_setting_page' ] );
+        $this->action( 'admin_enqueue_scripts', [ $this, 'admin_enqueue_css' ] );
+        $this->action( 'admin_enqueue_scripts', [ $this, 'admin_enqueue_scripts' ] );
+        $this->filter( 'plugin_action_links_' . TPSM_PLUGIN_BASENAME, [ $this, 'settings_link' ] );
     }
 
     /**
-     * Load all admin stylesheet
+     * Add a 'Settings' link on the plugins page.
+     *
+     * @param array $links Existing plugin action links.
+     * @return array Modified plugin action links.
+     */
+    public function settings_link( $links ) {
+        $settings_url = add_query_arg(
+            [
+                'page' => self::SETTING_PAGE_ID,
+            ],
+            admin_url( 'admin.php' )
+        );
+
+        $settings_link = sprintf(
+            '<a href="%1$s">%2$s</a>',
+            esc_url( $settings_url ),
+            esc_html__( 'Settings', 'shipping-manager' )
+        );
+
+        array_unshift( $links, $settings_link );
+
+        return $links;
+    }
+
+    /**
+     * Enqueue admin CSS styles on the settings page.
+     *
+     * @param string $screen Current admin screen ID.
+     * @return void
      */
     public function admin_enqueue_css( $screen ) {
-        if( 'toplevel_page_'.'shipping-manager' == $screen ) {
-            $this->enqueue_style( 
+        if ( 'toplevel_page_' . self::SETTING_PAGE_ID === $screen ) {
+            $this->enqueue_style(
                 'tpsm-settings',
                 TPSM_ASSETS_URL . '/admin/css/settings.css'
             );
-            $this->enqueue_style( 
+
+            $this->enqueue_style(
                 'tpsm-fields',
                 TPSM_ASSETS_URL . '/admin/css/fields.css'
             );
@@ -39,11 +88,14 @@ class Settings {
     }
 
     /**
-     * Load All admin javascrit files
+     * Enqueue admin JavaScript files on the settings page.
+     *
+     * @param string $screen Current admin screen ID.
+     * @return void
      */
     public function admin_enqueue_scripts( $screen ) {
-        if( 'toplevel_page_'.'shipping-manager' == $screen ) {
-            $this->enqueue_script( 
+        if ( 'toplevel_page_' . self::SETTING_PAGE_ID === $screen ) {
+            $this->enqueue_script(
                 'tpsm-settings',
                 TPSM_ASSETS_URL . '/admin/js/settings.js'
             );
@@ -51,52 +103,64 @@ class Settings {
     }
 
     /**
-     * Register/Add submenu page as shipping manager settings page 
+     * Register the top-level menu page for the Shipping Manager settings.
+     *
+     * @return void
      */
     public function shipping_manager_setting_page() {
         if ( class_exists( 'WooCommerce' ) ) {
-            add_menu_page(                                           
-                __( 'Shipping Manager', 'shipping-manager' ),            // Page title
-                __( 'Shipping Manager', 'shipping-manager' ),            // Menu title
-                'manage_options',                                        // Capability
-                'shipping-manager',                                      // Menu slug
-                [$this, 'settings_page_layout'],                         // Callback function
+            add_menu_page(
+                esc_html__( 'Shipping Manager', 'shipping-manager' ),
+                esc_html__( 'Shipping Manager', 'shipping-manager' ),
+                'manage_options',
+                self::SETTING_PAGE_ID,
+                [ $this, 'settings_page_layout' ],
                 'dashicons-airplane',
                 56
             );
-            add_submenu_page(     
-                'shipping-manager',                                             // parent slug
-                __( 'Shipping Manager Pro 🟢', 'shipping-manager' ),            // Page title
-                __( 'Shipping Manager Pro 🟢', 'shipping-manager' ),            // Menu title
-                'manage_options',                                               // Capability
-                'shipping-manager-pro',                                         // Menu slug
-                [$this, 'settings_page_layout_pro'],                            // Callback function
+
+            // Optional: Add a submenu page for Pro features
+            /*
+            add_submenu_page(
+                self::SETTING_PAGE_ID,
+                esc_html__( 'Shipping Manager Pro 🟢', 'shipping-manager' ),
+                esc_html__( 'Shipping Manager Pro 🟢', 'shipping-manager' ),
+                'manage_options',
+                'shipping-manager-pro',
+                [ $this, 'settings_page_layout_pro' ]
             );
+            */
         }
     }
 
     /**
-     * Calling setting page layout
+     * Load the main settings page layout.
+     *
+     * @return void
      */
     public function settings_page_layout() {
         if ( ! isset( $_GET['tpsm-setting'] ) ) {
             $redirect_url = add_query_arg(
                 [
-                    'page' => 'shipping-manager',
-                    'tpsm-setting' => 'shipping-fees',
+                    'page'          => self::SETTING_PAGE_ID,
+                    'tpsm-setting'  => 'shipping-fees',
                 ],
                 admin_url( 'admin.php' )
             );
+
             wp_safe_redirect( $redirect_url );
             exit;
         }
-        printf( Utility::get_template( 'settings/layout.php' ) );
+
+        printf( '%s', Utility::get_template( 'settings/layout.php' ) );
     }
 
     /**
-     * Calling setting page layout pro
+     * Placeholder for Pro settings layout.
+     *
+     * @return void
      */
     public function settings_page_layout_pro() {
-       esc_html_e( 'Pro Features Loading...', 'shipping-manager' );
+        esc_html_e( 'Pro Features Loading...', 'shipping-manager' );
     }
 }

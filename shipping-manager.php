@@ -49,6 +49,7 @@ if (!defined('ABSPATH')) {
 
        define( 'TPSM_PLUGIN_FILE', __FILE__ );
        define( 'TPSM_PLUGIN_VERSION', '1.0.0' );
+       define( 'TPSM_PLUGIN_BASENAME', plugin_basename( TPSM_PLUGIN_FILE ) );
        define( 'TPSM_PLUGIN_DIR', plugin_dir_path( TPSM_PLUGIN_FILE ) );
        define( 'TPSM_PLUGIN_URL', plugin_dir_url( TPSM_PLUGIN_FILE ) );
        define( 'TPSM_ASSETS_URL', plugins_url( 'assets', TPSM_PLUGIN_FILE ) );
