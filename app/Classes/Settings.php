@@ -29,6 +29,7 @@ class Settings {
      * Settings Page Slug
      */
     const SETTING_PAGE_ID = 'shipping-manager';
+    public $setting_page_url;
 
     /**
      * Initialize the plugin settings page and hook into WordPress actions/filters.
@@ -36,10 +37,34 @@ class Settings {
      * @return void
      */
     public function init() {
+
+        $this->setting_page_url = add_query_arg(
+            [
+                'page' => self::SETTING_PAGE_ID,
+            ],
+            admin_url( 'admin.php' )
+        );
+
+        $this->action( 'admin_init', [$this, 'redirect_to_settings'] );
         $this->action( 'admin_menu', [ $this, 'shipping_manager_setting_page' ] );
         $this->action( 'admin_enqueue_scripts', [ $this, 'admin_enqueue_css' ] );
         $this->action( 'admin_enqueue_scripts', [ $this, 'admin_enqueue_scripts' ] );
         $this->filter( 'plugin_action_links_' . TPSM_PLUGIN_BASENAME, [ $this, 'settings_link' ] );
+    }
+
+    public function redirect_to_settings() {
+        if ( get_transient( 'tpsm_do_activation_redirect' ) ) {
+            delete_transient('tpsm_do_activation_redirect');
+    
+            // Avoid redirecting during multi-site network admin activation
+            if ( is_network_admin() || isset( $_GET['activate-multi'] ) ) {
+                return;
+            }
+    
+            // Redirect to the plugin settings page
+            wp_safe_redirect( $this->setting_page_url );
+            exit;
+        }
     }
 
     /**
@@ -49,16 +74,9 @@ class Settings {
      * @return array Modified plugin action links.
      */
     public function settings_link( $links ) {
-        $settings_url = add_query_arg(
-            [
-                'page' => self::SETTING_PAGE_ID,
-            ],
-            admin_url( 'admin.php' )
-        );
-
         $settings_link = sprintf(
             '<a href="%1$s">%2$s</a>',
-            esc_url( $settings_url ),
+            esc_url( $this->setting_page_url ),
             esc_html__( 'Settings', 'shipping-manager' )
         );
 
@@ -142,10 +160,9 @@ class Settings {
         if ( ! isset( $_GET['tpsm-setting'] ) ) {
             $redirect_url = add_query_arg(
                 [
-                    'page'          => self::SETTING_PAGE_ID,
                     'tpsm-setting'  => 'shipping-fees',
                 ],
-                admin_url( 'admin.php' )
+                $this->setting_page_url
             );
 
             wp_safe_redirect( $redirect_url );
