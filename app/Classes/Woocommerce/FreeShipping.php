@@ -47,15 +47,17 @@ class FreeShipping {
     }
 
     private function is_able_tpsm_shipping_free() {
-        $cart   = WC()->cart;
-        $cart_total           = $cart->get_subtotal();
-        $minimum_cart_ammount = $this->cart_amount;
-
-        if( $cart_total > $minimum_cart_ammount && $is_enable = $this->minimum_amount ) {
-            return true;
-        }
-        else {
-            return false;
+        if( is_checkout() ) {
+            $cart   = WC()->cart;
+            $cart_total           = $cart->get_subtotal();
+            $minimum_cart_ammount = $this->cart_amount;
+    
+            if( $cart_total > $minimum_cart_ammount && $is_enable = $this->minimum_amount ) {
+                return true;
+            }
+            else {
+                return false;
+            }
         }
     }
 

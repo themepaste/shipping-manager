@@ -36,7 +36,6 @@ class Cart {
         $this->free_shipping_settings   = tpsm_get_free_shipping_settings();
 
         new FreeShipping( $this->free_shipping_settings );
-        
         $this->filter( 'tpsm_shipping_fees_cost', [ $this, 'shipping_fees_cost' ] );
     }
 
