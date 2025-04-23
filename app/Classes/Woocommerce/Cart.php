@@ -122,7 +122,7 @@ class Cart {
     }
 
     private function cart_total_dimension_fee( $cart ) {
-        $tpsm_dimensions_settings = $this->box_shipping_settings['box-shipping'];
+        $tpsm_dimensions_settings = $this->box_shipping_settings['box-shipping'] ?? [];
         $total_fee = 0;
     
         foreach ( $cart->get_cart() as $cart_item ) {
@@ -136,19 +136,20 @@ class Cart {
             // Check if all dimensions are valid (greater than zero)
             if ( $length > 0 && $width > 0 && $height > 0 ) {
 
-                foreach ( $tpsm_dimensions_settings as $value) {
-                    $tpsm_length    = $value['length'];
-                    $tpsm_width     = $value['width'];
-                    $tpsm_height    = $value['height'];
-
-                    if( $length <= $tpsm_length && $width <= $tpsm_width && $height <= $tpsm_height ) {
-                        $fee  = $value['fee'];
-                        break;
+                if( !empty( $tpsm_dimensions_settings ) ) {
+                    foreach ( $tpsm_dimensions_settings as $value) {
+                        $tpsm_length    = $value['length'];
+                        $tpsm_width     = $value['width'];
+                        $tpsm_height    = $value['height'];
+    
+                        if( $length <= $tpsm_length && $width <= $tpsm_width && $height <= $tpsm_height ) {
+                            $fee  = $value['fee'];
+                            break;
+                        }
                     }
+                    $total_fee += $fee * $quantity;
                 }
-                $total_fee += $fee * $quantity;
             }
-
         }
     
         return $total_fee;
