@@ -56,9 +56,7 @@
                 <div class="tpsm-field-label">
                     <label><?php esc_html_e( 'Boxes:', 'shipping-manager' ); ?></label>
                 </div>
-                <div class="tpsm-field-input">
-                    
-                </div>
+                <div class="tpsm-field-input"></div>
             </div>
             <div class="tpsm-box-size-shipping-wrapper">
                 <div class="tpsm-box-size-repeater tpsm-box-size-shipping-table-wrapper">

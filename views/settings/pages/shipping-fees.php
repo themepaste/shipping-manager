@@ -85,62 +85,73 @@ $currency_symbol = get_woocommerce_currency_symbol();
     
             <!-- Price Range Container  -->
             <div class="tpsm-shipping-fees-container tpsm-setting-weight-base-container" id="tpsm-weight-range-fee" style="<?php echo $tpsm_shipping_fees_settings_values['type'] == 'tpsm-weight-range-fee' ? '' : 'display:none'?>">
-    
-                <div class="tpsm-shipping-fees-repeater">
-                    <div class="tpsm-repeater-row">
-                        <div class="tpsm-column-1">Form</div>
-                        <div class="tpsm-column-2">To</div>
-                        <div class="tpsm-column-3">Fee</div>
-                        <div class="tpsm-column-4">Action</div>
+                <div class="tpsm-field">
+                    <div class="tpsm-field-label">
+                        <label><?php esc_html_e( 'Flat rate for Unit ranges: ', 'shipping-manager' ); ?></label>
                     </div>
-                    <?php 
-                        $tpsm_weight_price_range_settings = isset( $tpsm_shipping_fees_settings['weight-range-price'] ) ? $tpsm_shipping_fees_settings['weight-range-price'] : '';
-    
-                        if( is_null( $tpsm_weight_price_range_settings ) || empty( $tpsm_weight_price_range_settings ) || ! isset( $tpsm_weight_price_range_settings ) ) {
+                    <div class="tpsm-field-input"></div>
+                </div>
+                <div>
+                    <table class="tpsm-shipping-fees-repeater">
+                        <!-- <thead> -->
+                            <tr>
+                                <th>Form</th>
+                                <th>To</th>
+                                <th>Fee</th>
+                                <th></th>
+                            </tr>
+                        <!-- </thead> -->
+                        <!-- <tbody> -->
+                            <?php 
+                                $tpsm_weight_price_range_settings = isset( $tpsm_shipping_fees_settings['weight-range-price'] ) ? $tpsm_shipping_fees_settings['weight-range-price'] : '';
+            
+                                if( is_null( $tpsm_weight_price_range_settings ) || empty( $tpsm_weight_price_range_settings ) || ! isset( $tpsm_weight_price_range_settings ) ) {
+                                    ?>
+                                        <tr class="tpsm-repeater-row">
+                                            <td>
+                                                <input type="text" name="from[]">
+                                                <?php echo $weight_unit; ?>
+                                            </td>
+                                            <td>
+                                                <input type="text" name="to[]">
+                                                <?php echo $weight_unit; ?>
+                                            </td>
+                                            <td>
+                                                <?php echo $currency_symbol; ?>
+                                                <input type="text" name="fee[]">
+                                            </td>
+                                            <td>
+                                                <button type="button" class="delete-row"><?php esc_html_e( 'Delete', 'shipping-manager' ); ?></button>
+                                            </td>
+                                        </tr>
+                                    <?php
+                                }
+                                else {
+                                    foreach ( $tpsm_weight_price_range_settings as $key => $value) {
+                                        ?>
+                                            <tr class="tpsm-repeater-row">
+                                                <td>
+                                                    <input type="text" name="from[]" value="<?php echo $value['from']; ?>">
+                                                    <?php echo $weight_unit; ?>
+                                                </td>
+                                                <td>
+                                                    <input type="text" name="to[]" value="<?php echo $value['to']; ?>">
+                                                    <?php echo $weight_unit; ?>
+                                                </td>
+                                                <td>
+                                                    <?php echo $currency_symbol; ?>
+                                                    <input type="text" name="fee[]" value="<?php echo $value['fee']; ?>">
+                                                </td>
+                                                <td>
+                                                    <button type="button" class="delete-row"><?php esc_html_e( 'Delete', 'shipping-manager' ); ?></button>
+                                                </td>
+                                            </tr>
+                                        <?php 
+                                    }
+                                }
                             ?>
-                                <div class="tpsm-repeater-row">
-                                    <div class="tpsm-column-1">
-                                        <input type="text" name="from[]">
-                                        <?php echo $weight_unit; ?>
-                                    </div>
-                                    <div class="tpsm-column-2">
-                                        <input type="text" name="to[]">
-                                        <?php echo $weight_unit; ?>
-                                    </div>
-                                    <div class="tpsm-column-3">
-                                        <?php echo $currency_symbol; ?>
-                                        <input type="text" name="fee[]">
-                                    </div>
-                                    <div class="tpsm-column-4">
-                                        <button type="button" class="delete-row"><?php esc_html_e( 'Delete', 'shipping-manager' ); ?></button>
-                                    </div>
-                                </div>
-                            <?php
-                        }
-                        else {
-                            foreach ( $tpsm_weight_price_range_settings as $key => $value) {
-                                ?>
-                                    <div class="tpsm-repeater-row">
-                                        <div class="tpsm-column-1">
-                                            <input type="text" name="from[]" value="<?php echo $value['from']; ?>">
-                                            <?php echo $weight_unit; ?>
-                                        </div>
-                                        <div class="tpsm-column-2">
-                                            <input type="text" name="to[]" value="<?php echo $value['to']; ?>">
-                                            <?php echo $weight_unit; ?>
-                                        </div>
-                                        <div class="tpsm-column-3">
-                                            <?php echo $currency_symbol; ?>
-                                            <input type="text" name="fee[]" value="<?php echo $value['fee']; ?>">
-                                        </div>
-                                        <div class="tpsm-column-4">
-                                            <button type="button" class="delete-row"><?php esc_html_e( 'Delete', 'shipping-manager' ); ?></button>
-                                        </div>
-                                    </div>
-                                <?php 
-                            }
-                        }
-                    ?>
+                      <!-- </tbody> -->
+                    </table>
                 </div>
     
                 <div class="tpsm-addrow-button">
