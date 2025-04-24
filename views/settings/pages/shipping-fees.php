@@ -61,7 +61,7 @@ $currency_symbol = get_woocommerce_currency_symbol();
                         </div>
                         <div class="tpsm-shipping-radio">
                             <input type="radio" id="tpsm-weight-base-fee" name="tpsm-shipping-fee_type" value="tpsm-weight-range-fee" <?php echo $tpsm_shipping_fees_settings_values['type'] == 'tpsm-weight-range-fee' ? 'checked' : ''; ?>>
-                            <label for="tpsm-weight-base-fee"><?php esc_html_e( 'Weight Range Pricing', 'shipping-manager' ); ?></label>
+                            <label for="tpsm-weight-base-fee"><?php esc_html_e( 'Weight Range Fee', 'shipping-manager' ); ?></label>
                         </div>
                     </div>
                 </div>
@@ -69,9 +69,18 @@ $currency_symbol = get_woocommerce_currency_symbol();
     
             <!-- Unit Weight Fee Container -->
             <div class="tpsm-shipping-fees-container tpsm-setting-flat-rat-container" id="tpsm-unit-weight-fee" style="<?php echo $tpsm_shipping_fees_settings_values['type'] == 'tpsm-unit-weight-fee' ? '' : 'display:none'?>">
-                <label for="tpsm-shipping-fees-flat-rate-amount"><?php esc_html_e( 'Flat rate Per Unit:', 'shipping-manager' ); ?></label>
-                <input type="text" id="tpsm-shipping-fees-flat-rate-amount" name="tpsm-shipping-fees-flat-rate-amount" value="<?php echo $tpsm_shipping_fees_settings_values['flat-rate'] ?>">
-                <?php echo $currency_symbol ?>
+
+                <div class="tpsm-field">
+                    <div class="tpsm-field-label">
+                        <label><?php esc_html_e( 'Flat rate per Unit/' . $weight_unit . ' :', 'shipping-manager' ); ?></label>
+                    </div>
+                    <div class="tpsm-field-input">
+                        <input type="text" id="tpsm-shipping-fees-flat-rate-amount" name="tpsm-shipping-fees-flat-rate-amount" value="<?php echo $tpsm_shipping_fees_settings_values['flat-rate'] ?>">
+                        <?php echo $currency_symbol ?>
+                        <p class="tpsm-field-desc"><?php esc_html_e( 'Adds per unit/' . $weight_unit . ' a flat processing fee to process the shipment.', 'shipping-manager' ); ?></p>
+                    </div>
+                </div>
+                
             </div>
     
             <!-- Price Range Container  -->
