@@ -13,7 +13,7 @@ use ThemePaste\ShippingManager\Helpers\Utility;
                 } else {
                     ?>
                         <div style="text-align: center;">
-                            <button style="padding:10px 35px; background:#f25500; color: #fff; border:none; cursor:pointer; border-radius: 4px; ">Upgrade to Pro</button>
+                            <button style="padding:10px 35px; background:#f25500; color: #fff; border:none; cursor:pointer; border-radius: 4px; margin-top: 50px;">Upgrade to Pro</button>
                         </div>
                     <?php
                 }

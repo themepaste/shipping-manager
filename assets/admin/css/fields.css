@@ -1,11 +1,36 @@
+.tpsm-field {
+	width: 100%;
+	display: flex;
+	align-items: flex-start;
+}
+.tpsm-field-label {
+	width: 35%;
+}
+.tpsm-field-label label {
+	font-size: 14px;
+	color:#242628;
+	font-weight: 500;
+}
+.tpsm-field-desc {
+	margin: 0;
+	margin-top: 5px;
+	font-size: 12px;
+	color: #a9a8a8;
+	font-weight: 400;
+}
+
 input[type="text"] {
 	width: 100px;
 }
 /*== switch style ==*/
+.tpsm-switch-wrapper {
+	position: relative;
+}
 .tpsm-switch[type=checkbox]{
 	height: 0;
 	width: 0;
 	visibility: hidden;
+	position: absolute;
 }
 
 .tpsm-switch-label {

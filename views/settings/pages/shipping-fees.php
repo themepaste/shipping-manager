@@ -19,8 +19,17 @@ $currency_symbol = get_woocommerce_currency_symbol();
     
             <!-- Switch for enable disable  -->
             <div class="tpsm-setting-row">
-                <label><?php esc_html_e( 'Disable/Enable:', 'shipping-manager' ); ?></label>
-                <input class="tpsm-switch" type="checkbox" id="tpsm-shipping-fees-disable-enable" name="tpsm-shipping-fees-disable-enable" <?php echo $tpsm_shipping_fees_settings_values['enabled'] ? 'checked' : ''; ?> /><label for="tpsm-shipping-fees-disable-enable" class="tpsm-switch-label"></label>
+                <div class="tpsm-field">
+                    <div class="tpsm-field-label">
+                        <label><?php esc_html_e( 'Disable/Enable:', 'shipping-manager' ); ?></label>
+                    </div>
+                    <div class="tpsm-field-input">
+                        <div class="tpsm-switch-wrapper">
+                            <input class="tpsm-switch" type="checkbox" id="tpsm-shipping-fees-disable-enable" name="tpsm-shipping-fees-disable-enable" <?php echo $tpsm_shipping_fees_settings_values['enabled'] ? 'checked' : ''; ?> /><label for="tpsm-shipping-fees-disable-enable" class="tpsm-switch-label"></label>
+                        </div>
+                        <p class="tpsm-field-desc">To enable this feature.</p>
+                    </div>
+                </div>
             </div>
     
             <!-- Shipping Fees Type -->

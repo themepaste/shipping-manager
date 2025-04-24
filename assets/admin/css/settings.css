@@ -57,7 +57,7 @@
     display: flex;
 }
 .tpsm-siderbar-wrapper {
-    padding: 20px;
+    padding: 20px 10px;
     width: 200px;
     background-color: #f6f9f9;
 }
@@ -82,8 +82,8 @@
     transition: 0.3s all ease;
     color:#3d444b;
     outline: 0;
-    padding: 8px;
-    font-size: 14px;
+    padding: 10px 10px;
+    font-size: 15px;
     box-shadow: none;
 }
 .tpsm-siderbar-wrapper ul li a.active {
@@ -111,6 +111,8 @@
     font-weight: 500;
     color: #1d2327;
     margin-bottom: 35px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 20px;
 }
 .tpsm-setting-wrapper .tpsm-save-button {
     margin-top: 50px;
