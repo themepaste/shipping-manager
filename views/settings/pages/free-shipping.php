@@ -18,21 +18,25 @@ $settings_fields = [
         'label' => __( 'Hide Other', 'shipping-manager' ),
         'type'  => 'switch',
         'value' => '',
+        'desc'  => __( 'Hide other shipping methods while free shipping is available.', 'shipping-manager' ),
     ),  
     'free-shipping-bar' => array(
         'label' => __( 'Show Free Shipping Bar', 'shipping-manager' ),
         'type'  => 'switch',
         'value' => '',
+        'desc'  => __( 'Enable free shipping bar for customers. Customers will see a bar for target to achieve free shipping.', 'shipping-manager' ),
     ),
     'minimum-amount' => array(
         'label' => __( 'Minimum Amount', 'shipping-manager' ),
         'type'  => 'switch',
         'value' => '',
+        'desc'  => __( 'This will enable a custom minimum amount for free shipping. Otherwise it will use default minimum amount set in WooCommerce free shipping.', 'shipping-manager' ),
     ),
     'cart-amount' => array(
         'label' => __( 'Cart Amount', 'shipping-manager' ),
         'type'  => 'text',
         'value' => '',
+        'desc'  => __( 'Cart minimum amount for free shipping.', 'shipping-manager' ),
     )
 ];
 ?>
@@ -40,8 +44,7 @@ $settings_fields = [
 <div class="tpsm-setting-wrapper">
     <div class="tpsm-free-shipping-wrapper">
         <!-- Settings Title -->
-        <h1><?php esc_html_e( 'Free Shipping Settings', 'shipping-manager' ); ?></h1>
-        <br>
+        <h2><?php esc_html_e( 'Free Shipping Settings', 'shipping-manager' ) ?></h2>
         <form method="POST">
             <?php wp_nonce_field( 'tpsm-nonce_action', 'tpsm-nonce_name' ); ?>
 
@@ -55,14 +58,21 @@ $settings_fields = [
                     // Check Field Type 
                     if( 'switch' == $field['type'] ) {
                         printf(
-                            '<div class="tpsm-setting-row">
-                                <label>%1$s: </label>
-                                <input class="tpsm-switch" type="checkbox" id="%2$s" name="%2$s" %3$s /><label for="%2$s" class="tpsm-switch-label"></label>
-                            </div>
-                            ',
+                            '<div class="tpsm-field">
+                                <div class="tpsm-field-label">
+                                    <label>%1$s: </label>
+                                </div>
+                                <div class="tpsm-field-input">
+                                    <div class="tpsm-switch-wrapper">
+                                        <input class="tpsm-switch" type="checkbox" id="%2$s" name="%2$s" %3$s /><label for="%2$s" class="tpsm-switch-label"></label>
+                                    </div>
+                                    <p class="tpsm-field-desc">%4$s</p>
+                                </div>
+                            </div>',
                             $field['label'],                                // Field Label 
                             $prefix . '-' . $screen_slug . '_' . $key,      // Field Name
-                            $field['value'] == 1 ? 'checked' : ''           // Field Value || Checked
+                            $field['value'] == 1 ? 'checked' : '',          // Field Value || Checked
+                            $field['desc']                                  // Description
                         );
                     }
                     else if( 'text' == $field['type'] ) {
