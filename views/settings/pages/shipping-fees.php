@@ -27,7 +27,7 @@ $currency_symbol = get_woocommerce_currency_symbol();
                         <div class="tpsm-switch-wrapper">
                             <input class="tpsm-switch" type="checkbox" id="tpsm-shipping-fees-disable-enable" name="tpsm-shipping-fees-disable-enable" <?php echo $tpsm_shipping_fees_settings_values['enabled'] ? 'checked' : ''; ?> /><label for="tpsm-shipping-fees-disable-enable" class="tpsm-switch-label"></label>
                         </div>
-                        <p class="tpsm-field-desc"><?php esc_html_e( 'To enable this feature.', 'shipping-manager' ); ?></p>
+                        <p class="tpsm-field-desc"><?php esc_html_e( 'To enable/disable this feature.', 'shipping-manager' ); ?></p>
                     </div>
                 </div>
                 <div class="tpsm-field">
@@ -47,14 +47,23 @@ $currency_symbol = get_woocommerce_currency_symbol();
             </div>
     
             <!-- Shipping Fees Type -->
-            <div class="tpsm-setting-row tpsm-setting-radio-wrapper">
-                <div class="tpsm-shipping-radio">
-                    <input type="radio" id="tpsm-flat-rate-fee" name="tpsm-shipping-fee_type" value="tpsm-unit-weight-fee" <?php echo $tpsm_shipping_fees_settings_values['type'] == 'tpsm-unit-weight-fee' ? 'checked' : ''; ?>>
-                    <label for="tpsm-flat-rate-fee"><?php esc_html_e( 'Unit Weight Fee', 'shipping-manager' ) ?></label>
-                </div>
-                <div class="tpsm-shipping-radio">
-                    <input type="radio" id="tpsm-weight-base-fee" name="tpsm-shipping-fee_type" value="tpsm-weight-range-fee" <?php echo $tpsm_shipping_fees_settings_values['type'] == 'tpsm-weight-range-fee' ? 'checked' : ''; ?>>
-                    <label for="tpsm-weight-base-fee"><?php esc_html_e( 'Weight Range Pricing', 'shipping-manager' ); ?></label>
+            <div class="tpsm-setting-row">
+
+
+                <div class="tpsm-field">
+                    <div class="tpsm-field-label">
+                        <label><?php esc_html_e( 'Charges: ', 'shipping-manager' ); ?></label>
+                    </div>
+                    <div class="tpsm-field-input tpsm-setting-radio-fields-wrapper">
+                        <div class="tpsm-shipping-radio">
+                            <input type="radio" id="tpsm-flat-rate-fee" name="tpsm-shipping-fee_type" value="tpsm-unit-weight-fee" <?php echo $tpsm_shipping_fees_settings_values['type'] == 'tpsm-unit-weight-fee' ? 'checked' : ''; ?>>
+                            <label for="tpsm-flat-rate-fee"><?php esc_html_e( 'Unit Weight Fee', 'shipping-manager' ) ?></label>
+                        </div>
+                        <div class="tpsm-shipping-radio">
+                            <input type="radio" id="tpsm-weight-base-fee" name="tpsm-shipping-fee_type" value="tpsm-weight-range-fee" <?php echo $tpsm_shipping_fees_settings_values['type'] == 'tpsm-weight-range-fee' ? 'checked' : ''; ?>>
+                            <label for="tpsm-weight-base-fee"><?php esc_html_e( 'Weight Range Pricing', 'shipping-manager' ); ?></label>
+                        </div>
+                    </div>
                 </div>
             </div>
     

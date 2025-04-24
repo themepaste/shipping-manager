@@ -91,11 +91,11 @@
     background-color: #fff;
 }
 .tpsm-setting-row {
-    /* display: flex;
-    align-items: center; */
     margin-bottom: 35px;
 }
-.tpsm-setting-radio-wrapper {
+.tpsm-setting-radio-fields-wrapper {
+    display: flex;
+    align-items: center;
     gap: 50px;
 }
 .tpsm-setting-radio-wrapper .tpsm-shipping-radio label {
