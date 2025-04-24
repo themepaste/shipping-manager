@@ -60,60 +60,46 @@
             </div>
             <div class="tpsm-box-size-shipping-wrapper">
                 <div class="tpsm-box-size-repeater tpsm-box-size-shipping-table-wrapper">
-                    <div class="tpsm-box-size-repeater-row">
-                        <div class="tpsm-column-1">Length (<?php echo $dimension_unit;?> )</div>
-                        <div class="tpsm-column-2">Width (<?php echo $dimension_unit;?> )</div>
-                        <div class="tpsm-column-3">Height (<?php echo $dimension_unit;?> )</div>
-                        <div class="tpsm-column-4">Fee (<?php echo $currency_symbol;?>)</div>
-                        <div class="tpsm-column-4">Action</div>
-                    </div>
-                    <?php 
-                        $tpsm_box_size_shipping_settings = $tpsm_box_shipping_settings_values['box-shipping'];
-    
-                        if( is_null( $tpsm_box_size_shipping_settings ) || empty( $tpsm_box_size_shipping_settings ) || ! isset( $tpsm_box_size_shipping_settings ) ) {
+                    <table>
+                        <thead>
+                            <tr class="tpsm-box-size-repeater-row">
+                                <th>Length (<?php echo $dimension_unit;?> )</th>
+                                <th>Width (<?php echo $dimension_unit;?> )</th>
+                                <th>Height (<?php echo $dimension_unit;?> )</th>
+                                <th>Fee (<?php echo $currency_symbol;?>)</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php 
+                                $tpsm_box_size_shipping_settings = $tpsm_box_shipping_settings_values['box-shipping'];
+            
+                                if( is_null( $tpsm_box_size_shipping_settings ) || empty( $tpsm_box_size_shipping_settings ) || ! isset( $tpsm_box_size_shipping_settings ) ) {
+                                    ?>
+                                        <tr class="tpsm-box-size-repeater-row">
+                                            <td><input type="text" name="tpsm-box-size-length[]"></td>
+                                            <td><input type="text" name="tpsm-box-size-width[]"></td>
+                                            <td><input type="text" name="tpsm-box-size-height[]"></td>
+                                            <td><input type="text" name="tpsm-box-size-fee[]"></td>
+                                            <td><button type="button" class="delete-row"><?php esc_html_e( 'Delete', 'shipping-manager' ); ?></button></td>
+                                        </tr>
+                                    <?php
+                                } else {
+                                    foreach ( $tpsm_box_size_shipping_settings as $key => $value ) {
+                                        ?>
+                                            <tr class="tpsm-box-size-repeater-row">
+                                                <td><input type="text" name="tpsm-box-size-length[]" value="<?php echo $value['length']; ?>"></td>
+                                                <td><input type="text" name="tpsm-box-size-width[]" value="<?php echo $value['width']; ?>"></td>
+                                                <td><input type="text" name="tpsm-box-size-height[]" value="<?php echo $value['height']; ?>"></td>
+                                                <td><input type="text" name="tpsm-box-size-fee[]" value="<?php echo $value['fee']; ?>"></td>
+                                                <td><button type="button" class="delete-row"><?php esc_html_e( 'Delete', 'shipping-manager' ); ?></button></td>
+                                            </tr>
+                                        <?php
+                                    }
+                                }
                             ?>
-                                <div class="tpsm-box-size-repeater-row">
-                                    <div class="tpsm-column-1">
-                                        <input type="text" name="tpsm-box-size-length[]">
-                                    </div>
-                                    <div class="tpsm-column-2">
-                                        <input type="text" name="tpsm-box-size-width[]">
-                                    </div>
-                                    <div class="tpsm-column-3">
-                                        <input type="text" name="tpsm-box-size-height[]">
-                                    </div>
-                                    <div class="tpsm-column-4">
-                                        <input type="text" name="tpsm-box-size-fee[]">
-                                    </div>
-                                    <div class="tpsm-column-4">
-                                        <button type="button" class="delete-row"><?php esc_html_e( 'Delete', 'shipping-manager' ); ?></button>
-                                    </div>
-                                </div>
-                            <?php
-                        } else {
-                            foreach ( $tpsm_box_size_shipping_settings as $key => $value ) {
-                                ?>
-                                    <div class="tpsm-box-size-repeater-row">
-                                        <div class="tpsm-column-1">
-                                            <input type="text" name="tpsm-box-size-length[]" value="<?php echo $value['length']; ?>">
-                                        </div>
-                                        <div class="tpsm-column-2">
-                                            <input type="text" name="tpsm-box-size-width[]" value="<?php echo $value['width']; ?>">
-                                        </div>
-                                        <div class="tpsm-column-3">
-                                            <input type="text" name="tpsm-box-size-height[]" value="<?php echo $value['height']; ?>">
-                                        </div>
-                                        <div class="tpsm-column-4">
-                                            <input type="text" name="tpsm-box-size-fee[]" value="<?php echo $value['fee']; ?>">
-                                        </div>
-                                        <div class="tpsm-column-4">
-                                            <button type="button" class="delete-row"><?php esc_html_e( 'Delete', 'shipping-manager' ); ?></button>
-                                        </div>
-                                    </div>
-                                <?php
-                            }
-                        }
-                    ?>
+                       </tbody>
+                    </table>
                 </div>
 
                 <div class="tpsm-addrow-button">
