@@ -14,18 +14,52 @@
  
 <div class="tpsm-setting-wrapper">
     <div class="tpsm-box-shipping-wrapper">
-        <h1>Box Size Shipping Settings</h1>
-        <br>
+        <h2><?php esc_html_e( 'Box Size Shipping Settings', 'shipping-manager' ) ?></h2>
         <form method="POST">
             <?php wp_nonce_field( 'tpsm-nonce_action', 'tpsm-nonce_name' ); ?>
     
-            <!-- Switch for enable disable  -->
             <div class="tpsm-setting-row">
-                <label><?php esc_html_e( 'Disable/Enable:', 'shipping-manager' ); ?></label>
-                <input class="tpsm-switch" type="checkbox" id="tpsm-box-shipping-disable-enable" name="tpsm-box-shipping-disable-enable" <?php echo $tpsm_box_shipping_settings_values['enabled'] ? 'checked' : ''; ?> /><label for="tpsm-box-shipping-disable-enable" class="tpsm-switch-label"></label>
+                
+                <!-- Switch for enable disable  -->
+                <div class="tpsm-field">
+                    <div class="tpsm-field-label">
+                        <label><?php esc_html_e( 'Disable/Enable:', 'shipping-manager' ); ?></label>
+                    </div>
+                    <div class="tpsm-field-input">
+                        <div class="tpsm-switch-wrapper">
+                            <input class="tpsm-switch" type="checkbox" id="tpsm-box-shipping-disable-enable" name="tpsm-box-shipping-disable-enable" <?php echo $tpsm_box_shipping_settings_values['enabled'] ? 'checked' : ''; ?> /><label for="tpsm-box-shipping-disable-enable" class="tpsm-switch-label"></label>
+                        </div>
+                        <p class="tpsm-field-desc"><?php esc_html_e( 'To enable/disable this feature.', 'shipping-manager' ); ?></p>
+                    </div>
+                </div>
+                
+                <!-- Taxable Field  -->
+                <div class="tpsm-field">
+                    <div class="tpsm-field-label">
+                        <label><?php esc_html_e( 'Taxable: ', 'shipping-manager' ); ?></label>
+                    </div>
+                    <div class="tpsm-field-input">
+                        <div class="tpsm-switch-wrapper">
+                            <select name="" id="">
+                                <option value="yes"><?php esc_html_e( 'Yes', 'shipping-manager' ); ?></option>
+                                <option value="no"><?php esc_html_e( 'No', 'shipping-manager' ); ?></option>
+                            </select>
+                        </div>
+                        <p class="tpsm-field-desc"><?php esc_html_e( 'Will it taxable or not', 'shipping-manager' ); ?></p>
+                    </div>
+                </div>
+
             </div>
 
             <!-- Box size Shipping -->
+            <div class="tpsm-field">
+                <div class="tpsm-field-label">
+                    <label><?php esc_html_e( 'Boxes:', 'shipping-manager' ); ?></label>
+                </div>
+                <div class="tpsm-field-input">
+                    
+                </div>
+            </div>
             <div class="tpsm-box-size-shipping-wrapper">
                 <div class="tpsm-box-size-repeater tpsm-box-size-shipping-table-wrapper">
                     <div class="tpsm-box-size-repeater-row">
@@ -90,7 +124,7 @@
             </div>
     
             <div class="tpsm-save-button">
-                <button type="submit" name="tpsm-box-shipping_submit"><?php esc_html_e( 'Save', 'shipping-manager' ); ?></button>
+                <button type="submit" name="tpsm-box-shipping_submit"><?php esc_html_e( 'Save Settings', 'shipping-manager' ); ?></button>
             </div>
     
         </form>
