@@ -95,7 +95,7 @@ $currency_symbol = get_woocommerce_currency_symbol();
                     <table class="tpsm-shipping-fees-repeater">
                         <!-- <thead> -->
                             <tr>
-                                <th>Form</th>
+                                <th>From</th>
                                 <th>To</th>
                                 <th>Fee</th>
                                 <th></th>

@@ -78,8 +78,15 @@ $settings_fields = [
                     else if( 'text' == $field['type'] ) {
                         printf(
                             '<div class="tpsm-setting-row %5$s" style="display:%6$s"; >
-                                <label>%1$s: </label>
-                                <input type="text" id="%2$s" name="%2$s" value="%3$s" />%4$s
+                                <div class="tpsm-field">
+                                    <div class="tpsm-field-label">
+                                    <label>%1$s: </label>
+                                    </div>
+                                    <div class="tpsm-field-input">
+                                        <input type="text" id="%2$s" name="%2$s" value="%3$s" />%4$s
+                                        <p class="tpsm-field-desc">%7$s</p>
+                                    </div>
+                                </div>
                             </div>
                             ',
                             $field['label'],                                    // Field Label
@@ -88,6 +95,7 @@ $settings_fields = [
                             $currency_symbol,                                   // Woocommerce Currency Symbol
                             $prefix . '-' . $screen_slug . '_' . $key . '_wrapper', // Whole Field Wrapper
                             isset( $saved_settings[$parent_field_key] ) ? ( $saved_settings[$parent_field_key] == 1 ? 'block' : 'none' ) : 'none',
+                            __( 'Cart minimum amount for free shipping.', 'shipping-manager' ),
                         );
                     }
                 } 
