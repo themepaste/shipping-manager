@@ -22,6 +22,10 @@ if( ! function_exists( 'tpsm_settings_options' ) ) {
                     'label' => __( 'Free Shipping', 'shipping-manager' ),
                     'class' => '',
                 ),
+                'distance-shipping' => array(
+                    'label' => __( 'Distance Shipping', 'shipping-manager' ),
+                    'class' => '',
+                ),
                 'others' => array(
                     'label' => __( 'Others', 'shipping-manager' ),
                     'class' => '',

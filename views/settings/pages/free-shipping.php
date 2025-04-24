@@ -102,7 +102,7 @@ $settings_fields = [
             ?>
 
             <div class="tpsm-save-button">
-                <button type="submit" name="<?php echo $submit_button ?>"><?php esc_html_e( 'Save', 'shipping-manager' ); ?></button>
+                <button type="submit" name="<?php echo $submit_button ?>"><?php esc_html_e( 'Save Settings', 'shipping-manager' ); ?></button>
             </div>
         </form>
     </div>
