@@ -7,6 +7,9 @@
 .tpsm-field-label {
 	width: 35%;
 }
+.tpsm-field .tpsm-field-input {
+	width: calc( 100% - 38% );
+}
 .tpsm-field-label label {
 	font-size: 14px;
 	color:#242628;
@@ -19,6 +22,16 @@
 	color: #a9a8a8;
 	font-weight: 400;
 }
+
+.tpsm-field .tpsm-field-input input[type="text"],
+.tpsm-field .tpsm-field-input input[type="text"]:focus {
+	width: 50%;
+	border: 1px solid #a8a8a8;
+	border-radius: 4px;
+	box-shadow: none;
+}
+
+
 
 input[type="text"] {
 	width: 100px;
