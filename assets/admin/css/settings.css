@@ -1,3 +1,57 @@
+/*==========================*/
+/*== Start Plugin Top bar ==*/
+/*==========================*/
+.tpsm-plugin-topbar-wrapper {
+    max-width: 100%;
+    background-color: #fff;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.tpsm-plugin-topbar-wrapper .tpsm-logo-title-area {
+    display: flex;
+    align-items: center;
+}
+.tpsm-plugin-topbar-wrapper .tpsm-logo-title-area .tpsm-icons {
+    padding-right: 20px;
+    border-right: 1px solid #ddd;
+}
+.tpsm-plugin-topbar-wrapper .tpsm-logo-title-area .tpsm-icons img {
+    width: 55px;
+    height: 55px;
+}
+.tpsm-plugin-topbar-wrapper .tpsm-logo-title-area .tpsm-titles {
+    padding-left: 20px;
+}
+.tpsm-plugin-topbar-wrapper .tpsm-logo-title-area h1 {
+    margin: 0;
+    padding: 0;
+    font-weight: 500;
+    color:#1d2327;
+    font-size: 22px;
+}
+.tpsm-plugin-topbar-wrapper .tpsm-logo-title-area p {
+    font-size: 14px;
+    font-style: normal;
+    padding-top: 5px;
+    color: #7f868d;
+}
+.tpsm-plugin-topbar-wrapper .tpsm-topbar-info-area a,
+.tpsm-plugin-topbar-wrapper .tpsm-topbar-info-area a:focus {
+    font-size: 14px;
+    color:#2271b1;
+    text-decoration: none !important;
+    outline: 0;
+    box-shadow: none;
+    padding: 10px 20px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+/*==========================*/
+/*== End Plugin Top bar ==*/
+/*==========================*/
+
 .shipping-manager-container {
     background-color: #fff;
     display: flex;
