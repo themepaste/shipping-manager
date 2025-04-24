@@ -11,7 +11,11 @@ use ThemePaste\ShippingManager\Helpers\Utility;
                 if( $template ) {
                     echo $template;
                 } else {
-                    esc_html_e( "Load From pro" , 'shipping-manager' );
+                    ?>
+                        <div style="text-align: center;">
+                            <button style="padding:10px 35px; background:#f25500; color: #fff; border:none; cursor:pointer; border-radius: 4px; ">Upgrade to Pro</button>
+                        </div>
+                    <?php
                 }
                 
             }
