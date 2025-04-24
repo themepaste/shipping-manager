@@ -21,4 +21,5 @@ use ThemePaste\ShippingManager\Helpers\Utility;
             }
         }
     ?>
+    <p class="tpsm-rating-message">If you like <strong>Shipping Manager</strong> you can rate us <span class="tpsm-stars">★★★★★</span><strong><a href="#">in plugins repository →</a></strong></p>
 </div>

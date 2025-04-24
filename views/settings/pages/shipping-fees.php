@@ -141,7 +141,7 @@ $currency_symbol = get_woocommerce_currency_symbol();
             </div>
     
             <div class="tpsm-save-button">
-                <button type="submit" name="tpsm-shipping-fees_submit"><?php esc_html_e( 'Save', 'shipping-manager' ); ?></button>
+                <button type="submit" name="tpsm-shipping-fees_submit"><?php esc_html_e( 'Save Settings', 'shipping-manager' ); ?></button>
             </div>
         </form>
     
