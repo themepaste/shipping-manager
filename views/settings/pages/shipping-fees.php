@@ -27,7 +27,21 @@ $currency_symbol = get_woocommerce_currency_symbol();
                         <div class="tpsm-switch-wrapper">
                             <input class="tpsm-switch" type="checkbox" id="tpsm-shipping-fees-disable-enable" name="tpsm-shipping-fees-disable-enable" <?php echo $tpsm_shipping_fees_settings_values['enabled'] ? 'checked' : ''; ?> /><label for="tpsm-shipping-fees-disable-enable" class="tpsm-switch-label"></label>
                         </div>
-                        <p class="tpsm-field-desc">To enable this feature.</p>
+                        <p class="tpsm-field-desc"><?php esc_html_e( 'To enable this feature.', 'shipping-manager' ); ?></p>
+                    </div>
+                </div>
+                <div class="tpsm-field">
+                    <div class="tpsm-field-label">
+                        <label><?php esc_html_e( 'Taxable: ', 'shipping-manager' ); ?></label>
+                    </div>
+                    <div class="tpsm-field-input">
+                        <div class="tpsm-switch-wrapper">
+                            <select name="" id="">
+                                <option value="yes"><?php esc_html_e( 'Yes', 'shipping-manager' ); ?></option>
+                                <option value="no"><?php esc_html_e( 'No', 'shipping-manager' ); ?></option>
+                            </select>
+                        </div>
+                        <p class="tpsm-field-desc"><?php esc_html_e( 'Will it taxable or not', 'shipping-manager' ); ?></p>
                     </div>
                 </div>
             </div>
