@@ -145,10 +145,12 @@
     margin-top: 50px;
 }
 .tpsm-setting-wrapper .tpsm-save-button button {
-    padding: 8px 30px;
-    border: 1px solid #ddd;
+    padding: 12px 30px;
     cursor: pointer;
     border-radius: 4px;
+    background-color: #f25500;
+    color: #fff;
+    border:none;
 }
 
 /* Repeater Fields design */
@@ -162,15 +164,9 @@
     width: 100%;
 }
 .tpsm-addrow-button {
-    /* margin-left: 20px;
-    margin-bottom: 20px; */
     margin-top: 20px;
 }
 .tpsm-addrow-button button {
     padding: 5px;
     cursor: pointer;
 }
-/* .tpsm-repeater-wrapper {
-    border: 1px solid #ddd;
-    border-radius: 6px;
-} */
