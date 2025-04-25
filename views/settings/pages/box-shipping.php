@@ -101,7 +101,7 @@
                        </tbody>
                     </table>
                     <div class="tpsm-addrow-button">
-                        <button type="button" id="tpsm-dimension-add">Add New</button>
+                        <button type="button" id="tpsm-dimension-add" class="tpsm-add-new-row-button">Add New</button>
                     </div>
                 </div>
             </div>

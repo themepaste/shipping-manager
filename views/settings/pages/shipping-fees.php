@@ -155,7 +155,7 @@ $currency_symbol = get_woocommerce_currency_symbol();
                         </tbody>
                     </table>
                     <div class="tpsm-addrow-button">
-                        <button type="button" id="tpsm-weight-range-pricing-add">Add New</button>
+                        <button type="button" id="tpsm-weight-range-pricing-add" class="tpsm-add-new-row-button">Add New</button>
                     </div>
                 </div>
     
