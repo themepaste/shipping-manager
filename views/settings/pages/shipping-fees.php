@@ -49,7 +49,6 @@ $currency_symbol = get_woocommerce_currency_symbol();
             <!-- Shipping Fees Type -->
             <div class="tpsm-setting-row">
 
-
                 <div class="tpsm-field">
                     <div class="tpsm-field-label">
                         <label><?php esc_html_e( 'Charges: ', 'shipping-manager' ); ?></label>
@@ -96,15 +95,15 @@ $currency_symbol = get_woocommerce_currency_symbol();
                 </div>
                 <div>
                     <table class="tpsm-shipping-fees-repeater">
-                        <!-- <thead> -->
+                        <thead>
                             <tr>
                                 <th>From</th>
                                 <th>To</th>
                                 <th>Fee</th>
                                 <th></th>
                             </tr>
-                        <!-- </thead> -->
-                        <!-- <tbody> -->
+                        </thead>
+                        <tbody>
                             <?php 
                                 $tpsm_weight_price_range_settings = isset( $tpsm_shipping_fees_settings['weight-range-price'] ) ? $tpsm_shipping_fees_settings['weight-range-price'] : '';
             
@@ -153,7 +152,7 @@ $currency_symbol = get_woocommerce_currency_symbol();
                                     }
                                 }
                             ?>
-                      <!-- </tbody> -->
+                      </tbody>
                     </table>
                 </div>
     
