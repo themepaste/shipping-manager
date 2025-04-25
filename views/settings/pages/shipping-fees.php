@@ -152,12 +152,11 @@ $currency_symbol = get_woocommerce_currency_symbol();
                                     }
                                 }
                             ?>
-                      </tbody>
+                        </tbody>
                     </table>
-                </div>
-    
-                <div class="tpsm-addrow-button">
-                    <button type="button" id="tpsm-weight-range-pricing-add">Add New</button>
+                    <div class="tpsm-addrow-button">
+                        <button type="button" id="tpsm-weight-range-pricing-add">Add New</button>
+                    </div>
                 </div>
     
             </div>

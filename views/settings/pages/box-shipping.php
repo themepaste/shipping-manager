@@ -59,8 +59,8 @@
                 <div class="tpsm-field-input"></div>
             </div>
             <div class="tpsm-box-size-shipping-wrapper">
-                <div class="tpsm-box-size-repeater tpsm-box-size-shipping-table-wrapper">
-                    <table>
+                <div>
+                    <table class="tpsm-box-size-repeater tpsm-box-size-shipping-table-wrapper">
                         <thead>
                             <tr class="tpsm-box-size-repeater-row">
                                 <th>Length (<?php echo $dimension_unit;?> )</th>
@@ -100,10 +100,9 @@
                             ?>
                        </tbody>
                     </table>
-                </div>
-
-                <div class="tpsm-addrow-button">
-                    <button type="button" id="tpsm-dimension-add">Add New</button>
+                    <div class="tpsm-addrow-button">
+                        <button type="button" id="tpsm-dimension-add">Add New</button>
+                    </div>
                 </div>
             </div>
     

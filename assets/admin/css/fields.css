@@ -32,7 +32,9 @@
 }
 
 
-
+table thead tr th {
+	text-align: left;
+}
 input[type="text"] {
 	width: 100px;
 }

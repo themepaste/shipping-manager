@@ -153,18 +153,14 @@
 
 /* Repeater Fields design */
 .tpsm-shipping-fees-repeater, .tpsm-box-size-repeater {
-    border: 1px solid #ddd;
+    width: 100%;
     padding: 16px;
     border-radius: 6px;
     margin-top: 20px;
 }
-/* .tpsm-shipping-fees-repeater .tpsm-repeater-row,
-.tpsm-box-size-repeater .tpsm-box-size-repeater-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 20px;
-} */
+.tpsm-shipping-fees-repeater table, .tpsm-box-size-repeater table {
+    width: 100%;
+}
 .tpsm-addrow-button {
     margin-top: 20px;
 }
@@ -172,6 +168,3 @@
     padding: 5px;
     cursor: pointer;
 }
-/* .tpsm-shipping-fees-container {
-    width: calc( 100% - 38% );
-} */
