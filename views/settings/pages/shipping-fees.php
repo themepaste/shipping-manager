@@ -93,14 +93,14 @@ $currency_symbol = get_woocommerce_currency_symbol();
                     </div>
                     <div class="tpsm-field-input"></div>
                 </div>
-                <div>
+                <div class="tpsm-repeater-wrapper">
                     <table class="tpsm-shipping-fees-repeater">
                         <thead>
                             <tr>
                                 <th>From</th>
                                 <th>To</th>
                                 <th>Fee</th>
-                                <th></th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>

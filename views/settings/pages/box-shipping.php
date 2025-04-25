@@ -59,7 +59,7 @@
                 <div class="tpsm-field-input"></div>
             </div>
             <div class="tpsm-box-size-shipping-wrapper">
-                <div>
+                <div class="tpsm-repeater-wrapper">
                     <table class="tpsm-box-size-repeater tpsm-box-size-shipping-table-wrapper">
                         <thead>
                             <tr class="tpsm-box-size-repeater-row">
