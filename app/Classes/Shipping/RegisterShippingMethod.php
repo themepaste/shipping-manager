@@ -27,8 +27,8 @@ class RegisterShippingMethod extends WC_Shipping_Method {
         // 'yes' : 'no' ;
 
         $this->id                   = self::ID;
-        $this->method_title         = __( 'Shipping Manager Method', 'shipping-manager');
-        $this->method_description   = __( 'Shipping manager Method description', 'shipping-manager' );
+        // $this->method_title         = __( 'Shipping Manager Method', 'shipping-manager');
+        // $this->method_description   = __( 'Shipping manager Method description', 'shipping-manager' );
         $this->enabled              = $this->tpsm_minimum_amount_setting() || $this->get_tpsm_cost() ? 'yes' : 'no';
         $this->title                = isset( $this->settings['title'] ) ? $this->settings['title'] : __( 'Shipping Manager', 'shipping-manager' );
 
@@ -64,6 +64,16 @@ class RegisterShippingMethod extends WC_Shipping_Method {
         add_action( 'woocommerce_update_options_shipping_' . $this->id, [$this, 'process_admin_options'] );
     }
 
+    public function init_form_fields() {
+        $this->form_fields = array(
+            'custom_button' => array(
+                'title'       => __( 'Set up your store Global Shipping Rules', 'your-text-domain' ),
+                'type'        => 'title',
+                'description' => '<a href="' . admin_url( 'admin.php?page=wc-settings&tab=tax' ) . '" class="button button-primary" target="_blank">Go to Plugin Settings</a>',
+            ),
+        );
+    } 
+
     /**
      * calculate_shipping function.
      *
@@ -74,8 +84,10 @@ class RegisterShippingMethod extends WC_Shipping_Method {
     public function calculate_shipping( $package = array() ) {
         $rate = array(
             'label'     => $this->title,
-            'cost'      => $this->get_tpsm_cost(),
-            'calc_tax'  => 'per_item'
+            // 'cost'      => $this->get_tpsm_cost(),
+            'cost'      => 100,
+
+            'calc_tax' => 'per_order',
         );
 
         // Register the rate

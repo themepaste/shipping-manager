@@ -45,11 +45,21 @@ class Settings {
             admin_url( 'admin.php' )
         );
 
+        $this->action( 'admin_head', [$this, 'remove_save_button'] );
         $this->action( 'admin_init', [$this, 'redirect_to_settings'] );
         $this->action( 'admin_menu', [ $this, 'shipping_manager_setting_page' ] );
         $this->action( 'admin_enqueue_scripts', [ $this, 'admin_enqueue_css' ] );
         $this->action( 'admin_enqueue_scripts', [ $this, 'admin_enqueue_scripts' ] );
         $this->filter( 'plugin_action_links_' . TPSM_PLUGIN_BASENAME, [ $this, 'settings_link' ] );
+    }
+
+    public function remove_save_button() {
+        $screen = get_current_screen();
+        if ( $screen && $screen->id === 'woocommerce_page_wc-settings' && isset( $_GET['section'] ) && $_GET['section'] === self::SETTING_PAGE_ID ) {
+            echo '<style>
+                .woocommerce-save-button { display: none !important; }
+            </style>';
+        }
     }
 
     public function redirect_to_settings() {
