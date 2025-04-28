@@ -83,7 +83,7 @@ $settings_fields = [
                                     <label>%1$s: </label>
                                     </div>
                                     <div class="tpsm-field-input">
-                                        <input type="text" id="%2$s" name="%2$s" value="%3$s" />%4$s
+                                        %4$s<input type="text" id="%2$s" name="%2$s" value="%3$s" />
                                         <p class="tpsm-field-desc">%7$s</p>
                                     </div>
                                 </div>

@@ -36,7 +36,7 @@ $currency_symbol = get_woocommerce_currency_symbol();
                     </div>
                     <div class="tpsm-field-input">
                         <div class="tpsm-switch-wrapper">
-                            <select name="" id="">
+                            <select name="" id="" disabled>
                                 <option value="yes"><?php esc_html_e( 'Yes', 'shipping-manager' ); ?></option>
                                 <option value="no"><?php esc_html_e( 'No', 'shipping-manager' ); ?></option>
                             </select>
