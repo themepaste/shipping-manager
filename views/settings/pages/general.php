@@ -83,7 +83,7 @@
                             $field['label'],                            //%1$s =  Field Label
                             $field['desc'],                             //%1$s =  Description
                             $prefix . '-' . $screen_slug . '_' . $key,  //%1$s =  Field name
-                            $field['value'] == 1 ? 'checked' : '',      //%1$s =  Value
+                            $field['value'] == '' ? 'checked' : ( $field['value'] == 1 ? 'checked' : '' ),                                       //%1$s =  Value
                         );
                     }
                     else if( 'select' == $field['type'] ) {

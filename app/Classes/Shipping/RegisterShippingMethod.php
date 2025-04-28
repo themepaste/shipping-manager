@@ -11,26 +11,32 @@ class RegisterShippingMethod extends WC_Shipping_Method {
     public $tpsm_weight_settings;
     public $tpsm_box_shipping_settings;
     public $tpsm_enable;
+    public $tpsm_general_settings;
 
     /**
      * Constructor for your shipping class
      */
     public function __construct( ) {
         
-        $this->tpsm_weight_settings = tpsm_get_shipping_fees_settings();
-        $this->tpsm_box_shipping_settings = tpsm_get_box_shipping_settings();
+        $this->tpsm_general_settings        = get_option( 'tpsm-general_settings' );
+        $this->tpsm_weight_settings         = tpsm_get_shipping_fees_settings();
+        $this->tpsm_box_shipping_settings   = tpsm_get_box_shipping_settings();
 
         $this->id                   = self::ID;
         $this->method_title         = __( 'Shipping Manager', 'shipping-manager');
         $this->method_description   = __( 'Shipping manager Method description', 'shipping-manager' );
-        $this->enabled              = $this->tpsm_minimum_amount_setting() || $this->get_tpsm_cost() ? 'yes' : 'no';
-        $this->title                = isset( $this->settings['title'] ) ? $this->settings['title'] : __( 'Shipping Manager', 'shipping-manager' );
+        $this->enabled              = $this->is_enable();
+        $this->title                = $this->method_name();
 
         $this->init();
     }
 
-    private function is_enable( $settings ) {
-        return isset( $this->$settings['enabled'] ) && ! empty( $this->$settings['enabled'] ) &&  $cost = $this->get_tpsm_cost() ? 'yes' : 'no';
+    private function method_name() {
+        return ! empty( $this->tpsm_general_settings['method-title'] ) && isset( $this->tpsm_general_settings['method-title'] ) ? $this->tpsm_general_settings['method-title'] : __( 'Shipping Manager', 'shipping-manager');
+    }
+
+    private function is_enable() {
+        return ! empty( $this->tpsm_general_settings['is-plugin-enable'] ) && isset( $this->tpsm_general_settings['is-plugin-enable'] ) ? ( $this->tpsm_minimum_amount_setting() || $this->get_tpsm_cost() ? 'yes' : 'no' ) : 'no';
     }
 
     private function get_tpsm_cost() {
