@@ -27,8 +27,8 @@ class RegisterShippingMethod extends WC_Shipping_Method {
         // 'yes' : 'no' ;
 
         $this->id                   = self::ID;
-        // $this->method_title         = __( 'Shipping Manager Method', 'shipping-manager');
-        // $this->method_description   = __( 'Shipping manager Method description', 'shipping-manager' );
+        $this->method_title         = __( 'Shipping Manager', 'shipping-manager');
+        $this->method_description   = __( 'Shipping manager Method description', 'shipping-manager' );
         $this->enabled              = $this->tpsm_minimum_amount_setting() || $this->get_tpsm_cost() ? 'yes' : 'no';
         $this->title                = isset( $this->settings['title'] ) ? $this->settings['title'] : __( 'Shipping Manager', 'shipping-manager' );
 
@@ -65,11 +65,19 @@ class RegisterShippingMethod extends WC_Shipping_Method {
     }
 
     public function init_form_fields() {
+
+        $setting_page = add_query_arg( 
+            array(
+                'page'          => self::ID,
+            ),
+            admin_url( 'admin.php' )
+        );
+
         $this->form_fields = array(
             'custom_button' => array(
-                'title'       => __( 'Set up your store Global Shipping Rules', 'your-text-domain' ),
+                // 'title'       => __( 'Set up your store Global Shipping Rules', 'your-text-domain' ),
                 'type'        => 'title',
-                'description' => '<a href="' . admin_url( 'admin.php?page=wc-settings&tab=tax' ) . '" class="button button-primary" target="_blank">Go to Plugin Settings</a>',
+                'description' => '<a href="' . $setting_page . '" class="button button-primary">Go to Plugin Settings</a>',
             ),
         );
     } 
