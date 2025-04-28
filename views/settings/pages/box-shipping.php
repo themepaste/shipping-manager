@@ -41,7 +41,7 @@
                     <div class="tpsm-field-input">
                         <div class="tpsm-switch-wrapper">
                             <select name="" id="">
-                                <option value="yes"><?php esc_html_e( 'Yes', 'shipping-manager' ); ?></option>
+                                <option value="yes" selected><?php esc_html_e( 'Yes', 'shipping-manager' ); ?></option>
                                 <option value="no"><?php esc_html_e( 'No', 'shipping-manager' ); ?></option>
                             </select>
                         </div>

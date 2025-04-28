@@ -45,7 +45,7 @@
                         <div class="tpsm-switch-wrapper">
                             <input class="tpsm-switch" type="checkbox" id="tpsm-box-shipping-disable-enable" name="tpsm-box-shipping-disable-enable" /><label for="tpsm-box-shipping-disable-enable" class="tpsm-switch-label"></label>
                         </div>
-                        <p class="tpsm-field-desc"><?php esc_html_e( 'To enable/disable plugin all functionality', 'shipping-manager' ); ?></p>
+                        <p class="tpsm-field-desc"><?php esc_html_e( 'To enable/disable method. By deafult enabled', 'shipping-manager' ); ?></p>
                     </div>
                 </div>
                 
