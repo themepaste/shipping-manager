@@ -82,6 +82,15 @@ class RegisterShippingMethod extends WC_Shipping_Method {
         );
     } 
 
+    private function is_tpsm_plugin_taxable() {
+        if( ! empty( $this->tpsm_general_settings['is-plugin-taxable'] ) && isset( $this->tpsm_general_settings['is-plugin-taxable'] ) ) {
+            if( 'yes' == $this->tpsm_general_settings['is-plugin-taxable'] ) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
      * calculate_shipping function.
      *
@@ -93,8 +102,15 @@ class RegisterShippingMethod extends WC_Shipping_Method {
         $rate = array(
             'label'     => $this->title,
             'cost'      => $this->get_tpsm_cost(),
-            'calc_tax' => 'per_order',
         );
+
+        if( $this->is_tpsm_plugin_taxable() ) {
+            $rate['calc_tax'] = 'per_order';
+        } else {
+            $rate['taxes']     = false;
+            $rate['calc_tax']  = '';
+            $rate['tax_class'] = 'none';
+        }
 
         // Register the rate
         $this->add_rate( $rate );
