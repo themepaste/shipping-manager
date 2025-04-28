@@ -16,13 +16,13 @@
             'desc'  => __( 'By default "Shipping Manager"', 'shipping-manager' ),
         ),
         'is-plugin-enable' => array(
-            'label' => __( 'Disable/Enable:', 'shipping-manager' ),
+            'label' => __( 'Disable/Enable', 'shipping-manager' ),
             'type'  => 'switch',
             'value' => '',
             'desc'  => __( 'To enable/disable method. By deafult enabled', 'shipping-manager' ),
         ),
         'is-plugin-taxable' => array(
-            'label' => __( 'Taxable:', 'shipping-manager' ),
+            'label' => __( 'Taxable', 'shipping-manager' ),
             'type'  => 'select',
             'value' => '',
             'desc'  => __( 'Will shipping method taxable or not', 'shipping-manager' ),
@@ -91,13 +91,13 @@
                             '<div class="tpsm-setting-row">
                                 <div class="tpsm-field">
                                     <div class="tpsm-field-label">
-                                        <label>%1$s: </label>
+                                        <label>%1$s:</label>
                                     </div>
                                     <div class="tpsm-field-input">
                                         <div class="tpsm-select-wrapper">
                                             <select name="%3$s" id="%3$s">
                                                 <option value="no" %4$s >No</option>
-                                                <option value="yes" %4$s >Yes</option>
+                                                <option value="yes" %5$s >Yes</option>
                                             </select>
                                         </div>
                                         <p class="tpsm-field-desc">%2$s</p>
@@ -108,21 +108,12 @@
                             $field['desc'],                                 //%2$s =  Description
                             $prefix . '-' . $screen_slug . '_' . $key,      //%3$s =  Field Name
                             $field['value'] == 'no' ? 'selected' : '',      //%4$s =  Value if no
-                            $field['value'] == 'yes' ? 'selected' : '',     //%4$s =  Value if yes
+                            $field['value'] == 'yes' ? 'selected' : '',     //%5$s =  Value if yes
                         );
                     }
                 }
             ?>
-    
-            <div class="tpsm-setting-row">
-                
-                <!-- Switch for enable disable  -->
-                
-                
-                <!-- Taxable Field  -->
-                
 
-            </div>
 
             <div class="tpsm-save-button">
                 <button type="submit" name="<?php echo $submit_button ?>"><?php esc_html_e( 'Save Settings', 'shipping-manager' ); ?></button>
