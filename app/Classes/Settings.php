@@ -51,6 +51,16 @@ class Settings {
         $this->action( 'admin_enqueue_scripts', [ $this, 'admin_enqueue_css' ] );
         $this->action( 'admin_enqueue_scripts', [ $this, 'admin_enqueue_scripts' ] );
         $this->filter( 'plugin_action_links_' . TPSM_PLUGIN_BASENAME, [ $this, 'settings_link' ] );
+        $this->filter( 'tpsm_settings_options', [$this, 'add_setting_option_in_setting_page'] );
+    }
+
+    public function add_setting_option_in_setting_page( $options ) {
+        $options['general'] = array(
+            'label' => __( 'Settings', 'shipping-manager' ),
+            'class' => '',
+        );
+
+        return $options;
     }
 
     public function remove_save_button() {
@@ -170,7 +180,7 @@ class Settings {
         if ( ! isset( $_GET['tpsm-setting'] ) ) {
             $redirect_url = add_query_arg(
                 [
-                    'tpsm-setting'  => 'general',
+                    'tpsm-setting'  => 'shipping-fees',
                 ],
                 $this->setting_page_url
             );
