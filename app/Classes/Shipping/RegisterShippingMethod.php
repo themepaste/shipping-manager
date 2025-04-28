@@ -1,110 +1,108 @@
-<?php 
+<?php
+/**
+ * Register Custom Shipping Method - Shipping Manager
+ *
+ * @package ThemePaste\ShippingManager
+ */
+
 namespace ThemePaste\ShippingManager\Classes\Shipping;
 
 defined( 'ABSPATH' ) || exit;
 
-use \WC_Shipping_Method;
+use WC_Shipping_Method;
 
+/**
+ * Class RegisterShippingMethod
+ *
+ * Handles the custom shipping method: Shipping Manager.
+ */
 class RegisterShippingMethod extends WC_Shipping_Method {
 
+    /**
+     * Shipping Method ID
+     */
     const ID = 'shipping-manager';
+
+    /**
+     * Shipping fees settings.
+     *
+     * @var array
+     */
     public $tpsm_weight_settings;
+
+    /**
+     * Box shipping settings.
+     *
+     * @var array
+     */
     public $tpsm_box_shipping_settings;
-    public $tpsm_enable;
+
+    /**
+     * General settings.
+     *
+     * @var array
+     */
     public $tpsm_general_settings;
 
     /**
-     * Constructor for your shipping class
+     * Constructor.
      */
-    public function __construct( ) {
-        
+    public function __construct() {
         $this->tpsm_general_settings        = get_option( 'tpsm-general_settings' );
         $this->tpsm_weight_settings         = tpsm_get_shipping_fees_settings();
         $this->tpsm_box_shipping_settings   = tpsm_get_box_shipping_settings();
 
         $this->id                   = self::ID;
-        $this->method_title         = __( 'Shipping Manager', 'shipping-manager');
-        $this->method_description   = __( 'Shipping manager Method description', 'shipping-manager' );
+        $this->method_title         = __( 'Shipping Manager', 'shipping-manager' );
+        $this->method_description   = __( 'Shipping Manager Method Description', 'shipping-manager' );
         $this->enabled              = $this->is_enable();
         $this->title                = $this->method_name();
 
         $this->init();
     }
 
-    private function method_name() {
-        return ! empty( $this->tpsm_general_settings['method-title'] ) && isset( $this->tpsm_general_settings['method-title'] ) ? $this->tpsm_general_settings['method-title'] : __( 'Shipping Manager', 'shipping-manager');
-    }
-
-    private function is_enable() {
-        return ! empty( $this->tpsm_general_settings['is-plugin-enable'] ) && isset( $this->tpsm_general_settings['is-plugin-enable'] ) ? ( $this->tpsm_minimum_amount_setting() || $this->get_tpsm_cost() ? 'yes' : 'no' ) : 'no';
-    }
-
-    private function get_tpsm_cost() {
-        if ( $is_enable = $this->tpsm_minimum_amount_setting() ) {
-            return 0;
-        }else {
-            return apply_filters( 'tpsm_shipping_fees_cost', 0 );
-        }
-    }
-
-    // if it true than minimun order will be fire and calculate the minimumn order 
-    private function tpsm_minimum_amount_setting() {
-        return apply_filters( 'tpsm_minimum_amount_setting', false );
-    }
-
-    
     /**
-     * Init your settings
+     * Initialize settings and hooks.
      */
     public function init() {
         $this->init_form_fields();
         $this->init_settings();
-        
-        // Save settings in admin
-        add_action( 'woocommerce_update_options_shipping_' . $this->id, [$this, 'process_admin_options'] );
+
+        // Hook to save admin settings.
+        add_action( 'woocommerce_update_options_shipping_' . $this->id, array( $this, 'process_admin_options' ) );
     }
 
+    /**
+     * Define form fields for admin settings.
+     */
     public function init_form_fields() {
-
-        $setting_page = add_query_arg( 
+        $setting_page = add_query_arg(
             array(
-                'page'          => self::ID,
+                'page' => self::ID,
             ),
             admin_url( 'admin.php' )
         );
 
         $this->form_fields = array(
             'custom_button' => array(
-                // 'title'       => __( 'Set up your store Global Shipping Rules', 'your-text-domain' ),
                 'type'        => 'title',
-                'description' => '<a href="' . $setting_page . '" class="button button-primary">Go to Plugin Settings</a>',
+                'description' => '<a href="' . esc_url( $setting_page ) . '" class="button button-primary">' . esc_html__( 'Go to Plugin Settings', 'shipping-manager' ) . '</a>',
             ),
         );
-    } 
-
-    private function is_tpsm_plugin_taxable() {
-        if( ! empty( $this->tpsm_general_settings['is-plugin-taxable'] ) && isset( $this->tpsm_general_settings['is-plugin-taxable'] ) ) {
-            if( 'yes' == $this->tpsm_general_settings['is-plugin-taxable'] ) {
-                return true;
-            }
-        }
-        return false;
     }
 
     /**
-     * calculate_shipping function.
+     * Calculate shipping cost.
      *
-     * @access public
-     * @param array $package
-     * @return void
+     * @param array $package Shipping package.
      */
     public function calculate_shipping( $package = array() ) {
         $rate = array(
-            'label'     => $this->title,
-            'cost'      => $this->get_tpsm_cost(),
+            'label' => $this->title,
+            'cost'  => $this->get_tpsm_cost(),
         );
 
-        if( $this->is_tpsm_plugin_taxable() ) {
+        if ( $this->is_tpsm_plugin_taxable() ) {
             $rate['calc_tax'] = 'per_order';
         } else {
             $rate['taxes']     = false;
@@ -112,7 +110,66 @@ class RegisterShippingMethod extends WC_Shipping_Method {
             $rate['tax_class'] = 'none';
         }
 
-        // Register the rate
+        // Register the shipping rate.
         $this->add_rate( $rate );
+    }
+
+    /**
+     * Get the shipping method title.
+     *
+     * @return string
+     */
+    private function method_name() {
+        return ! empty( $this->tpsm_general_settings['method-title'] )
+            ? $this->tpsm_general_settings['method-title']
+            : __( 'Shipping Manager', 'shipping-manager' );
+    }
+
+    /**
+     * Check if the shipping method is enabled.
+     *
+     * @return string 'yes' or 'no'
+     */
+    private function is_enable() {
+        if ( ! empty( $this->tpsm_general_settings['is-plugin-enable'] ) ) {
+            return ( $this->tpsm_minimum_amount_setting() || $this->get_tpsm_cost() ) ? 'yes' : 'no';
+        }
+
+        return 'no';
+    }
+
+    /**
+     * Get the shipping cost.
+     *
+     * @return float
+     */
+    private function get_tpsm_cost() {
+        if ( $this->tpsm_minimum_amount_setting() ) {
+            return 0;
+        } else {
+            return apply_filters( 'tpsm_shipping_fees_cost', 0 );
+        }
+    }
+
+    /**
+     * Check if minimum amount setting is enabled.
+     *
+     * @return bool
+     */
+    private function tpsm_minimum_amount_setting() {
+        return apply_filters( 'tpsm_minimum_amount_setting', false );
+    }
+
+    /**
+     * Check if the shipping method is taxable.
+     *
+     * @return bool
+     */
+    private function is_tpsm_plugin_taxable() {
+        if ( ! empty( $this->tpsm_general_settings['is-plugin-taxable'] ) ) {
+            return ( 'yes' === $this->tpsm_general_settings['is-plugin-taxable'] );
+        }
+
+        return false;
     }
 }
