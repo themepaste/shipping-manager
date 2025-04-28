@@ -10,6 +10,10 @@ if( ! function_exists( 'tpsm_settings_options' ) ) {
         return apply_filters(
             'tpsm_settings_options',
             array(
+                'general' => array(
+                    'label' => __( 'General Settings', 'shipping-manager' ),
+                    'class' => '',
+                ),
                 'shipping-fees' => array(
                     'label' => __( 'Shipping Fees', 'shipping-manager' ),
                     'class' => '',
