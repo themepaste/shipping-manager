@@ -5,6 +5,8 @@
     background-color: #fff;
     padding: 10px;
     text-align: center;
+    z-index: 10000;
+    height: 80px;
 }
 .tpsm-free-shipping-bar-wrapper progress {
     width: 100%;

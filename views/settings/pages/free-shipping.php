@@ -44,7 +44,7 @@ $settings_fields = [
                 'label' => __( 'Message', 'shipping-manager' ),
                 'type'  => 'text',
                 'value' => '',
-                'desc'  => __( 'Shipping bar message', 'shipping-manager' ),
+                'desc'  => __( 'To show how many prie left to qualify free shipment than please use [left_price] as placeholder.', 'shipping-manager' ),
             ),
             'shipping-bar-position' => array(
                 'label' => __( 'Position', 'shipping-manager' ),
