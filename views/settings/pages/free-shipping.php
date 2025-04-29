@@ -7,7 +7,9 @@ $currency_symbol    = get_woocommerce_currency_symbol();
 $screen_slug        = $args['current_screen'];
 $submit_button      = $prefix . '-' . $screen_slug . '_submit';
 $option_name        = $prefix . '-' . $screen_slug . '_' . 'settings';
+$on_shipping_bar    = $prefix . '-free-shipping-bar' . $screen_slug . '_' . 'settings'; //on = option name
 $saved_settings     = get_option( $option_name );
+$saved_styles       = get_option( $on_shipping_bar );
 $parent_field_key   = 'minimum-amount'; //It has a child field called "Cart Amount"
 
 /**
@@ -80,6 +82,8 @@ $settings_fields = [
         ]
     ),
 ];
+
+$shipping_bar_style_fields = $settings_fields['free-shipping-bar']['child-fields'];
 ?>
 
 <div class="tpsm-setting-wrapper">
@@ -145,8 +149,10 @@ $settings_fields = [
             <div class="tpsm-shipping-bar-styles-wrapper">
                 <h3><?php esc_html_e( 'Shipping Bar styles', 'shipping-manager' ); ?></h3>
                 <?php
-                    $shipping_bar_style_fields = $settings_fields['free-shipping-bar']['child-fields'];
                     foreach ( $shipping_bar_style_fields as $key => $field ) {
+                        if( isset( $saved_styles ) && ! empty( $saved_styles ) ) {
+                            $field['value'] = isset( $saved_styles[ $key ] ) ? $saved_styles[ $key ] : '';
+                        }
 
                         if( 'text' == $field['type'] ) {
                             printf(
@@ -184,9 +190,10 @@ $settings_fields = [
                                                 $options = $field['options'];
                                                 foreach ( $options as $option ) {
                                                     printf( 
-                                                        '<option value="$1$s">%2$s</option>',
+                                                        '<option value="%1$s" %3$s>%2$s</option>',
                                                         strtolower( $option ),
-                                                        $option
+                                                        $option,
+                                                        strtolower( $option ) == $field['value'] ? 'selected' : '',
                                                     );
                                                 }
                                                 ?>
@@ -205,11 +212,19 @@ $settings_fields = [
                                         <label><?php echo $field['label']; ?></label>
                                         </div>
                                         <div class="tpsm-field-input">
-                                            <div class="tpsm-color-field">
-                                                <input type="color" class="colorpicker" pattern="^#+([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$" name="color" value="#bada55"> 
-                                                <input type="text" class="hexcolor" value="#bada55" pattern="^#+([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$">
-                                            </div>
-                                            <p class="tpsm-field-desc"><?php echo $field['desc']; ?></p>
+                                            <?php 
+                                                printf(
+                                                    '<div class="tpsm-color-field">
+                                                        <input type="color" class="colorpicker" pattern="^#+([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$" name="color" value="%2$s"> 
+                                                        <input type="text" name="%1$s" class="hexcolor" value="%2$s" pattern="^#+([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$" placeholder="#000000">
+                                                    </div>
+                                                    <p class="tpsm-field-desc">%3$s</p>',
+                                                    $prefix . '-' . $screen_slug . '_' . $key,
+                                                    $field['value'],
+                                                    $field['desc']
+                                                );
+                                            ?>
+                                            
                                         </div>
                                     </div>
                                 </div>
@@ -246,6 +261,7 @@ $settings_fields = [
 
         $settings_values = [];
 
+        // Main Setting 
         foreach ( $settings_fields as $key => $field ) {
             $field_name = $prefix . '-' . $screen_slug . '_' . $key;
 
@@ -257,8 +273,22 @@ $settings_fields = [
             }
         }
 
+        // Save setting to database 
         update_option( $option_name, $settings_values );
 
+        
+
+        // Shipping Bar style settings 
+        $shipping_bar_styles_values = [];
+        foreach ( $shipping_bar_style_fields as $key => $field ) {
+            $field_name = $prefix . '-' . $screen_slug . '_' . $key;
+
+            $shipping_bar_styles_values[$key] = isset( $_POST[$field_name] ) ? sanitize_text_field( $_POST[$field_name] ) : '';
+        }
+
+        update_option( $on_shipping_bar, $shipping_bar_styles_values );
+
+        //Redirect url
         wp_redirect( add_query_arg( 
             array(
                 'page'          => 'shipping-manager',
