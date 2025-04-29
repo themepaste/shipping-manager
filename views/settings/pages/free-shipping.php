@@ -19,13 +19,7 @@ $settings_fields = [
         'type'  => 'switch',
         'value' => '',
         'desc'  => __( 'Hide other shipping methods while free shipping is available.', 'shipping-manager' ),
-    ),  
-    'free-shipping-bar' => array(
-        'label' => __( 'Show Free Shipping Bar', 'shipping-manager' ),
-        'type'  => 'switch',
-        'value' => '',
-        'desc'  => __( 'Enable free shipping bar for customers. Customers will see a bar for target to achieve free shipping.', 'shipping-manager' ),
-    ),
+    ), 
     'minimum-amount' => array(
         'label' => __( 'Minimum Amount', 'shipping-manager' ),
         'type'  => 'switch',
@@ -37,7 +31,42 @@ $settings_fields = [
         'type'  => 'text',
         'value' => '',
         'desc'  => __( 'Cart minimum amount for free shipping.', 'shipping-manager' ),
-    )
+    ), 
+    'free-shipping-bar' => array(
+        'label' => __( 'Show Free Shipping Bar', 'shipping-manager' ),
+        'type'  => 'switch',
+        'value' => '',
+        'desc'  => __( 'Enable free shipping bar for customers. Customers will see a bar for target to achieve free shipping.', 'shipping-manager' ),
+        'child-fields' => [
+            'shipping-bar-message' => array(
+                'label' => __( 'Message', 'shipping-manager' ),
+                'type'  => 'text',
+                'value' => '',
+                'desc'  => __( '', 'shipping-manager' ),
+            ),
+            'shipping-bar-position' => array(
+                'label' => __( 'Position', 'shipping-manager' ),
+                'type'  => 'select',
+                'value' => '',
+                'desc'  => __( '', 'shipping-manager' ),
+                'options' => [
+                    'top',
+                    'bottom'
+                ]
+            ),
+            'shipping-bar-alignment' => array(
+                'label' => __( 'Alignment', 'shipping-manager' ),
+                'type'  => 'select',
+                'value' => '',
+                'desc'  => __( '', 'shipping-manager' ),
+                'options' => [
+                    'Left',
+                    'Center',
+                    'Right'
+                ]
+            ),
+        ]
+    ),
 ];
 ?>
 
