@@ -42,7 +42,7 @@ $settings_fields = [
                 'label' => __( 'Message', 'shipping-manager' ),
                 'type'  => 'text',
                 'value' => '',
-                'desc'  => __( '', 'shipping-manager' ),
+                'desc'  => __( 'Shipping bar message', 'shipping-manager' ),
             ),
             'shipping-bar-position' => array(
                 'label' => __( 'Position', 'shipping-manager' ),
@@ -129,6 +129,62 @@ $settings_fields = [
                     }
                 } 
             ?>
+
+            <div class="tpsm-shipping-bar-styles-wrapper">
+                <h3><?php esc_html_e( 'Shipping Bar styles', 'shipping-manager' ); ?></h3>
+                <?php
+                    $shipping_bar_style_fields = $settings_fields['free-shipping-bar']['child-fields'];
+                    foreach ( $shipping_bar_style_fields as $key => $field ) {
+
+                        if( 'text' == $field['type'] ) {
+                            printf(
+                                '<div class="tpsm-setting-row">
+                                    <div class="tpsm-field">
+                                        <div class="tpsm-field-label">
+                                        <label>%1$s: </label>
+                                        </div>
+                                        <div class="tpsm-field-input">
+                                            <input type="text" id="%2$s" name="%2$s" value="%3$s" />
+                                            <p class="tpsm-field-desc">%4$s</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                ',
+                                $field['label'],                                    // Field Label
+                                $prefix . '-' . $screen_slug . '_' . $key,          // Field Name
+                                $field['value'],                                    // Field Value
+                                $field['desc']                                      // Descroiption
+                            );
+                        }
+                        else if( 'select' == $field['type'] ) {
+                            ?>
+                                <div class="tpsm-setting-row">
+                                    <div class="tpsm-field">
+                                        <div class="tpsm-field-label">
+                                        <label><?php echo $field['label']; ?> </label>
+                                        </div>
+                                        <div class="tpsm-field-input">
+                                            <select name="" id="">
+                                                <?php 
+                                                    $options = $field['options'];
+                                                    foreach ( $options as $option ) {
+                                                        printf( 
+                                                            '<option>%1$s</option>',
+                                                            $option
+                                                         );
+                                                    }
+                                                ?>
+                                            </select>
+                                            <p class="tpsm-field-desc"><?php echo $field['desc'] ?></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php 
+                        }
+                    }
+                ?>
+
+            </div>
 
             <div class="tpsm-save-button">
                 <button type="submit" name="<?php echo $submit_button ?>"><?php esc_html_e( 'Save Settings', 'shipping-manager' ); ?></button>
