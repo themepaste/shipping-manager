@@ -74,6 +74,22 @@ jQuery(function ($) {
             }
         });
     });
+
+    $(document).ready(function () {
+        $('.tpsm-color-field').each(function() {
+            const $group = $(this);
+            const $colorPicker = $group.find('.colorpicker');
+            const $hexInput = $group.find('.hexcolor');
+          
+            $colorPicker.on('input', function() {
+              $hexInput.val(this.value);
+            });
+          
+            $hexInput.on('input', function() {
+              $colorPicker.val(this.value);
+            });
+        });
+    });
     
     
 });

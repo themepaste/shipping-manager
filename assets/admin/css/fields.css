@@ -103,3 +103,19 @@ table tbody tr td input[type="text"]:focus {
 }
 
 /*== end switch style ==*/
+
+
+/*=== Start Color Field Style ===*/
+.tpsm-color-field {
+	display: flex;
+	gap: 5px;
+}
+.tpsm-color-field input[type="color"],
+.tpsm-color-field input[type="color"]:focus {
+	box-shadow: none;
+	border: 1px solid #a8a8a8;
+}
+.tpsm-color-field input[type="text"] {
+	width: 150px !important;
+}
+/*=== end Color Field Style ===*/

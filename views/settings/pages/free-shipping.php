@@ -58,12 +58,24 @@ $settings_fields = [
                 'label' => __( 'Alignment', 'shipping-manager' ),
                 'type'  => 'select',
                 'value' => '',
-                'desc'  => __( '', 'shipping-manager' ),
+                'desc'  => __( 'Alignment', 'shipping-manager' ),
                 'options' => [
                     'Left',
                     'Center',
                     'Right'
                 ]
+            ),
+            'shipping-bar-text-color' => array(
+                'label' => __( 'Text Color', 'shipping-manager' ),
+                'type'  => 'picker',
+                'value' => '',
+                'desc'  => __( 'Text color', 'shipping-manager' ),
+            ),
+            'shipping-bar-background-color' => array(
+                'label' => __( 'Background Color', 'shipping-manager' ),
+                'type'  => 'picker',
+                'value' => '',
+                'desc'  => __( 'Background Color', 'shipping-manager' ),
             ),
         ]
     ),
@@ -180,6 +192,24 @@ $settings_fields = [
                                     </div>
                                 </div>
                             <?php 
+                        }
+                        else if( 'picker' == $field['type'] ) {
+                            ?>
+                                <div class="tpsm-setting-row">
+                                    <div class="tpsm-field">
+                                        <div class="tpsm-field-label">
+                                        <label><?php echo $field['label']; ?></label>
+                                        </div>
+                                        <div class="tpsm-field-input">
+                                            <div class="tpsm-color-field">
+                                                <input type="color" class="colorpicker" pattern="^#+([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$" name="color" value="#bada55"> 
+                                                <input type="text" class="hexcolor" value="#bada55" pattern="^#+([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$">
+                                            </div>
+                                            <p class="tpsm-field-desc"><?php echo $field['desc']; ?></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php
                         }
                     }
                 ?>
