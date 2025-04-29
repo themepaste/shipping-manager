@@ -48,10 +48,10 @@ $settings_fields = [
                 'label' => __( 'Position', 'shipping-manager' ),
                 'type'  => 'select',
                 'value' => '',
-                'desc'  => __( '', 'shipping-manager' ),
+                'desc'  => __( 'Position', 'shipping-manager' ),
                 'options' => [
-                    'top',
-                    'bottom'
+                    'Top',
+                    'Bottom'
                 ]
             ),
             'shipping-bar-alignment' => array(
@@ -176,15 +176,19 @@ $settings_fields = [
                                         <label><?php echo $field['label']; ?> </label>
                                         </div>
                                         <div class="tpsm-field-input">
-                                            <select name="" id="">
-                                                <?php 
-                                                    $options = $field['options'];
-                                                    foreach ( $options as $option ) {
-                                                        printf( 
-                                                            '<option>%1$s</option>',
-                                                            $option
-                                                         );
-                                                    }
+                                            <?php 
+                                                printf( 
+                                                    '<select name="%1$s" id="%1$s">', 
+                                                    $prefix . '-' . $screen_slug . '_' . $key 
+                                                );
+                                                $options = $field['options'];
+                                                foreach ( $options as $option ) {
+                                                    printf( 
+                                                        '<option value="$1$s">%2$s</option>',
+                                                        strtolower( $option ),
+                                                        $option
+                                                    );
+                                                }
                                                 ?>
                                             </select>
                                             <p class="tpsm-field-desc"><?php echo $field['desc'] ?></p>
