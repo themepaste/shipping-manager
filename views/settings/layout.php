@@ -15,10 +15,10 @@ $args = array(
 
 <div class="wrap">
     <div class="themepaste-shipping-manager-wrapper">
-        <?php echo Utility::get_template( 'settings/parts/topbar.php' ); ?>
+        <?php echo wp_kses_post( Utility::get_template( 'settings/parts/topbar.php' ) ); ?>
         <div class="shipping-manager-container">
-            <?php echo Utility::get_template( 'settings/parts/sidebar.php', $args ); ?>
-            <?php echo Utility::get_template( 'settings/parts/main.php', $args ); ?>
+            <?php echo wp_kses_post( Utility::get_template( 'settings/parts/sidebar.php', $args ) ); ?>
+            <?php echo wp_kses_post( Utility::get_template( 'settings/parts/main.php', $args ) ); ?>
         </div>
     </div>
 </div>
