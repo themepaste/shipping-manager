@@ -104,10 +104,11 @@ $currency_symbol = get_woocommerce_currency_symbol();
                     <table class="tpsm-shipping-fees-repeater">
                         <thead>
                             <tr>
-                                <th>From</th>
-                                <th>To</th>
-                                <th>Fee</th>
-                                <th>Action</th>
+                                <th><?php echo esc_html__( 'From', 'shipping-manager' ); ?></th>
+                                <th><?php echo esc_html__( 'To', 'shipping-manager' ); ?></th>
+                                <th><?php echo esc_html__( 'Fee', 'shipping-manager' ); ?></th>
+                                <th><?php echo esc_html__( 'Action', 'shipping-manager' ); ?></th>
+
                             </tr>
                         </thead>
                         <tbody>
