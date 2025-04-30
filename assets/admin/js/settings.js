@@ -1,102 +1,130 @@
+/**
+ * File: tpsm-admin-scripts.js
+ * Description: Handles dynamic UI elements for the TPSM shipping method admin settings.
+ *
+ * @package TPSM
+ */
+
 jQuery(function ($) {
+
     /**
-     * Handles toggling visibility of the shipping fee containers
-     * based on the selected shipping fee type radio input.
+     * Toggles visibility of shipping fee option containers
+     * based on the selected radio input value.
      */
     $(document).ready(function () {
-        $('input[name="tpsm-shipping-fee_type"]').change(function () {
+        $('input[name="tpsm-shipping-fee_type"]').on('change', function () {
             // Hide all shipping fee containers
             $('.tpsm-shipping-fees-container').hide();
 
-            // Show the selected container by ID
+            // Show the container corresponding to the selected value (used as ID)
             $('#' + $(this).val()).show();
         });
     });
 
     /**
-     * Handles dynamic repeater functionality for adding/removing
-     * shipping fee rows in the weight range pricing section.
+     * Handles dynamic addition and removal of weight-based pricing rows.
      */
     $(document).ready(function () {
-        /**
-         * Adds a new row to the repeater section when the add button is clicked.
-         */
-        $('#tpsm-weight-range-pricing-add').click(function () {
-            // Clone the last existing repeater row
-            let $clone = $('.tpsm-repeater-row').last().clone();
 
-            // Clear all input values within the cloned row
+        /**
+         * Adds a new weight-based pricing row.
+         *
+         * Triggered when the "Add" button is clicked.
+         */
+        $('#tpsm-weight-range-pricing-add').on('click', function () {
+            // Clone the last row
+            var $clone = $('.tpsm-repeater-row').last().clone();
+
+            // Clear input fields in the cloned row
             $clone.find('input').val('');
 
-            // Append the cloned and cleared row to the repeater container
+            // Append the cloned row to the repeater container
             $('.tpsm-shipping-fees-repeater').append($clone);
         });
 
         /**
-         * Removes a specific repeater row when the delete button is clicked.
+         * Removes a specific weight pricing row.
+         *
+         * Triggered when the delete button is clicked within a row.
          */
         $(document).on('click', '.delete-row', function () {
-            // Remove the parent repeater row of the clicked delete button
             $(this).closest('.tpsm-repeater-row').remove();
         });
     });
 
+    /**
+     * Handles dynamic addition and removal of box-size dimension rows.
+     */
     $(document).ready(function () {
+
         /**
-         * Adds a new row to the repeater section when the add button is clicked.
+         * Adds a new dimension row.
          */
-        $('#tpsm-dimension-add').click(function () {
-            // Clone the last existing repeater row
-            let $clone = $('.tpsm-box-size-repeater-row').last().clone();
-
-            // Clear all input values within the cloned row
+        $('#tpsm-dimension-add').on('click', function () {
+            var $clone = $('.tpsm-box-size-repeater-row').last().clone();
             $clone.find('input').val('');
-
-            // Append the cloned and cleared row to the repeater container
             $('.tpsm-box-size-shipping-table-wrapper').append($clone);
         });
 
         /**
-         * Removes a specific repeater row when the delete button is clicked.
+         * Removes a specific dimension row.
          */
         $(document).on('click', '.delete-row', function () {
-            // Remove the parent repeater row of the clicked delete button
             $(this).closest('.tpsm-box-size-repeater-row').remove();
         });
     });
 
-    $(document).ready(function() {
-        $('#tpsm-free-shipping_minimum-amount').change(function() {
+    /**
+     * Toggles visibility of free shipping minimum amount and shipping bar style settings.
+     */
+    $(document).ready(function () {
+
+        /**
+         * Show/hide minimum cart amount input based on checkbox state.
+         */
+        $('#tpsm-free-shipping_minimum-amount').on('change', function () {
             if ($(this).is(':checked')) {
                 $('.tpsm-free-shipping_cart-amount_wrapper').show();
             } else {
                 $('.tpsm-free-shipping_cart-amount_wrapper').hide();
             }
         });
-        $('#tpsm-free-shipping_free-shipping-bar').change(function() {
+
+        /**
+         * Show/hide the shipping bar style settings.
+         */
+        $('#tpsm-free-shipping_free-shipping-bar').on('change', function () {
             if ($(this).is(':checked')) {
                 $('#tpsm-shipping-bar-styles-container').show();
             } else {
                 $('#tpsm-shipping-bar-styles-container').hide();
             }
-        })
+        });
     });
 
+    /**
+     * Synchronizes the hex input with the color picker and vice versa.
+     */
     $(document).ready(function () {
-        $('.tpsm-color-field').each(function() {
-            const $group = $(this);
-            const $colorPicker = $group.find('.colorpicker');
-            const $hexInput = $group.find('.hexcolor');
-          
-            $colorPicker.on('input', function() {
-              $hexInput.val(this.value);
+        $('.tpsm-color-field').each(function () {
+            var $group = $(this);
+            var $colorPicker = $group.find('.colorpicker');
+            var $hexInput = $group.find('.hexcolor');
+
+            /**
+             * Update hex input when the color picker value changes.
+             */
+            $colorPicker.on('input', function () {
+                $hexInput.val(this.value);
             });
-          
-            $hexInput.on('input', function() {
-              $colorPicker.val(this.value);
+
+            /**
+             * Update color picker when hex input value changes.
+             */
+            $hexInput.on('input', function () {
+                $colorPicker.val(this.value);
             });
         });
     });
-    
-    
+
 });
