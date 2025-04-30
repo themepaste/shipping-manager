@@ -73,6 +73,13 @@ jQuery(function ($) {
                 $('.tpsm-free-shipping_cart-amount_wrapper').hide();
             }
         });
+        $('#tpsm-free-shipping_free-shipping-bar').change(function() {
+            if ($(this).is(':checked')) {
+                $('#tpsm-shipping-bar-styles-container').show();
+            } else {
+                $('#tpsm-shipping-bar-styles-container').hide();
+            }
+        })
     });
 
     $(document).ready(function () {
