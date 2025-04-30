@@ -53,16 +53,16 @@
                                     </div>
                                     <div class="tpsm-field-input">
                                         <div>
-                                            <input type="text" type="text" name="%3$s" value="%4$s">
+                                            <input type="text" name="%3$s" value="%4$s">
                                         </div>
                                         <p class="tpsm-field-desc">%2$s</p>
                                     </div>
                                 </div>
                             </div>',
-                            $field['label'],                                //%1$s =  Field Label
-                            $field['desc'],                                 //%2$s =  Description
-                            $prefix . '-' . $screen_slug . '_' . $key,      //%3$s =  Field Name
-                            $field['value'],                                //%4$s =  Value
+                            esc_html( $field['label'] ),                                  // %1$s = Field Label
+                            esc_html( $field['desc'] ),                                   // %2$s = Description
+                            esc_attr( $prefix . '-' . $screen_slug . '_' . $key ),        // %3$s = Field Name (attribute)
+                            esc_attr( $field['value'] )                                   // %4$s = Value (attribute)
                         );
                     }
                     else if( 'switch' == $field['type'] ) {
@@ -74,17 +74,19 @@
                                     </div>
                                     <div class="tpsm-field-input">
                                         <div class="tpsm-switch-wrapper">
-                                            <input class="tpsm-switch" type="checkbox" id="%3$s" name="%3$s" %4$s /><label for="%3$s" class="tpsm-switch-label"></label>
+                                            <input class="tpsm-switch" type="checkbox" id="%3$s" name="%3$s" %4$s />
+                                            <label for="%3$s" class="tpsm-switch-label"></label>
                                         </div>
                                         <p class="tpsm-field-desc">%2$s</p>
                                     </div>
                                 </div>
                             </div>',
-                            $field['label'],                            //%1$s =  Field Label
-                            $field['desc'],                             //%1$s =  Description
-                            $prefix . '-' . $screen_slug . '_' . $key,  //%1$s =  Field name
-                            $field['value'] == '' ? 'checked' : ( $field['value'] == 1 ? 'checked' : '' ),                                       //%1$s =  Value
+                            esc_html( $field['label'] ),                                  // %1$s = Label
+                            esc_html( $field['desc'] ),                                   // %2$s = Description
+                            esc_attr( $prefix . '-' . $screen_slug . '_' . $key ),        // %3$s = Field Name / ID
+                            checked( $field['value'], '1', false )                        // %4$s = Outputs 'checked' if true
                         );
+
                     }
                     else if( 'select' == $field['type'] ) {
                         printf(
@@ -96,26 +98,29 @@
                                     <div class="tpsm-field-input">
                                         <div class="tpsm-select-wrapper">
                                             <select name="%3$s" id="%3$s">
-                                                <option value="no" %4$s >No</option>
-                                                <option value="yes" %5$s >Yes</option>
+                                                <option value="no" %4$s>%6$s</option>
+                                                <option value="yes" %5$s>%7$s</option>
                                             </select>
                                         </div>
                                         <p class="tpsm-field-desc">%2$s</p>
                                     </div>
                                 </div>
                             </div>',
-                            $field['label'],                                //%1$s =  Field Label
-                            $field['desc'],                                 //%2$s =  Description
-                            $prefix . '-' . $screen_slug . '_' . $key,      //%3$s =  Field Name
-                            $field['value'] == 'no' ? 'selected' : '',      //%4$s =  Value if no
-                            $field['value'] == 'yes' ? 'selected' : '',     //%5$s =  Value if yes
+                            esc_html( $field['label'] ),                                   // %1$s = Label
+                            esc_html( $field['desc'] ),                                    // %2$s = Description
+                            esc_attr( $prefix . '-' . $screen_slug . '_' . $key ),         // %3$s = Name and ID
+                            selected( $field['value'], 'no', false ),                      // %4$s = selected if 'no'
+                            selected( $field['value'], 'yes', false ),                     // %5$s = selected if 'yes'
+                            esc_html__( 'No', 'shipping-manager' ),                        // %6$s = Option text
+                            esc_html__( 'Yes', 'shipping-manager' )                        // %7$s = Option text
                         );
+
                     }
                 }
             ?>
 
             <div class="tpsm-save-button">
-                <button type="submit" name="<?php echo $submit_button ?>"><?php esc_html_e( 'Save Settings', 'shipping-manager' ); ?></button>
+                <button type="submit" name="<?php echo esc_attr( $submit_button ); ?>"><?php esc_html_e( 'Save Settings', 'shipping-manager' ); ?></button>
             </div>
         </form>
     </div>
@@ -131,12 +136,12 @@
     if( isset( $_POST[$submit_button] ) ) {
 
         if ( ! isset( $_POST['tpsm-nonce_name'] ) || ! wp_verify_nonce( $_POST['tpsm-nonce_name'], 'tpsm-nonce_action' ) ) {
-            wp_die( __( 'Nonce verification failed.', 'shipping-manager' ) );
+            wp_die( esc_html__( 'Nonce verification failed.', 'shipping-manager' ) );
         }
     
         // Check capabilities if needed
         if ( ! current_user_can( 'manage_options' ) ) {
-            wp_die( __( 'Unauthorized user', 'shipping-manager' ) );
+            wp_die( esc_html__( 'Unauthorized user', 'shipping-manager' ) );
         }
 
         $settings_values = [];
