@@ -82,8 +82,8 @@ $currency_symbol = get_woocommerce_currency_symbol();
                         </label>
                     </div>
                     <div class="tpsm-field-input">
-                        <?php echo $currency_symbol ?>
-                        <input type="text" id="tpsm-shipping-fees-flat-rate-amount" name="tpsm-shipping-fees-flat-rate-amount" value="<?php echo $tpsm_shipping_fees_settings_values['flat-rate'] ?>">
+                        <?php echo esc_html( $currency_symbol ) ?>
+                        <input type="text" id="tpsm-shipping-fees-flat-rate-amount" name="tpsm-shipping-fees-flat-rate-amount" value="<?php echo esc_html( $tpsm_shipping_fees_settings_values['flat-rate'] ); ?>">
                         <p class="tpsm-field-desc">
                             <?php esc_attr_e( 'Adds a flat processing fee per unit to process the shipment.', 'shipping-manager' );?>
                         </p>
@@ -119,14 +119,14 @@ $currency_symbol = get_woocommerce_currency_symbol();
                                         <tr class="tpsm-repeater-row">
                                             <td>
                                                 <input type="text" name="from[]">
-                                                <?php echo $weight_unit; ?>
+                                                <?php echo esc_html( $weight_unit ); ?>
                                             </td>
                                             <td>
                                                 <input type="text" name="to[]">
-                                                <?php echo $weight_unit; ?>
+                                                <?php echo esc_html( $weight_unit ); ?>
                                             </td>
                                             <td>
-                                                <?php echo $currency_symbol; ?>
+                                                <?php echo esc_html( $currency_symbol ); ?>
                                                 <input type="text" name="fee[]">
                                             </td>
                                             <td>
@@ -140,16 +140,16 @@ $currency_symbol = get_woocommerce_currency_symbol();
                                         ?>
                                             <tr class="tpsm-repeater-row">
                                                 <td>
-                                                    <input type="text" name="from[]" value="<?php echo $value['from']; ?>">
-                                                    <?php echo $weight_unit; ?>
+                                                    <input type="text" name="from[]" value="<?php echo esc_attr( $value['from'] ); ?>">
+                                                    <?php echo esc_html( $weight_unit ); ?>
                                                 </td>
                                                 <td>
-                                                    <input type="text" name="to[]" value="<?php echo $value['to']; ?>">
-                                                    <?php echo $weight_unit; ?>
+                                                    <input type="text" name="to[]" value="<?php echo esc_attr( $value['to'] ); ?>">
+                                                    <?php echo esc_html( $weight_unit ); ?>
                                                 </td>
                                                 <td>
-                                                    <?php echo $currency_symbol; ?>
-                                                    <input type="text" name="fee[]" value="<?php echo $value['fee']; ?>">
+                                                    <?php echo esc_html( $currency_symbol ); ?>
+                                                    <input type="text" name="fee[]" value="<?php echo esc_attr( $value['fee'] ); ?>">
                                                 </td>
                                                 <td>
                                                     <button type="button" class="delete-row"><?php esc_html_e( 'Delete', 'shipping-manager' ); ?></button>
@@ -185,12 +185,12 @@ $currency_symbol = get_woocommerce_currency_symbol();
     if( isset( $_POST['tpsm-shipping-fees_submit'] ) ) {
 
         if ( ! isset( $_POST['tpsm-nonce_name'] ) || ! wp_verify_nonce( $_POST['tpsm-nonce_name'], 'tpsm-nonce_action' ) ) {
-            wp_die( __( 'Nonce verification failed.', 'shipping-manager' ) );
+            wp_die( esc_html__( 'Nonce verification failed.', 'shipping-manager' ) );
         }
     
         // Check capabilities if needed
         if ( ! current_user_can( 'manage_options' ) ) {
-            wp_die( __( 'Unauthorized user', 'shipping-manager' ) );
+            wp_die( esc_html__( 'Unauthorized user', 'shipping-manager' ) );
         }
 
         $shipping_fees_enabled  = isset( $_POST['tpsm-shipping-fees-disable-enable'] ) ? 1 : 0;
