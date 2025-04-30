@@ -74,12 +74,19 @@ $currency_symbol = get_woocommerce_currency_symbol();
 
                 <div class="tpsm-field">
                     <div class="tpsm-field-label">
-                        <label><?php esc_html_e( 'Flat rate per Unit/' . $weight_unit . ' :', 'shipping-manager' ); ?></label>
+                        <label>
+                            <?php printf( '%1$s%2$s :',
+                                esc_html__( 'Flat rate per Unit/', 'shipping-manager' ),
+                                esc_html( $weight_unit )
+                            ); ?>
+                        </label>
                     </div>
                     <div class="tpsm-field-input">
                         <?php echo $currency_symbol ?>
                         <input type="text" id="tpsm-shipping-fees-flat-rate-amount" name="tpsm-shipping-fees-flat-rate-amount" value="<?php echo $tpsm_shipping_fees_settings_values['flat-rate'] ?>">
-                        <p class="tpsm-field-desc"><?php esc_html_e( 'Adds per unit/' . $weight_unit . ' a flat processing fee to process the shipment.', 'shipping-manager' ); ?></p>
+                        <p class="tpsm-field-desc">
+                            <?php esc_attr_e( 'Adds a flat processing fee per unit to process the shipment.', 'shipping-manager' );?>
+                        </p>
                     </div>
                 </div>
                 

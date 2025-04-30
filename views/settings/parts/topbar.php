@@ -2,8 +2,11 @@
 <div class="tpsm-plugin-topbar-wrapper">
     <div class="tpsm-logo-title-area">
         <div class="tpsm-icons">
-            <!-- <img src="<?php echo TPSM_ASSETS_URL . '/img/icons/supply-chain-management.png' ?>" alt="Shipping Manager Icons"> -->
-            <img src="<?php echo TPSM_ASSETS_URL . '/img/icons/order-fulfillment.png' ?>" alt="Shipping Manager Icons">
+            <?php 
+                $tpsm_icon = TPSM_ASSETS_URL . '/img/icons/order-fulfillment.png';
+                printf( '<img src="%1$s" >', esc_url( $tpsm_icon ) );
+            ?>
+            
         </div>
         <div class="tpsm-titles">
             <h1><?php esc_html_e( 'Shipping Manager', 'shipping-manager' ); ?></h1>
@@ -11,7 +14,7 @@
         </div>
     </div>
     <div class="tpsm-topbar-info-area">
-        <a href="#">Documentation</a>
+        <a href="#"><?php esc_html_e( 'Documentation', 'shipping-manager' ); ?></a>
     </div>
 </div>
     
