@@ -189,7 +189,7 @@ class Settings {
             exit;
         }
 
-        printf( '%s', wp_kses_post( Utility::get_template( 'settings/layout.php' ) ) );
+        printf( '%s', Utility::get_template( 'settings/layout.php' ) );
     }
 
     /**
