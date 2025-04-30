@@ -122,9 +122,9 @@ class FreeShipping {
 						%1$s
 						<progress value="%2$s" max="100"></progress>
 					</div>',
-					$this->shipping_bar_message( $minimum_cart_amount - $cart_total ), // Message showing remaining amount
-					$progress_bar_value,
-					$this->shipping_bar_styles()
+					esc_html( $this->shipping_bar_message( $minimum_cart_amount - $cart_total ) ), // Message showing remaining amount
+					esc_html( $progress_bar_value ),
+					wp_kses_post( $this->shipping_bar_styles() ),
 				);
 			}
 		}
