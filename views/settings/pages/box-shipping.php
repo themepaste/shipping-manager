@@ -63,11 +63,11 @@
                     <table class="tpsm-box-size-repeater tpsm-box-size-shipping-table-wrapper">
                         <thead>
                             <tr class="tpsm-box-size-repeater-row">
-                                <th>Length (<?php echo $dimension_unit;?> )</th>
-                                <th>Width (<?php echo $dimension_unit;?> )</th>
-                                <th>Height (<?php echo $dimension_unit;?> )</th>
-                                <th>Fee (<?php echo $currency_symbol;?>)</th>
-                                <th>Action</th>
+                                <th><?php echo esc_html( sprintf( '%1$s (%2$s)', __( 'Length', 'shipping-manager' ), $dimension_unit ) ); ?></th>
+                                <th><?php echo esc_html( sprintf( '%1$s (%2$s)', __( 'Width', 'shipping-manager' ), $dimension_unit ) ); ?></th>
+                                <th><?php echo esc_html( sprintf( '%1$s (%2$s)', __( 'Height', 'shipping-manager' ), $dimension_unit ) ); ?></th>
+                                <th><?php echo esc_html( sprintf( '%1$s (%2$s)', __( 'Fee', 'shipping-manager' ), $currency_symbol ) ); ?></th>
+                                <th><?php echo esc_html__( 'Action', 'shipping-manager' ); ?></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -88,10 +88,10 @@
                                     foreach ( $tpsm_box_size_shipping_settings as $key => $value ) {
                                         ?>
                                             <tr class="tpsm-box-size-repeater-row">
-                                                <td><input type="text" name="tpsm-box-size-length[]" value="<?php echo $value['length']; ?>"></td>
-                                                <td><input type="text" name="tpsm-box-size-width[]" value="<?php echo $value['width']; ?>"></td>
-                                                <td><input type="text" name="tpsm-box-size-height[]" value="<?php echo $value['height']; ?>"></td>
-                                                <td><input type="text" name="tpsm-box-size-fee[]" value="<?php echo $value['fee']; ?>"></td>
+                                                <td><input type="text" name="tpsm-box-size-length[]" value="<?php echo esc_attr( $value['length'] ); ?>"></td>
+                                                <td><input type="text" name="tpsm-box-size-width[]" value="<?php echo esc_attr( $value['width'] ); ?>"></td>
+                                                <td><input type="text" name="tpsm-box-size-height[]" value="<?php echo esc_attr( $value['height'] ); ?>"></td>
+                                                <td><input type="text" name="tpsm-box-size-fee[]" value="<?php echo esc_attr( $value['fee'] ); ?>"></td>
                                                 <td><button type="button" class="delete-row"><?php esc_html_e( 'Delete', 'shipping-manager' ); ?></button></td>
                                             </tr>
                                         <?php
@@ -125,12 +125,12 @@
     if( isset( $_POST['tpsm-box-shipping_submit'] ) ) {
 
         if ( ! isset( $_POST['tpsm-nonce_name'] ) || ! wp_verify_nonce( $_POST['tpsm-nonce_name'], 'tpsm-nonce_action' ) ) {
-            wp_die( __( 'Nonce verification failed.', 'shipping-manager' ) );
+            wp_die( esc_html__( 'Nonce verification failed.', 'shipping-manager' ) );
         }
     
         // Check capabilities if needed
         if ( ! current_user_can( 'manage_options' ) ) {
-            wp_die( __( 'Unauthorized user', 'shipping-manager' ) );
+            wp_die( esc_html__( 'Unauthorized user', 'shipping-manager' ) );
         }
 
         $shipping_fees_enabled  = isset( $_POST['tpsm-box-shipping-disable-enable'] ) ? 1 : 0;

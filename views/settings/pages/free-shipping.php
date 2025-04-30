@@ -177,7 +177,7 @@ $shipping_bar_style_fields = $settings_fields['free-shipping-bar']['child-fields
                             <div class="tpsm-setting-row">
                                 <div class="tpsm-field">
                                     <div class="tpsm-field-label">
-                                        <label><?php esc_html_e( $field['label'] ); ?> </label>
+                                        <label><?php echo esc_html( $field['label'] ); ?> </label>
                                     </div>
                                     <div class="tpsm-field-input">
                                         <?php 
@@ -195,7 +195,7 @@ $shipping_bar_style_fields = $settings_fields['free-shipping-bar']['child-fields
                                             }
                                             ?>
                                         </select>
-                                        <p class="tpsm-field-desc"><?php esc_html_e( $field['desc'] ); ?></p>
+                                        <p class="tpsm-field-desc"><?php echo esc_html( $field['desc'] ); ?></p>
                                     </div>
                                 </div>
                             </div>
@@ -233,7 +233,7 @@ $shipping_bar_style_fields = $settings_fields['free-shipping-bar']['child-fields
             </div>
 
             <div class="tpsm-save-button">
-                <button type="submit" name="<?php esc_attr_e( $submit_button ); ?>"><?php esc_html_e( 'Save Settings', 'shipping-manager' ); ?></button>
+                <button type="submit" name="<?php echo esc_attr( $submit_button ); ?>"><?php esc_html_e( 'Save Settings', 'shipping-manager' ); ?></button>
             </div>
         </form>
     </div>
