@@ -52,8 +52,8 @@ $settings_fields = [
                 'value' => '',
                 'desc'  => __( 'Position', 'shipping-manager' ),
                 'options' => [
-                    'Top',
-                    'Bottom'
+                    'Bottom',
+                    'Top'
                 ]
             ),
             'shipping-bar-alignment' => array(

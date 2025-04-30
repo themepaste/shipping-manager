@@ -131,10 +131,13 @@ class RegisterShippingMethod extends WC_Shipping_Method {
      * @return string 'yes' or 'no'
      */
     private function is_enable() {
-        if ( ! empty( $this->tpsm_general_settings['is-plugin-enable'] ) ) {
+        if( ! isset( $this->tpsm_general_settings['is-plugin-enable'] )  ) {
+            // initially its always true 
+            return 'yes';
+        }
+        else if ( ! empty( $this->tpsm_general_settings['is-plugin-enable'] ) ) {
             return ( $this->tpsm_minimum_amount_setting() || $this->get_tpsm_cost() ) ? 'yes' : 'no';
         }
-
         return 'no';
     }
 
