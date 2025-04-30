@@ -114,33 +114,32 @@ $shipping_bar_style_fields = $settings_fields['free-shipping-bar']['child-fields
                                     <p class="tpsm-field-desc">%4$s</p>
                                 </div>
                             </div>',
-                            $field['label'],                                // Field Label 
-                            $prefix . '-' . $screen_slug . '_' . $key,      // Field Name
-                            $field['value'] == 1 ? 'checked' : '',          // Field Value || Checked
-                            $field['desc']                                  // Description
+                            esc_html( $field['label'] ),                             // %1$s: Label
+                            esc_attr( $prefix . '-' . $screen_slug . '_' . $key ),   // %2$s: Safe for id/name
+                            checked( $field['value'], 1, false ),                    // %3$s: Proper "checked" attribute
+                            esc_html( $field['desc'] )                               // %4$s: Description
                         );
                     }
                     else if( 'text' == $field['type'] ) {
                         printf(
-                            '<div class="tpsm-setting-row %5$s" style="display:%6$s"; >
+                            '<div class="tpsm-setting-row %5$s" style="display:%6$s;">
                                 <div class="tpsm-field">
                                     <div class="tpsm-field-label">
-                                    <label>%1$s: </label>
+                                        <label>%1$s: </label>
                                     </div>
                                     <div class="tpsm-field-input">
                                         %4$s<input type="text" id="%2$s" name="%2$s" value="%3$s" />
                                         <p class="tpsm-field-desc">%7$s</p>
                                     </div>
                                 </div>
-                            </div>
-                            ',
-                            $field['label'],                                    // Field Label
-                            $prefix . '-' . $screen_slug . '_' . $key,          // Field Name
-                            $field['value'],                                    // Field Value
-                            $currency_symbol,                                   // Woocommerce Currency Symbol
-                            $prefix . '-' . $screen_slug . '_' . $key . '_wrapper', // Whole Field Wrapper
-                            isset( $saved_settings[$parent_field_key] ) ? ( $saved_settings[$parent_field_key] == 1 ? 'block' : 'none' ) : 'none',
-                            __( 'Cart minimum amount for free shipping.', 'shipping-manager' ),
+                            </div>',
+                            esc_html( $field['label'] ),                                                       // %1$s: Field Label
+                            esc_attr( $prefix . '-' . $screen_slug . '_' . $key ),                             // %2$s: Field ID & Name
+                            esc_attr( $field['value'] ),                                                       // %3$s: Field Value
+                            esc_html( $currency_symbol ),                                                      // %4$s: Currency Symbol
+                            esc_attr( $prefix . '-' . $screen_slug . '_' . $key . '_wrapper' ),                // %5$s: Wrapper Class
+                            esc_attr( isset( $saved_settings[$parent_field_key] ) && $saved_settings[$parent_field_key] == 1 ? 'block' : 'none' ), // %6$s: Display Value
+                            esc_html__( 'Cart minimum amount for free shipping.', 'shipping-manager' )         // %7$s: Description (translated and escaped)
                         );
                     }
                 } 
@@ -159,75 +158,73 @@ $shipping_bar_style_fields = $settings_fields['free-shipping-bar']['child-fields
                                 '<div class="tpsm-setting-row">
                                     <div class="tpsm-field">
                                         <div class="tpsm-field-label">
-                                        <label>%1$s: </label>
+                                            <label>%1$s: </label>
                                         </div>
                                         <div class="tpsm-field-input">
                                             <input type="text" id="%2$s" name="%2$s" value="%3$s" />
                                             <p class="tpsm-field-desc">%4$s</p>
                                         </div>
                                     </div>
-                                </div>
-                                ',
-                                $field['label'],                                    // Field Label
-                                $prefix . '-' . $screen_slug . '_' . $key,          // Field Name
-                                $field['value'],                                    // Field Value
-                                $field['desc']                                      // Descroiption
+                                </div>',
+                                esc_html( $field['label'] ),                                    // %1$s: Label text
+                                esc_attr( $prefix . '-' . $screen_slug . '_' . $key ),          // %2$s: ID and name attributes
+                                esc_attr( $field['value'] ),                                    // %3$s: Value attribute
+                                esc_html( $field['desc'] )                                      // %4$s: Field description
                             );
                         }
                         else if( 'select' == $field['type'] ) {
                             ?>
-                                <div class="tpsm-setting-row">
-                                    <div class="tpsm-field">
-                                        <div class="tpsm-field-label">
-                                        <label><?php echo $field['label']; ?> </label>
-                                        </div>
-                                        <div class="tpsm-field-input">
-                                            <?php 
-                                                printf( 
-                                                    '<select name="%1$s" id="%1$s">', 
-                                                    $prefix . '-' . $screen_slug . '_' . $key 
+                            <div class="tpsm-setting-row">
+                                <div class="tpsm-field">
+                                    <div class="tpsm-field-label">
+                                        <label><?php esc_html_e( $field['label'] ); ?> </label>
+                                    </div>
+                                    <div class="tpsm-field-input">
+                                        <?php 
+                                            $select_id = esc_attr( $prefix . '-' . $screen_slug . '_' . $key );
+                                            printf( '<select name="%1$s" id="%1$s">', esc_attr( $select_id ) );
+
+                                            $options = $field['options'];
+                                            foreach ( $options as $option ) {
+                                                printf(
+                                                    '<option value="%1$s" %3$s>%2$s</option>',
+                                                    esc_attr( strtolower( $option ) ),
+                                                    esc_html( $option ),
+                                                    selected( strtolower( $option ), $field['value'], false )
                                                 );
-                                                $options = $field['options'];
-                                                foreach ( $options as $option ) {
-                                                    printf( 
-                                                        '<option value="%1$s" %3$s>%2$s</option>',
-                                                        strtolower( $option ),
-                                                        $option,
-                                                        strtolower( $option ) == $field['value'] ? 'selected' : '',
-                                                    );
-                                                }
-                                                ?>
-                                            </select>
-                                            <p class="tpsm-field-desc"><?php echo $field['desc'] ?></p>
-                                        </div>
+                                            }
+                                            ?>
+                                        </select>
+                                        <p class="tpsm-field-desc"><?php esc_html_e( $field['desc'] ); ?></p>
                                     </div>
                                 </div>
+                            </div>
+
                             <?php 
                         }
                         else if( 'picker' == $field['type'] ) {
                             ?>
-                                <div class="tpsm-setting-row">
-                                    <div class="tpsm-field">
-                                        <div class="tpsm-field-label">
-                                        <label><?php echo $field['label']; ?></label>
-                                        </div>
-                                        <div class="tpsm-field-input">
-                                            <?php 
-                                                printf(
-                                                    '<div class="tpsm-color-field">
-                                                        <input type="color" class="colorpicker" pattern="^#+([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$" name="color" value="%2$s"> 
-                                                        <input type="text" name="%1$s" class="hexcolor" value="%2$s" pattern="^#+([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$" placeholder="#000000">
-                                                    </div>
-                                                    <p class="tpsm-field-desc">%3$s</p>',
-                                                    $prefix . '-' . $screen_slug . '_' . $key,
-                                                    $field['value'],
-                                                    $field['desc']
-                                                );
-                                            ?>
-                                            
-                                        </div>
+                            <div class="tpsm-setting-row">
+                                <div class="tpsm-field">
+                                    <div class="tpsm-field-label">
+                                        <label><?php echo esc_html( $field['label'] ); ?></label>
+                                    </div>
+                                    <div class="tpsm-field-input">
+                                        <?php 
+                                            printf(
+                                                '<div class="tpsm-color-field">
+                                                    <input type="color" class="colorpicker" pattern="^#+([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$" name="color" value="%1$s"> 
+                                                    <input type="text" name="%2$s" class="hexcolor" value="%1$s" pattern="^#+([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$" placeholder="#000000">
+                                                </div>
+                                                <p class="tpsm-field-desc">%3$s</p>',
+                                                esc_attr( sanitize_hex_color( $field['value'] ) ),
+                                                esc_attr( $prefix . '-' . $screen_slug . '_' . $key ),
+                                                esc_html( $field['desc'] )
+                                            );
+                                        ?>
                                     </div>
                                 </div>
+                            </div>
                             <?php
                         }
                     }
@@ -236,7 +233,7 @@ $shipping_bar_style_fields = $settings_fields['free-shipping-bar']['child-fields
             </div>
 
             <div class="tpsm-save-button">
-                <button type="submit" name="<?php echo $submit_button ?>"><?php esc_html_e( 'Save Settings', 'shipping-manager' ); ?></button>
+                <button type="submit" name="<?php esc_attr_e( $submit_button ); ?>"><?php esc_html_e( 'Save Settings', 'shipping-manager' ); ?></button>
             </div>
         </form>
     </div>
@@ -251,12 +248,12 @@ $shipping_bar_style_fields = $settings_fields['free-shipping-bar']['child-fields
     if( isset( $_POST[$submit_button] ) ) {
 
         if ( ! isset( $_POST['tpsm-nonce_name'] ) || ! wp_verify_nonce( $_POST['tpsm-nonce_name'], 'tpsm-nonce_action' ) ) {
-            wp_die( __( 'Nonce verification failed.', 'shipping-manager' ) );
+            wp_die( esc_html__( 'Nonce verification failed.', 'shipping-manager' ) );
         }
     
         // Check capabilities if needed
         if ( ! current_user_can( 'manage_options' ) ) {
-            wp_die( __( 'Unauthorized user', 'shipping-manager' ) );
+            wp_die( esc_html__( 'Unauthorized user', 'shipping-manager' ) );
         }
 
         $settings_values = [];

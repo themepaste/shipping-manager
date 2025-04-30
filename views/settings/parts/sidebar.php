@@ -6,14 +6,14 @@
             foreach ( $settings_option as $key => $value ) {
                 printf( '<li><a class="%1$s" href="%2$s">%3$s</a></li>', 
                     $current_screen == $key ? 'active' : '',
-                    add_query_arg( 
+                    esc_url( add_query_arg( 
                         array(
                             'page' => 'shipping-manager',
                             'tpsm-setting' => $key,
                         ),
                         admin_url( 'admin.php' )
-                    ),
-                    $value['label']
+                    ) ),
+                    esc_html( $value['label'] ),
                 );
             }
         ?>
