@@ -81,6 +81,67 @@ class FreeShipping {
 		if ( $this->hide_other ) {
 			$this->filter( 'woocommerce_package_rates', [ $this, 'filter_shipping_methods' ], 10, 2 );
 		}
+
+		$this->action( 'woocommerce_after_add_to_cart_button', [ $this, 'show_shipping_methods_after_add_to_cart' ] );
+	}
+
+	function show_shipping_methods_after_add_to_cart() {
+		if (!is_product()) return;
+	
+		$customer = WC()->customer;
+		$product = wc_get_product(get_the_ID());
+	
+		// Set a default destination if none is set
+		if (!$customer->get_shipping_country()) {
+			$customer->set_shipping_location('US', '', '', ''); // change 'US' to your default
+		}
+	
+		// Create a mock cart item
+		$package = array(
+			'contents' => array(
+				array(
+					'data' => $product,
+					'quantity' => 1,
+				),
+			),
+			'contents_cost' => $product->get_price(),
+			'destination' => array(
+				'country'  => $customer->get_shipping_country(),
+				'state'    => $customer->get_shipping_state(),
+				'postcode' => $customer->get_shipping_postcode(),
+				'city'     => $customer->get_shipping_city(),
+				'address'  => $customer->get_shipping_address(),
+				'address_2'=> $customer->get_shipping_address_2(),
+			),
+		);
+	
+		// Load shipping methods and calculate
+		$shipping = \WC_Shipping::instance();
+		$shipping_methods = $shipping->get_shipping_methods();
+	
+		// Initialize an empty array for rates
+		$available_rates = [];
+	
+		foreach ($shipping_methods as $method) {
+			if ($method->is_enabled()) {
+				$method->calculate_shipping($package);
+				$available_rates = array_merge($available_rates, $method->rates);
+			}
+		}
+	
+		// Output
+		echo '<div class="shipping-methods">';
+		echo '<h3>Available Shipping Methods</h3>';
+	
+		if (!empty($available_rates)) {
+			foreach ($available_rates as $rate) {
+				echo '<p><strong>' . esc_html($rate->get_label()) . '</strong> - ' . wc_price($rate->get_cost()) . '</p>';
+			}
+		} else {
+			echo '<p>No shipping methods found. Please enter a valid address.</p>';
+		}
+	
+		echo '</div>';
 	}
 
 	/**
