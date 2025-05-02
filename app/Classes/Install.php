@@ -17,6 +17,13 @@ class Install {
             $this->update_db_version(); 
         }
         set_transient( 'tpsm_do_activation_redirect', true, 30 );
+
+        //Update inital general settings
+        update_option( 'tpsm-general_settings', [
+            'method-title'      => '',
+            'is-plugin-enable'  => 1,
+            'is-plugin-taxable' => 'no',
+        ] );
     }
 
     /**

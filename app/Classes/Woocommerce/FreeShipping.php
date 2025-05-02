@@ -52,6 +52,8 @@ class FreeShipping {
 	 */
 	private $shipping_bar_styles;
 
+	private $general_settings;
+
 	/**
 	 * FreeShipping constructor.
 	 *
@@ -63,9 +65,10 @@ class FreeShipping {
 		$this->minimum_amount      = $settings['minimum-amount'] ?? '';
 		$this->cart_amount         = $settings['cart-amount'] ?? '';
 		$this->shipping_bar_styles = get_option( 'tpsm-free-shipping-barfree-shipping_settings' );
+		$this->general_settings    = get_option( 'tpsm-general_settings' );
 
 		// If the free shipping bar is enabled and a minimum amount is set
-		if ( $this->free_shipping_bar && $this->minimum_amount ) {
+		if ( $this->free_shipping_bar && $this->minimum_amount && $this->general_settings['is-plugin-enable'] ) {
 			$this->action( 'wp_footer', [ $this, 'free_shipping_bar' ] );
 		}
 
