@@ -17,12 +17,8 @@ class Front {
         $this->action( 'wp_enqueue_scripts', [$this, 'enqueue_scripts'] );
         // $this->action( 'woocommerce_after_add_to_cart_button', [ $this, 'show_shipping_methods_on_product_page' ] );
 
-		$this->ajax( 'shipping-calculator', [$this, 'shipping_calculator_ajax'] );
+		
     }
-
-	public function shipping_calculator_ajax() {
-
-	}
 
     function show_shipping_methods_on_product_page() {
 		if (!is_product()) return;
@@ -91,11 +87,6 @@ class Front {
             TPSM_ASSETS_URL . '/front/js/front.js',
             array( 'jquery' )
         );
-
-		$this->localize_script( 'tpsm-front', 'TPSM', [
-			'ajax' => admin_url( 'admin-ajax.php' ),
-			'nonce'    => wp_create_nonce( 'tpsm-nonce_action' ),
-		] );
     }
 
 }

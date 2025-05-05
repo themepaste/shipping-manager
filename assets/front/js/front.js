@@ -12,26 +12,29 @@ jQuery(document).ready(function ($) {
         city     = city.replace(/[^a-zA-Z0-9\s\-]/g, '');
         postcode = postcode.replace(/[^a-zA-Z0-9\s\-]/g, '');
 
-        console.log( country, state, city, postcode );
-
         // Send AJAX request to WordPress
-        // $.ajax({
-        //     url: tpsm_ajax_obj.ajax_url,
-        //     type: 'POST',
-        //     data: {
-        //         action: 'tpsm_save_location',
-        //         country: country,
-        //         state: state,
-        //         city: city,
-        //         postcode: postcode,
-        //         security: tpsm_ajax_obj.nonce
-        //     },
-        //     success: function (response) {
-        //         alert(response.data.message);
-        //     },
-        //     error: function () {
-        //         alert('Something went wrong. Please try again.');
-        //     }
-        // });
+        $.ajax({
+            url: TPSM.ajax,
+            type: 'POST',
+            data: {
+                action: 'shipping_calculator',
+                country: country,
+                state: state,
+                city: city,
+                postcode: postcode,
+                security: TPSM.nonce
+            },
+            success: function (response) {
+                // console.log( response );
+                // if (response.success) {
+                //     alert(response.data.message);
+                // } else {
+                //     alert('Failed to calculate shipping.');
+                // }
+            },
+            error: function () {
+                alert('Something went wrong. Please try again.');
+            }
+        });
     });
 });
