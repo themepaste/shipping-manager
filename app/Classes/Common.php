@@ -3,7 +3,6 @@
 namespace ThemePaste\ShippingManager\Classes;
 defined( 'ABSPATH' ) || exit;
 
-use ThemePaste\ShippingManager\Helpers\Utility;
 use ThemePaste\ShippingManager\Traits\Hook;
 use ThemePaste\ShippingManager\Traits\Asset;
 
@@ -13,7 +12,6 @@ class Common {
 
     public function __construct() {
         $this->action( 'wp_enqueue_scripts', [$this, 'enqueue_scripts'] );
-        $this->action( 'woocommerce_after_add_to_cart_button', [ $this, 'custom_shipping_form' ] );
         $this->ajax( 'shipping_calculator', [$this, 'shipping_calculator_ajax'] );
     }
 
@@ -29,11 +27,6 @@ class Common {
 		wp_send_json_success( array(
 			'message' => "Shipping to {$city}, {$state}, {$country}, {$postcode}"
 		) );
-	}
-
-    public function custom_shipping_form() {
-		printf( '%s', Utility::get_template( 'shipping-calculator/shipping-methods.php' ) );
-		printf( '%s', Utility::get_template( 'shipping-calculator/shipping-form.php' ) );
 	}
 
     public function enqueue_scripts() {
