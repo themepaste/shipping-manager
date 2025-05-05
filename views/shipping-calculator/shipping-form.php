@@ -13,15 +13,9 @@
             ?>
         </select>
     </p>
-    <!-- <p>
-        <label for="custom_state">State / District</label>
-        <select name="state" id="custom_state" class="state_select" data-placeholder="Select state">
-            <option value="">Select a country first</option>
-        </select>
-    </p> -->
     <p><input type="text" id="custom_city" placeholder="State"></p>
     <p><input type="text" id="custom_city" placeholder="City"></p>
     <p><input type="text" id="custom_postcode" placeholder="Postcode"></p>
-    <button type="button" id="save_location_btn">Save & Update Shipping</button>
+    <button type="button" id="save_location_btn">Update Location</button>
 </div>
 <div id="shipping-results"></div>
