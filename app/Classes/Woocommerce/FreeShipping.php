@@ -52,6 +52,9 @@ class FreeShipping {
 	 */
 	private $shipping_bar_styles;
 
+	/**
+	 * @var array Settings.
+	 */
 	private $general_settings;
 
 	/**
