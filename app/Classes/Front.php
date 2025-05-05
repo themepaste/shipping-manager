@@ -18,21 +18,6 @@ class Front {
         $this->action( 'woocommerce_after_add_to_cart_button', [ $this, 'show_shipping_methods_on_product_page' ] );
     }
 
-    function show_shipping_methods_on_product_page() {
-		$shipping_methods = tpsm_get_available_shipping_methods();
-	
-		echo '<div class="product-shipping-methods"><h4>Available Shipping Methods:</h4><ul>';
-	
-		if ( !empty( $shipping_methods['rates'] ) ) {
-			foreach ( $shipping_methods['rates'] as $rate ) {
-				echo '<li>' . esc_html( $rate->get_label() ) . ' - ' . wc_price( $rate->get_cost() ) . '</li>';
-			}
-		} else {
-			echo '<li>No shipping methods available for your location.</li>';
-		}
-	
-		echo '</ul></div>';
-	}
 
     public function enqueue_css() {
         $this->enqueue_style( 

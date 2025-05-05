@@ -32,6 +32,7 @@ class Common {
 	}
 
     public function custom_shipping_form() {
+		printf( '%s', Utility::get_template( 'shipping-calculator/shipping-methods.php' ) );
 		printf( '%s', Utility::get_template( 'shipping-calculator/shipping-form.php' ) );
 	}
 
