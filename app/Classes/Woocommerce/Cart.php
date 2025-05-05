@@ -7,7 +7,6 @@ defined( 'ABSPATH' ) || exit;
 use ThemePaste\ShippingManager\Helpers\Utility;
 use ThemePaste\ShippingManager\Traits\Asset;
 use ThemePaste\ShippingManager\Traits\Hook;
-use ThemePaste\ShippingManager\Classes\Shipping\RegisterShippingMethod;
 
 /**
  * Class Cart

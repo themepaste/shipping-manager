@@ -85,66 +85,61 @@ class FreeShipping {
 			$this->filter( 'woocommerce_package_rates', [ $this, 'filter_shipping_methods' ], 10, 2 );
 		}
 
-		$this->action( 'woocommerce_after_add_to_cart_button', [ $this, 'show_shipping_methods_after_add_to_cart' ] );
+		$this->action( 'woocommerce_after_add_to_cart_button', [ $this, 'show_shipping_methods_on_product_page' ] );
+		
 	}
 
-	function show_shipping_methods_after_add_to_cart() {
+	function show_shipping_methods_on_product_page() {
 		if (!is_product()) return;
 	
-		$customer = WC()->customer;
-		$product = wc_get_product(get_the_ID());
+		// Get current product
+		global $product;
 	
-		// Set a default destination if none is set
-		if (!$customer->get_shipping_country()) {
-			$customer->set_shipping_location('US', '', '', ''); // change 'US' to your default
-		}
+		// Simulated customer location — you can replace with real IP-based detection or logged-in user's address
+		$country 	= WC()->customer->get_shipping_country();
+		$state 		= WC()->customer->get_shipping_state();
+		$postcode 	= WC()->customer->get_shipping_postcode();
+		$city 		= WC()->customer->get_shipping_city();
 	
-		// Create a mock cart item
+		// Set up a fake package with this product
 		$package = array(
 			'contents' => array(
 				array(
 					'data' => $product,
 					'quantity' => 1,
-				),
+				)
 			),
-			'contents_cost' => $product->get_price(),
 			'destination' => array(
-				'country'  => $customer->get_shipping_country(),
-				'state'    => $customer->get_shipping_state(),
-				'postcode' => $customer->get_shipping_postcode(),
-				'city'     => $customer->get_shipping_city(),
-				'address'  => $customer->get_shipping_address(),
-				'address_2'=> $customer->get_shipping_address_2(),
+				'country'   => $country,
+				'state'     => $state,
+				'postcode'  => $postcode,
+				'city'      => $city,
+				'address'   => '', // Optional
+				'address_2' => '',
 			),
+			'user' => array(),
+			'contents_cost' => $product->get_price(),
+			'applied_coupons' => array(),
 		);
 	
-		// Load shipping methods and calculate
+		// Load shipping methods
 		$shipping = \WC_Shipping::instance();
-		$shipping_methods = $shipping->get_shipping_methods();
+		$shipping->load_shipping_methods();
 	
-		// Initialize an empty array for rates
-		$available_rates = [];
+		// Calculate shipping rates
+		$shipping_methods = $shipping->calculate_shipping_for_package($package);
 	
-		foreach ($shipping_methods as $method) {
-			if ($method->is_enabled()) {
-				$method->calculate_shipping($package);
-				$available_rates = array_merge($available_rates, $method->rates);
-			}
-		}
+		echo '<div class="product-shipping-methods"><h4>Available Shipping Methods:</h4><ul>';
 	
-		// Output
-		echo '<div class="shipping-methods">';
-		echo '<h3>Available Shipping Methods</h3>';
-	
-		if (!empty($available_rates)) {
-			foreach ($available_rates as $rate) {
-				echo '<p><strong>' . esc_html($rate->get_label()) . '</strong> - ' . wc_price($rate->get_cost()) . '</p>';
+		if (!empty($shipping_methods['rates'])) {
+			foreach ($shipping_methods['rates'] as $rate) {
+				echo '<li>' . esc_html($rate->get_label()) . ' - ' . wc_price($rate->get_cost()) . '</li>';
 			}
 		} else {
-			echo '<p>No shipping methods found. Please enter a valid address.</p>';
+			echo '<li>No shipping methods available for your location.</li>';
 		}
 	
-		echo '</div>';
+		echo '</ul></div>';
 	}
 
 	/**

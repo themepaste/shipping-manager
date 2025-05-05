@@ -20,6 +20,11 @@ final class App {
          * and checks database versions.
          */
         new Classes\Install();
+
+        /**
+         * All common classes
+         */
+        new Classes\Common();
         new Classes\Shipping\ShippingMethod();
 
         /**
