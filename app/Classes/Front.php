@@ -20,7 +20,10 @@ class Front {
     }
 
 	public function custom_shipping_form() {
-		printf( '%s', Utility::get_template( 'shipping-calculator/shipping-methods.php' ) );
+		$args = [
+			'shipping-methods' => tpsm_get_available_shipping_methods(),
+		];
+		printf( '%s', Utility::get_template( 'shipping-calculator/shipping-methods.php', $args ) );
 		printf( '%s', Utility::get_template( 'shipping-calculator/shipping-form.php' ) );
 	}
 

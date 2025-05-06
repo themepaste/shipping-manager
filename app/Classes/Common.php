@@ -24,6 +24,8 @@ class Common {
 		$city     = sanitize_text_field( $_POST['city'] ?? '' );
 		$postcode = sanitize_text_field( $_POST['postcode'] ?? '' );
 
+        $shipping_methods = tpsm_get_available_shipping_methods( $country, $state, $postcode, $city );
+
 		wp_send_json_success( array(
 			'message' => "Shipping to {$city}, {$state}, {$country}, {$postcode}"
 		) );

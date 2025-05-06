@@ -25,7 +25,7 @@ jQuery(document).ready(function ($) {
                 security: TPSM.nonce
             },
             success: function (response) {
-                // console.log( response );
+                console.log( response );
                 // if (response.success) {
                 //     alert(response.data.message);
                 // } else {
