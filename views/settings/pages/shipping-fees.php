@@ -1,6 +1,7 @@
 <?php 
 defined( 'ABSPATH' ) || exit; 
-$tpsm_shipping_fees_settings = get_option( 'tpsm-shipping-fees_settings' );
+$is_taxable                     = $args['general_settings']['is-plugin-taxable'];
+$tpsm_shipping_fees_settings    = get_option( 'tpsm-shipping-fees_settings' );
 $tpsm_shipping_fees_settings_values = $tpsm_shipping_fees_settings ? $tpsm_shipping_fees_settings : [
     'enabled'   => 0,
     'type'      => 'tpsm-unit-weight-fee',
@@ -13,7 +14,7 @@ $currency_symbol = get_woocommerce_currency_symbol();
 
 <div class="tpsm-setting-wrapper">
     <div class="tpsm-shipping-fees-wrapper">
-        <h2><?php esc_html_e( 'Shipping Fees Settings', 'shipping-manager' ) ?></h2>
+        <h2><?php esc_html_e( 'Weight Base Shipping Fees Settings', 'shipping-manager' ) ?></h2>
         <form method="POST">
             <?php wp_nonce_field( 'tpsm-nonce_action', 'tpsm-nonce_name' ); ?>
     
@@ -30,20 +31,10 @@ $currency_symbol = get_woocommerce_currency_symbol();
                         <p class="tpsm-field-desc"><?php esc_html_e( 'To enable/disable this feature.', 'shipping-manager' ); ?></p>
                     </div>
                 </div>
-                <div class="tpsm-field">
-                    <div class="tpsm-field-label">
-                        <label><?php esc_html_e( 'Taxable: ', 'shipping-manager' ); ?></label>
-                    </div>
-                    <div class="tpsm-field-input">
-                        <div class="tpsm-switch-wrapper">
-                            <select name="" id="" disabled>
-                                <option value="yes"><?php esc_html_e( 'Yes', 'shipping-manager' ); ?></option>
-                                <option value="no"><?php esc_html_e( 'No', 'shipping-manager' ); ?></option>
-                            </select>
-                        </div>
-                        <p class="tpsm-field-desc"><?php esc_html_e( 'Will it taxable or not', 'shipping-manager' ); ?></p>
-                    </div>
-                </div>
+                
+                <!-- Taxable Field  -->
+                <?php tpsm_taxable_field( $is_taxable ); ?>
+
             </div>
     
             <!-- Shipping Fees Type -->
