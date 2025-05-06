@@ -77,7 +77,7 @@ class FreeShipping {
 
 		// If minimum amount logic is enabled
 		if ( $this->minimum_amount ) {
-			$this->filter( 'tpsm_minimum_amount_setting', [ $this, 'tpsm_minimum_amount_setting' ] );
+			$this->filter( 'tpsm_minimum_amount_setting', [ $this, 'tpsm_minimum_amount_setting' ], 10, 1 );
 		}
 
 		// If hiding other shipping methods when free shipping is available
@@ -93,14 +93,10 @@ class FreeShipping {
 	 * @return bool True if cart amount exceeds minimum and logic is enabled.
 	 */
 	private function is_able_tpsm_shipping_free() {
-		if ( is_checkout() ) {
-			$cart_total           = WC()->cart->get_subtotal();
-			$minimum_cart_amount  = $this->cart_amount;
-
-			return ( $cart_total > $minimum_cart_amount && $this->minimum_amount );
-		}
-
-		return false;
+		$cart_total           = WC()->cart->get_subtotal();
+		$minimum_cart_amount  = $this->cart_amount;
+		
+		return ( $cart_total > $minimum_cart_amount && $this->minimum_amount );
 	}
 
 	/**
@@ -110,7 +106,8 @@ class FreeShipping {
 	 * @return bool Modified state based on cart subtotal.
 	 */
 	public function tpsm_minimum_amount_setting( $is_enable ) {
-		return $this->is_able_tpsm_shipping_free();
+		$is_enable = $this->is_able_tpsm_shipping_free();
+		return $is_enable;
 	}
 
 	/**
