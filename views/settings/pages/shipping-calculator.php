@@ -61,28 +61,6 @@ $shipping_calculator_settings_fields = [
                             esc_html( $field['desc'] )                               // %4$s: Description
                         );
                     }
-                    else if( 'text' == $field['type'] ) {
-                        printf(
-                            '<div class="tpsm-setting-row %5$s" style="display:%6$s;">
-                                <div class="tpsm-field">
-                                    <div class="tpsm-field-label">
-                                        <label>%1$s: </label>
-                                    </div>
-                                    <div class="tpsm-field-input">
-                                        %4$s<input type="text" id="%2$s" name="%2$s" value="%3$s" />
-                                        <p class="tpsm-field-desc">%7$s</p>
-                                    </div>
-                                </div>
-                            </div>',
-                            esc_html( $field['label'] ),                                                       // %1$s: Field Label
-                            esc_attr( $prefix . '-' . $screen_slug . '_' . $key ),                             // %2$s: Field ID & Name
-                            esc_attr( $field['value'] ),                                                       // %3$s: Field Value
-                            esc_html( $currency_symbol ),                                                      // %4$s: Currency Symbol
-                            esc_attr( $prefix . '-' . $screen_slug . '_' . $key . '_wrapper' ),                // %5$s: Wrapper Class
-                            esc_attr( isset( $saved_settings[$parent_field_key] ) && $saved_settings[$parent_field_key] == 1 ? 'block' : 'none' ), // %6$s: Display Value
-                            esc_html__( 'Cart minimum amount for free shipping.', 'shipping-manager' )         // %7$s: Description (translated and escaped)
-                        );
-                    }
                 } 
             ?>
 
@@ -93,3 +71,52 @@ $shipping_calculator_settings_fields = [
         </form>
     </div>
 </div>
+
+
+<?php 
+    /**
+     * Proccessing the form 
+     * 
+     * Save Free Shipping Setting option
+     */
+    if( isset( $_POST[$submit_button] ) ) {
+
+        if ( ! isset( $_POST['tpsm-nonce_name'] ) || ! wp_verify_nonce( $_POST['tpsm-nonce_name'], 'tpsm-nonce_action' ) ) {
+            wp_die( esc_html__( 'Nonce verification failed.', 'shipping-manager' ) );
+        }
+    
+        // Check capabilities if needed
+        if ( ! current_user_can( 'manage_options' ) ) {
+            wp_die( esc_html__( 'Unauthorized user', 'shipping-manager' ) );
+        }
+
+        $settings_values = [];
+
+        // Main Setting 
+        foreach ( $shipping_calculator_settings_fields as $key => $field ) {
+            $field_name = $prefix . '-' . $screen_slug . '_' . $key;
+
+            if( 'switch' == $field['type'] ) {
+                $settings_values[$key] = isset( $_POST[$field_name] ) ? 1 : 0;
+            }
+            // else if( 'text' == $field['type'] ) {
+            //     $settings_values[$key] = isset( $_POST[$field_name] ) ? sanitize_text_field( $_POST[$field_name] ) : '';
+            // }
+        }
+
+        // Save setting to database 
+        update_option( $option_name, $settings_values );
+
+
+        //Redirect url
+        wp_redirect( add_query_arg( 
+            array(
+                'page'          => 'shipping-manager',
+                'tpsm-setting'  => $screen_slug,
+            ),
+            admin_url( 'admin.php' )
+        ) );
+
+        exit;
+    }
+?>
