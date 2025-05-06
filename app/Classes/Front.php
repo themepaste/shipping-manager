@@ -21,7 +21,9 @@ class Front {
 
 	public function custom_shipping_form() {
 		$args = [
-			'shipping-methods' => tpsm_get_available_shipping_methods(),
+			'shipping-methods' => tpsm_get_available_shipping_methods(
+				null, null, null, null, get_the_ID()
+			),
 		];
 		printf( 
 			'<div class="%1$s" id="%1$s">

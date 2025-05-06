@@ -25,14 +25,22 @@ class Common {
 		$state    = sanitize_text_field( $_POST['state'] ?? '' );
 		$city     = sanitize_text_field( $_POST['city'] ?? '' );
 		$postcode = sanitize_text_field( $_POST['postcode'] ?? '' );
+        $product_id = absint( $_POST['product_id'] ?? 0 );
 
         $args = [
-			'shipping-methods' => tpsm_get_available_shipping_methods( $country, $state, $postcode, $city ),
+			'shipping-methods' => tpsm_get_available_shipping_methods( 
+                $country, 
+                $state, 
+                $postcode, 
+                $city, 
+                $product_id 
+            ),
 		];
 		$html = sprintf( '%s', Utility::get_template( 'shipping-calculator/shipping-methods.php', $args ) );
 
 		wp_send_json_success( array(
 			'html' => $html,
+            'data' => [$country, $state, $city, $postcode ]
 		) );
 	}
 
@@ -45,6 +53,7 @@ class Common {
         $this->localize_script( 'tpsm-common', 'TPSM', [
 			'ajax' 		=> admin_url( 'admin-ajax.php' ),
 			'nonce'    	=> wp_create_nonce( 'tpsm-nonce_action' ),
+            'product_id' => get_the_ID(),
 		] );
     }
 }

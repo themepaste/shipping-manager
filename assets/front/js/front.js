@@ -22,15 +22,16 @@ jQuery(document).ready(function ($) {
                 state: state,
                 city: city,
                 postcode: postcode,
-                security: TPSM.nonce
+                product_id: TPSM.product_id,
+                security: TPSM.nonce,
             },
             success: function (response) {
                 console.log( response );
-                // if (response.success) {
-                //     alert(response.data.message);
-                // } else {
-                //     alert('Failed to calculate shipping.');
-                // }
+                if (response.success) {
+                    $('#tpsm-shipping-calculator-shipping-methods').html(response.data.html);
+                } else {
+                    alert('Failed to calculate shipping.');
+                }
             },
             error: function () {
                 alert('Something went wrong. Please try again.');

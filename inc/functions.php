@@ -84,18 +84,21 @@ if ( ! function_exists( 'tpsm_get_free_shipping_settings' ) ) {
  * @return array|false List of shipping methods or false if not on product page.
  */
 if ( ! function_exists( 'tpsm_get_available_shipping_methods' ) ) {
-    function tpsm_get_available_shipping_methods( $country = null, $state = null, $postcode = null, $city = null ) {
-        if ( ! is_product() ) {
+    function tpsm_get_available_shipping_methods( $country = null, $state = null, $postcode = null, $city = null, $product_id = null ) {
+        if ( ! $product_id ) {
             return false;
         }
-
-        global $product;
-
+    
+        $product = wc_get_product( $product_id );
+        if ( ! $product ) {
+            return false;
+        }
+    
         $country  = $country  ?: WC()->customer->get_shipping_country();
         $state    = $state    ?: WC()->customer->get_shipping_state();
         $postcode = $postcode ?: WC()->customer->get_shipping_postcode();
         $city     = $city     ?: WC()->customer->get_shipping_city();
-
+    
         $package = array(
             'contents' => array(
                 array(
@@ -115,10 +118,10 @@ if ( ! function_exists( 'tpsm_get_available_shipping_methods' ) ) {
             'contents_cost'   => $product->get_price(),
             'applied_coupons' => array(),
         );
-
+    
         $shipping = WC_Shipping::instance();
         $shipping->load_shipping_methods();
-
+    
         return $shipping->calculate_shipping_for_package( $package );
     }
 }
