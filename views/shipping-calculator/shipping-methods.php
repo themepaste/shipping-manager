@@ -16,7 +16,7 @@ $shipping_methods = $args['shipping-methods'];
 ?>
 
 <div class="product-shipping-methods">
-    <h4><?php esc_html_e( 'Available Shipping Methods:', 'shipping-manager' ); ?></h4>
+    <h4><?php esc_html_e( 'Available shipping methods for your location:', 'shipping-manager' ); ?></h4>
     <ul>
         <?php
         // Check if shipping rates are available.

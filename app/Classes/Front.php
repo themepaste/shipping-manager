@@ -23,7 +23,13 @@ class Front {
 		$args = [
 			'shipping-methods' => tpsm_get_available_shipping_methods(),
 		];
-		printf( '%s', Utility::get_template( 'shipping-calculator/shipping-methods.php', $args ) );
+		printf( 
+			'<div class="%1$s" id="%1$s">
+				%2$s
+			</div>', 
+			'tpsm-shipping-calculator-shipping-methods',
+			Utility::get_template( 'shipping-calculator/shipping-methods.php', $args ) 
+		);
 		printf( '%s', Utility::get_template( 'shipping-calculator/shipping-form.php' ) );
 	}
 
