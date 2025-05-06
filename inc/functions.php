@@ -74,14 +74,20 @@ if ( ! function_exists( 'tpsm_get_free_shipping_settings' ) ) {
 }
 
 /**
- * Calculate and return available shipping methods for a product page.
+ * Calculate and return available shipping methods for a single product.
  *
- * @param string|null $country  Optional. Shipping country.
- * @param string|null $state    Optional. Shipping state.
- * @param string|null $postcode Optional. Shipping postcode.
- * @param string|null $city     Optional. Shipping city.
+ * This function simulates a shipping package using the provided product ID and optional
+ * destination details (country, state, postcode, city). It uses WooCommerce's internal
+ * shipping method calculations to return a list of available shipping methods based on 
+ * the current settings and the destination.
  *
- * @return array|false List of shipping methods or false if not on product page.
+ * @param string|null $country   Optional. Destination country code. Defaults to the customer's shipping country.
+ * @param string|null $state     Optional. Destination state code. Defaults to the customer's shipping state.
+ * @param string|null $postcode  Optional. Destination postcode. Defaults to the customer's shipping postcode.
+ * @param string|null $city      Optional. Destination city. Defaults to the customer's shipping city.
+ * @param int|null    $product_id Required. ID of the WooCommerce product.
+ *
+ * @return array|false Returns an array of available shipping rates or false if not a valid product context.
  */
 if ( ! function_exists( 'tpsm_get_available_shipping_methods' ) ) {
     function tpsm_get_available_shipping_methods( $country = null, $state = null, $postcode = null, $city = null, $product_id = null ) {
@@ -126,7 +132,17 @@ if ( ! function_exists( 'tpsm_get_available_shipping_methods' ) ) {
     }
 }
 
-
+/**
+ * Outputs a disabled select dropdown field for the "Taxable" setting in the admin interface.
+ *
+ * This function generates an HTML select field for the taxable option (Yes/No) and marks the
+ * correct value as selected. The field is rendered as disabled, serving as a read-only visual
+ * indicator. To modify the value, users are instructed to change it via the Shipping Manager settings.
+ *
+ * @param string|null $is_taxable Optional. Whether the field is taxable ('yes' or 'no'). Defaults to 'no' if not provided.
+ *
+ * @return void Outputs HTML directly.
+ */
 if( ! function_exists( 'tpsm_taxable_field' ) ) {
     function tpsm_taxable_field( $is_taxable = null ) {
         if( is_null( $is_taxable ) ) {
