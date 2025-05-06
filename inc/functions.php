@@ -131,9 +131,7 @@ if( ! function_exists( 'tpsm_taxable_field' ) ) {
     function tpsm_taxable_field( $is_taxable = null ) {
         if( is_null( $is_taxable ) ) {
             $is_taxable = 'no';
-        }
-        
-        ?>
+        }?>
             <div class="tpsm-field">
                 <div class="tpsm-field-label">
                     <label><?php esc_html_e( 'Taxable: ', 'shipping-manager' ); ?></label>
@@ -154,7 +152,7 @@ if( ! function_exists( 'tpsm_taxable_field' ) ) {
                         ?>
                         
                     </div>
-                    <p class="tpsm-field-desc"><?php esc_html_e( 'Will it taxable or not', 'shipping-manager' ); ?></p>
+                    <p class="tpsm-field-desc"><?php esc_html_e( "'Yes' applies tax to this feature, 'No' does not. Change it in Shipping Manager settings if needed.", 'shipping-manager' ); ?></p>
                 </div>
             </div>
         <?php 
