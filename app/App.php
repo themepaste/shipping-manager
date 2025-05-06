@@ -1,50 +1,53 @@
-<?php 
+<?php
+/**
+ * Main application class for initializing the plugin.
+ *
+ * @package ThemePaste\ShippingManager
+ */
+
 namespace ThemePaste\ShippingManager;
 
 defined( 'ABSPATH' ) || exit;
 
 use ThemePaste\ShippingManager\Traits\Hook;
 
+/**
+ * Final Class App
+ *
+ * Responsible for bootstrapping all necessary plugin components.
+ */
 final class App {
 
-    use Hook;
+	use Hook;
 
-    /**
-     * All hooks
-     */
-    static function hooks() {
-        /**
-         * Register the activation hook.
-         * This hook is triggered when the plugin is activated.
-         * It installs necessary database tables, sets initial seeds, 
-         * and checks database versions.
-         */
-        new Classes\Install();
+	/**
+	 * Initialize all plugin hooks and core components.
+	 *
+	 * This method sets up both frontend and backend functionalities.
+	 *
+	 * @return void
+	 */
+	public static function hooks() {
 
-        /**
-         * All common classes
-         */
-        new Classes\Common();
-        new Classes\Shipping\ShippingMethod();
+		// Register activation-related setup such as DB installation, version check, etc.
+		new Classes\Install();
 
-        /**
-         * Register hooks for Admin end.
-         * This hook is triggered only admin end.
-         */
-        if( is_admin() ) {
-            new Classes\Admin();
-        }
-        /**
-         * Register hooks for Front end.
-         * This hook is triggered only front end.
-         */
-        if( ! is_admin() ) {
-            new Classes\Front();
-        }
-        /**
-         * Register hooks for Common.
-         * This hook is triggered both admin & front also.
-         */
-        
-    }
+		// Load common functionality (AJAX, scripts, etc.)
+		new Classes\Common();
+
+		// Register shipping methods setup.
+		new Classes\Shipping\ShippingMethod();
+
+		// Register admin-specific hooks and classes.
+		if ( is_admin() ) {
+			new Classes\Admin();
+		}
+
+		// Register frontend-specific hooks and classes.
+		if ( ! is_admin() ) {
+			new Classes\Front();
+		}
+
+		// You may add any other classes that run in both admin and frontend here.
+	}
 }
