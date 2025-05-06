@@ -2,6 +2,8 @@
 /**
  * Frontend-specific functionality for the Shipping Manager plugin.
  *
+ * Handles the shipping calculator display, and enqueues necessary assets on the frontend.
+ *
  * @package ThemePaste\ShippingManager\Classes
  */
 
@@ -16,7 +18,7 @@ use ThemePaste\ShippingManager\Traits\Asset;
 /**
  * Class Front
  *
- * Handles all frontend hooks such as enqueuing styles/scripts and rendering shipping forms.
+ * Manages frontend behavior for the Shipping Manager plugin.
  */
 class Front {
 
@@ -24,23 +26,45 @@ class Front {
 	use Asset;
 
 	/**
+	 * @var array|null $shipping_calculator_settings Settings for the shipping calculator.
+	 */
+	private $shipping_calculator_settings;
+
+	/**
+	 * @var string $is_shipping_calculator_enable Whether the shipping calculator is enabled ('yes' or '').
+	 */
+	private $is_shipping_calculator_enable;
+
+	/**
+	 * @var string $is_enable_location_field Whether the location field is enabled ('yes' or '').
+	 */
+	private $is_enable_location_field;
+
+	/**
 	 * Constructor.
 	 *
-	 * Registers all frontend-specific actions.
+	 * Initializes the class, loads settings, and registers frontend hooks.
 	 */
 	public function __construct() {
-		// Enqueue styles and scripts on the frontend.
+		$this->shipping_calculator_settings   = get_option( 'tpsm-shipping-calculator_settings' );
+		$this->is_shipping_calculator_enable  = tpsm_isset( $this->shipping_calculator_settings['shipping-calculator-enable'] );
+		$this->is_enable_location_field       = tpsm_isset( $this->shipping_calculator_settings['enable-location-field'] );
+
+		// Enqueue frontend assets.
 		$this->action( 'wp_enqueue_scripts', [ $this, 'enqueue_css' ] );
 		$this->action( 'wp_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
 
-		// Display custom shipping form after the add to cart button.
-		$this->action( 'woocommerce_after_add_to_cart_button', [ $this, 'custom_shipping_form' ] );
+		// Render the shipping calculator on single product pages if enabled.
+		if ( $this->is_shipping_calculator_enable ) {
+			$this->action( 'woocommerce_after_add_to_cart_button', [ $this, 'custom_shipping_form' ] );
+		}
 	}
 
 	/**
-	 * Outputs the custom shipping calculator UI on single product pages.
+	 * Displays the shipping calculator form and available methods.
 	 *
-	 * This includes both the shipping methods list and the form for user input.
+	 * Renders templates to show available shipping options and, if enabled,
+	 * a location input form beneath the add-to-cart button on product pages.
 	 *
 	 * @return void
 	 */
@@ -55,19 +79,21 @@ class Front {
 			),
 		];
 
-		// Render shipping methods container with template output.
+		// Render the shipping methods template.
 		printf(
 			'<div class="%1$s" id="%1$s">%2$s</div>',
 			'tpsm-shipping-calculator-shipping-methods',
 			Utility::get_template( 'shipping-calculator/shipping-methods.php', $args )
 		);
 
-		// Render shipping form template.
-		echo Utility::get_template( 'shipping-calculator/shipping-form.php' );
+		// Render the location input form if enabled.
+		if ( $this->is_enable_location_field ) {
+			echo Utility::get_template( 'shipping-calculator/shipping-form.php' );
+		}
 	}
 
 	/**
-	 * Enqueue frontend CSS file.
+	 * Enqueues the frontend CSS file.
 	 *
 	 * @return void
 	 */
@@ -79,7 +105,7 @@ class Front {
 	}
 
 	/**
-	 * Enqueue frontend JavaScript file.
+	 * Enqueues the frontend JavaScript file.
 	 *
 	 * @return void
 	 */

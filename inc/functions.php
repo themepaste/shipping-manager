@@ -174,3 +174,25 @@ if( ! function_exists( 'tpsm_taxable_field' ) ) {
         <?php 
     }
 }
+
+/**
+ * Checks if a value is set and returns it, or returns an empty string if not.
+ *
+ * This function acts as a safe helper for accessing potentially undefined values.
+ * It avoids PHP notices or warnings that may occur when attempting to access
+ * unset variables, especially in templating or dynamic settings contexts.
+ *
+ * @since 1.0.0
+ *
+ * @param mixed $value The value to check.
+ * @return mixed|string Returns the original value if set, or an empty string if not set.
+ */
+if ( ! function_exists( 'tpsm_isset' ) ) {
+    function tpsm_isset( $value ) {
+        if ( ! isset( $value ) ) {
+            return '';
+        }
+
+        return $value;
+    }
+}
