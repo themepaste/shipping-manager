@@ -6,7 +6,7 @@
         'enabled'   => 0,
         'box-shipping' => []
     ];
-
+    $is_taxable         = $args['general_settings']['is-plugin-taxable'];
     $weight_unit        = get_option( 'woocommerce_weight_unit' );
     $dimension_unit     = get_option( 'woocommerce_dimension_unit' );
     $currency_symbol    = get_woocommerce_currency_symbol();
@@ -34,20 +34,7 @@
                 </div>
                 
                 <!-- Taxable Field  -->
-                <div class="tpsm-field">
-                    <div class="tpsm-field-label">
-                        <label><?php esc_html_e( 'Taxable: ', 'shipping-manager' ); ?></label>
-                    </div>
-                    <div class="tpsm-field-input">
-                        <div class="tpsm-switch-wrapper">
-                            <select name="" id="" disabled>
-                                <option value="yes" selected><?php esc_html_e( 'Yes', 'shipping-manager' ); ?></option>
-                                <option value="no"><?php esc_html_e( 'No', 'shipping-manager' ); ?></option>
-                            </select>
-                        </div>
-                        <p class="tpsm-field-desc"><?php esc_html_e( 'Will it taxable or not', 'shipping-manager' ); ?></p>
-                    </div>
-                </div>
+                <?php tpsm_taxable_field( $is_taxable ); ?>
 
             </div>
 

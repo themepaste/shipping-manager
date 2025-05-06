@@ -125,3 +125,38 @@ if ( ! function_exists( 'tpsm_get_available_shipping_methods' ) ) {
         return $shipping->calculate_shipping_for_package( $package );
     }
 }
+
+
+if( ! function_exists( 'tpsm_taxable_field' ) ) {
+    function tpsm_taxable_field( $is_taxable = null ) {
+        if( is_null( $is_taxable ) ) {
+            $is_taxable = 'no';
+        }
+        
+        ?>
+            <div class="tpsm-field">
+                <div class="tpsm-field-label">
+                    <label><?php esc_html_e( 'Taxable: ', 'shipping-manager' ); ?></label>
+                </div>
+                <div class="tpsm-field-input">
+                    <div class="tpsm-switch-wrapper">
+                        <?php 
+                            printf(
+                                '<select disabled>
+                                    <option value="yes" %3$s>%1$s</option>
+                                    <option value="no" %4$s>%2$s</option>
+                                </select>',
+                                esc_html__( 'Yes', 'shipping-manager' ),
+                                esc_html__( 'No', 'shipping-manager' ),
+                                selected( $is_taxable, 'yes', false ),
+                                selected( $is_taxable, 'no', false ),
+                            );
+                        ?>
+                        
+                    </div>
+                    <p class="tpsm-field-desc"><?php esc_html_e( 'Will it taxable or not', 'shipping-manager' ); ?></p>
+                </div>
+            </div>
+        <?php 
+    }
+}
