@@ -146,7 +146,7 @@ $shipping_bar_style_fields = $settings_fields['free-shipping-bar']['child-fields
             ?>
 
             <!-- Shipping bar styles  -->
-            <div id="tpsm-shipping-bar-styles-container" class="tpsm-shipping-bar-styles-wrapper" style="<?php echo esc_attr( isset( $saved_settings['free-shipping-bar'] ) && $saved_settings['free-shipping-bar'] == 1 ? 'block' : 'none' ) ?>">
+            <div id="tpsm-shipping-bar-styles-container" class="tpsm-shipping-bar-styles-wrapper" style="display:<?php echo esc_attr( isset( $saved_settings['free-shipping-bar'] ) && $saved_settings['free-shipping-bar'] == 1 ? 'block' : 'none' ); ?>;">
                 <h3><?php esc_html_e( 'Shipping Bar styles', 'shipping-manager' ); ?></h3>
                 <?php
                     foreach ( $shipping_bar_style_fields as $key => $field ) {
