@@ -1,5 +1,5 @@
 jQuery(document).ready(function ($) {
-    $('#tpsm-shipping-calculator_save_location_btn').on('click', function (e) {
+    $(document).on('click', '#tpsm-shipping-calculator_save_location_btn', function (e) {
         e.preventDefault();
 
         let country   = $('#tpsm-shipping-calculator-country').val();
@@ -38,4 +38,8 @@ jQuery(document).ready(function ($) {
             }
         });
     });
+
+    $(document).on('click', '#tpsm-show-hide-calculator-from-button', function() {
+        $('#tpsm-shipping-calculator-form-wrapper').toggle();
+    }) 
 });

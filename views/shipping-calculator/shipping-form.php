@@ -13,7 +13,9 @@ defined( 'ABSPATH' ) || exit;
 ?>
 
 <div id="tpsm-shipping-calculator-location-form">
-    <form action="" method="post">
+    <button id="tpsm-show-hide-calculator-from-button" type="button"><?php esc_html_e( 'Enter Your Location', 'shipping-manager' ); ?></button>
+    <!-- Enter you location form -->
+    <div id="tpsm-shipping-calculator-form-wrapper" style="display: none;">
         <p>
             <label for="tpsm-shipping-calculator-country"><?php esc_html_e( 'Country', 'shipping-manager' ); ?></label>
             <select name="tpsm-shipping-calculator-country" id="tpsm-shipping-calculator-country" class="tpsm-shipping-calculator-country">
@@ -53,5 +55,5 @@ defined( 'ABSPATH' ) || exit;
         <button type="button" id="tpsm-shipping-calculator_save_location_btn">
             <?php esc_html_e( 'Update Location', 'shipping-manager' ); ?>
         </button>
-    </form>
+    </div>
 </div>
