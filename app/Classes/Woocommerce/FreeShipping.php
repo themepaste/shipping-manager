@@ -126,7 +126,7 @@ class FreeShipping {
 			if ( $minimum_cart_amount > $cart_total ) {
 				printf(
 					'<div class="tpsm-free-shipping-bar-wrapper" %3$s>
-						%1$s
+						<span>%1$s</span>
 						<progress value="%2$s" max="100"></progress>
 					</div>',
 					esc_html( $this->shipping_bar_message( $minimum_cart_amount - $cart_total ) ), // Message showing remaining amount
@@ -153,7 +153,7 @@ class FreeShipping {
 		}
 
 		return sprintf(
-			'<span>You need %1$s%2$s more in your cart to qualify for free shipping.</span>',
+			'You need %1$s%2$s more in your cart to qualify for free shipping.',
 			$currency_symbol,
 			$price
 		);
@@ -176,7 +176,7 @@ class FreeShipping {
 				esc_attr( $this->shipping_bar_styles['shipping-bar-alignment'] ),
 				esc_attr( $this->shipping_bar_styles['shipping-bar-text-color'] ),
 				esc_attr( $this->shipping_bar_styles['shipping-bar-background-color'] ),
-				$this->shipping_bar_styles['shipping-bar-position'] === 'top' ? 'top: 0;' : 'bottom: 0;'
+				$this->shipping_bar_styles['shipping-bar-position'] === 'top' ? ( is_admin_bar_showing() ? 'top: 30px;' : 'top: 0;' ) : 'bottom: 0;'
 			);
 		}
 

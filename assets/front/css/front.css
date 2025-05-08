@@ -3,10 +3,10 @@
     bottom: 0;
     width: 100%;
     background-color: #fff;
-    padding: 10px;
+    padding: 5px;
     text-align: center;
-    z-index: 10000;
-    height: 80px;
+    z-index: 99999999;
+    height: 55px;
 }
 .tpsm-free-shipping-bar-wrapper progress {
     width: 100%;
