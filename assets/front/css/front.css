@@ -11,3 +11,19 @@
 .tpsm-free-shipping-bar-wrapper progress {
     width: 100%;
 }
+.product-shipping-methods {
+    margin-bottom: 30px;
+}
+.tpsm-shipping-calculator-wrapper {
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+#tpsm-shipping-calculator-form-wrapper {
+    margin: 20px 0;
+}
+#tpsm-shipping-calculator-form-wrapper button {
+    margin-top: 10px;
+}
+#tpsm-shipping-calculator-form-wrapper label {
+    width: 80px;
+}

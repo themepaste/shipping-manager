@@ -79,6 +79,8 @@ class Front {
 			),
 		];
 
+		echo '<div class="tpsm-shipping-calculator-wrapper">';
+
 		// Render the shipping methods template.
 		printf(
 			'<div class="%1$s" id="%1$s">%2$s</div>',
@@ -90,6 +92,8 @@ class Front {
 		if ( $this->is_enable_location_field ) {
 			echo Utility::get_template( 'shipping-calculator/shipping-form.php' );
 		}
+
+		echo '</div>';
 	}
 
 	/**
