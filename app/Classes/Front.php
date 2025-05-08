@@ -40,6 +40,10 @@ class Front {
 	 */
 	private $is_enable_location_field;
 
+	
+
+	private $shipping_calculator_position;
+
 	/**
 	 * Constructor.
 	 *
@@ -49,6 +53,9 @@ class Front {
 		$this->shipping_calculator_settings   = get_option( 'tpsm-shipping-calculator_settings' );
 		$this->is_shipping_calculator_enable  = tpsm_isset( $this->shipping_calculator_settings['shipping-calculator-enable'] );
 		$this->is_enable_location_field       = tpsm_isset( $this->shipping_calculator_settings['enable-location-field'] );
+		$this->shipping_calculator_position   = tpsm_isset( $this->shipping_calculator_settings['shipping-calculator-position'] ); 
+
+		// $this->shipping_calculator_settings_fields = tpsm_shipping_calculator_settings_fields();
 
 		// Enqueue frontend assets.
 		$this->action( 'wp_enqueue_scripts', [ $this, 'enqueue_css' ] );
@@ -56,7 +63,17 @@ class Front {
 
 		// Render the shipping calculator on single product pages if enabled.
 		if ( $this->is_shipping_calculator_enable ) {
-			$this->action( 'woocommerce_after_add_to_cart_button', [ $this, 'custom_shipping_form' ] );
+			switch ( $this->shipping_calculator_position ) {
+				case 'before-add-to-cart-button':
+					$this->action( 'woocommerce_before_add_to_cart_button', [ $this, 'custom_shipping_form' ] );
+					break;
+				case 'after-add-to-cart-button':
+					$this->action( 'woocommerce_after_add_to_cart_button', [ $this, 'custom_shipping_form' ] );
+					break;
+				case 'using-shortcode':
+					$this->shortcode( 'tpsm-shipping-calculator', [ $this, 'custom_shipping_form' ] );
+					break;
+			}
 		}
 	}
 

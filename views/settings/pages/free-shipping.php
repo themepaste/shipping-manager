@@ -49,7 +49,7 @@ $shipping_bar_style_fields = $settings_fields['free-shipping-bar']['child-fields
                             </div>',
                             esc_html( $field['label'] ),                             // %1$s: Label
                             esc_attr( $prefix . '-' . $screen_slug . '_' . $key ),   // %2$s: Safe for id/name
-                            checked( $field['value'], 1, false ),                    // %3$s: Proper "checked" attribute
+                            checked( (bool) $field['value'], true, false ),                    // %3$s: Proper "checked" attribute
                             esc_html( $field['desc'] )                               // %4$s: Description
                         );
                     }

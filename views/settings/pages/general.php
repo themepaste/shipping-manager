@@ -64,7 +64,7 @@
                             esc_html( $field['label'] ),                                  // %1$s = Label
                             esc_html( $field['desc'] ),                                   // %2$s = Description
                             esc_attr( $prefix . '-' . $screen_slug . '_' . $key ),        // %3$s = Field Name / ID
-                            checked( $field['value'], '1', false )                        // %4$s = Outputs 'checked' if true
+                            checked( (bool) $field['value'], true, false ),                        // %4$s = Outputs 'checked' if true
                         );
 
                     }

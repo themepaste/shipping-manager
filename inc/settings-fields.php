@@ -142,7 +142,7 @@ if ( ! function_exists( 'tpsm_shipping_calculator_settings_fields' ) ) {
                 'options' => array(
                     'before-add-to-cart-button' => __( 'Before Add to Cart button', 'shipping-manager' ),
                     'after-add-to-cart-button'  => __( 'After Add to Cart button', 'shipping-manager' ),
-                    'using-shortcode'           => __( 'Using Shortcode', 'shipping-manager' ),
+                    'using-shortcode'           => __( '[tpsm-shipping-calculator/] Using Shortcode', 'shipping-manager' ),
                 ),
             ),
         );
