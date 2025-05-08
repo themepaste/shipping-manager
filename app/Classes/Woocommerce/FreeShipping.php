@@ -93,6 +93,9 @@ class FreeShipping {
 	 * @return bool True if cart amount exceeds minimum and logic is enabled.
 	 */
 	private function is_able_tpsm_shipping_free() {
+		if ( ! function_exists( 'WC' ) || ! WC()->cart ) {
+			return false; // Or handle accordingly
+		}
 		$cart_total           = WC()->cart->get_subtotal();
 		$minimum_cart_amount  = $this->cart_amount;
 		
