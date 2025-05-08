@@ -30,17 +30,15 @@
 .tpsm-guide-me-container-wrapper h2 {
     text-align: center;
     color:#4c5052;
-    margin-bottom: 30px;
-    line-height: 1.5;
-    font-size: 18px;
-    border: 1px solid #ddd;
-    background-color: #f8f0ec;
+    margin-bottom: 10px;
+    line-height: 1.4;
+    font-size: 14px;
     padding: 10px 5px;
     border-radius: 4px;
     font-weight: 500;
 }
 .tpsm-guide-me-container-wrapper button {
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     border: 1px solid #ddd;
     padding: 10px 30px;
     border-radius: 6px;
