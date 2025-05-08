@@ -8,24 +8,7 @@ $is_taxable         = $args['general_settings']['is-plugin-taxable'];
 $submit_button      = $prefix . '-' . $screen_slug . '_submit';
 $option_name        = $prefix . '-' . $screen_slug . '_' . 'settings';
 $saved_settings     = get_option( $option_name );
-
-
-$shipping_calculator_settings_fields = [
-    'shipping-calculator-enable' => array(
-        'label' => __( 'Disable/Enable', 'shipping-manager' ),
-        'type'  => 'switch',
-        'value' => '',
-        'desc'  => __( 'To enable/disable features. By deafult enabled', 'shipping-manager' ),
-    ),
-    'enable-location-field' => array(
-        'label' => __( 'Off Location form', 'shipping-manager' ),
-        'type'  => 'switch',
-        'value' => '',
-        'desc'  => __( 'To enable/disable features. By deafult enabled', 'shipping-manager' ),
-    ),
-]
-
-
+$shipping_calculator_settings_fields = shipping_calculator_settings_fields();
 ?>
 
 <div class="tpsm-setting-wrapper">
@@ -60,6 +43,36 @@ $shipping_calculator_settings_fields = [
                             checked( $field['value'], 1, false ),                    // %3$s: Proper "checked" attribute
                             esc_html( $field['desc'] )                               // %4$s: Description
                         );
+                    }
+                    else if( 'select' == $field['type'] ) {
+                        ?>
+                        <div class="tpsm-setting-row">
+                            <div class="tpsm-field">
+                                <div class="tpsm-field-label">
+                                    <label><?php echo esc_html( $field['label'] ); ?> </label>
+                                </div>
+                                <div class="tpsm-field-input">
+                                    <?php 
+                                        $select_id = esc_attr( $prefix . '-' . $screen_slug . '_' . $key );
+                                        printf( '<select name="%1$s" id="%1$s">', esc_attr( $select_id ) );
+
+                                        $options = $field['options'];
+                                        foreach ( $options as $key => $option ) {
+                                            printf(
+                                                '<option value="%1$s" %3$s>%2$s</option>',
+                                                esc_attr( strtolower( $key ) ),
+                                                esc_html( $option ),
+                                                selected( strtolower( $key ), $field['value'], false )
+                                            );
+                                        }
+                                        ?>
+                                    </select>
+                                    <p class="tpsm-field-desc"><?php echo esc_html( $field['desc'] ); ?></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <?php 
                     }
                 } 
             ?>
@@ -99,9 +112,7 @@ $shipping_calculator_settings_fields = [
             if( 'switch' == $field['type'] ) {
                 $settings_values[$key] = isset( $_POST[$field_name] ) ? 1 : 0;
             }
-            // else if( 'text' == $field['type'] ) {
-            //     $settings_values[$key] = isset( $_POST[$field_name] ) ? sanitize_text_field( $_POST[$field_name] ) : '';
-            // }
+            $settings_values[$key] = isset( $_POST[$field_name] ) ? sanitize_text_field( $_POST[$field_name] ) : '';
         }
 
         // Save setting to database 

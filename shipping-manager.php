@@ -28,17 +28,9 @@ if (!defined('ABSPATH')) {
      * Class Constructor
      */
     private function __construct() {
-        $this->include();
         $this->define();
+        $this->include();
         ThemePaste\ShippingManager\App::hooks();
-    }
-
-     /**
-     * Include all needed files
-     */
-    private function include() {
-        require_once( dirname( __FILE__ ) . '/inc/functions.php' );
-        require_once( dirname( __FILE__ ) . '/vendor/autoload.php' );
     }
 
     /**
@@ -49,6 +41,7 @@ if (!defined('ABSPATH')) {
 
        define( 'TPSM_PLUGIN_FILE', __FILE__ );
        define( 'TPSM_PLUGIN_VERSION', '1.0.0' );
+       define( 'TPSM_PLUGIN_DIRNAME', dirname( TPSM_PLUGIN_FILE ) );
        define( 'TPSM_PLUGIN_BASENAME', plugin_basename( TPSM_PLUGIN_FILE ) );
        define( 'TPSM_PLUGIN_DIR', plugin_dir_path( TPSM_PLUGIN_FILE ) );
        define( 'TPSM_PLUGIN_URL', plugin_dir_url( TPSM_PLUGIN_FILE ) );
@@ -60,6 +53,14 @@ if (!defined('ABSPATH')) {
        else {
            define( 'TPSM_ASSETS_VERSION', TPSM_PLUGIN_VERSION );
        }
+    }
+
+    /**
+     * Include all needed files
+     */
+    private function include() {
+        require_once( dirname( __FILE__ ) . '/inc/functions.php' );
+        require_once( dirname( __FILE__ ) . '/vendor/autoload.php' );
     }
 
     /**

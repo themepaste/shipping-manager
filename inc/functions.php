@@ -1,4 +1,9 @@
 <?php
+
+defined( 'ABSPATH' ) || exit; 
+
+require_once( TPSM_PLUGIN_DIRNAME . '/inc/settings-fields.php' );
+
 /**
  * Shipping Manager Plugin - Settings and Shipping Methods
  *
