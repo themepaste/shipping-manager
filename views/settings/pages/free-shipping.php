@@ -35,7 +35,7 @@ $settings_fields = [
         'desc'  => __( 'Cart minimum amount for free shipping.', 'shipping-manager' ),
     ), 
     'free-shipping-bar' => array(
-        'label' => __( 'Show Free Shipping Bar', 'shipping-manager' ),
+        'label' => __( 'Show Free Shipping Progress Bar', 'shipping-manager' ),
         'type'  => 'switch',
         'value' => '',
         'desc'  => __( 'Enable free shipping bar for customers. Customers will see a bar for target to achieve free shipping.', 'shipping-manager' ),
@@ -147,7 +147,7 @@ $shipping_bar_style_fields = $settings_fields['free-shipping-bar']['child-fields
 
             <!-- Shipping bar styles  -->
             <div id="tpsm-shipping-bar-styles-container" class="tpsm-shipping-bar-styles-wrapper" style="display:<?php echo esc_attr( isset( $saved_settings['free-shipping-bar'] ) && $saved_settings['free-shipping-bar'] == 1 ? 'block' : 'none' ); ?>;">
-                <h3><?php esc_html_e( 'Shipping Bar styles', 'shipping-manager' ); ?></h3>
+                <h2><?php esc_html_e( 'Progress  Bar Styles & Message', 'shipping-manager' ); ?></h2>
                 <?php
                     foreach ( $shipping_bar_style_fields as $key => $field ) {
                         if( isset( $saved_styles ) && ! empty( $saved_styles ) ) {
