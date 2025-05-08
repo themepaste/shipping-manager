@@ -127,4 +127,16 @@ jQuery(function ($) {
         });
     });
 
+    /**
+     * Guide me button for setting page
+     */
+    $(document).ready(function () {
+        $('#tpsm-guide-me-button').on('click', function() {
+            $('.tpsm-guide-me-container-wrapper').show();
+        })
+        $('#tpsm-guide-me-cross').on('click', function() {
+            $('.tpsm-guide-me-container-wrapper').hide();
+        })
+    })
+
 });
