@@ -8,7 +8,7 @@ $is_taxable         = $args['general_settings']['is-plugin-taxable'];
 $submit_button      = $prefix . '-' . $screen_slug . '_submit';
 $option_name        = $prefix . '-' . $screen_slug . '_' . 'settings';
 $saved_settings     = get_option( $option_name );
-$shipping_calculator_settings_fields = shipping_calculator_settings_fields();
+$shipping_calculator_settings_fields = tpsm_shipping_calculator_settings_fields();
 ?>
 
 <div class="tpsm-setting-wrapper">

@@ -7,27 +7,7 @@
     $submit_button      = $prefix . '-' . $screen_slug . '_submit';
     $option_name        = $prefix . '-' . $screen_slug . '_' . 'settings';
     $saved_settings     = get_option( $option_name );
-
-    $general_settings_fields = [
-        'method-title' => array(
-            'label' => __( 'Method Title', 'shipping-manager' ),
-            'type'  => 'text',
-            'value' => '',
-            'desc'  => __( 'By default "Shipping Manager"', 'shipping-manager' ),
-        ),
-        'is-plugin-enable' => array(
-            'label' => __( 'Disable/Enable', 'shipping-manager' ),
-            'type'  => 'switch',
-            'value' => '',
-            'desc'  => __( 'To enable/disable method. By deafult enabled', 'shipping-manager' ),
-        ),
-        'is-plugin-taxable' => array(
-            'label' => __( 'Taxable', 'shipping-manager' ),
-            'type'  => 'select',
-            'value' => '',
-            'desc'  => __( 'Will shipping method taxable or not', 'shipping-manager' ),
-        ),
-    ]
+    $general_settings_fields = tpsm_general_settings_fields();
 
 ?>
 
