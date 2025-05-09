@@ -13,8 +13,8 @@ use ThemePaste\ShippingManager\Helpers\Utility;
                 } else {
                     ?>
                         <div style="text-align: center;">
-                            <p style="margin-top: 50px; font-size: 16px;">To Enable this Feature you need to purchase Pro</p>
-                            <button style="padding:10px 35px; background:#f25500; color: #fff; border:none; cursor:pointer; border-radius: 4px;">Upgrade to Pro</button>
+                            <p style="margin-top: 50px; font-size: 16px;"><?php esc_html_e( 'To Enable this Feature you need to purchase Pro', 'shipping-manager' ); ?></p>
+                            <button style="padding:10px 35px; background:#f25500; color: #fff; border:none; cursor:pointer; border-radius: 4px;"><?php esc_html_e( 'Upgrade to Pro', 'shipping-manager' ); ?></button>
                         </div>
                     <?php
                 }
@@ -22,5 +22,6 @@ use ThemePaste\ShippingManager\Helpers\Utility;
             }
         }
     ?>
-    <p class="tpsm-rating-message">If you like <strong>Shipping Manager</strong> you can rate us <span class="tpsm-stars">★★★★★</span><strong><a href="#">in plugins repository →</a></strong></p>
+
+    <?php echo Utility::get_template( 'settings/parts/rate-us.php' ); ?>
 </div>
