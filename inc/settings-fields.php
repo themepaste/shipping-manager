@@ -129,7 +129,7 @@ if ( ! function_exists( 'tpsm_shipping_calculator_settings_fields' ) ) {
                 'desc'  => __( 'Enable or disable the shipping calculator. Default: enabled.', 'shipping-manager' ),
             ),
             'enable-location-field' => array(
-                'label' => __( 'Off Location Form', 'shipping-manager' ),
+                'label' => __( 'Location Form', 'shipping-manager' ),
                 'type'  => 'switch',
                 'value' => '',
                 'desc'  => __( 'Enable or disable the location form. Default: enabled.', 'shipping-manager' ),
