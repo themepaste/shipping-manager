@@ -14,7 +14,7 @@
         </div>
     </div>
     <div class="tpsm-topbar-info-area">
-        <a href="#"><?php esc_html_e( 'Documentation', 'shipping-manager' ); ?></a>
+        <a href="https://themepaste.com/documentation/shipping-manager-documentation" target="_blank"><?php esc_html_e( 'Documentation', 'shipping-manager' ); ?></a>
     </div>
 </div>
     
