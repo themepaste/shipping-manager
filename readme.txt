@@ -10,16 +10,16 @@ Stable tag: 1.0.0
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Short Description: Here is a short description of the plugin.  This should be no more than 150 characters.  No markup here.
+Short Description: Optimize WooCommerce shipping with dynamic rules, box management & real-time rates. Boost profits & customer satisfaction
 
 == Description ==
 
 
 == Frequently Asked Questions ==
 
-= A question that someone might have =
+= What is a Shipping Manager? =
 
-An answer to that question.
+Shipping Manager is a powerful WooCommerce plugin that helps you manage shipping fees, zones, delivery options, and packaging with advanced customization.
 
 = What about foo bar? =
 
