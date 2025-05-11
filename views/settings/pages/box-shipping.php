@@ -29,7 +29,7 @@
                         <div class="tpsm-switch-wrapper">
                             <input class="tpsm-switch" type="checkbox" id="tpsm-box-shipping-disable-enable" name="tpsm-box-shipping-disable-enable" <?php echo $tpsm_box_shipping_settings_values['enabled'] ? 'checked' : ''; ?> /><label for="tpsm-box-shipping-disable-enable" class="tpsm-switch-label"></label>
                         </div>
-                        <p class="tpsm-field-desc"><?php esc_html_e( 'To enable/disable this feature.', 'shipping-manager' ); ?></p>
+                        <p class="tpsm-field-desc"><?php esc_html_e( 'Enable or Disable Box Shipping.', 'shipping-manager' ); ?></p>
                     </div>
                 </div>
                 
