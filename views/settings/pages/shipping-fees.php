@@ -67,7 +67,7 @@ $currency_symbol = get_woocommerce_currency_symbol();
                     <div class="tpsm-field-label">
                         <label>
                             <?php printf( '%1$s%2$s :',
-                                esc_html__( 'Flat rate per Unit/', 'shipping-manager' ),
+                                esc_html__( 'Flat Rate per Unit/', 'shipping-manager' ),
                                 esc_html( $weight_unit )
                             ); ?>
                         </label>
@@ -76,7 +76,7 @@ $currency_symbol = get_woocommerce_currency_symbol();
                         <?php echo esc_html( $currency_symbol ) ?>
                         <input type="text" id="tpsm-shipping-fees-flat-rate-amount" name="tpsm-shipping-fees-flat-rate-amount" value="<?php echo esc_html( $tpsm_shipping_fees_settings_values['flat-rate'] ); ?>">
                         <p class="tpsm-field-desc">
-                            <?php esc_attr_e( 'Adds a flat processing fee per unit to process the shipment.', 'shipping-manager' );?>
+                            <?php esc_attr_e( 'Adds a fixed Shipping Fee per unit', 'shipping-manager' );?>
                         </p>
                     </div>
                 </div>
@@ -87,7 +87,7 @@ $currency_symbol = get_woocommerce_currency_symbol();
             <div class="tpsm-shipping-fees-container tpsm-setting-weight-base-container" id="tpsm-weight-range-fee" style="<?php echo $tpsm_shipping_fees_settings_values['type'] == 'tpsm-weight-range-fee' ? '' : 'display:none'?>">
                 <div class="tpsm-field">
                     <div class="tpsm-field-label">
-                        <label><?php esc_html_e( 'Flat rate for Unit ranges: ', 'shipping-manager' ); ?></label>
+                        <label><?php esc_html_e( 'Flat Rate for Unit ranges: ', 'shipping-manager' ); ?></label>
                     </div>
                     <div class="tpsm-field-input"></div>
                 </div>
