@@ -27,3 +27,6 @@
 #tpsm-shipping-calculator-form-wrapper label {
     width: 80px;
 }
+.tpsm-shipping-calculator-shipping-methods h4 {
+    margin-bottom: 20px;
+}
