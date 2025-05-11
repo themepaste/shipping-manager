@@ -10,7 +10,7 @@
         </div>
         <div class="tpsm-titles">
             <h1><?php esc_html_e( 'Shipping Manager', 'shipping-manager' ); ?></h1>
-            <p style="margin:0;"><?php esc_html_e( 'Set up your store global shipping rules', 'shipping-manager' ); ?></p>
+            <p style="margin:0;"><?php esc_html_e( 'One solution for all shipping needs', 'shipping-manager' ); ?></p>
         </div>
     </div>
     <div class="tpsm-topbar-info-area">

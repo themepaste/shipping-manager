@@ -14,7 +14,7 @@ $currency_symbol = get_woocommerce_currency_symbol();
 
 <div class="tpsm-setting-wrapper">
     <div class="tpsm-shipping-fees-wrapper">
-        <h2><?php esc_html_e( 'Weight Base Shipping Fees Settings', 'shipping-manager' ) ?></h2>
+        <h2><?php esc_html_e( 'Weight-based Shipping Fees Settings', 'shipping-manager' ) ?></h2>
         <form method="POST">
             <?php wp_nonce_field( 'tpsm-nonce_action', 'tpsm-nonce_name' ); ?>
     
@@ -28,7 +28,7 @@ $currency_symbol = get_woocommerce_currency_symbol();
                         <div class="tpsm-switch-wrapper">
                             <input class="tpsm-switch" type="checkbox" id="tpsm-shipping-fees-disable-enable" name="tpsm-shipping-fees-disable-enable" <?php echo $tpsm_shipping_fees_settings_values['enabled'] ? 'checked' : ''; ?> /><label for="tpsm-shipping-fees-disable-enable" class="tpsm-switch-label"></label>
                         </div>
-                        <p class="tpsm-field-desc"><?php esc_html_e( 'To enable/disable this feature.', 'shipping-manager' ); ?></p>
+                        <p class="tpsm-field-desc"><?php esc_html_e( 'Enable or Disable Shipping Fees', 'shipping-manager' ); ?></p>
                     </div>
                 </div>
                 
@@ -55,7 +55,7 @@ $currency_symbol = get_woocommerce_currency_symbol();
                                 <label for="tpsm-weight-base-fee"><?php esc_html_e( 'Weight Range Fee', 'shipping-manager' ); ?></label>
                             </div>
                         </div>
-                        <p class="tpsm-field-desc"><?php esc_html_e( 'You can set only one weight base shipping rule at a time.', 'shipping-manager' ); ?></p>
+                        <p class="tpsm-field-desc"><?php esc_html_e( 'Set only one weight-based shipping rule at a time.', 'shipping-manager' ); ?></p>
                     </div>
                 </div>
             </div>

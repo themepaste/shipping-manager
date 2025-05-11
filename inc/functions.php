@@ -173,7 +173,7 @@ if( ! function_exists( 'tpsm_taxable_field' ) ) {
                         ?>
                         
                     </div>
-                    <p class="tpsm-field-desc"><?php esc_html_e( "'Yes' applies tax to this feature, 'No' does not. Change it in Shipping Manager settings if needed.", 'shipping-manager' ); ?></p>
+                    <p class="tpsm-field-desc"><?php esc_html_e( "'Yes' = Tax Included / 'No' = Tax excluded / Change it from Shipping Manager Settings", 'shipping-manager' ); ?></p>
                 </div>
             </div>
         <?php 
