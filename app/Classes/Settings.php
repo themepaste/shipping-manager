@@ -156,18 +156,6 @@ class Settings {
                 'dashicons-airplane',
                 56
             );
-
-            // Optional: Add a submenu page for Pro features
-            /*
-            add_submenu_page(
-                self::SETTING_PAGE_ID,
-                esc_html__( 'Shipping Manager Pro 🟢', 'shipping-manager' ),
-                esc_html__( 'Shipping Manager Pro 🟢', 'shipping-manager' ),
-                'manage_options',
-                'shipping-manager-pro',
-                [ $this, 'settings_page_layout_pro' ]
-            );
-            */
         }
     }
 
