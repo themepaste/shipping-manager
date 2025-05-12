@@ -14,7 +14,7 @@ Optimize WooCommerce shipping with dynamic rules, box management & real-time rat
 
 == Description ==
 
-### 🚚 All-in-One Shipping Manager Plugin for WooCommerce 
+### 🚚 All-in-One Shipping Manager Plugin for WooCommerce
 Shipping Manager offers a complete solution to simplify your WooCommerce shipping experience. You can dynamically customize the shipping fees for weight, box size, and more. It handles all your shipping requirements to deliver flexible, accurate, and cost-effective logistics. 
 
 ### 💡 Why Choose a Shipping Manager?
@@ -148,8 +148,16 @@ We’re also launching exciting new plugins that will revolutionize your WordPre
 
 == Screenshots ==
 
-1. This screen shot description corresponds to screenshot-1.(png|jpg|jpeg|gif). Screenshots are stored in the /assets directory.  
-2. This is the second screen shot  
+1. screenshot-1
+2. screenshot-2
+3. screenshot-3
+4. screenshot-4
+5. screenshot-5
+6. screenshot-6
+7. screenshot-7
+8. screenshot-8
+8. screenshot-9
+8. screenshot-10
 
 == Frequently Asked Questions ==
 
