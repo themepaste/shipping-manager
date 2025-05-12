@@ -8,13 +8,13 @@ $current_screen = $args['current_screen'];
 // Determine the corresponding documentation URL based on the current screen
 switch ( $current_screen ) {
     case 'shipping-fees':
-        $doc_url = 'https://themepaste.com/documentation/shipping-manager-documentation/shipping-fees';
+        $doc_url = 'https://themepaste.com/documentation/shipping-manager-documentation/setup-shipping-fees';
         break;
     case 'box-shipping':
-        $doc_url = 'https://themepaste.com/documentation/shipping-manager-documentation/box-shipping';
+        $doc_url = 'https://themepaste.com/documentation/shipping-manager-documentation/setup-box-size-shipping';
         break;
     case 'free-shipping':
-        $doc_url = 'https://themepaste.com/documentation/shipping-manager-documentation/free-shipping';
+        $doc_url = 'https://themepaste.com/documentation/shipping-manager-documentation/set-up-free-shipping';
         break;
     case 'shipping-calculator':
         $doc_url = 'https://themepaste.com/documentation/shipping-manager-documentation/shipping-calculator';
