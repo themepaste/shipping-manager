@@ -1,26 +1,37 @@
 <?php 
-    defined( 'ABSPATH' ) || exit;
-    $current_screen = $args['current_screen'];
+// Exit if accessed directly
+defined( 'ABSPATH' ) || exit;
 
+// Get the current settings screen key from arguments
+$current_screen = $args['current_screen'];
+
+// Determine the corresponding documentation URL based on the current screen
 switch ( $current_screen ) {
     case 'shipping-fees':
-        $doc_url = 'shipping-fees';
+        $doc_url = 'https://themepaste.com/documentation/shipping-manager-documentation/shipping-fees';
         break;
     case 'box-shipping':
-        $doc_url = 'box-shipping';
+        $doc_url = 'https://themepaste.com/documentation/shipping-manager-documentation/box-shipping';
         break;
     case 'free-shipping':
-        $doc_url = 'free-shipping';
+        $doc_url = 'https://themepaste.com/documentation/shipping-manager-documentation/free-shipping';
         break;
     case 'shipping-calculator':
-        $doc_url = 'shipping-calculator';
+        $doc_url = 'https://themepaste.com/documentation/shipping-manager-documentation/shipping-calculator';
         break;
     case 'general':
-        $doc_url = 'general';
+        $doc_url = 'https://themepaste.com/documentation/shipping-manager-documentation/general';
         break;
     default:
+        // Fallback to base documentation if no matching section
         $doc_url = 'https://themepaste.com/documentation/shipping-manager-documentation';
-        
+        break;
 }
 ?>
-<button class="tpsm-guide-me-button" id="tpsm-guide-me-button"><a href="<?php echo esc_url( $doc_url ); ?>"><?php esc_html_e( 'Guide Me', 'shipping-manager' ); ?></a></button>
+
+<!-- Button linking to the relevant documentation section -->
+<button class="tpsm-guide-me-button" id="tpsm-guide-me-button">
+    <a href="<?php echo esc_url( $doc_url ); ?>" target="_blank" rel="noopener noreferrer">
+        <?php esc_html_e( 'Guide Me', 'shipping-manager' ); ?>
+    </a>
+</button>
