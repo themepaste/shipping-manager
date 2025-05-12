@@ -1,4 +1,4 @@
-=== Shipping Manager - All in one solution for WooCommerce Shipping ===
+=== Shipping Manager: The all-in-one solution for eCommerce shipping automation ===
 Contributors: themepaste, habibnote
 Tags: shipping manager, woocommerce shipping, flexible shipping, table rate shipping
 Requires at least: 5.8
