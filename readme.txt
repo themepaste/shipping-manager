@@ -40,10 +40,12 @@ Shipping Manager is not just a plugin that meets your shipping requirements. It 
 
 #### Stay connected with us to get the trending news and updates from our:
 
-🔗[Official Facebook Page](#) 
-🔗[Twitter Account](#)
-🔗[Linkedin](#) 
-🔗[Official Support Page](#)
+🔗[Official Facebook Page](https://www.facebook.com/themepaste) 
+🔗[Pinterest](https://uk.pinterest.com/themepaste/)
+🔗[Linkedin](https://www.linkedin.com/company/themepaste) 
+🔗[Linkedin](https://www.linkedin.com/company/themepaste) 
+🔗[Instagram](https://www.instagram.com/themepasteuk) 
+🔗[Official Support Page](https://themepaste.com/contact-us)
 
 ** Let's build smarter shipping solutions - one store at a time. 🚀 **
 
