@@ -20,7 +20,7 @@ switch ( $current_screen ) {
         $doc_url = 'https://themepaste.com/documentation/shipping-manager-documentation/shipping-calculator';
         break;
     case 'general':
-        $doc_url = 'https://themepaste.com/documentation/shipping-manager-documentation/general';
+        $doc_url = 'https://themepaste.com/documentation/shipping-manager-documentation';
         break;
     default:
         // Fallback to base documentation if no matching section
