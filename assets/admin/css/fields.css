@@ -22,7 +22,10 @@
 	color: #a9a8a8;
 	font-weight: 400;
 }
-
+.tpsm-field select:focus {
+	outline: 0 !important;
+	box-shadow: 0 !important;
+}
 .tpsm-field .tpsm-field-input input[type="text"],
 .tpsm-field .tpsm-field-input input[type="text"]:focus {
 	width: 50%;
