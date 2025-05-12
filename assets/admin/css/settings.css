@@ -13,6 +13,13 @@
     font-weight: 500;
     background-color: #faf1eb;
 }
+.tpsm-guide-me-button a {
+    text-decoration: none;
+}
+.tpsm-guide-me-button a:focus {
+    box-shadow: none;
+    outline: none;
+}
 .tpsm-guide-me-container-wrapper {
     position: fixed;
     top:0;
