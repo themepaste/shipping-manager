@@ -73,6 +73,7 @@ class Settings {
     }
 
     public function redirect_to_settings() {
+
         if ( get_transient( 'tpsm_do_activation_redirect' ) ) {
             delete_transient('tpsm_do_activation_redirect');
     
