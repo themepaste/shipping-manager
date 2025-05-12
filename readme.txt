@@ -2,15 +2,15 @@
 Contributors: themepaste, habibnote
 Tags: shipping manager, woocommerce shipping, flexible shipping, table rate shipping
 Requires at least: 5.8
-Tested up to: 6.7
+Tested up to: 6.8
 WC requires at least: 6.6
-WC tested up to: 8.9
-Requires PHP: 7.4
+WC tested up to: 9.8
+Requires PHP: 7.0
 Stable tag: 1.0.0
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Optimize WooCommerce shipping with dynamic rules, box management & real-time rates. Boost profits & customer satisfaction.
+Optimize WooCommerce shipping with dynamic rules, box management & real-time rates. Boost profits & customer satisfaction.  
 
 == Description ==
 
