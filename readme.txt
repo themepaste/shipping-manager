@@ -46,8 +46,7 @@ Stay connected with us to get the trending news and updates from our:
 
 🔗[Official Facebook Page](https://www.facebook.com/themepaste) 
 🔗[Pinterest](https://uk.pinterest.com/themepaste/)
-🔗[Linkedin](https://www.linkedin.com/company/themepaste) 
-🔗[Linkedin](https://www.linkedin.com/company/themepaste) 
+🔗[Linkedin](https://www.linkedin.com/company/themepaste)
 🔗[Instagram](https://www.instagram.com/themepasteuk) 
 🔗[Official Support Page](https://themepaste.com/contact-us)
 
