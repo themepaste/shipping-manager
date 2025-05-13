@@ -15,7 +15,6 @@ yarn-error.log*
 pnpm-debug.log*
 
 # Composer
-/vendor/
 /composer.lock
 
 # Build artifacts (if any)
