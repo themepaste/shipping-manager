@@ -9,7 +9,7 @@
         <div class="tpsm-icons">
             <?php 
                 // Set the path for the top bar icon
-                $tpsm_icon = TPSM_ASSETS_URL . '/img/icons/logo.png';
+                $tpsm_icon = TPSM_ASSETS_URL . '/img/logo.png';
 
                 // Output the icon with proper escaping
                 printf( '<img src="%1$s" >', esc_url( $tpsm_icon ) );
