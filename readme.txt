@@ -6,7 +6,7 @@ Tested up to: 6.8
 WC requires at least: 6.6
 WC tested up to: 9.8
 Requires PHP: 7.0
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -204,8 +204,8 @@ Not at all! Shipping Manager is user-friendly and built for all users. It offers
 
 == Changelog ==
 
-= v1.0.1 - 2025.05.13 =  
-* [new] Fix issue.
+= v1.0.1, v1.0.2 - 2025.05.13 =  
+* [fix] Fix issues.
 
 = v1.0.0 - 2025.05.12 =  
 * [new] Initial release.
