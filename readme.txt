@@ -17,7 +17,7 @@ Optimize WooCommerce shipping with dynamic rules, box management & real-time rat
 ### 🚚 All-in-One Shipping Manager Plugin for WooCommerce
 Shipping Manager offers a complete solution to simplify your WooCommerce shipping experience. You can dynamically customize the shipping fees for weight, box size, and more. It handles all your shipping requirements to deliver flexible, accurate, and cost-effective logistics. 
 
-Explore more about the EasyCommerce ecommerce plugin-
+Explore more about the Shipping Manager plugin-
 
 ✅ [Documentation](https://themepaste.com/documentation/shipping-manager-documentation)
 ✅ [Support](https://themepaste.com/contact-us)
@@ -151,6 +151,24 @@ We’re also launching exciting new plugins that will revolutionize your WordPre
 
 🚀 Need more help? Check our [Support Docs](https://themepaste.com/documentation/shipping-manager-documentation) or [Contact Our Team](https://themepaste.com/contact-us)
 
+== Installation ==
+
+Install Shipping Manager in just a few simple steps by following the steps mentioned below.
+
+**Step 1: Find the Shipping Manager plugin**
+First, log in to your WordPress site’s admin dashboard. Go to Plugins → Add New. Now, type Shipping Manager in the search bar. 
+
+**Step 2: Install and Activate**
+Now, click Install & Activate and view the plugin on the left-hand side of the dashboard panel. 
+
+
+**However, You can also install the Shipping Manager plugin after downloading the ZIP file.**
+The ZIP file is available on WordPress.org, where you can download it.
+
+**Install And Activate after downloading the plugin ZIP file**
+Go to Plugins > Add Plugin. Then, click the Choose File button and upload the ZIP file you downloaded. Then click the Install Now button and wait until the installation process is completed.
+
+
 == Screenshots ==
 
 1. screenshot-1
@@ -187,7 +205,7 @@ Not at all! Shipping Manager is user-friendly and built for all users. It offers
 == Changelog ==
 
 = v1.0.1 - 2025.05.13 =  
-* [new] Initial release.
+* [new] Fix issue.
 
 = v1.0.0 - 2025.05.12 =  
 * [new] Initial release.
