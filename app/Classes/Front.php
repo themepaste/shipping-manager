@@ -51,11 +51,9 @@ class Front {
 	 */
 	public function __construct() {
 		$this->shipping_calculator_settings   = get_option( 'tpsm-shipping-calculator_settings' );
-		$this->is_shipping_calculator_enable  = tpsm_isset( $this->shipping_calculator_settings['shipping-calculator-enable'] );
-		$this->is_enable_location_field       = tpsm_isset( $this->shipping_calculator_settings['enable-location-field'] );
-		$this->shipping_calculator_position   = tpsm_isset( $this->shipping_calculator_settings['shipping-calculator-position'] ); 
-
-		// $this->shipping_calculator_settings_fields = tpsm_shipping_calculator_settings_fields();
+		$this->is_shipping_calculator_enable  = tpsm_isset( $this->shipping_calculator_settings['shipping-calculator-enable'] ?? '' );
+		$this->is_enable_location_field       = tpsm_isset( $this->shipping_calculator_settings['enable-location-field'] ?? '' );
+		$this->shipping_calculator_position   = tpsm_isset( $this->shipping_calculator_settings['shipping-calculator-position'] ?? '' ); 
 
 		// Enqueue frontend assets.
 		$this->action( 'wp_enqueue_scripts', [ $this, 'enqueue_css' ] );

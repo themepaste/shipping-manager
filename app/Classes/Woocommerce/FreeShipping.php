@@ -121,18 +121,20 @@ class FreeShipping {
 			$cart_total          = WC()->cart->get_subtotal();
 			$minimum_cart_amount = $this->cart_amount;
 
-			$progress_bar_value = ( $cart_total / $minimum_cart_amount ) * 100;
+			if( !empty( $minimum_cart_amount ) && $minimum_cart_amount > 0 ) {
+				$progress_bar_value = ( $cart_total / $minimum_cart_amount ) * 100;
 
-			if ( $minimum_cart_amount > $cart_total ) {
-				printf(
-					'<div class="tpsm-free-shipping-bar-wrapper" %3$s>
-						<span>%1$s</span>
-						<progress value="%2$s" max="100"></progress>
-					</div>',
-					esc_html( $this->shipping_bar_message( $minimum_cart_amount - $cart_total ) ), // Message showing remaining amount
-					esc_html( $progress_bar_value ),
-					wp_kses_post( $this->shipping_bar_styles() ),
-				);
+				if ( $minimum_cart_amount > $cart_total ) {
+					printf(
+						'<div class="tpsm-free-shipping-bar-wrapper" %3$s>
+							<span>%1$s</span>
+							<progress value="%2$s" max="100"></progress>
+						</div>',
+						esc_html( $this->shipping_bar_message( $minimum_cart_amount - $cart_total ) ), // Message showing remaining amount
+						esc_html( $progress_bar_value ),
+						wp_kses_post( $this->shipping_bar_styles() ),
+					);
+				}
 			}
 		}
 	}
