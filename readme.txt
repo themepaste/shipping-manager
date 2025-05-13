@@ -17,6 +17,11 @@ Optimize WooCommerce shipping with dynamic rules, box management & real-time rat
 ### 🚚 All-in-One Shipping Manager Plugin for WooCommerce
 Shipping Manager offers a complete solution to simplify your WooCommerce shipping experience. You can dynamically customize the shipping fees for weight, box size, and more. It handles all your shipping requirements to deliver flexible, accurate, and cost-effective logistics. 
 
+Explore more about the EasyCommerce ecommerce plugin-
+
+✅ [Documentation](https://themepaste.com/documentation/shipping-manager-documentation)
+✅ [Support](https://themepaste.com/contact-us)
+
 ### 💡 Why Choose a Shipping Manager?
 Shipping Manager is the perfect WooCommerce shipping solution for any big or small-sized eCommerce business. It manages complex logistics with features that are easy to configure and implement on your WooCommerce store. Enjoy complete control over shipping fees, boxes, and delivery options without any coding. Deliver better, smarter, and faster to enhance customer experience with this feature-rich plugin. 
 
@@ -180,6 +185,9 @@ Yes, a trial version will be available to explore premium features before making
 Not at all! Shipping Manager is user-friendly and built for all users. It offers easy setup and management options without any coding skills. You can control everything using its intuitive dashboard.
 
 == Changelog ==
+
+= v1.0.1 - 2025.05.13 =  
+* [new] Initial release.
 
 = v1.0.0 - 2025.05.12 =  
 * [new] Initial release.
