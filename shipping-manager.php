@@ -37,7 +37,7 @@ if (!defined('ABSPATH')) {
      * define all constant
      */
     private function define() {
-       define( "DEVS", false ); // 'true' | is development mode on
+       define( "TPSM_DEVS", false ); // 'true' | is development mode on
 
        define( 'TPSM_PLUGIN_FILE', __FILE__ );
        define( 'TPSM_PLUGIN_VERSION', '1.0.3' );
@@ -47,7 +47,7 @@ if (!defined('ABSPATH')) {
        define( 'TPSM_PLUGIN_URL', plugin_dir_url( TPSM_PLUGIN_FILE ) );
        define( 'TPSM_ASSETS_URL', plugins_url( 'assets', TPSM_PLUGIN_FILE ) );
 
-       if( DEVS ) {
+       if( TPSM_DEVS ) {
            define( 'TPSM_ASSETS_VERSION', time() );
        }
        else {
