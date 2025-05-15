@@ -46,6 +46,7 @@ if ( !defined( 'ABSPATH' ) ) {
        define( 'TPSM_PLUGIN_DIR', plugin_dir_path( TPSM_PLUGIN_FILE ) );
        define( 'TPSM_PLUGIN_URL', plugin_dir_url( TPSM_PLUGIN_FILE ) );
        define( 'TPSM_ASSETS_URL', plugins_url( 'assets', TPSM_PLUGIN_FILE ) );
+       define( 'TPSM_REAL_PATH', realpath( dirname( TPSM_PLUGIN_DIR ) ) );
 
        if( TPSM_DEVS ) {
            define( 'TPSM_ASSETS_VERSION', time() );

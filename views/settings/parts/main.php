@@ -17,12 +17,13 @@ use ThemePaste\ShippingManager\Helpers\Utility;
 
                 // Attempt to retrieve the template for the active settings page
                 $template = Utility::get_template( 'settings/pages/' . $key . '.php', $args );
+                $pro_template = Utility::get_pro_template( 'settings/pages/' . $key . '.php', $args );
 
                 // If a valid template is returned, output it
                 if ( $template ) {
                     echo $template;
-
-                // Otherwise, show an upgrade message prompting for the Pro version
+                } else if( $pro_template ) {
+                    echo $pro_template;
                 } else {
                     ?>
                     <div style="text-align: center;">
