@@ -66,16 +66,18 @@ class Utility {
 	 * @return string|null The output of the template file, or null if the file doesn't exist.
 	 */
 	public static function get_pro_template( $template, $args = array() ) {
-		$path = TPSM_REAL_PATH . '/shipping-manager-pro/views/' . $template;
-
-		if ( file_exists( $path ) ) {
-			if ( ! empty( $args ) && is_array( $args ) ) {
-				extract( $args );
+		if ( is_plugin_active( 'shipping-manager-pro/shipping-manager-pro.php' ) ) { 
+			$path = TPSM_REAL_PATH . '/shipping-manager-pro/views/' . $template;
+	
+			if ( file_exists( $path ) ) {
+				if ( ! empty( $args ) && is_array( $args ) ) {
+					extract( $args );
+				}
+	
+				ob_start();
+				include $path;
+				return ob_get_clean();
 			}
-
-			ob_start();
-			include $path;
-			return ob_get_clean();
 		}
 	} 
 
