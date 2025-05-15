@@ -10,6 +10,6 @@
         }
     },
     "config": {
-        "autoloader-suffix": "ShippingManager"
+        "autoloader-suffix": "TPShippingManager"
     }
 }
