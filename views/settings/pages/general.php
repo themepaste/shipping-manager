@@ -99,9 +99,12 @@
                 }
             ?>
 
+            <?php do_action( 'tpsm_license_activation_field' ); ?>
+
             <div class="tpsm-save-button">
                 <button type="submit" name="<?php echo esc_attr( $submit_button ); ?>"><?php esc_html_e( 'Save Settings', 'shipping-manager' ); ?></button>
             </div>
+
         </form>
     </div>
 </div>

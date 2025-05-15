@@ -50,7 +50,5 @@ final class App {
 		if ( ! is_admin() ) {
 			new Classes\Front();
 		}
-
-		// You may add any other classes that run in both admin and frontend here.
 	}
 }
