@@ -1,12 +1,15 @@
 {
-	"authors": [
-		{
-			"name": "ThemePaste"
-		}
-	],
-	"autoload": {
-		"psr-4": {
-			"ThemePaste\\ShippingManager\\": "app/"
-		}
-	}
+    "authors": [
+        {
+            "name": "ThemePaste"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "ThemePaste\\ShippingManager\\": "app/"
+        }
+    },
+    "config": {
+        "autoloader-suffix": "ShippingManager"
+    }
 }

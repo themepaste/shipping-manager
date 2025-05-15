@@ -14,7 +14,7 @@
  * Text Domain:       shipping-manager
  */
     
-if (!defined('ABSPATH')) {
+if ( !defined( 'ABSPATH' ) ) {
     exit;
 } // Exit if accessed directly
 
@@ -60,7 +60,10 @@ if (!defined('ABSPATH')) {
      */
     private function include() {
         require_once( dirname( __FILE__ ) . '/inc/functions.php' );
-        require_once( dirname( __FILE__ ) . '/vendor/autoload.php' );
+        
+        if ( ! class_exists( 'ComposerAutoloaderInitShippingManager' ) ) { 
+            require_once( dirname( __FILE__ ) . '/vendor/autoload.php' );
+        }
     }
 
     /**
