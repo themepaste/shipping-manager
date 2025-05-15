@@ -61,6 +61,11 @@ if ( !defined( 'ABSPATH' ) ) {
     private function include() {
         require_once( dirname( __FILE__ ) . '/inc/functions.php' );
         
+        /**
+         * Autoload after checking composer suffix 'ShippingManager'
+         * 
+         * To see suffix go to composer json file
+         */
         if ( ! class_exists( 'ComposerAutoloaderInitShippingManager' ) ) { 
             require_once( dirname( __FILE__ ) . '/vendor/autoload.php' );
         }
