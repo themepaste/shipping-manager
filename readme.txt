@@ -64,14 +64,13 @@ Shipping Manager gives you a powerful and user-friendly shipping solution for yo
 - Free Shipping Bar*  
 - Shipping Calculator*  
 - Hide Other Shipping Methods*  
-- Zone Distance Calculation [Upcoming]  
-- Unit Fee for Distance [Upcoming]  
 - WooCommerce Per Product Shipping Rules [Upcoming]  
 - Override Other Rules [Upcoming]  
 
 ### 🚀 Pro Features [Upcoming]
 
-- Advanced Processing Fees [PRO]  
+- Advanced Processing Fees [PRO]
+- Distance Calculation [PRO]  
 - Create Multiple Rulesets [PRO]  
 - Shipping Class Support [PRO]  
 - Dynamic Shipping Zone Selection [PRO]  
@@ -79,8 +78,7 @@ Shipping Manager gives you a powerful and user-friendly shipping solution for yo
 - Coupon Integration for Minimum Amount Calculation [PRO]  
 - Design Customization Options [PRO]  
 - Filter Shipping Zones & Classes [PRO]  
-- Delivery Date & Time Selection [PRO]  
-- Real-Time Shipping Tracking [PRO]  
+- Delivery Date & Time Selection [PRO] 
 - Customizable Delivery Slips [PRO]  
 
 ### ⚙️ Key Features Explained
