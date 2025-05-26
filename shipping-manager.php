@@ -3,7 +3,7 @@
  * Plugin Name:       Shipping Manager
  * Plugin URI:        https://themepaste.com/product/wordpress-plugins/shipping-manager-for-woocommerce
  * Description:       Optimize WooCommerce shipping with dynamic rules, box management & real-time rates. Boost profits & customer satisfaction. 
- * Version:           1.0.4
+ * Version:           1.0.5
  * Requires at least: 5.8
  * Requires PHP:      7.0
  * Requires Plugins:  woocommerce
