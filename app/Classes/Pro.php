@@ -23,6 +23,10 @@ class Pro {
             'label' => __( 'Role Based Shipping', 'shipping-manager' ),
             'class' => '',
         );
+        $options['class-based-shipping'] = array(
+            'label' => __( 'Class Based Shipping', 'shipping-manager' ),
+            'class' => '',
+        );
 
         return $options;
     }
