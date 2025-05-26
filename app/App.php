@@ -35,9 +35,6 @@ final class App {
 		// Load common functionality (AJAX, scripts, etc.)
 		new Classes\Common();
 
-		//Load Pro features
-		new Classes\Pro();
-
 		// Register shipping methods setup.
 		new Classes\Shipping\ShippingMethod();
 
