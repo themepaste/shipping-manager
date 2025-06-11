@@ -16,7 +16,6 @@ class Install {
         if( ! $this->is_plugin_version_up_to_date() ) {
             $this->update_db_version(); 
         }
-        set_transient( 'tpsm_do_activation_redirect', true, 30 );
 
         //Update inital general settings
         update_option( 'tpsm-general_settings', [
