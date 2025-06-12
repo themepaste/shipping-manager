@@ -54,8 +54,7 @@ class RegisterShippingMethod extends WC_Shipping_Method {
 
         $this->id                   = self::ID;
         $this->instance_id          = absint( $instance_id );
-        $this->method_title         = __( 'Shipping Manager', 'shipping-manager' );
-        $this->method_description   = __( 'One solution for all shipping needs', 'shipping-manager' );
+        $this->method_title         = 'Shipping Manager';
         $this->enabled              = $this->is_enable();
         $this->title                = $this->method_name();
 
@@ -84,17 +83,28 @@ class RegisterShippingMethod extends WC_Shipping_Method {
      * Define form fields for admin settings.
      */
     public function init_form_fields() {
-        $setting_page = add_query_arg(
+        // Link to your plugin settings page
+        $plugin_settings_url = add_query_arg(
             array(
                 'page' => self::ID,
             ),
             admin_url( 'admin.php' )
         );
 
+        // Link to WooCommerce Shipping Zones settings
+        $shipping_zones_url = admin_url( 'admin.php?page=wc-settings&tab=shipping' );
+
         $this->form_fields = array(
-            'custom_button' => array(
+            'custom_buttons_section' => array(
+                'title'       => __( 'Choose your settings', 'shipping-manager' ),
                 'type'        => 'title',
-                'description' => '<a href="' . esc_url( $setting_page ) . '" class="button button-primary">' . esc_html__( 'Go to Plugin Settings', 'shipping-manager' ) . '</a>',
+                'description' => 
+                    '<a href="' . esc_url( $plugin_settings_url ) . '" class="button button-primary" style="margin-right: 10px;">' . 
+                        esc_html__( 'Global Plugin Settings', 'shipping-manager' ) . 
+                    '</a>' .
+                    '<a href="' . esc_url( $shipping_zones_url ) . '" class="button button-secondary">' . 
+                        esc_html__( 'Zone Specific Settings', 'shipping-manager' ) . 
+                    '</a>',
             ),
         );
     }
@@ -208,10 +218,14 @@ class RegisterShippingMethod extends WC_Shipping_Method {
      * @param array $package Shipping package.
      */
     public function calculate_shipping( $package = array() ) {
+
+        // $instance_title = $this->get_option( 'title' );
+
         $rate = array(
             'id'    => $this->id . ':' . $this->instance_id,
             'label' => $this->title,
-            'cost'  => $this->get_tpsm_cost(),
+            // 'cost'  => $this->get_tpsm_cost(),
+            'cost'  => '10.00',
         );
 
         if ( $this->is_tpsm_plugin_taxable() ) {
