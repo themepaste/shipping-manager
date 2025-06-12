@@ -209,7 +209,7 @@ class RegisterShippingMethod extends WC_Shipping_Method {
      */
     public function calculate_shipping( $package = array() ) {
         $rate = array(
-            
+            'id'    => $this->id . ':' . $this->instance_id,
             'label' => $this->title,
             'cost'  => $this->get_tpsm_cost(),
         );
