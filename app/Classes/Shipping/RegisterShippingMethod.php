@@ -58,6 +58,12 @@ class RegisterShippingMethod extends WC_Shipping_Method {
         $this->enabled              = $this->is_enable();
         $this->title                = $this->method_name();
 
+        $this->supports = array(
+            'settings',
+            'shipping-zones',
+            'instance-settings',
+        );
+
         $this->init();
     }
 
