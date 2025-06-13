@@ -146,6 +146,19 @@ class RegisterShippingMethod extends WC_Shipping_Method {
 				'desc_tip'          => true,
 				'sanitize_callback' => array( $this, 'sanitize_cost' ),
 			),
+            'custom_repeater_data' => array(
+                'title'       => '',
+                'type'        => 'hidden',
+                'default'     => '',
+                'description' => '',
+                'id'          => 'custom_repeater_data',
+            ),
+            'custom_repeater_ui' => array(
+                'type'        => 'title',
+                'title'       => '',
+                'description' => '',
+                'id'          => 'custom_repeater_ui_wrapper',
+            ),
 		);
 
 		// And finally we set the instance_form_fields property for the Shipping API to use.
