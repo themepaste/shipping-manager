@@ -54,6 +54,10 @@ $currency_symbol = get_woocommerce_currency_symbol();
                                 <input type="radio" id="tpsm-weight-base-fee" name="tpsm-shipping-fee_type" value="tpsm-weight-range-fee" <?php echo $tpsm_shipping_fees_settings_values['type'] == 'tpsm-weight-range-fee' ? 'checked' : ''; ?>>
                                 <label for="tpsm-weight-base-fee"><?php esc_html_e( 'Weight Range Fee', 'shipping-manager' ); ?></label>
                             </div>
+                            <div class="tpsm-shipping-radio">
+                                <input type="radio" id="tpsm-weight-base-fee" name="tpsm-shipping-fee_type" value="tpsm-weight-range-fee" <?php echo $tpsm_shipping_fees_settings_values['type'] == 'tpsm-weight-range-fee' ? 'checked' : ''; ?>>
+                                <label for="tpsm-weight-base-fee"><?php esc_html_e( 'Total Price', 'shipping-manager' ); ?></label>
+                            </div>
                         </div>
                         <p class="tpsm-field-desc"><?php esc_html_e( 'Set only one weight-based shipping rule at a time.', 'shipping-manager' ); ?></p>
                     </div>
@@ -154,7 +158,7 @@ $currency_symbol = get_woocommerce_currency_symbol();
                         </tbody>
                     </table>
                     <div class="tpsm-addrow-button">
-                        <button type="button" id="tpsm-weight-range-pricing-add" class="tpsm-add-new-row-button">Add New</button>
+                        <button type="button" id="tpsm-weight-range-pricing-add" class="tpsm-add-new-row-button"><?php esc_html_e( 'Add New', 'shipping-manager' ); ?></button>
                     </div>
                 </div>
     

@@ -46,7 +46,6 @@ class Settings {
         );
 
         $this->action( 'admin_head', [$this, 'remove_save_button'] );
-        $this->action( 'admin_init', [$this, 'redirect_to_settings'] );
         $this->action( 'admin_menu', [ $this, 'shipping_manager_setting_page' ] );
         $this->action( 'admin_enqueue_scripts', [ $this, 'admin_enqueue_css' ] );
         $this->action( 'admin_enqueue_scripts', [ $this, 'admin_enqueue_scripts' ] );
@@ -69,22 +68,6 @@ class Settings {
             echo '<style>
                 .woocommerce-save-button { display: none !important; }
             </style>';
-        }
-    }
-
-    public function redirect_to_settings() {
-
-        if ( get_transient( 'tpsm_do_activation_redirect' ) ) {
-            delete_transient('tpsm_do_activation_redirect');
-    
-            // Avoid redirecting during multi-site network admin activation
-            if ( is_network_admin() || isset( $_GET['activate-multi'] ) ) {
-                return;
-            }
-    
-            // Redirect to the plugin settings page
-            wp_safe_redirect( $this->setting_page_url );
-            exit;
         }
     }
 

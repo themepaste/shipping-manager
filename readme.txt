@@ -1,6 +1,6 @@
-=== Shipping Manager: All in one Shipping Solution ===
+=== Shipping Manager – Table Rate, Weight Based, Box & Woocommerce advanced shipping ===
 Contributors: themepaste, habibnote
-Tags: shipping manager, woocommerce shipping, flexible shipping, table rate shipping
+Tags: shipping manager, Table Rate, woocommerce shipping, Weight Based, box shipping, flat rate
 Requires at least: 5.8
 Tested up to: 6.8
 WC requires at least: 6.6

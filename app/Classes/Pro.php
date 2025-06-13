@@ -27,6 +27,10 @@ class Pro {
             'label' => __( 'Class Based Shipping', 'shipping-manager' ),
             'class' => '',
         );
+        $options['premium-day-shipping'] = array(
+            'label' => __( 'Premium Day Shipping', 'shipping-manager' ),
+            'class' => '',
+        );
 
         return $options;
     }
