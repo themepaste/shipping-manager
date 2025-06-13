@@ -10,7 +10,7 @@ function Admin() {
 }
 
 ReactDOM.createRoot(
-    document.getElementById('custom_repeater_ui_wrapper')
+    document.getElementById('tpsm-shipping-rules-wrapper')
 ).render(<Admin />);
 
 export default Admin;

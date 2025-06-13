@@ -146,7 +146,7 @@ class RegisterShippingMethod extends WC_Shipping_Method {
 				'desc_tip'          => true,
 				'sanitize_callback' => array( $this, 'sanitize_cost' ),
 			),
-            'custom_repeater_data' => array(
+            'tpsm-hidden' => array(
                 'title'       => '',
                 'type'        => 'hidden',
                 'default'     => '',
@@ -155,9 +155,8 @@ class RegisterShippingMethod extends WC_Shipping_Method {
             ),
             'custom_repeater_ui' => array(
                 'type'        => 'title',
-                'title'       => '',
-                'description' => '',
-                'id'          => 'custom_repeater_ui_wrapper',
+                'title'       => 'Shipping Rules',
+                'description' => '<div id="tpsm-shipping-rules-wrapper"></div>',
             ),
 		);
 
