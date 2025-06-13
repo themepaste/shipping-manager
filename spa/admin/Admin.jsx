@@ -4,15 +4,42 @@ import ReactDOM from 'react-dom/client';
 function Admin() {
     const [rows, setRows] = useState([{ condition: 'Weight', cost: '' }]);
 
+    useEffect(() => {
+        const hiddenField = document.getElementById(
+            'woocommerce_shipping-manager_tpsm-hidden'
+        );
+        if (hiddenField && hiddenField.value) {
+            try {
+                const parsed = JSON.parse(hiddenField.value);
+                const restoredRows = Object.entries(parsed).map(
+                    ([key, value]) => ({
+                        condition: key.charAt(0).toUpperCase() + key.slice(1),
+                        cost: value,
+                    })
+                );
+                setRows(restoredRows);
+            } catch (error) {
+                console.warn('Invalid JSON in hidden field:', error);
+                // fallback to default
+            }
+        }
+    }, []);
+
     // Update the hidden input whenever rows change
     useEffect(() => {
         const data = {};
         rows.forEach((row) => {
-            data[row.condition.toLowerCase()] = row.cost;
+            if (row.condition.trim() !== '') {
+                data[row.condition.toLowerCase()] = row.cost;
+            }
         });
-        document.getElementById(
+
+        const hiddenField = document.getElementById(
             'woocommerce_shipping-manager_tpsm-hidden'
-        ).value = JSON.stringify(data);
+        );
+        if (hiddenField) {
+            hiddenField.value = JSON.stringify(data);
+        }
     }, [rows]);
 
     const handleChange = (index, field, value) => {
@@ -90,8 +117,6 @@ function Admin() {
             >
                 Add New Row
             </button>
-
-            {/* Hidden field that will contain JSON string of data */}
         </>
     );
 }
