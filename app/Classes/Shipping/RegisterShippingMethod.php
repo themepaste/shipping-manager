@@ -115,9 +115,6 @@ class RegisterShippingMethod extends WC_Shipping_Method {
 	 * @return void
 	 */
 	private function init_instance_form_fields() {
-		// Define some strings that will be used several times for the cost decription and link.
-		$cost_desc = __( 'Enter a cost (excl. tax).', 'your_text_domain' );
-		$cost_link = sprintf( '<span id="wc-shipping-advanced-costs-help-text">%s <a target="_blank" href="https://woocommerce.com/document/flat-rate-shipping/#advanced-costs">%s</a>.</span>', __( 'Charge a flat rate per item, or enter a cost formula to charge a percentage based cost or a minimum fee. Learn more about', 'your_text_domain' ), __( 'advanced costs', 'your_text_domain' ) );
 
 		// Start the array of fields.
 		$fields = array(
