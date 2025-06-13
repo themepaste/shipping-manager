@@ -144,67 +144,12 @@ class RegisterShippingMethod extends WC_Shipping_Method {
 				'type'              => 'text',
 				'class'             => 'wc-shipping-modal-price',
 				'placeholder'       => '',
-				'description'       => $cost_desc,
+				'description'       => 'abc',
 				'default'           => '0',
 				'desc_tip'          => true,
 				'sanitize_callback' => array( $this, 'sanitize_cost' ),
 			),
 		);
-
-		/**
-		 * Flat rate shipping has the ability to add rates per shipping class, so here we get the shipping classes and then provide fields
-		 * for merchants/admins to use to be able to specify these costs. 
-		 */
-		$shipping_classes = WC()->shipping()->get_shipping_classes();
-
-		if ( ! empty( $shipping_classes ) ) {
-			$fields['class_costs'] = array(
-				'title'       => __( 'Shipping class costs', 'your_text_domain' ),
-				'type'        => 'title',
-				'default'     => '',
-				/* translators: %s: URL for link */
-				'description' => sprintf( __( 'These costs can optionally be added based on the <a target="_blank" href="%s">product shipping class</a>. Learn more about <a target="_blank" href="https://woocommerce.com/document/flat-rate-shipping/#shipping-classes">setting shipping class costs</a>.', 'your_text_domain' ), admin_url( 'admin.php?page=wc-settings&tab=shipping&section=classes' ) ),
-			);
-			foreach ( $shipping_classes as $shipping_class ) {
-				if ( ! isset( $shipping_class->term_id ) ) {
-					continue;
-				}
-				$fields[ 'class_cost_' . $shipping_class->term_id ] = array(
-					/* translators: %s: shipping class name */
-					'title'             => sprintf( __( '"%s" shipping class cost', 'your_text_domain' ), esc_html( $shipping_class->name ) ),
-					'type'              => 'text',
-					'class'             => 'wc-shipping-modal-price',
-					'placeholder'       => __( 'N/A', 'your_text_domain' ),
-					'description'       => $cost_desc,
-					'default'           => $this->get_option( 'class_cost_' . $shipping_class->slug ),
-					'desc_tip'          => true,
-					'sanitize_callback' => array( $this, 'sanitize_cost' ),
-				);
-			}
-
-			$fields['no_class_cost'] = array(
-				'title'             => __( 'No shipping class cost', 'your_text_domain' ),
-				'type'              => 'text',
-				'class'             => 'wc-shipping-modal-price',
-				'placeholder'       => __( 'N/A', 'your_text_domain' ),
-				'description'       => $cost_desc,
-				'default'           => '',
-				'desc_tip'          => true,
-				'sanitize_callback' => array( $this, 'sanitize_cost' ),
-			);
-
-			$fields['type'] = array(
-				'title'       => __( 'Calculation type', 'your_text_domain' ),
-				'type'        => 'select',
-				'class'       => 'wc-enhanced-select',
-				'default'     => 'class',
-				'options'     => array(
-					'class' => __( 'Per class: Charge shipping for each shipping class individually', 'your_text_domain' ),
-					'order' => __( 'Per order: Charge shipping for the most expensive shipping class', 'your_text_domain' ),
-				),
-				'description' => $cost_link,
-			);
-		}
 
 		// And finally we set the instance_form_fields property for the Shipping API to use.
 		$this->instance_form_fields = $fields;
