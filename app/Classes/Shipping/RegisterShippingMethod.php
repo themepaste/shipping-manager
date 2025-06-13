@@ -147,11 +147,10 @@ class RegisterShippingMethod extends WC_Shipping_Method {
 				'sanitize_callback' => array( $this, 'sanitize_cost' ),
 			),
             'tpsm-hidden' => array(
-                'title'       => '',
-                'type'        => 'hidden',
+                'title'       => 'Data',
+                'type'        => 'text',
                 'default'     => '',
                 'description' => '',
-                'id'          => 'custom_repeater_data',
             ),
             'custom_repeater_ui' => array(
                 'type'        => 'title',
