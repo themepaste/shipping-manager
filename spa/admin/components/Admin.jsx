@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import parse from 'html-react-parser';
+
+TPSM_ADMIN.woocommerce_data.currency_symbol;
 
 function Admin() {
     const [rows, setRows] = useState([{ condition: 'Weight', cost: '' }]);
@@ -71,17 +74,14 @@ function Admin() {
                     {rows.map((row, index) => (
                         <tr key={index}>
                             <td>
-                                <input
-                                    type="text"
-                                    value={row.condition}
-                                    onChange={(e) =>
-                                        handleChange(
-                                            index,
-                                            'condition',
-                                            e.target.value
-                                        )
-                                    }
-                                />
+                                <select name="" id="">
+                                    <option value="total-price">
+                                        Total Price
+                                    </option>
+                                    <option value="product-weight">
+                                        Product Weight
+                                    </option>
+                                </select>
                             </td>
                             <td>
                                 <input

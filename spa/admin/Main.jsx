@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-// import Admin from './components/Admin';
+import Admin from './components/Admin';
 
 function Main() {
     return <Admin />;

@@ -31,6 +31,8 @@ class Settings {
     const SETTING_PAGE_ID = 'shipping-manager';
     public $setting_page_url;
 
+    private $localize_data = [];
+
     /**
      * Initialize the plugin settings page and hook into WordPress actions/filters.
      *
@@ -128,6 +130,14 @@ class Settings {
                 TPSM_ASSETS_URL . '/admin/dist/bundle.js'
             );
         }
+
+        $this->localize_data['woocommerce_data'] = [
+            'currency'          => get_woocommerce_currency(),// e.g., 'USD'
+            'currency_symbol'   => get_woocommerce_currency_symbol(), // e.g., '$'
+            'weight_unit'       => get_option( 'woocommerce_weight_unit' ), // e.g., 'kg', 'g', 'lbs'
+        ]; 
+
+        $this->localize_script( 'tpsm-settings-react', 'TPSM_ADMIN', $this->localize_data );
     }
 
     /**
