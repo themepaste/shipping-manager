@@ -1,0 +1,14 @@
+.tpsm-shipping-rule-table-wrapper {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 100%;
+}
+.tpsm-shipping-rule-table-wrapper tr th {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 30px;
+}
+.tpsm-shipping-rule-table-wrapper tr td {
+    text-align: center;
+    padding: 10px 0;
+}

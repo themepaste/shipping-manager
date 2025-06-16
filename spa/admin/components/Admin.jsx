@@ -44,12 +44,6 @@ function Admin() {
         }
     }, [rows]);
 
-    const handleChange = (index, field, value) => {
-        const updatedRows = [...rows];
-        updatedRows[index][field] = value;
-        setRows(updatedRows);
-    };
-
     const addRow = () => {
         setRows([...rows, { condition: '', cost: '' }]);
     };
@@ -62,9 +56,13 @@ function Admin() {
 
     return (
         <>
-            <table border="1" cellPadding="5" cellSpacing="0">
+            <table className="tpsm-shipping-rule-table-wrapper">
                 <thead>
                     <tr>
+                        <th></th>
+                        <th>
+                            <input type="checkbox" />
+                        </th>
                         <th>Conditions</th>
                         <th>Costs</th>
                         <th>Action</th>
@@ -73,6 +71,12 @@ function Admin() {
                 <tbody>
                     {rows.map((row, index) => (
                         <tr key={index}>
+                            <td>
+                                <span>{index + 1}</span>
+                            </td>
+                            <td>
+                                <input type="checkbox" />
+                            </td>
                             <td>
                                 <select name="" id="">
                                     <option value="total-price">
@@ -84,17 +88,7 @@ function Admin() {
                                 </select>
                             </td>
                             <td>
-                                <input
-                                    type="number"
-                                    value={row.cost}
-                                    onChange={(e) =>
-                                        handleChange(
-                                            index,
-                                            'cost',
-                                            e.target.value
-                                        )
-                                    }
-                                />
+                                <input type="number" />
                             </td>
                             <td>
                                 <button
@@ -115,6 +109,12 @@ function Admin() {
                 style={{ marginTop: '10px' }}
             >
                 Add New Row
+            </button>
+            <button type="button" style={{ marginTop: '10px' }}>
+                Duplicate Row
+            </button>
+            <button type="button" style={{ marginTop: '10px' }}>
+                Delete Selected Row
             </button>
         </>
     );
