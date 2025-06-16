@@ -118,7 +118,7 @@ class RegisterShippingMethod extends WC_Shipping_Method {
 
 		// Start the array of fields.
 		$fields = array(
-			'title'      => array(
+			'title1243'      => array(
 				'title'       => __( 'Name', 'your_text_domain' ),
 				'type'        => 'text',
 				'description' => __( 'Your customers will see the name of this shipping method during checkout.', 'your_text_domain' ),
@@ -136,11 +136,11 @@ class RegisterShippingMethod extends WC_Shipping_Method {
 					'none'    => _x( 'None', 'Tax status', 'your_text_domain' ),
 				),
 			),
-            'tpsm-hidden' => array(
-                'title'       => 'Data',
+            'tpsm_hidden' => array(
+                'title'       => 'Import/Export',
                 'type'        => 'text',
                 'default'     => '',
-                'description' => '',
+                'description' => 'Import/Export the data',
             ),
             'custom_repeater_ui' => array(
                 'type'        => 'title',
@@ -162,13 +162,15 @@ class RegisterShippingMethod extends WC_Shipping_Method {
      */
     public function calculate_shipping( $package = array() ) {
 
-        // $instance_title = $this->get_option( 'title' );
+        $shipping_method_name = $this->get_option( 'title1243' );
+        $tax_status = $this->get_option( 'tax_status' );
+        $import_export = $this->get_option( 'tpsm_hidden' );
 
         $rate = array(
             'id'    => $this->id . ':' . $this->instance_id,
             'label' => $this->title,
             // 'cost'  => $this->get_tpsm_cost(),
-            'cost'  => '10.00',
+            'cost'  => '30.00',
         );
 
         if ( $this->is_tpsm_plugin_taxable() ) {

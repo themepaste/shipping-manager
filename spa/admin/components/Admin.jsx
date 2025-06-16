@@ -6,7 +6,7 @@ function Admin() {
 
     useEffect(() => {
         const hiddenField = document.getElementById(
-            'woocommerce_shipping-manager_tpsm-hidden'
+            'woocommerce_shipping-manager_tpsm_hidden'
         );
         if (hiddenField && hiddenField.value) {
             try {
@@ -20,7 +20,7 @@ function Admin() {
 
     useEffect(() => {
         const hiddenField = document.getElementById(
-            'woocommerce_shipping-manager_tpsm-hidden'
+            'woocommerce_shipping-manager_tpsm_hidden'
         );
         if (hiddenField) {
             hiddenField.value = JSON.stringify(rows);
