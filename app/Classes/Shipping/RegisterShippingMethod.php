@@ -136,16 +136,6 @@ class RegisterShippingMethod extends WC_Shipping_Method {
 					'none'    => _x( 'None', 'Tax status', 'your_text_domain' ),
 				),
 			),
-			'cost'       => array(
-				'title'             => __( 'Cost', 'your_text_domain' ),
-				'type'              => 'text',
-				'class'             => 'wc-shipping-modal-price',
-				'placeholder'       => '',
-				'description'       => 'abc',
-				'default'           => '0',
-				'desc_tip'          => true,
-				'sanitize_callback' => array( $this, 'sanitize_cost' ),
-			),
             'tpsm-hidden' => array(
                 'title'       => 'Data',
                 'type'        => 'text',
