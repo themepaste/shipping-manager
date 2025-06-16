@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import parse from 'html-react-parser';
-
-TPSM_ADMIN.woocommerce_data.currency_symbol;
 
 function Admin() {
     const [rows, setRows] = useState([{ condition: 'Weight', cost: '' }]);
+    const [selectedRows, setSelectedRows] = useState([]);
 
     useEffect(() => {
         const hiddenField = document.getElementById(
@@ -13,45 +11,55 @@ function Admin() {
         if (hiddenField && hiddenField.value) {
             try {
                 const parsed = JSON.parse(hiddenField.value);
-                const restoredRows = Object.entries(parsed).map(
-                    ([key, value]) => ({
-                        condition: key.charAt(0).toUpperCase() + key.slice(1),
-                        cost: value,
-                    })
-                );
-                setRows(restoredRows);
-            } catch (error) {
-                console.warn('Invalid JSON in hidden field:', error);
-                // fallback to default
+                setRows(parsed);
+            } catch (e) {
+                console.error('Invalid JSON in hidden field');
             }
         }
     }, []);
 
-    // Update the hidden input whenever rows change
     useEffect(() => {
-        const data = {};
-        rows.forEach((row) => {
-            if (row.condition.trim() !== '') {
-                data[row.condition.toLowerCase()] = row.cost;
-            }
-        });
-
         const hiddenField = document.getElementById(
             'woocommerce_shipping-manager_tpsm-hidden'
         );
         if (hiddenField) {
-            hiddenField.value = JSON.stringify(data);
+            hiddenField.value = JSON.stringify(rows);
         }
     }, [rows]);
+
+    const handleRowChange = (index, field, value) => {
+        const updatedRows = [...rows];
+        updatedRows[index][field] = value;
+        setRows(updatedRows);
+    };
 
     const addRow = () => {
         setRows([...rows, { condition: '', cost: '' }]);
     };
 
-    const removeRow = (index) => {
-        const updatedRows = [...rows];
-        updatedRows.splice(index, 1);
+    const deleteRow = (index) => {
+        const updatedRows = rows.filter((_, i) => i !== index);
         setRows(updatedRows);
+        setSelectedRows(selectedRows.filter((i) => i !== index));
+    };
+
+    const deleteSelectedRows = () => {
+        const updatedRows = rows.filter((_, i) => !selectedRows.includes(i));
+        setRows(updatedRows);
+        setSelectedRows([]);
+    };
+
+    const duplicateSelectedRows = () => {
+        const duplicates = selectedRows.map((index) => ({ ...rows[index] }));
+        setRows([...rows, ...duplicates]);
+    };
+
+    const handleCheckboxChange = (index) => {
+        setSelectedRows((prev) =>
+            prev.includes(index)
+                ? prev.filter((i) => i !== index)
+                : [...prev, index]
+        );
     };
 
     return (
@@ -59,9 +67,19 @@ function Admin() {
             <table className="tpsm-shipping-rule-table-wrapper">
                 <thead>
                     <tr>
-                        <th></th>
+                        <th>#</th>
                         <th>
-                            <input type="checkbox" />
+                            <input
+                                type="checkbox"
+                                checked={selectedRows.length === rows.length}
+                                onChange={(e) => {
+                                    if (e.target.checked) {
+                                        setSelectedRows(rows.map((_, i) => i));
+                                    } else {
+                                        setSelectedRows([]);
+                                    }
+                                }}
+                            />
                         </th>
                         <th>Conditions</th>
                         <th>Costs</th>
@@ -71,29 +89,49 @@ function Admin() {
                 <tbody>
                     {rows.map((row, index) => (
                         <tr key={index}>
+                            <td>{index + 1}</td>
                             <td>
-                                <span>{index + 1}</span>
+                                <input
+                                    type="checkbox"
+                                    checked={selectedRows.includes(index)}
+                                    onChange={() => handleCheckboxChange(index)}
+                                />
                             </td>
                             <td>
-                                <input type="checkbox" />
-                            </td>
-                            <td>
-                                <select name="" id="">
+                                <select
+                                    value={row.condition}
+                                    onChange={(e) =>
+                                        handleRowChange(
+                                            index,
+                                            'condition',
+                                            e.target.value
+                                        )
+                                    }
+                                >
+                                    <option value="always">Always</option>
                                     <option value="total-price">
                                         Total Price
                                     </option>
-                                    <option value="product-weight">
-                                        Product Weight
-                                    </option>
+                                    <option value="Weight">Weight</option>
                                 </select>
                             </td>
                             <td>
-                                <input type="number" />
+                                <input
+                                    type="number"
+                                    value={row.cost}
+                                    onChange={(e) =>
+                                        handleRowChange(
+                                            index,
+                                            'cost',
+                                            e.target.value
+                                        )
+                                    }
+                                />
                             </td>
                             <td>
                                 <button
                                     type="button"
-                                    onClick={() => removeRow(index)}
+                                    onClick={() => deleteRow(index)}
                                 >
                                     Delete
                                 </button>
@@ -103,20 +141,27 @@ function Admin() {
                 </tbody>
             </table>
 
-            <button
-                type="button"
-                onClick={addRow}
-                style={{ marginTop: '10px' }}
-            >
-                Add New Row
-            </button>
-            <button type="button" style={{ marginTop: '10px' }}>
-                Duplicate Row
-            </button>
-            <button type="button" style={{ marginTop: '10px' }}>
-                Delete Selected Row
-            </button>
+            <div style={{ marginTop: '10px' }}>
+                <button type="button" onClick={addRow}>
+                    Add New Row
+                </button>
+                <button
+                    type="button"
+                    onClick={duplicateSelectedRows}
+                    style={{ marginLeft: '10px' }}
+                >
+                    Duplicate Selected
+                </button>
+                <button
+                    type="button"
+                    onClick={deleteSelectedRows}
+                    style={{ marginLeft: '10px' }}
+                >
+                    Delete Selected
+                </button>
+            </div>
         </>
     );
 }
+
 export default Admin;
