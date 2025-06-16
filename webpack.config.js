@@ -3,10 +3,11 @@ const path = require('path');
 module.exports = (env, argv) => {
     return {
         mode: argv.mode || 'development',
-        entry: './spa/admin/Admin.jsx',
+        entry: './spa/admin/Main.jsx',
         output: {
-            filename: 'admin.js',
-            path: path.resolve(__dirname, 'assets/admin/build'),
+            path: path.resolve(__dirname, './assets/admin/dist'),
+            filename: 'bundle.js',
+            publicPath: '/',
         },
         module: {
             rules: [
@@ -16,7 +17,10 @@ module.exports = (env, argv) => {
                     use: {
                         loader: 'babel-loader',
                         options: {
-                            presets: ['@babel/preset-react'],
+                            presets: [
+                                '@babel/preset-react',
+                                '@babel/preset-env',
+                            ],
                         },
                     },
                 },

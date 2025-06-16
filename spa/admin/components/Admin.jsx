@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import ReactDOM from 'react-dom/client';
 
 function Admin() {
     const [rows, setRows] = useState([{ condition: 'Weight', cost: '' }]);
@@ -120,9 +119,4 @@ function Admin() {
         </>
     );
 }
-
-ReactDOM.createRoot(
-    document.getElementById('tpsm-shipping-rules-wrapper')
-).render(<Admin />);
-
 export default Admin;

@@ -125,7 +125,7 @@ class Settings {
         if ( 'woocommerce_page_' . 'wc-settings' === $screen ) {
             $this->enqueue_script(
                 'tpsm-settings-react',
-                TPSM_ASSETS_URL . '/admin/build/admin.js'
+                TPSM_ASSETS_URL . '/admin/dist/bundle.js'
             );
         }
     }

@@ -37,7 +37,7 @@ if ( !defined( 'ABSPATH' ) ) {
      * define all constant
      */
     private function define() {
-       define( "TPSM_DEVS", false ); // 'true' | is development mode on
+       define( "TPSM_DEVS", true ); // 'true' | is development mode on
 
        define( 'TPSM_PLUGIN_FILE', __FILE__ );
        define( 'TPSM_PLUGIN_VERSION', '1.0.3' );
