@@ -54,9 +54,10 @@ class RegisterShippingMethod extends WC_Shipping_Method {
 
         $this->id                   = self::ID;
         $this->instance_id          = absint( $instance_id );
-        $this->method_title         = 'Shipping Manager';
-        $this->enabled              = $this->is_enable();
         $this->title                = $this->method_name();
+        $this->method_title         = __( 'Shipping Manager', 'shipping-manager' );;
+        $this->method_description   = __( 'One solution for all shipping needs', 'shipping-manager' );;
+        $this->enabled              = $this->is_enable();
 
         $this->supports = array(
             'settings',
@@ -65,6 +66,13 @@ class RegisterShippingMethod extends WC_Shipping_Method {
         );
 
         $this->init();
+
+        $shipping_method_name   = $this->get_option( 'method_name', $this->method_title );
+        $shipping_method_desc   = $this->get_option( 'method_description', $this->method_description );
+
+        $this->title              = $shipping_method_name;
+        $this->method_title       = $shipping_method_name;
+        $this->method_description = $shipping_method_desc ;
     }
 
     /**
@@ -170,14 +178,14 @@ class RegisterShippingMethod extends WC_Shipping_Method {
      */
     public function calculate_shipping( $package = array() ) {
 
-        $shipping_method_name   = $this->get_option( 'method_name' );
-        $shipping_method_desc   = $this->get_option( 'method_description' );
+        
         $tax_status             = $this->get_option( 'tax_status' );
         $import_export          = $this->get_option( 'tpsm_hidden' );
 
         // Set the method title shown in checkout
-        $this->title                = $shipping_method_name;
-        $this->method_description   = $shipping_method_desc;
+        // $this->title                = $shipping_method_name;
+        // $this->method_title         = $shipping_method_name;
+        // $this->method_description   = $shipping_method_desc;
 
         $rate = array(
             'id'    => $this->id . ':' . $this->instance_id,
