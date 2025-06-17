@@ -36,7 +36,7 @@ final class App {
 		new Classes\Common();
 
 		//Load Pro features
-		new Classes\Pro();
+		// new Classes\Pro();
 
 		// Register shipping methods setup.
 		new Classes\Shipping\ShippingMethod();
