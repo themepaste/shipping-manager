@@ -62,6 +62,9 @@ function Admin() {
         );
     };
 
+    const conditionsValues = Object.keys(TPSM_ADMIN.shipping_rules_select);
+    const conditionsLabel = Object.values(TPSM_ADMIN.shipping_rules_select);
+
     return (
         <>
             <table className="tpsm-shipping-rule-table-wrapper">
@@ -108,11 +111,11 @@ function Admin() {
                                         )
                                     }
                                 >
-                                    <option value="always">Always</option>
-                                    <option value="total-price">
-                                        Total Price
-                                    </option>
-                                    <option value="Weight">Weight</option>
+                                    {conditionsValues.map((value, index) => (
+                                        <option value={value}>
+                                            {conditionsLabel[index]}
+                                        </option>
+                                    ))}
                                 </select>
                             </td>
                             <td>
