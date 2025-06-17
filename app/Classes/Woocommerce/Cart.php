@@ -49,10 +49,19 @@ class Cart {
             return;
         }
 
-        $conditions_data = $this->conditions_data;
+        // $conditions_data = $this->conditions_data;
+        $alwaysItems = $this->filterByCondition( $data, 'always' );
+        $costs = array_column( $alwaysItems, 'cost' );
+        $costs = array_map( 'floatval', $costs );
+        
+        // Sum all costs
+        return array_sum( $costs );
+    }
 
-
-        return '10';
+    function filterByCondition($data, $condition) {
+        return array_filter($data, function($item) use ($condition) {
+            return $item['condition'] === $condition;
+        });
     }
 
     /**
