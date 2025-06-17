@@ -24,20 +24,6 @@ class RegisterShippingMethod extends WC_Shipping_Method {
     const ID = 'shipping-manager';
 
     /**
-     * Shipping fees settings.
-     *
-     * @var array
-     */
-    public $tpsm_weight_settings;
-
-    /**
-     * Box shipping settings.
-     *
-     * @var array
-     */
-    public $tpsm_box_shipping_settings;
-
-    /**
      * General settings.
      *
      * @var array
@@ -49,15 +35,13 @@ class RegisterShippingMethod extends WC_Shipping_Method {
      */
     public function __construct( $instance_id = 0 ) {
         $this->tpsm_general_settings        = get_option( 'tpsm-general_settings' );
-        $this->tpsm_weight_settings         = tpsm_get_shipping_fees_settings();
-        $this->tpsm_box_shipping_settings   = tpsm_get_box_shipping_settings();
 
         $this->id                   = self::ID;
         $this->instance_id          = absint( $instance_id );
-        $this->title                = $this->method_name();
-        $this->method_title         = __( 'Shipping Manager', 'shipping-manager' );;
+        $this->title                = __( 'Shipping Manager', 'shipping-manager' );
+        $this->method_title         = __( 'Shipping Manager', 'shipping-manager' );
         $this->method_description   = __( 'One solution for all shipping needs', 'shipping-manager' );;
-        $this->enabled              = $this->is_enable();
+        $this->enabled              = 'yes';
 
         $this->supports = array(
             'settings',
@@ -152,12 +136,14 @@ class RegisterShippingMethod extends WC_Shipping_Method {
 					'none'    => _x( 'None', 'Tax status', 'shipping-manager' ),
 				),
 			),
+            //This is actual value that is need to be calucate to getting actual cost
             'tpsm_hidden' => array(
                 'title'       => 'Import/Export',
                 'type'        => 'text',
                 'default'     => '',
                 'description' => 'Import/Export the data',
             ),
+            //This is a div to show the react container
             'custom_repeater_ui' => array(
                 'type'        => 'title',
                 'title'       => 'Shipping Rules',
@@ -169,8 +155,6 @@ class RegisterShippingMethod extends WC_Shipping_Method {
 		$this->instance_form_fields = $fields;
 	}
 
-    
-
     /**
      * Calculate shipping cost.
      *
@@ -178,13 +162,13 @@ class RegisterShippingMethod extends WC_Shipping_Method {
      */
     public function calculate_shipping( $package = array() ) {
 
-        $tax_status             = $this->get_option( 'tax_status' );
-        $import_export          = $this->get_option( 'tpsm_hidden' );
+        $tax_status = $this->get_option( 'tax_status' );
+        $data       = $this->get_option( 'tpsm_hidden' ); // Here we get a json format all condition and data
 
         $rate = array(
-            // 'id'    => $this->id . ':' . $this->instance_id,
+            'id'    => $this->id . ':' . $this->instance_id,
             'label' => $this->title,
-            'cost'  => $this->get_tpsm_cost(),
+            'cost'  => $this->get_tpsm_cost( $data ),
         );
 
         if ( $this->is_tpsm_plugin_taxable() ) {
@@ -204,39 +188,40 @@ class RegisterShippingMethod extends WC_Shipping_Method {
      *
      * @return string
      */
-    private function method_name() {
-        return ! empty( $this->tpsm_general_settings['method-title'] )
-            ? $this->tpsm_general_settings['method-title']
-            : __( 'Shipping Manager', 'shipping-manager' );
-    }
+    // private function method_name() {
+    //     return ! empty( $this->tpsm_general_settings['method-title'] )
+    //         ? $this->tpsm_general_settings['method-title']
+    //         : __( 'Shipping Manager', 'shipping-manager' );
+    // }
 
     /**
      * Check if the shipping method is enabled.
      *
      * @return string 'yes' or 'no'
      */
-    private function is_enable() {
-        if( ! isset( $this->tpsm_general_settings['is-plugin-enable'] )  ) {
-            // initially its always true 
-            return 'yes';
-        }
-        else if ( ! empty( $this->tpsm_general_settings['is-plugin-enable'] ) ) {
-            return ( $this->tpsm_minimum_amount_setting() || $this->get_tpsm_cost() ) ? 'yes' : 'no';
-        }
-        return 'no';
-    }
+    // private function is_enable() {
+    //     if( ! isset( $this->tpsm_general_settings['is-plugin-enable'] )  ) {
+    //         // initially its always true 
+    //         return 'yes';
+    //     }
+    //     else if ( ! empty( $this->tpsm_general_settings['is-plugin-enable'] ) ) {
+    //         return ( $this->tpsm_minimum_amount_setting() || $this->get_tpsm_cost() ) ? 'yes' : 'no';
+    //     }
+    //     return 'no';
+    // }
 
     /**
      * Get the shipping cost.
      *
      * @return float
      */
-    private function get_tpsm_cost() {
-        if ( $this->tpsm_minimum_amount_setting() ) {
-            return 0;
-        } else {
-            return apply_filters( 'tpsm_shipping_fees_cost', 0 );
-        }
+    private function get_tpsm_cost( $data ) {
+        // if ( $this->tpsm_minimum_amount_setting() ) {
+        //     return 0;
+        // } else {
+        //     return apply_filters( 'tpsm_shipping_fees_cost', 0 );
+        // }
+        return apply_filters( 'tpsm_shipping_fees_cost', $data );
     }
 
     /**
