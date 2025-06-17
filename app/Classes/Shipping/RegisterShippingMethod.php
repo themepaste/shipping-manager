@@ -216,6 +216,7 @@ class RegisterShippingMethod extends WC_Shipping_Method {
      * @return float
      */
     private function get_tpsm_cost( $data ) {
+        
         // if ( $this->tpsm_minimum_amount_setting() ) {
         //     return 0;
         // } else {

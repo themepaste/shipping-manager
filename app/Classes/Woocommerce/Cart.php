@@ -38,60 +38,16 @@ class Cart {
         $this->filter( 'tpsm_shipping_fees_cost', [ $this, 'shipping_fees_cost' ] );
     }
 
-    /**
-     * Calculates the shipping cost based on total weight of the cart.
-     *
-     * This function is hooked into the 'tpsm_shipping_fees_cost' filter and modifies
-     * the shipping cost using a flat rate per weight unit (e.g., per kg/lb).
-     *
-     * @param float $cost The existing shipping cost passed by the filter.
-     *
-     * @return float The modified shipping cost based on total weight.
-     */
-    public function shipping_fees_cost( $cost ) {
-        $shipping_fee = 0;
-        $cart = WC()->cart;
+    
+    public function shipping_fees_cost( $data ) {
 
-        // Return original cost if cart is not available (e.g., not loaded yet)
-        if ( is_null( $cart ) ) {
-            return $cost;
+        $data = json_decode( $data, true );
+
+        if( ! is_array( $data ) && empty( $data ) ) {
+            return;
         }
 
-        // Get total weight of products in the cart
-        $total_weight = $this->cart_total_product_weights( $cart );
-        $total_dimension_cost = $this->cart_total_dimension_fee( $cart );
-
-        // Get custom shipping fee settings from plugin options
-        $shipping_fees_settings = $this->shipping_fees_settings;
-        $shipping_fees_type     = $shipping_fees_settings['type'] ?? '';
-        $cost_per_unit          = $shipping_fees_settings['flat-rate'] ?? 0;
-        $weight_range_price     = $shipping_fees_settings['weight-range-price'] ?? [];
-        $is_shipping_fees_enabled = $shipping_fees_settings['enabled'] ?? false;
-
-        if( 'tpsm-unit-weight-fee' == $shipping_fees_type && $is_shipping_fees_enabled ) {
-            // Only calculate new cost if both weight and cost/unit are valid
-            if ( $total_weight && $cost_per_unit ) {
-                $cost = $cost_per_unit * $total_weight;
-                $shipping_fee += $cost;
-            }
-        } 
-        else if( 'tpsm-weight-range-fee' == $shipping_fees_type && $is_shipping_fees_enabled ) {
-            if( ! empty( $weight_range_price ) ) {
-                foreach ( $weight_range_price as $key => $value) {
-                    if( $value['from'] <= $total_weight && $total_weight <= $value['to'] ) {
-                        $shipping_fee += $value['fee'];
-                    } 
-                }
-            }
-        }
-
-        $is_box_shipping_enabled = $this->box_shipping_settings['enabled'] ?? false;
-        
-        if( $is_box_shipping_enabled ) {
-            $shipping_fee += $total_dimension_cost;
-        }
-
-        return $shipping_fee;
+        return '10';
     }
 
     /**
