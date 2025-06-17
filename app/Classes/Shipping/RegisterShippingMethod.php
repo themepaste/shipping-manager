@@ -118,22 +118,30 @@ class RegisterShippingMethod extends WC_Shipping_Method {
 
 		// Start the array of fields.
 		$fields = array(
-			'title1243'      => array(
-				'title'       => __( 'Name', 'your_text_domain' ),
+			'method_name'      => array(
+				'title'       => __( 'Method Name', 'shipping-manager' ),
 				'type'        => 'text',
-				'description' => __( 'Your customers will see the name of this shipping method during checkout.', 'your_text_domain' ),
-				'default'     => __( 'Your shipping method', 'your_text_domain' ),
-				'placeholder' => __( 'e.g. Standard national', 'your_text_domain' ),
+				'description' => __( 'Your customers will see the name of this shipping method during checkout.', 'shipping-manager' ),
+				'default'     => __( 'Shipping Manager', 'shipping-manager' ),
+				'placeholder' => __( 'e.g. Standard national', 'shipping-manager' ),
+				'desc_tip'    => true,
+			),
+            'method_description'      => array(
+				'title'       => __( 'Method Description', 'shipping-manager' ),
+				'type'        => 'text',
+				'description' => __( 'Your customers will see the description of this shipping method during checkout.', 'shipping-manager' ),
+				'default'     => __( 'Shipping Manager Description', 'shipping-manager' ),
+				'placeholder' => __( 'e.g. Standard national', 'shipping-manager' ),
 				'desc_tip'    => true,
 			),
 			'tax_status' => array(
-				'title'   => __( 'Tax status', 'your_text_domain' ),
+				'title'   => __( 'Tax status', 'shipping-manager' ),
 				'type'    => 'select',
 				'class'   => 'wc-enhanced-select',
 				'default' => 'taxable',
 				'options' => array(
-					'taxable' => __( 'Taxable', 'your_text_domain' ),
-					'none'    => _x( 'None', 'Tax status', 'your_text_domain' ),
+					'taxable' => __( 'Taxable', 'shipping-manager' ),
+					'none'    => _x( 'None', 'Tax status', 'shipping-manager' ),
 				),
 			),
             'tpsm_hidden' => array(
@@ -162,9 +170,14 @@ class RegisterShippingMethod extends WC_Shipping_Method {
      */
     public function calculate_shipping( $package = array() ) {
 
-        $shipping_method_name = $this->get_option( 'title1243' );
-        $tax_status = $this->get_option( 'tax_status' );
-        $import_export = $this->get_option( 'tpsm_hidden' );
+        $shipping_method_name   = $this->get_option( 'method_name' );
+        $shipping_method_desc   = $this->get_option( 'method_description' );
+        $tax_status             = $this->get_option( 'tax_status' );
+        $import_export          = $this->get_option( 'tpsm_hidden' );
+
+        // Set the method title shown in checkout
+        $this->title                = $shipping_method_name;
+        $this->method_description   = $shipping_method_desc;
 
         $rate = array(
             'id'    => $this->id . ':' . $this->instance_id,
