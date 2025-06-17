@@ -178,20 +178,13 @@ class RegisterShippingMethod extends WC_Shipping_Method {
      */
     public function calculate_shipping( $package = array() ) {
 
-        
         $tax_status             = $this->get_option( 'tax_status' );
         $import_export          = $this->get_option( 'tpsm_hidden' );
 
-        // Set the method title shown in checkout
-        // $this->title                = $shipping_method_name;
-        // $this->method_title         = $shipping_method_name;
-        // $this->method_description   = $shipping_method_desc;
-
         $rate = array(
-            'id'    => $this->id . ':' . $this->instance_id,
+            // 'id'    => $this->id . ':' . $this->instance_id,
             'label' => $this->title,
-            // 'cost'  => $this->get_tpsm_cost(),
-            'cost'  => '30.00',
+            'cost'  => $this->get_tpsm_cost(),
         );
 
         if ( $this->is_tpsm_plugin_taxable() ) {
