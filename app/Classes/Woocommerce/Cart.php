@@ -50,16 +50,40 @@ class Cart {
         }
 
         // $conditions_data = $this->conditions_data;
-        $alwaysItems = $this->filterByCondition( $data, 'always' );
-        $costs = array_column( $alwaysItems, 'cost' );
-        $costs = array_map( 'floatval', $costs );
+        $alwaysItems        = $this->filterByCondition( $data, 'always' );
+        $totalPriceItems    = $this->filterByCondition( $data, 'total-price' );
+        $weightItems        = $this->filterByCondition( $data, 'weight' );
+
+        $always_shipping_cost       = $this->get_shipping_cost_for_always( $alwaysItems );
+        $cart_total_shipping_cost   = $this->get_shipping_cost_for_total_price( $totalPriceItems );
         
         // Sum all costs
+        return $cart_total_shipping_cost + $always_shipping_cost;
+    }
+
+    private function get_shipping_cost_for_total_price( $items ) {
+
+        $total = (float) WC()->cart->get_total( 'edit' );
+        $cost = 0;
+
+        foreach ( $items as $item ) {
+            if( $total <= $item['max'] && $total >= $item['min'] ) {
+                $cost += $item['cost'];
+            }
+        }
+
+        return $cost;
+    }
+
+    private function get_shipping_cost_for_always( $items ) {
+        $costs = array_column( $items, 'cost' );
+        $costs = array_map( 'floatval', $costs );
+
         return array_sum( $costs );
     }
 
-    function filterByCondition($data, $condition) {
-        return array_filter($data, function($item) use ($condition) {
+    function filterByCondition( $data, $condition ) {
+        return array_filter( $data, function( $item ) use ( $condition ) {
             return $item['condition'] === $condition;
         });
     }
