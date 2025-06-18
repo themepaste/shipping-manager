@@ -66,7 +66,7 @@ class Cart {
         $shipping_cost = $cart_total_price_shipping_cost + $always_shipping_cost + $cart_total_weight_shipping_cost;
         
         // Sum all costs
-        return $cart_total_weight_shipping_cost;
+        return $shipping_cost;
     }
 
     private function get_shipping_cost_for_total_price( $items ) {
