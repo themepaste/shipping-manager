@@ -44,8 +44,13 @@ class Cart {
     public function shipping_fees_cost( $data ) {
 
         $data = json_decode( $data, true );
+        $cart = WC()->cart;
 
         if( ! is_array( $data ) && empty( $data ) ) {
+            return;
+        }
+
+        if ( is_null( $cart ) ) {
             return;
         }
 
@@ -54,16 +59,25 @@ class Cart {
         $totalPriceItems    = $this->filterByCondition( $data, 'total-price' );
         $weightItems        = $this->filterByCondition( $data, 'weight' );
 
-        $always_shipping_cost       = $this->get_shipping_cost_for_always( $alwaysItems );
-        $cart_total_shipping_cost   = $this->get_shipping_cost_for_total_price( $totalPriceItems );
+        $always_shipping_cost               = $this->get_shipping_cost_for_always( $alwaysItems );
+        $cart_total_price_shipping_cost     = $this->get_shipping_cost_for_total_price( $totalPriceItems );
+        $cart_total_weight_shipping_cost    = $this->get_shipping_cost_for_total_weight( $weightItems ); 
+
+        $shipping_cost = $cart_total_price_shipping_cost + $always_shipping_cost + $cart_total_weight_shipping_cost;
         
         // Sum all costs
-        return $cart_total_shipping_cost + $always_shipping_cost;
+        return $cart_total_weight_shipping_cost;
     }
 
     private function get_shipping_cost_for_total_price( $items ) {
+        
+        $cart = WC()->cart;
 
-        $total = (float) WC()->cart->get_total( 'edit' );
+        if ( is_null( $cart ) || empty( $items ) ) {
+            return;
+        }
+
+        $total = (float) $cart->get_total( 'edit' );
         $cost = 0;
 
         foreach ( $items as $item ) {
@@ -75,7 +89,34 @@ class Cart {
         return $cost;
     }
 
+    private function get_shipping_cost_for_total_weight( $items ) {
+
+        $cart = WC()->cart;
+
+        if ( is_null( $cart ) || empty( $items ) ) {
+            return;
+        }
+
+        $weight = $this->cart_total_product_weights();
+        
+        $cost = 0;
+        foreach ( $items as $item ) {
+            if( $weight <= $item['max'] && $weight >= $item['min'] ) {
+                $cost += $item['cost'];
+            }
+        }
+
+        return $cost;
+    }
+
     private function get_shipping_cost_for_always( $items ) {
+
+        $cart = WC()->cart;
+
+        if ( is_null( $cart ) || empty( $items ) ) {
+            return;
+        }
+
         $costs = array_column( $items, 'cost' );
         $costs = array_map( 'floatval', $costs );
 
@@ -93,11 +134,10 @@ class Cart {
      *
      * Skips products with no weight set (null, empty, or zero).
      *
-     * @param \WC_Cart $cart The WooCommerce cart object.
-     *
      * @return float The total weight of all products in the cart.
      */
-    private function cart_total_product_weights( $cart ) {
+    private function cart_total_product_weights( ) {
+        $cart = WC()->cart;
         $total_weight = 0;
 
         foreach ( $cart->get_cart() as $cart_item ) {
