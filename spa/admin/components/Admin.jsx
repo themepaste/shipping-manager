@@ -12,26 +12,8 @@ function Admin() {
     const conditionsLabel = Object.values(TPSM_ADMIN.shipping_rules_select);
 
     console.log(TPSM_ADMIN);
-    const classOptions = [
-        { value: 'class-1', label: 'Class 1' },
-        { value: 'class-2', label: 'Class 2' },
-        { value: 'class-3', label: 'Class 3' },
-        { value: 'class-4', label: 'Class 4' },
-    ];
+    const classOptions = TPSM_ADMIN.wc_shipping_classess;
 
-    // useEffect(() => {
-    //     const hiddenField = document.getElementById(
-    //         'woocommerce_shipping-manager_tpsm_hidden'
-    //     );
-    //     if (hiddenField && hiddenField.value) {
-    //         try {
-    //             const parsed = JSON.parse(hiddenField.value);
-    //             setRows(parsed);
-    //         } catch (e) {
-    //             console.error('Invalid JSON in hidden field');
-    //         }
-    //     }
-    // }, []);
     useEffect(() => {
         const hiddenField = document.getElementById(
             'woocommerce_shipping-manager_tpsm_hidden'

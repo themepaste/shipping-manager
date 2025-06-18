@@ -139,8 +139,21 @@ class Settings {
             'weight_unit'       => get_option( 'woocommerce_weight_unit' ), // e.g., 'kg', 'g', 'lbs'
         ]; 
         $this->localize_data['shipping_rules_select'] = $this->conditions_data;
+        $this->localize_data['wc_shipping_classess'] = $this->get_all_wc_classes();
 
         $this->localize_script( 'tpsm-settings-react', 'TPSM_ADMIN', $this->localize_data );
+    }
+
+    private function get_all_wc_classes() {
+        $shipping_classes = WC()->shipping()->get_shipping_classes();
+        $new_shipping_class = [];
+        foreach ( $shipping_classes as $shipping_class ) {
+            $new_shipping_class[] = [
+                'value' => $shipping_class->slug,
+                'label' => $shipping_class->name,
+            ];
+        }
+        return $new_shipping_class;
     }
 
     /**
