@@ -59,6 +59,7 @@ class Cart {
         $totalPriceItems    = $this->filterByCondition( $data, 'total-price' );
         $subTotalPriceItems = $this->filterByCondition( $data, 'sub-total-price' );
         $weightItems        = $this->filterByCondition( $data, 'weight' );
+        $shipping_callsestItems = $this->filterByCondition( $data, 'shipping-class' );
 
         $always_shipping_cost               = $this->get_shipping_cost_for_always( $alwaysItems );
         $cart_total_price_shipping_cost     = $this->get_shipping_cost_for_total_price( $totalPriceItems );
