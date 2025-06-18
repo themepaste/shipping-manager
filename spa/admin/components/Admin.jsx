@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import parse from 'html-react-parser';
+import Select from 'react-select';
 
 function Admin() {
     const [rows, setRows] = useState([
@@ -11,7 +12,26 @@ function Admin() {
     const conditionsLabel = Object.values(TPSM_ADMIN.shipping_rules_select);
 
     console.log(TPSM_ADMIN);
+    const classOptions = [
+        { value: 'class-1', label: 'Class 1' },
+        { value: 'class-2', label: 'Class 2' },
+        { value: 'class-3', label: 'Class 3' },
+        { value: 'class-4', label: 'Class 4' },
+    ];
 
+    // useEffect(() => {
+    //     const hiddenField = document.getElementById(
+    //         'woocommerce_shipping-manager_tpsm_hidden'
+    //     );
+    //     if (hiddenField && hiddenField.value) {
+    //         try {
+    //             const parsed = JSON.parse(hiddenField.value);
+    //             setRows(parsed);
+    //         } catch (e) {
+    //             console.error('Invalid JSON in hidden field');
+    //         }
+    //     }
+    // }, []);
     useEffect(() => {
         const hiddenField = document.getElementById(
             'woocommerce_shipping-manager_tpsm_hidden'
@@ -19,12 +39,23 @@ function Admin() {
         if (hiddenField && hiddenField.value) {
             try {
                 const parsed = JSON.parse(hiddenField.value);
-                setRows(parsed);
+                // Ensure 'multi' is added if missing
+                const normalized = parsed.map((row) => ({
+                    ...row,
+                    multi: row.multi || [],
+                }));
+                setRows(normalized);
             } catch (e) {
                 console.error('Invalid JSON in hidden field');
             }
         }
     }, []);
+
+    const handleMultiSelectChange = (index, selectedOptions) => {
+        const updatedRows = [...rows];
+        updatedRows[index].multi = selectedOptions.map((opt) => opt.value);
+        setRows(updatedRows);
+    };
 
     useEffect(() => {
         const hiddenField = document.getElementById(
@@ -44,7 +75,13 @@ function Admin() {
     const addRow = () => {
         setRows([
             ...rows,
-            { condition: conditionsValues[0], cost: '', min: '', max: '' },
+            {
+                condition: conditionsValues[0],
+                cost: '',
+                min: '',
+                max: '',
+                multi: [],
+            },
         ]);
     };
 
@@ -232,6 +269,22 @@ function Admin() {
                                             }
                                         />
                                     </>
+                                )}
+                                {row.condition === 'shipping-class' && (
+                                    <Select
+                                        options={classOptions}
+                                        isMulti
+                                        placeholder="Select classes..."
+                                        value={classOptions.filter((opt) =>
+                                            row.multi.includes(opt.value)
+                                        )}
+                                        onChange={(selectedOptions) =>
+                                            handleMultiSelectChange(
+                                                index,
+                                                selectedOptions
+                                            )
+                                        }
+                                    />
                                 )}
                             </td>
 
