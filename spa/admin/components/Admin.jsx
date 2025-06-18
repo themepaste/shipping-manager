@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from 'react';
+import parse from 'html-react-parser';
 
 function Admin() {
-    const [rows, setRows] = useState([{ condition: 'Weight', cost: '' }]);
+    const [rows, setRows] = useState([
+        { condition: 'Weight', cost: '', min: '', max: '' },
+    ]);
     const [selectedRows, setSelectedRows] = useState([]);
 
     const conditionsValues = Object.keys(TPSM_ADMIN.shipping_rules_select);
     const conditionsLabel = Object.values(TPSM_ADMIN.shipping_rules_select);
+
+    console.log(TPSM_ADMIN);
 
     useEffect(() => {
         const hiddenField = document.getElementById(
@@ -37,7 +42,10 @@ function Admin() {
     };
 
     const addRow = () => {
-        setRows([...rows, { condition: conditionsValues[0], cost: '' }]);
+        setRows([
+            ...rows,
+            { condition: conditionsValues[0], cost: '', min: '', max: '' },
+        ]);
     };
 
     const deleteRow = (index) => {
@@ -112,13 +120,89 @@ function Admin() {
                                     }
                                 >
                                     {conditionsValues.map((value, index) => (
-                                        <option value={value}>
+                                        <option key={index} value={value}>
                                             {conditionsLabel[index]}
                                         </option>
                                     ))}
                                 </select>
+                                {row.condition === 'total-price' && (
+                                    <>
+                                        {parse(
+                                            TPSM_ADMIN.woocommerce_data
+                                                .currency_symbol
+                                        )}
+                                        <input
+                                            type="number"
+                                            placeholder="Min"
+                                            value={row.min}
+                                            onChange={(e) =>
+                                                handleRowChange(
+                                                    index,
+                                                    'min',
+                                                    e.target.value
+                                                )
+                                            }
+                                        />
+                                        {parse(
+                                            TPSM_ADMIN.woocommerce_data
+                                                .currency_symbol
+                                        )}
+                                        <input
+                                            type="number"
+                                            placeholder="Max"
+                                            value={row.max}
+                                            onChange={(e) =>
+                                                handleRowChange(
+                                                    index,
+                                                    'max',
+                                                    e.target.value
+                                                )
+                                            }
+                                        />
+                                    </>
+                                )}
+                                {row.condition === 'weight' && (
+                                    <>
+                                        {parse(
+                                            TPSM_ADMIN.woocommerce_data
+                                                .weight_unit
+                                        )}
+                                        <input
+                                            type="number"
+                                            placeholder="Min"
+                                            value={row.min}
+                                            onChange={(e) =>
+                                                handleRowChange(
+                                                    index,
+                                                    'min',
+                                                    e.target.value
+                                                )
+                                            }
+                                        />
+                                        {parse(
+                                            TPSM_ADMIN.woocommerce_data
+                                                .weight_unit
+                                        )}
+                                        <input
+                                            type="number"
+                                            placeholder="Max"
+                                            value={row.max}
+                                            onChange={(e) =>
+                                                handleRowChange(
+                                                    index,
+                                                    'max',
+                                                    e.target.value
+                                                )
+                                            }
+                                        />
+                                    </>
+                                )}
                             </td>
+
                             <td>
+                                {parse(
+                                    TPSM_ADMIN.woocommerce_data.currency_symbol
+                                )}
                                 <input
                                     type="number"
                                     value={row.cost}

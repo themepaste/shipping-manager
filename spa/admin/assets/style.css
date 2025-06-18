@@ -7,8 +7,9 @@
 .tpsm-shipping-rule-table-wrapper tr th {
     border-bottom: 1px solid #ddd;
     padding-bottom: 30px;
+    text-align: left;
 }
 .tpsm-shipping-rule-table-wrapper tr td {
-    text-align: center;
+    text-align: left;
     padding: 10px 0;
 }
