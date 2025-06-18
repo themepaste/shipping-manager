@@ -57,16 +57,37 @@ class Cart {
         // $conditions_data = $this->conditions_data;
         $alwaysItems        = $this->filterByCondition( $data, 'always' );
         $totalPriceItems    = $this->filterByCondition( $data, 'total-price' );
+        $subTotalPriceItems = $this->filterByCondition( $data, 'sub-total-price' );
         $weightItems        = $this->filterByCondition( $data, 'weight' );
 
         $always_shipping_cost               = $this->get_shipping_cost_for_always( $alwaysItems );
         $cart_total_price_shipping_cost     = $this->get_shipping_cost_for_total_price( $totalPriceItems );
+        $cart_subtotal_price_shipping_cost  = $this->get_shipping_cost_for_subtotal_price( $subTotalPriceItems );
         $cart_total_weight_shipping_cost    = $this->get_shipping_cost_for_total_weight( $weightItems ); 
 
-        $shipping_cost = $cart_total_price_shipping_cost + $always_shipping_cost + $cart_total_weight_shipping_cost;
+        $shipping_cost = $cart_total_price_shipping_cost + $always_shipping_cost + $cart_total_weight_shipping_cost + $cart_subtotal_price_shipping_cost;
         
         // Sum all costs
         return $shipping_cost;
+    }
+
+    private function get_shipping_cost_for_subtotal_price( $items ) {
+        $cart = WC()->cart;
+
+        if ( is_null( $cart ) || empty( $items ) ) {
+            return;
+        }
+
+        $subtotal = WC()->cart->get_subtotal( $items );
+        $cost = 0;
+
+        foreach ( $items as $item ) {
+            if( $subtotal <= $item['max'] && $subtotal >= $item['min'] ) {
+                $cost += $item['cost'];
+            }
+        }
+
+        return $cost;
     }
 
     private function get_shipping_cost_for_total_price( $items ) {

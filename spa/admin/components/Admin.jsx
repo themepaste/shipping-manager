@@ -161,6 +161,42 @@ function Admin() {
                                         />
                                     </>
                                 )}
+                                {row.condition === 'sub-total-price' && (
+                                    <>
+                                        {parse(
+                                            TPSM_ADMIN.woocommerce_data
+                                                .currency_symbol
+                                        )}
+                                        <input
+                                            type="number"
+                                            placeholder="Min"
+                                            value={row.min}
+                                            onChange={(e) =>
+                                                handleRowChange(
+                                                    index,
+                                                    'min',
+                                                    e.target.value
+                                                )
+                                            }
+                                        />
+                                        {parse(
+                                            TPSM_ADMIN.woocommerce_data
+                                                .currency_symbol
+                                        )}
+                                        <input
+                                            type="number"
+                                            placeholder="Max"
+                                            value={row.max}
+                                            onChange={(e) =>
+                                                handleRowChange(
+                                                    index,
+                                                    'max',
+                                                    e.target.value
+                                                )
+                                            }
+                                        />
+                                    </>
+                                )}
                                 {row.condition === 'weight' && (
                                     <>
                                         {parse(
