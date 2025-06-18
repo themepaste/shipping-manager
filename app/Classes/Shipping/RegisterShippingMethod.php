@@ -92,7 +92,7 @@ class RegisterShippingMethod extends WC_Shipping_Method {
                 'type'        => 'title',
                 'description' => 
                     '<a href="' . esc_url( $plugin_settings_url ) . '" class="button button-primary" style="margin-right: 10px;">' . 
-                        esc_html__( 'Global Plugin Settings', 'shipping-manager' ) . 
+                        esc_html__( 'Plugin Settings', 'shipping-manager' ) . 
                     '</a>' .
                     '<a href="' . esc_url( $shipping_zones_url ) . '" class="button button-secondary">' . 
                         esc_html__( 'Zone Specific Settings', 'shipping-manager' ) . 
