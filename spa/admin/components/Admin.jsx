@@ -4,6 +4,9 @@ function Admin() {
     const [rows, setRows] = useState([{ condition: 'Weight', cost: '' }]);
     const [selectedRows, setSelectedRows] = useState([]);
 
+    const conditionsValues = Object.keys(TPSM_ADMIN.shipping_rules_select);
+    const conditionsLabel = Object.values(TPSM_ADMIN.shipping_rules_select);
+
     useEffect(() => {
         const hiddenField = document.getElementById(
             'woocommerce_shipping-manager_tpsm_hidden'
@@ -34,7 +37,7 @@ function Admin() {
     };
 
     const addRow = () => {
-        setRows([...rows, { condition: '', cost: '' }]);
+        setRows([...rows, { condition: conditionsValues[0], cost: '' }]);
     };
 
     const deleteRow = (index) => {
@@ -61,9 +64,6 @@ function Admin() {
                 : [...prev, index]
         );
     };
-
-    const conditionsValues = Object.keys(TPSM_ADMIN.shipping_rules_select);
-    const conditionsLabel = Object.values(TPSM_ADMIN.shipping_rules_select);
 
     return (
         <>
