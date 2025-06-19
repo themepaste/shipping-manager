@@ -76,12 +76,16 @@ class Logic {
         $cart_subtotal_price_cost  = $this->get_shipping_cost_for_subtotal_price( $sub_total_price_items );
         $per_weight_unit_cost      = $this->get_shipping_cost_for_per_weight_unit( $per_weight_unit_items );
         $cart_total_weight_cost    = $this->get_shipping_cost_for_total_weight( $total_weight_items );
-        $ 
+        $shipping_classes_cost     = $this->get_shippng_cost_for_shipping_classes( $shipping_classes_items );
 
         $shipping_cost = $flat_rate_cost + $cart_total_price_cost + $cart_subtotal_price_cost + $cart_total_weight_cost + $per_weight_unit_cost;
         
         // Sum all costs
         return $shipping_cost;
+    }
+
+    private function get_shippng_cost_for_shipping_classes( $items ) {
+
     }
 
     /**
@@ -289,6 +293,46 @@ class Logic {
         }
     
         return $total_fee;
+    }
+
+    /**
+     * Get all unique shipping classes in the cart.
+     *
+     * Loops through all cart items and gets their shipping class IDs.
+     * Then, it gets the shipping class object for each ID and adds the slug to an array.
+     * Finally, it returns the array of unique shipping classes.
+     *
+     * @return string[] An array of unique shipping classes in the cart.
+     */
+    private function get_unique_shipping_classes_in_cart() {
+
+        $cart = WC()->cart;
+
+        if ( is_null( $cart ) ) {
+            return;
+        }
+
+        $cart_items = $cart->get_cart();
+        $shipping_classes = [];
+
+        foreach ( $cart_items as $cart_item ) {
+            $product = $cart_item['data'];
+
+            if ( $product->needs_shipping() ) {
+                $shipping_class_id = $product->get_shipping_class_id();
+
+                if ( $shipping_class_id ) {
+                    $shipping_class = get_term( $shipping_class_id, 'product_shipping_class' );
+
+                    if ( $shipping_class && ! is_wp_error( $shipping_class ) ) {
+                        $shipping_classes[] = $shipping_class->slug;
+                    }
+                }
+            }
+        }
+
+        // Return unique shipping classes
+        return array_unique( $shipping_classes );
     }
 }
 
