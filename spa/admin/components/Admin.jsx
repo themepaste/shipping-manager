@@ -370,6 +370,12 @@ function Admin() {
                                                     selectedOptions
                                                 )
                                             }
+                                            styles={{
+                                                container: (base) => ({
+                                                    ...base,
+                                                    minWidth: '200px',
+                                                }),
+                                            }}
                                         />
                                     )}
                                 </td>
@@ -390,6 +396,7 @@ function Admin() {
                                                     e.target.value
                                                 )
                                             }
+                                            placeholder="10.00"
                                         />
                                     </div>
                                 </td>
