@@ -9,19 +9,19 @@ use ThemePaste\ShippingManager\Traits\Asset;
 use ThemePaste\ShippingManager\Traits\Hook;
 
 /**
- * Class Cart
+ * Class Logic
  *
  * Handles custom shipping fee calculations based on cart total weight.
  *
  * @package ThemePaste\ShippingManager\Classes\Woocommerce
  */
-class Cart {
+class Logic {
 
     use Hook;
     use Asset;
 
-    public $shipping_fees_settings;
-    public $box_shipping_settings;
+    // public $shipping_fees_settings;
+    // public $box_shipping_settings;
     public $free_shipping_settings;
 
     /**
@@ -30,8 +30,8 @@ class Cart {
      * Registers necessary filters/hooks.
      */
     public function __construct() {
-        $this->shipping_fees_settings   = tpsm_get_shipping_fees_settings();
-        $this->box_shipping_settings    = tpsm_get_box_shipping_settings();
+        // $this->shipping_fees_settings   = tpsm_get_shipping_fees_settings();
+        // $this->box_shipping_settings    = tpsm_get_box_shipping_settings();
         $this->free_shipping_settings   = tpsm_get_free_shipping_settings();
 
         new FreeShipping( $this->free_shipping_settings );
@@ -69,13 +69,14 @@ class Cart {
         $sub_total_price_items  = $this->dataFilterByConditionName( $data, 'tpsm-sub-total-price' );
         $per_weight_unit_items  = $this->dataFilterByConditionName( $data, 'tpsm-per-weight-unit' );
         $total_weight_items     = $this->dataFilterByConditionName( $data, 'tpsm-total-weight' );
-        $shipping_callsestItems = $this->dataFilterByConditionName( $data, 'shipping-class' );
+        $shipping_classes_items = $this->dataFilterByConditionName( $data, 'tpsm-shipping-class' );
 
         $flat_rate_cost            = $this->get_shipping_cost_for_flat_rate( $flat_rate_items );
         $cart_total_price_cost     = $this->get_shipping_cost_for_total_price( $total_price_items );
         $cart_subtotal_price_cost  = $this->get_shipping_cost_for_subtotal_price( $sub_total_price_items );
         $per_weight_unit_cost      = $this->get_shipping_cost_for_per_weight_unit( $per_weight_unit_items );
-        $cart_total_weight_cost    = $this->get_shipping_cost_for_total_weight( $total_weight_items ); 
+        $cart_total_weight_cost    = $this->get_shipping_cost_for_total_weight( $total_weight_items );
+        $ 
 
         $shipping_cost = $flat_rate_cost + $cart_total_price_cost + $cart_subtotal_price_cost + $cart_total_weight_cost + $per_weight_unit_cost;
         

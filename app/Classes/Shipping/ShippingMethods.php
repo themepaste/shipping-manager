@@ -7,7 +7,7 @@ defined( 'ABSPATH' ) || exit;
 use ThemePaste\ShippingManager\Helpers\Utility;
 use ThemePaste\ShippingManager\Traits\Asset;
 use ThemePaste\ShippingManager\Traits\Hook;
-use ThemePaste\ShippingManager\Classes\Woocommerce\Cart;
+use ThemePaste\ShippingManager\Classes\Woocommerce\Logic;
 
 /**
  * Class ShippingMethod
@@ -16,7 +16,7 @@ use ThemePaste\ShippingManager\Classes\Woocommerce\Cart;
  *
  * @package ThemePaste\ShippingManager\Classes\Shipping
  */
-class ShippingMethod {
+class ShippingMethods {
 
     use Hook;
     use Asset;
@@ -29,7 +29,7 @@ class ShippingMethod {
      * @return void
      */
     public function __construct() {
-        $cart = new Cart();
+        $cart = new Logic();
         $this->filter( 'woocommerce_shipping_methods', [ $this, 'shipping_method' ] );
     }
 
