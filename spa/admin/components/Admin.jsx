@@ -236,111 +236,123 @@ function Admin() {
 
                                     {row.condition === 'tpsm-total-price' && (
                                         <>
-                                            {parse(
-                                                TPSM_ADMIN.woocommerce_data
-                                                    .currency_symbol
-                                            )}
-                                            <input
-                                                type="number"
-                                                placeholder="Min"
-                                                value={row.min}
-                                                onChange={(e) =>
-                                                    handleRowChange(
-                                                        index,
-                                                        'min',
-                                                        e.target.value
-                                                    )
-                                                }
-                                            />
-                                            {parse(
-                                                TPSM_ADMIN.woocommerce_data
-                                                    .currency_symbol
-                                            )}
-                                            <input
-                                                type="number"
-                                                placeholder="Max"
-                                                value={row.max}
-                                                onChange={(e) =>
-                                                    handleRowChange(
-                                                        index,
-                                                        'max',
-                                                        e.target.value
-                                                    )
-                                                }
-                                            />
+                                            <div className="tpsm-max-min-field-wrapper">
+                                                {parse(
+                                                    TPSM_ADMIN.woocommerce_data
+                                                        .currency_symbol
+                                                )}
+                                                <input
+                                                    type="number"
+                                                    placeholder="Min"
+                                                    value={row.min}
+                                                    onChange={(e) =>
+                                                        handleRowChange(
+                                                            index,
+                                                            'min',
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                />
+                                            </div>
+                                            <div className="tpsm-max-min-field-wrapper">
+                                                {parse(
+                                                    TPSM_ADMIN.woocommerce_data
+                                                        .currency_symbol
+                                                )}
+                                                <input
+                                                    type="number"
+                                                    placeholder="Max"
+                                                    value={row.max}
+                                                    onChange={(e) =>
+                                                        handleRowChange(
+                                                            index,
+                                                            'max',
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                />
+                                            </div>
                                         </>
                                     )}
                                     {row.condition ===
                                         'tpsm-sub-total-price' && (
                                         <>
-                                            {parse(
-                                                TPSM_ADMIN.woocommerce_data
-                                                    .currency_symbol
-                                            )}
-                                            <input
-                                                type="number"
-                                                placeholder="Min"
-                                                value={row.min}
-                                                onChange={(e) =>
-                                                    handleRowChange(
-                                                        index,
-                                                        'min',
-                                                        e.target.value
-                                                    )
-                                                }
-                                            />
-                                            {parse(
-                                                TPSM_ADMIN.woocommerce_data
-                                                    .currency_symbol
-                                            )}
-                                            <input
-                                                type="number"
-                                                placeholder="Max"
-                                                value={row.max}
-                                                onChange={(e) =>
-                                                    handleRowChange(
-                                                        index,
-                                                        'max',
-                                                        e.target.value
-                                                    )
-                                                }
-                                            />
+                                            <div className="tpsm-max-min-field-wrapper">
+                                                {parse(
+                                                    TPSM_ADMIN.woocommerce_data
+                                                        .currency_symbol
+                                                )}
+                                                <input
+                                                    type="number"
+                                                    placeholder="Min"
+                                                    value={row.min}
+                                                    onChange={(e) =>
+                                                        handleRowChange(
+                                                            index,
+                                                            'min',
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                />
+                                            </div>
+                                            <div className="tpsm-max-min-field-wrapper">
+                                                {parse(
+                                                    TPSM_ADMIN.woocommerce_data
+                                                        .currency_symbol
+                                                )}
+                                                <input
+                                                    type="number"
+                                                    placeholder="Max"
+                                                    value={row.max}
+                                                    onChange={(e) =>
+                                                        handleRowChange(
+                                                            index,
+                                                            'max',
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                />
+                                            </div>
                                         </>
                                     )}
                                     {row.condition === 'tpsm-total-weight' && (
                                         <>
-                                            {parse(
-                                                TPSM_ADMIN.woocommerce_data
-                                                    .weight_unit
-                                            )}
-                                            <input
-                                                type="number"
-                                                placeholder="Min"
-                                                value={row.min}
-                                                onChange={(e) =>
-                                                    handleRowChange(
-                                                        index,
-                                                        'min',
-                                                        e.target.value
-                                                    )
-                                                }
-                                            />
-                                            {parse(
-                                                TPSM_ADMIN.woocommerce_data
-                                                    .weight_unit
-                                            )}
-                                            <input
-                                                type="number"
-                                                placeholder="Max"
-                                                value={row.max}
-                                                onChange={(e) =>
-                                                    handleRowChange(
-                                                        index,
-                                                        'max',
-                                                        e.target.value
-                                                    )
-                                                }
-                                            />
+                                            <div className="tpsm-max-min-field-wrapper">
+                                                {parse(
+                                                    TPSM_ADMIN.woocommerce_data
+                                                        .weight_unit
+                                                )}
+                                                <input
+                                                    type="number"
+                                                    placeholder="Min"
+                                                    value={row.min}
+                                                    onChange={(e) =>
+                                                        handleRowChange(
+                                                            index,
+                                                            'min',
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                />
+                                            </div>
+                                            <div className="tpsm-max-min-field-wrapper">
+                                                {parse(
+                                                    TPSM_ADMIN.woocommerce_data
+                                                        .weight_unit
+                                                )}
+                                                <input
+                                                    type="number"
+                                                    placeholder="Max"
+                                                    value={row.max}
+                                                    onChange={(e) =>
+                                                        handleRowChange(
+                                                            index,
+                                                            'max',
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                />
+                                            </div>
                                         </>
                                     )}
                                     {row.condition ===

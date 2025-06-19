@@ -26,6 +26,7 @@
 }
 .tpsm-shipping-rule-table-wrapper tbody tr td:nth-child(3) {
     display: inline-flex;
+    gap: 10px;
 }
 .tpsm-shipping-rule-table-wrapper thead tr th:nth-child(4),
 .tpsm-shipping-rule-table-wrapper tbody tr td:nth-child(4) {
@@ -69,12 +70,14 @@
     background-color: transparent;
     cursor: pointer;
 }
-.tpsm-costs-column-data {
+.tpsm-costs-column-data,
+.tpsm-max-min-field-wrapper {
     display: flex;
     align-items: center;
     gap: 5px;
 }
-.tpsm-costs-column-data input {
+.tpsm-costs-column-data input,
+.tpsm-max-min-field-wrapper input {
     width: 150px;
 }
 .tpsm-shipping-rule-actions {
@@ -105,15 +108,15 @@
     font-weight: 500;
 }
 .tpsm-shipping-rule-select {
+    width: fit-content;
     padding: 5px 10px !important;
     border: 1px solid #ddd !important;
     border-radius: 4px !important;
+    padding-right: 20px !important;
 }
 .tpsm-shipping-rule-select:hover {
     color: #2c3338 !important;
 }
-.tpsm-shipping-rule-select:focus {
-    border-color: #2c3338 !important;
-    color: #2c3338 !important;
+#react-select-2-input {
     box-shadow: none !important;
 }
