@@ -208,12 +208,12 @@ if ( ! function_exists( 'tpsm_isset' ) ) {
 if( ! function_exists( 'get_conditions_data' ) ) {
     function get_conditions_data() {
         return [
-            'tpsm-flat-rate'                 => 'Flat Rate',
-            'tpsm-sub-total-price'           => 'Subtotal',
-            'tpsm-total-price'               => 'Total',
-            'tpsm-flat-rate-per-weight-unit' => 'Per Weight Unit (' . get_option( 'woocommerce_weight_unit' ) . ')',
-            'tpsm-total-weight'              => 'Total Weight',
-            'tpsm-shipping-class'            => 'Shipping Class',
+            'tpsm-flat-rate'            => 'Flat Rate',
+            'tpsm-sub-total-price'      => 'Subtotal',
+            'tpsm-total-price'          => 'Total',
+            'tpsm-per-weight-unit'      => 'Per Weight Unit (' . get_option( 'woocommerce_weight_unit' ) . ')',
+            'tpsm-total-weight'         => 'Total Weight',
+            'tpsm-shipping-class'       => 'Shipping Class',
         ];
     }
 }

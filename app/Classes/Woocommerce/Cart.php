@@ -61,19 +61,23 @@ class Cart {
             return;
         }
 
-        // $conditions_data = $this->conditions_data;
+        /**
+         * Filter the shipping cost based on cart total price, weight, and shipping classes.
+         */
         $flat_rate_items        = $this->dataFilterByConditionName( $data, 'tpsm-flat-rate' );
         $total_price_items      = $this->dataFilterByConditionName( $data, 'tpsm-total-price' );
         $sub_total_price_items  = $this->dataFilterByConditionName( $data, 'tpsm-sub-total-price' );
+        $per_weight_unit_items  = $this->dataFilterByConditionName( $data, 'tpsm-per-weight-unit' );
         $total_weight_items     = $this->dataFilterByConditionName( $data, 'tpsm-total-weight' );
         $shipping_callsestItems = $this->dataFilterByConditionName( $data, 'shipping-class' );
 
         $flat_rate_cost            = $this->get_shipping_cost_for_flat_rate( $flat_rate_items );
         $cart_total_price_cost     = $this->get_shipping_cost_for_total_price( $total_price_items );
         $cart_subtotal_price_cost  = $this->get_shipping_cost_for_subtotal_price( $sub_total_price_items );
+        $per_weight_unit_cost      = $this->get_shipping_cost_for_per_weight_unit( $per_weight_unit_items );
         $cart_total_weight_cost    = $this->get_shipping_cost_for_total_weight( $total_weight_items ); 
 
-        $shipping_cost = $flat_rate_cost + $cart_total_price_cost + $cart_subtotal_price_cost + $cart_total_weight_cost;
+        $shipping_cost = $flat_rate_cost + $cart_total_price_cost + $cart_subtotal_price_cost + $cart_total_weight_cost + $per_weight_unit_cost;
         
         // Sum all costs
         return $shipping_cost;
@@ -133,6 +137,28 @@ class Cart {
     }
 
     /**
+     * Calculates shipping cost based on cart total weight.
+     *
+     * @param array $items Array of items with shipping cost data.
+     *
+     * @return float Shipping cost.
+     */
+    private function get_shipping_cost_for_per_weight_unit( $items ) {
+        $cart = WC()->cart;
+
+        if ( is_null( $cart ) || empty( $items ) ) {
+            return;
+        }
+
+        $weight = $this->cart_total_product_weights();
+        $costs = array_column( $items, 'cost' );
+
+        $cost = $weight * array_sum( $costs );
+
+        return $cost;
+    }
+
+    /**
      * Calculate shipping cost based on cart total weight.
      *
      * @param array $items Array of items with shipping cost data.
@@ -146,8 +172,6 @@ class Cart {
         if ( is_null( $cart ) || empty( $items ) ) {
             return;
         }
-
-        
 
         $weight = $this->cart_total_product_weights();
         
