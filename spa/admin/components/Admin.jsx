@@ -115,7 +115,6 @@ function Admin() {
         setSelectedRows(selectedRows.filter((i) => i !== index));
     };
 
-    /*************  ✨ Windsurf Command ⭐  *************/
     /**
      * Deletes the selected rows and resets the selectedRows state.
      *
@@ -123,20 +122,17 @@ function Admin() {
      * Updates the rows state with the new array and resets the selectedRows
      * state to an empty array.
      */
-    /*******  4793e871-d7b2-4e6f-a0e5-c79bfaae1d69  *******/
     const deleteSelectedRows = () => {
         const updatedRows = rows.filter((_, i) => !selectedRows.includes(i));
         setRows(updatedRows);
         setSelectedRows([]);
     };
 
-    /*************  ✨ Windsurf Command ⭐  *************/
     /**
      * Duplicates the selected rows and adds them to the rows state.
      *
      * Only has an effect if selectedRows is not empty.
      */
-    /*******  3512fe05-0cb4-45d8-8610-d5a4609e2d1f  *******/
     const duplicateSelectedRows = () => {
         const duplicates = selectedRows.map((index) => ({ ...rows[index] }));
         setRows([...rows, ...duplicates]);
