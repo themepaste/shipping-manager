@@ -373,7 +373,7 @@ function Admin() {
                                             styles={{
                                                 container: (base) => ({
                                                     ...base,
-                                                    minWidth: '200px',
+                                                    minWidth: '350px',
                                                 }),
                                             }}
                                         />
