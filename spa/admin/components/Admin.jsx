@@ -2,6 +2,19 @@ import React, { useEffect, useState } from 'react';
 import parse from 'html-react-parser';
 import Select from 'react-select';
 
+/**
+ * The main component for the shipping rules table.
+ *
+ * This component renders a table with a row for each shipping rule, and
+ * columns for the condition, cost, and action. The condition column is a
+ * select dropdown with options for the different conditions, and the cost
+ * column is a text input. The action column has a button to delete the row.
+ *
+ * The component also has a button to add a new row, and buttons to duplicate
+ * and delete the selected rows.
+ *
+ * @return {ReactElement} - A JSX element representing the shipping rules table.
+ */
 function Admin() {
     const [rows, setRows] = useState([
         { condition: 'Weight', cost: '', min: '', max: '' },
@@ -33,6 +46,14 @@ function Admin() {
         }
     }, []);
 
+    /**
+     * Updates the 'multi' property of the row at the specified index with
+     * the values of the selected options.
+     *
+     * @param {number} index - The index of the row to update.
+     * @param {Array<Object>} selectedOptions - An array of objects with
+     *                                          'value' and 'label' properties.
+     */
     const handleMultiSelectChange = (index, selectedOptions) => {
         const updatedRows = [...rows];
         updatedRows[index].multi = selectedOptions.map((opt) => opt.value);
@@ -48,11 +69,27 @@ function Admin() {
         }
     }, [rows]);
 
+    /**
+     * Updates the row at the specified index by setting the specified field to the given value.
+     *
+     * @param {number} index - The index of the row to update.
+     * @param {string} field - The field to update (one of 'condition', 'cost', 'min', 'max', or 'multi').
+     * @param {string|number|Array<string|number>} value - The new value for the specified field.
+     */
+
     const handleRowChange = (index, field, value) => {
         const updatedRows = [...rows];
         updatedRows[index][field] = value;
         setRows(updatedRows);
     };
+
+    /**
+     * Adds a new row to the rows state with default values.
+     *
+     * The new row has the default condition set to the first value
+     * in conditionsValues and initializes cost, min, max as empty strings,
+     * and multi as an empty array.
+     */
 
     const addRow = () => {
         setRows([
@@ -67,23 +104,52 @@ function Admin() {
         ]);
     };
 
+    /**
+     * Deletes the row at the specified index and removes it from the selectedRows state.
+     *
+     * @param {number} index - The index of the row to delete.
+     */
     const deleteRow = (index) => {
         const updatedRows = rows.filter((_, i) => i !== index);
         setRows(updatedRows);
         setSelectedRows(selectedRows.filter((i) => i !== index));
     };
 
+    /*************  ✨ Windsurf Command ⭐  *************/
+    /**
+     * Deletes the selected rows and resets the selectedRows state.
+     *
+     * Loops over the rows and filters out the ones that are selected.
+     * Updates the rows state with the new array and resets the selectedRows
+     * state to an empty array.
+     */
+    /*******  4793e871-d7b2-4e6f-a0e5-c79bfaae1d69  *******/
     const deleteSelectedRows = () => {
         const updatedRows = rows.filter((_, i) => !selectedRows.includes(i));
         setRows(updatedRows);
         setSelectedRows([]);
     };
 
+    /*************  ✨ Windsurf Command ⭐  *************/
+    /**
+     * Duplicates the selected rows and adds them to the rows state.
+     *
+     * Only has an effect if selectedRows is not empty.
+     */
+    /*******  3512fe05-0cb4-45d8-8610-d5a4609e2d1f  *******/
     const duplicateSelectedRows = () => {
         const duplicates = selectedRows.map((index) => ({ ...rows[index] }));
         setRows([...rows, ...duplicates]);
     };
 
+    /**
+     * Toggles the selection state of a row at the specified index.
+     *
+     * @param {number} index - The index of the row to toggle.
+     *
+     * Updates the selectedRows state by adding the index to the selection
+     * if it is not already selected, or removing it if it is.
+     */
     const handleCheckboxChange = (index) => {
         setSelectedRows((prev) =>
             prev.includes(index)
@@ -91,6 +157,27 @@ function Admin() {
                 : [...prev, index]
         );
     };
+
+    /**
+     * Returns an optgroup element with options populated from
+     * conditionsValues and conditionsLabel, starting from index
+     * `start` and ending at index `end`.
+     *
+     * @param {string} label - The label for the optgroup element.
+     * @param {number} start - The starting index (inclusive).
+     * @param {number} end - The ending index (exclusive).
+     *
+     * @returns {ReactElement} - An optgroup element.
+     */
+    const renderOptGroup = (label, start, end) => (
+        <optgroup label={label} key={label}>
+            {conditionsValues.slice(start, end).map((value, idx) => (
+                <option key={start + idx} value={value}>
+                    {conditionsLabel[start + idx]}
+                </option>
+            ))}
+        </optgroup>
+    );
 
     return (
         <>
@@ -138,12 +225,11 @@ function Admin() {
                                         )
                                     }
                                 >
-                                    {conditionsValues.map((value, index) => (
-                                        <option key={index} value={value}>
-                                            {conditionsLabel[index]}
-                                        </option>
-                                    ))}
+                                    {renderOptGroup('General', 0, 1)}
+                                    {renderOptGroup('Cart', 1, 3)}
+                                    {renderOptGroup('Product', 3)}
                                 </select>
+
                                 {row.condition === 'tpsm-total-price' && (
                                     <>
                                         {parse(

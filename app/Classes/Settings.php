@@ -14,7 +14,6 @@ defined( 'ABSPATH' ) || exit;
 use ThemePaste\ShippingManager\Helpers\Utility;
 use ThemePaste\ShippingManager\Traits\Asset;
 use ThemePaste\ShippingManager\Traits\Hook;
-use ThemePaste\ShippingManager\Traits\Data;
 
 /**
  * Class Settings
@@ -25,7 +24,6 @@ class Settings {
 
     use Hook;
     use Asset;
-    use Data;
 
     /**
      * Settings Page Slug
@@ -138,7 +136,7 @@ class Settings {
             'currency_symbol'   => get_woocommerce_currency_symbol(), // e.g., '$'
             'weight_unit'       => get_option( 'woocommerce_weight_unit' ), // e.g., 'kg', 'g', 'lbs'
         ]; 
-        $this->localize_data['shipping_rules_select'] = $this->conditions_data;
+        $this->localize_data['shipping_rules_select'] = get_conditions_data();
         $this->localize_data['wc_shipping_classess'] = $this->get_all_wc_classes();
 
         $this->localize_script( 'tpsm-settings-react', 'TPSM_ADMIN', $this->localize_data );

@@ -197,3 +197,23 @@ if ( ! function_exists( 'tpsm_isset' ) ) {
         return $value;
     }
 }
+
+/**
+ * Retrieves a list of shipping condition types.
+ *
+ * @since 1.0.0
+ *
+ * @return array Associative array with condition types as keys and their labels as values.
+ */
+if( ! function_exists( 'get_conditions_data' ) ) {
+    function get_conditions_data() {
+        return [
+            'tpsm-flat-rate'                 => 'Flat Rate',
+            'tpsm-sub-total-price'           => 'Subtotal',
+            'tpsm-total-price'               => 'Total',
+            'tpsm-flat-rate-per-weight-unit' => 'Per Weight Unit (' . get_option( 'woocommerce_weight_unit' ) . ')',
+            'tpsm-total-weight'              => 'Total Weight',
+            'tpsm-shipping-class'            => 'Shipping Class',
+        ];
+    }
+}

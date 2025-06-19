@@ -7,7 +7,6 @@ defined( 'ABSPATH' ) || exit;
 use ThemePaste\ShippingManager\Helpers\Utility;
 use ThemePaste\ShippingManager\Traits\Asset;
 use ThemePaste\ShippingManager\Traits\Hook;
-use ThemePaste\ShippingManager\Traits\Data;
 
 /**
  * Class Cart
@@ -20,7 +19,6 @@ class Cart {
 
     use Hook;
     use Asset;
-    use Data;
 
     public $shipping_fees_settings;
     public $box_shipping_settings;
