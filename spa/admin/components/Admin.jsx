@@ -219,6 +219,7 @@ function Admin() {
                                 </td>
                                 <td>
                                     <select
+                                        className="tpsm-shipping-rule-select"
                                         value={row.condition}
                                         onChange={(e) =>
                                             handleRowChange(
