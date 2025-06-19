@@ -17,7 +17,7 @@ import Select from 'react-select';
  */
 function Admin() {
     const [rows, setRows] = useState([
-        { condition: 'Weight', cost: '', min: '', max: '' },
+        { condition: 'tpsm-flat-rate', cost: '', min: '', max: '' },
     ]);
     const [selectedRows, setSelectedRows] = useState([]);
 
