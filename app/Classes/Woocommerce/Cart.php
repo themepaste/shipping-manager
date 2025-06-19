@@ -41,9 +41,18 @@ class Cart {
     }
 
     
+    /**
+     * Calculate shipping cost based on cart total price, weight, and shipping classes.
+     * 
+     * @param array $data Shipping fees data.
+     * 
+     * @return float Shipping cost.
+     */
     public function shipping_fees_cost( $data ) {
 
-        $data = json_decode( $data, true );
+        if ( is_string( $data ) ) {
+            $data = json_decode( $data, true );
+        }
         $cart = WC()->cart;
 
         if( ! is_array( $data ) && empty( $data ) ) {
@@ -55,23 +64,30 @@ class Cart {
         }
 
         // $conditions_data = $this->conditions_data;
-        $flat_rate_items        = $this->filterByCondition( $data, 'tpsm-flat-rate' );
-        $totalPriceItems    = $this->filterByCondition( $data, 'total-price' );
-        $subTotalPriceItems = $this->filterByCondition( $data, 'sub-total-price' );
-        $weightItems        = $this->filterByCondition( $data, 'weight' );
-        $shipping_callsestItems = $this->filterByCondition( $data, 'shipping-class' );
+        $flat_rate_items        = $this->dataFilterByConditionName( $data, 'tpsm-flat-rate' );
+        $total_price_items      = $this->dataFilterByConditionName( $data, 'tpsm-total-price' );
+        $sub_total_price_items  = $this->dataFilterByConditionName( $data, 'tpsm-sub-total-price' );
+        $total_weight_items     = $this->dataFilterByConditionName( $data, 'tpsm-total-weight' );
+        $shipping_callsestItems = $this->dataFilterByConditionName( $data, 'shipping-class' );
 
-        $flat_rate_shipping_cost               = $this->get_shipping_cost_for_flat_rate( $flat_rate_items );
-        $cart_total_price_shipping_cost     = $this->get_shipping_cost_for_total_price( $totalPriceItems );
-        $cart_subtotal_price_shipping_cost  = $this->get_shipping_cost_for_subtotal_price( $subTotalPriceItems );
-        $cart_total_weight_shipping_cost    = $this->get_shipping_cost_for_total_weight( $weightItems ); 
+        $flat_rate_cost            = $this->get_shipping_cost_for_flat_rate( $flat_rate_items );
+        $cart_total_price_cost     = $this->get_shipping_cost_for_total_price( $total_price_items );
+        $cart_subtotal_price_cost  = $this->get_shipping_cost_for_subtotal_price( $sub_total_price_items );
+        $cart_total_weight_cost    = $this->get_shipping_cost_for_total_weight( $total_weight_items ); 
 
-        $shipping_cost = $cart_total_price_shipping_cost + $flat_rate_shipping_cost + $cart_total_weight_shipping_cost + $cart_subtotal_price_shipping_cost;
+        $shipping_cost = $flat_rate_cost + $cart_total_price_cost + $cart_subtotal_price_cost + $cart_total_weight_cost;
         
         // Sum all costs
         return $shipping_cost;
     }
 
+    /**
+     * Calculate shipping cost based on cart subtotal price.
+     *
+     * @param array $items Array of items with shipping cost data.
+     *
+     * @return int Shipping cost.
+     */
     private function get_shipping_cost_for_subtotal_price( $items ) {
         $cart = WC()->cart;
 
@@ -91,6 +107,13 @@ class Cart {
         return $cost;
     }
 
+    /**
+     * Calculate shipping cost based on cart total price.
+     *
+     * @param array $items Array of items with shipping cost data.
+     *
+     * @return int Shipping cost.
+     */
     private function get_shipping_cost_for_total_price( $items ) {
         
         $cart = WC()->cart;
@@ -111,6 +134,13 @@ class Cart {
         return $cost;
     }
 
+    /**
+     * Calculate shipping cost based on cart total weight.
+     *
+     * @param array $items Array of items with shipping cost data.
+     *
+     * @return int Shipping cost.
+     */
     private function get_shipping_cost_for_total_weight( $items ) {
 
         $cart = WC()->cart;
@@ -133,6 +163,13 @@ class Cart {
         return $cost;
     }
 
+    /**
+     * Calculates shipping cost based on flat rate shipping.
+     * 
+     * @param array $items Array of items with shipping cost data.
+     * 
+     * @return float Shipping cost.
+     */
     private function get_shipping_cost_for_flat_rate( $items ) {
 
         $cart = WC()->cart;
@@ -147,7 +184,15 @@ class Cart {
         return array_sum( $costs );
     }
 
-    private function filterByCondition( $data, $condition ) {
+    /**
+     * Filters an array of data based on a specified condition.
+     *
+     * @param array $data The array of data to be filtered.
+     * @param string $condition The condition to filter the data by.
+     *
+     * @return array The filtered array containing only items that match the condition.
+     */
+    private function dataFilterByConditionName( $data, $condition ) {
         return array_filter( $data, function( $item ) use ( $condition ) {
             return $item['condition'] === $condition;
         });

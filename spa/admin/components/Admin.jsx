@@ -144,7 +144,7 @@ function Admin() {
                                         </option>
                                     ))}
                                 </select>
-                                {row.condition === 'total-price' && (
+                                {row.condition === 'tpsm-total-price' && (
                                     <>
                                         {parse(
                                             TPSM_ADMIN.woocommerce_data
@@ -180,7 +180,7 @@ function Admin() {
                                         />
                                     </>
                                 )}
-                                {row.condition === 'sub-total-price' && (
+                                {row.condition === 'tpsm-sub-total-price' && (
                                     <>
                                         {parse(
                                             TPSM_ADMIN.woocommerce_data
@@ -216,7 +216,7 @@ function Admin() {
                                         />
                                     </>
                                 )}
-                                {row.condition === 'weight' && (
+                                {row.condition === 'tpsm-total-weight' && (
                                     <>
                                         {parse(
                                             TPSM_ADMIN.woocommerce_data
@@ -252,7 +252,7 @@ function Admin() {
                                         />
                                     </>
                                 )}
-                                {row.condition === 'shipping-class' && (
+                                {row.condition === 'tpsm-shipping-class' && (
                                     <Select
                                         options={classOptions}
                                         isMulti
