@@ -362,21 +362,23 @@ function Admin() {
                                 </td>
 
                                 <td>
-                                    {parse(
-                                        TPSM_ADMIN.woocommerce_data
-                                            .currency_symbol
-                                    )}
-                                    <input
-                                        type="number"
-                                        value={row.cost}
-                                        onChange={(e) =>
-                                            handleRowChange(
-                                                index,
-                                                'cost',
-                                                e.target.value
-                                            )
-                                        }
-                                    />
+                                    <div className="tpsm-costs-column-data">
+                                        {parse(
+                                            TPSM_ADMIN.woocommerce_data
+                                                .currency_symbol
+                                        )}
+                                        <input
+                                            type="number"
+                                            value={row.cost}
+                                            onChange={(e) =>
+                                                handleRowChange(
+                                                    index,
+                                                    'cost',
+                                                    e.target.value
+                                                )
+                                            }
+                                        />
+                                    </div>
                                 </td>
                                 <td>
                                     <button
@@ -391,21 +393,25 @@ function Admin() {
                     </tbody>
                 </table>
 
-                <div style={{ marginTop: '10px' }}>
-                    <button type="button" onClick={addRow}>
+                <div className="tpsm-shipping-rule-actions">
+                    <button
+                        className="tpsm-button"
+                        type="button"
+                        onClick={addRow}
+                    >
                         Add New Row
                     </button>
                     <button
+                        className="tpsm-button"
                         type="button"
                         onClick={duplicateSelectedRows}
-                        style={{ marginLeft: '10px' }}
                     >
                         Duplicate Selected
                     </button>
                     <button
+                        className="tpsm-button"
                         type="button"
                         onClick={deleteSelectedRows}
-                        style={{ marginLeft: '10px' }}
                     >
                         Delete Selected
                     </button>
