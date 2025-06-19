@@ -138,6 +138,7 @@ class Settings {
         ]; 
         $this->localize_data['shipping_rules_select'] = get_conditions_data();
         $this->localize_data['wc_shipping_classess'] = $this->get_all_wc_classes();
+        $this->localize_data['assets_url'] = TPSM_ASSETS_URL;
 
         $this->localize_script( 'tpsm-settings-react', 'TPSM_ADMIN', $this->localize_data );
     }

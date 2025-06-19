@@ -385,7 +385,14 @@ function Admin() {
                                         type="button"
                                         onClick={() => deleteRow(index)}
                                     >
-                                        Delete
+                                        <img
+                                            src={
+                                                TPSM_ADMIN.assets_url +
+                                                '/admin/img/delete.png'
+                                            }
+                                            with="20"
+                                            height="20"
+                                        />
                                     </button>
                                 </td>
                             </tr>

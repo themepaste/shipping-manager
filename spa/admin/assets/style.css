@@ -12,6 +12,10 @@
     padding-bottom: 20px;
     text-align: left;
 }
+.tpsm-shipping-rule-table-wrapper table tr td {
+    text-align: left;
+    padding: 20px 0;
+}
 .tpsm-shipping-rule-table-wrapper thead tr th:first-child,
 .tpsm-shipping-rule-table-wrapper tbody tr td:first-child {
     width: 20px;
@@ -29,13 +33,12 @@
 }
 .tpsm-shipping-rule-table-wrapper thead tr th:last-child,
 .tpsm-shipping-rule-table-wrapper tbody tr td:last-child {
-    width: 60px;
+    width: 50px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
 }
 
-.tpsm-shipping-rule-table-wrapper table tr td {
-    text-align: left;
-    padding: 20px 0;
-}
 .tpsm-shipping-rule-table-wrapper table tr td input {
     padding: 5px 10px;
     border: 1px solid #ddd;
@@ -56,7 +59,14 @@
     margin: 0;
 }
 .tpsm-shipping-rule-table-wrapper table tr td button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
     border: 1px solid #ddd;
+    border-radius: 50%;
+    background-color: transparent;
     cursor: pointer;
 }
 .tpsm-costs-column-data {
@@ -68,13 +78,15 @@
     width: 150px;
 }
 .tpsm-shipping-rule-actions {
-    margin-top: 20px;
+    margin-top: 10px;
     display: flex;
     align-items: center;
     gap: 15px;
+    border-top: 1px solid #ddd;
+    padding-top: 20px;
 }
 .tpsm-shipping-rule-actions .tpsm-button {
-    padding: 10px 30px;
+    padding: 9px 30px;
     cursor: pointer;
     border-radius: 4px;
     background-color: #fff;
