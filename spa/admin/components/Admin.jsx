@@ -177,228 +177,239 @@ function Admin() {
 
     return (
         <>
-            <table className="tpsm-shipping-rule-table-wrapper">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>
-                            <input
-                                type="checkbox"
-                                checked={selectedRows.length === rows.length}
-                                onChange={(e) => {
-                                    if (e.target.checked) {
-                                        setSelectedRows(rows.map((_, i) => i));
-                                    } else {
-                                        setSelectedRows([]);
-                                    }
-                                }}
-                            />
-                        </th>
-                        <th>Conditions</th>
-                        <th>Costs</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {rows.map((row, index) => (
-                        <tr key={index}>
-                            <td>{index + 1}</td>
-                            <td>
+            <div className="tpsm-shipping-rule-table-wrapper">
+                <table className="tpsm-shipping-rule-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>
                                 <input
                                     type="checkbox"
-                                    checked={selectedRows.includes(index)}
-                                    onChange={() => handleCheckboxChange(index)}
-                                />
-                            </td>
-                            <td>
-                                <select
-                                    value={row.condition}
-                                    onChange={(e) =>
-                                        handleRowChange(
-                                            index,
-                                            'condition',
-                                            e.target.value
-                                        )
+                                    checked={
+                                        selectedRows.length === rows.length
                                     }
-                                >
-                                    {renderOptGroup('General', 0, 1)}
-                                    {renderOptGroup('Cart', 1, 3)}
-                                    {renderOptGroup('Product', 3)}
-                                </select>
-
-                                {row.condition === 'tpsm-total-price' && (
-                                    <>
-                                        {parse(
-                                            TPSM_ADMIN.woocommerce_data
-                                                .currency_symbol
-                                        )}
-                                        <input
-                                            type="number"
-                                            placeholder="Min"
-                                            value={row.min}
-                                            onChange={(e) =>
-                                                handleRowChange(
-                                                    index,
-                                                    'min',
-                                                    e.target.value
-                                                )
-                                            }
-                                        />
-                                        {parse(
-                                            TPSM_ADMIN.woocommerce_data
-                                                .currency_symbol
-                                        )}
-                                        <input
-                                            type="number"
-                                            placeholder="Max"
-                                            value={row.max}
-                                            onChange={(e) =>
-                                                handleRowChange(
-                                                    index,
-                                                    'max',
-                                                    e.target.value
-                                                )
-                                            }
-                                        />
-                                    </>
-                                )}
-                                {row.condition === 'tpsm-sub-total-price' && (
-                                    <>
-                                        {parse(
-                                            TPSM_ADMIN.woocommerce_data
-                                                .currency_symbol
-                                        )}
-                                        <input
-                                            type="number"
-                                            placeholder="Min"
-                                            value={row.min}
-                                            onChange={(e) =>
-                                                handleRowChange(
-                                                    index,
-                                                    'min',
-                                                    e.target.value
-                                                )
-                                            }
-                                        />
-                                        {parse(
-                                            TPSM_ADMIN.woocommerce_data
-                                                .currency_symbol
-                                        )}
-                                        <input
-                                            type="number"
-                                            placeholder="Max"
-                                            value={row.max}
-                                            onChange={(e) =>
-                                                handleRowChange(
-                                                    index,
-                                                    'max',
-                                                    e.target.value
-                                                )
-                                            }
-                                        />
-                                    </>
-                                )}
-                                {row.condition === 'tpsm-total-weight' && (
-                                    <>
-                                        {parse(
-                                            TPSM_ADMIN.woocommerce_data
-                                                .weight_unit
-                                        )}
-                                        <input
-                                            type="number"
-                                            placeholder="Min"
-                                            value={row.min}
-                                            onChange={(e) =>
-                                                handleRowChange(
-                                                    index,
-                                                    'min',
-                                                    e.target.value
-                                                )
-                                            }
-                                        />
-                                        {parse(
-                                            TPSM_ADMIN.woocommerce_data
-                                                .weight_unit
-                                        )}
-                                        <input
-                                            type="number"
-                                            placeholder="Max"
-                                            value={row.max}
-                                            onChange={(e) =>
-                                                handleRowChange(
-                                                    index,
-                                                    'max',
-                                                    e.target.value
-                                                )
-                                            }
-                                        />
-                                    </>
-                                )}
-                                {row.condition === 'tpsm-shipping-class' && (
-                                    <Select
-                                        options={classOptions}
-                                        isMulti
-                                        placeholder="Select classes..."
-                                        value={classOptions.filter((opt) =>
-                                            row.multi.includes(opt.value)
-                                        )}
-                                        onChange={(selectedOptions) =>
-                                            handleMultiSelectChange(
+                                    onChange={(e) => {
+                                        if (e.target.checked) {
+                                            setSelectedRows(
+                                                rows.map((_, i) => i)
+                                            );
+                                        } else {
+                                            setSelectedRows([]);
+                                        }
+                                    }}
+                                />
+                            </th>
+                            <th>Conditions</th>
+                            <th>Costs</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {rows.map((row, index) => (
+                            <tr key={index}>
+                                <td>{index + 1}</td>
+                                <td>
+                                    <input
+                                        type="checkbox"
+                                        checked={selectedRows.includes(index)}
+                                        onChange={() =>
+                                            handleCheckboxChange(index)
+                                        }
+                                    />
+                                </td>
+                                <td>
+                                    <select
+                                        value={row.condition}
+                                        onChange={(e) =>
+                                            handleRowChange(
                                                 index,
-                                                selectedOptions
+                                                'condition',
+                                                e.target.value
+                                            )
+                                        }
+                                    >
+                                        {renderOptGroup('General', 0, 1)}
+                                        {renderOptGroup('Cart', 1, 3)}
+                                        {renderOptGroup('Product', 3)}
+                                    </select>
+
+                                    {row.condition === 'tpsm-total-price' && (
+                                        <>
+                                            {parse(
+                                                TPSM_ADMIN.woocommerce_data
+                                                    .currency_symbol
+                                            )}
+                                            <input
+                                                type="number"
+                                                placeholder="Min"
+                                                value={row.min}
+                                                onChange={(e) =>
+                                                    handleRowChange(
+                                                        index,
+                                                        'min',
+                                                        e.target.value
+                                                    )
+                                                }
+                                            />
+                                            {parse(
+                                                TPSM_ADMIN.woocommerce_data
+                                                    .currency_symbol
+                                            )}
+                                            <input
+                                                type="number"
+                                                placeholder="Max"
+                                                value={row.max}
+                                                onChange={(e) =>
+                                                    handleRowChange(
+                                                        index,
+                                                        'max',
+                                                        e.target.value
+                                                    )
+                                                }
+                                            />
+                                        </>
+                                    )}
+                                    {row.condition ===
+                                        'tpsm-sub-total-price' && (
+                                        <>
+                                            {parse(
+                                                TPSM_ADMIN.woocommerce_data
+                                                    .currency_symbol
+                                            )}
+                                            <input
+                                                type="number"
+                                                placeholder="Min"
+                                                value={row.min}
+                                                onChange={(e) =>
+                                                    handleRowChange(
+                                                        index,
+                                                        'min',
+                                                        e.target.value
+                                                    )
+                                                }
+                                            />
+                                            {parse(
+                                                TPSM_ADMIN.woocommerce_data
+                                                    .currency_symbol
+                                            )}
+                                            <input
+                                                type="number"
+                                                placeholder="Max"
+                                                value={row.max}
+                                                onChange={(e) =>
+                                                    handleRowChange(
+                                                        index,
+                                                        'max',
+                                                        e.target.value
+                                                    )
+                                                }
+                                            />
+                                        </>
+                                    )}
+                                    {row.condition === 'tpsm-total-weight' && (
+                                        <>
+                                            {parse(
+                                                TPSM_ADMIN.woocommerce_data
+                                                    .weight_unit
+                                            )}
+                                            <input
+                                                type="number"
+                                                placeholder="Min"
+                                                value={row.min}
+                                                onChange={(e) =>
+                                                    handleRowChange(
+                                                        index,
+                                                        'min',
+                                                        e.target.value
+                                                    )
+                                                }
+                                            />
+                                            {parse(
+                                                TPSM_ADMIN.woocommerce_data
+                                                    .weight_unit
+                                            )}
+                                            <input
+                                                type="number"
+                                                placeholder="Max"
+                                                value={row.max}
+                                                onChange={(e) =>
+                                                    handleRowChange(
+                                                        index,
+                                                        'max',
+                                                        e.target.value
+                                                    )
+                                                }
+                                            />
+                                        </>
+                                    )}
+                                    {row.condition ===
+                                        'tpsm-shipping-class' && (
+                                        <Select
+                                            options={classOptions}
+                                            isMulti
+                                            placeholder="Select classes..."
+                                            value={classOptions.filter((opt) =>
+                                                row.multi.includes(opt.value)
+                                            )}
+                                            onChange={(selectedOptions) =>
+                                                handleMultiSelectChange(
+                                                    index,
+                                                    selectedOptions
+                                                )
+                                            }
+                                        />
+                                    )}
+                                </td>
+
+                                <td>
+                                    {parse(
+                                        TPSM_ADMIN.woocommerce_data
+                                            .currency_symbol
+                                    )}
+                                    <input
+                                        type="number"
+                                        value={row.cost}
+                                        onChange={(e) =>
+                                            handleRowChange(
+                                                index,
+                                                'cost',
+                                                e.target.value
                                             )
                                         }
                                     />
-                                )}
-                            </td>
+                                </td>
+                                <td>
+                                    <button
+                                        type="button"
+                                        onClick={() => deleteRow(index)}
+                                    >
+                                        Delete
+                                    </button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
 
-                            <td>
-                                {parse(
-                                    TPSM_ADMIN.woocommerce_data.currency_symbol
-                                )}
-                                <input
-                                    type="number"
-                                    value={row.cost}
-                                    onChange={(e) =>
-                                        handleRowChange(
-                                            index,
-                                            'cost',
-                                            e.target.value
-                                        )
-                                    }
-                                />
-                            </td>
-                            <td>
-                                <button
-                                    type="button"
-                                    onClick={() => deleteRow(index)}
-                                >
-                                    Delete
-                                </button>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-
-            <div style={{ marginTop: '10px' }}>
-                <button type="button" onClick={addRow}>
-                    Add New Row
-                </button>
-                <button
-                    type="button"
-                    onClick={duplicateSelectedRows}
-                    style={{ marginLeft: '10px' }}
-                >
-                    Duplicate Selected
-                </button>
-                <button
-                    type="button"
-                    onClick={deleteSelectedRows}
-                    style={{ marginLeft: '10px' }}
-                >
-                    Delete Selected
-                </button>
+                <div style={{ marginTop: '10px' }}>
+                    <button type="button" onClick={addRow}>
+                        Add New Row
+                    </button>
+                    <button
+                        type="button"
+                        onClick={duplicateSelectedRows}
+                        style={{ marginLeft: '10px' }}
+                    >
+                        Duplicate Selected
+                    </button>
+                    <button
+                        type="button"
+                        onClick={deleteSelectedRows}
+                        style={{ marginLeft: '10px' }}
+                    >
+                        Delete Selected
+                    </button>
+                </div>
             </div>
         </>
     );

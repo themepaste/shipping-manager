@@ -2,14 +2,37 @@
     background-color: #fff;
     padding: 20px;
     border-radius: 8px;
+    max-width: 100%;
+}
+.tpsm-shipping-rule-table {
     width: 100%;
 }
-.tpsm-shipping-rule-table-wrapper tr th {
+.tpsm-shipping-rule-table-wrapper thead tr th {
     border-bottom: 1px solid #ddd;
-    padding-bottom: 30px;
+    padding-bottom: 20px;
     text-align: left;
 }
-.tpsm-shipping-rule-table-wrapper tr td {
+.tpsm-shipping-rule-table-wrapper thead tr th:first-child,
+.tpsm-shipping-rule-table-wrapper tbody tr td:first-child {
+    width: 20px;
+}
+.tpsm-shipping-rule-table-wrapper thead tr th:nth-child(2),
+.tpsm-shipping-rule-table-wrapper tbody tr td:nth-child(2) {
+    width: 30px;
+}
+.tpsm-shipping-rule-table-wrapper tbody tr td:nth-child(3) {
+    display: inline-flex;
+}
+.tpsm-shipping-rule-table-wrapper thead tr th:nth-child(4),
+.tpsm-shipping-rule-table-wrapper tbody tr td:nth-child(4) {
+    width: 300px;
+}
+.tpsm-shipping-rule-table-wrapper thead tr th:last-child,
+.tpsm-shipping-rule-table-wrapper tbody tr td:last-child {
+    width: 60px;
+}
+
+.tpsm-shipping-rule-table-wrapper table tr td {
     text-align: left;
-    padding: 10px 0;
+    padding: 20px 0;
 }
