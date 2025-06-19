@@ -223,39 +223,50 @@ class Cart {
         return $total_weight;
     }
 
-    // private function cart_total_dimension_fee( $cart ) {
-    //     $tpsm_dimensions_settings = $this->box_shipping_settings['box-shipping'] ?? [];
-    //     $total_fee = 0;
-    
-    //     foreach ( $cart->get_cart() as $cart_item ) {
-    //         $product    = $cart_item['data'];
-    //         $quantity   = $cart_item['quantity'];
-    //         $length     = floatval( $product->get_length() );
-    //         $width      = floatval( $product->get_width() );
-    //         $height     = floatval( $product->get_height() );
-    //         $fee        = 0;
+    /**
+     * Calculate the total dimension-based shipping fee for the products in the cart.
+     *
+     * Uses the dimensions of each product to determine applicable fees based on pre-defined settings.
+     * Only considers products with valid dimensions (greater than zero).
+     *
+     * @param WC_Cart $cart The WooCommerce cart object.
+     * 
+     * @return float The total dimension-based shipping fee for the cart.
+     */
 
-    //         // Check if all dimensions are valid (greater than zero)
-    //         if ( $length > 0 && $width > 0 && $height > 0 ) {
+    private function cart_total_dimension_fee( $cart ) {
+        $tpsm_dimensions_settings = $this->box_shipping_settings['box-shipping'] ?? [];
+        $total_fee = 0;
+    
+        foreach ( $cart->get_cart() as $cart_item ) {
+            $product    = $cart_item['data'];
+            $quantity   = $cart_item['quantity'];
+            $length     = floatval( $product->get_length() );
+            $width      = floatval( $product->get_width() );
+            $height     = floatval( $product->get_height() );
+            $fee        = 0;
 
-    //             if( !empty( $tpsm_dimensions_settings ) ) {
-    //                 foreach ( $tpsm_dimensions_settings as $value) {
-    //                     $tpsm_length    = $value['length'];
-    //                     $tpsm_width     = $value['width'];
-    //                     $tpsm_height    = $value['height'];
+            // Check if all dimensions are valid (greater than zero)
+            if ( $length > 0 && $width > 0 && $height > 0 ) {
+
+                if( !empty( $tpsm_dimensions_settings ) ) {
+                    foreach ( $tpsm_dimensions_settings as $value) {
+                        $tpsm_length    = $value['length'];
+                        $tpsm_width     = $value['width'];
+                        $tpsm_height    = $value['height'];
     
-    //                     if( $length <= $tpsm_length && $width <= $tpsm_width && $height <= $tpsm_height ) {
-    //                         $fee  = $value['fee'];
-    //                         break;
-    //                     }
-    //                 }
-    //                 $total_fee += $fee * $quantity;
-    //             }
-    //         }
-    //     }
+                        if( $length <= $tpsm_length && $width <= $tpsm_width && $height <= $tpsm_height ) {
+                            $fee  = $value['fee'];
+                            break;
+                        }
+                    }
+                    $total_fee += $fee * $quantity;
+                }
+            }
+        }
     
-    //     return $total_fee;
-    // }
+        return $total_fee;
+    }
 }
 
 

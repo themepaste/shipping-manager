@@ -3,8 +3,11 @@
 namespace ThemePaste\ShippingManager\Traits;
 
 defined( 'ABSPATH' ) || exit;
-
 trait Data {
+
+    /**
+     * @var array
+     */
     protected $conditions_data = [
         'tpsm-flat-rate'            => 'Flat Rate',
         'tpsm-sub-total-price'      => 'Cart Subtotal',
