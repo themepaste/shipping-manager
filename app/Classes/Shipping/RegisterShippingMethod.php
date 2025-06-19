@@ -162,21 +162,21 @@ class RegisterShippingMethod extends WC_Shipping_Method {
      */
     public function calculate_shipping( $package = array() ) {
 
-        $tax_status = $this->get_option( 'tax_status' );
+        $tax_status = $this->get_option( 'tax_status', 'taxable' );
         $data       = $this->get_option( 'tpsm_hidden' ); // Here we get a json format all condition and data
 
         $rate = array(
             'id'    => $this->id . ':' . $this->instance_id,
             'label' => $this->title,
             'cost'  => $this->get_tpsm_cost( $data ),
+            'calc_tax' => 'per_order',
         );
 
-        if ( $this->is_tpsm_plugin_taxable() ) {
-            $rate['calc_tax'] = 'per_order';
+         // Apply tax only if tax_status is 'taxable'
+        if ( $tax_status === 'taxable' ) {
+            $rate['taxes'] = ''; // Let WooCommerce calculate taxes
         } else {
-            $rate['taxes']     = false;
-            $rate['calc_tax']  = '';
-            $rate['tax_class'] = 'none';
+            $rate['taxes'] = false; // No tax applied
         }
 
         // Register the shipping rate.
@@ -184,44 +184,12 @@ class RegisterShippingMethod extends WC_Shipping_Method {
     }
 
     /**
-     * Get the shipping method title.
-     *
-     * @return string
-     */
-    // private function method_name() {
-    //     return ! empty( $this->tpsm_general_settings['method-title'] )
-    //         ? $this->tpsm_general_settings['method-title']
-    //         : __( 'Shipping Manager', 'shipping-manager' );
-    // }
-
-    /**
-     * Check if the shipping method is enabled.
-     *
-     * @return string 'yes' or 'no'
-     */
-    // private function is_enable() {
-    //     if( ! isset( $this->tpsm_general_settings['is-plugin-enable'] )  ) {
-    //         // initially its always true 
-    //         return 'yes';
-    //     }
-    //     else if ( ! empty( $this->tpsm_general_settings['is-plugin-enable'] ) ) {
-    //         return ( $this->tpsm_minimum_amount_setting() || $this->get_tpsm_cost() ) ? 'yes' : 'no';
-    //     }
-    //     return 'no';
-    // }
-
-    /**
      * Get the shipping cost.
      *
      * @return float
      */
     private function get_tpsm_cost( $data ) {
-        
-        // if ( $this->tpsm_minimum_amount_setting() ) {
-        //     return 0;
-        // } else {
-        //     return apply_filters( 'tpsm_shipping_fees_cost', 0 );
-        // }
+
         return apply_filters( 'tpsm_shipping_fees_cost', $data );
     }
 
@@ -232,18 +200,5 @@ class RegisterShippingMethod extends WC_Shipping_Method {
      */
     private function tpsm_minimum_amount_setting() {
         return apply_filters( 'tpsm_minimum_amount_setting', false );
-    }
-
-    /**
-     * Check if the shipping method is taxable.
-     *
-     * @return bool
-     */
-    private function is_tpsm_plugin_taxable() {
-        if ( ! empty( $this->tpsm_general_settings['is-plugin-taxable'] ) ) {
-            return ( 'yes' === $this->tpsm_general_settings['is-plugin-taxable'] );
-        }
-
-        return false;
     }
 }
