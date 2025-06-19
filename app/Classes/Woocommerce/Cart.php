@@ -55,18 +55,18 @@ class Cart {
         }
 
         // $conditions_data = $this->conditions_data;
-        $alwaysItems        = $this->filterByCondition( $data, 'always' );
+        $flat_rate_items        = $this->filterByCondition( $data, 'tpsm-flat-rate' );
         $totalPriceItems    = $this->filterByCondition( $data, 'total-price' );
         $subTotalPriceItems = $this->filterByCondition( $data, 'sub-total-price' );
         $weightItems        = $this->filterByCondition( $data, 'weight' );
         $shipping_callsestItems = $this->filterByCondition( $data, 'shipping-class' );
 
-        $always_shipping_cost               = $this->get_shipping_cost_for_always( $alwaysItems );
+        $flat_rate_shipping_cost               = $this->get_shipping_cost_for_flat_rate( $flat_rate_items );
         $cart_total_price_shipping_cost     = $this->get_shipping_cost_for_total_price( $totalPriceItems );
         $cart_subtotal_price_shipping_cost  = $this->get_shipping_cost_for_subtotal_price( $subTotalPriceItems );
         $cart_total_weight_shipping_cost    = $this->get_shipping_cost_for_total_weight( $weightItems ); 
 
-        $shipping_cost = $cart_total_price_shipping_cost + $always_shipping_cost + $cart_total_weight_shipping_cost + $cart_subtotal_price_shipping_cost;
+        $shipping_cost = $cart_total_price_shipping_cost + $flat_rate_shipping_cost + $cart_total_weight_shipping_cost + $cart_subtotal_price_shipping_cost;
         
         // Sum all costs
         return $shipping_cost;
@@ -119,6 +119,8 @@ class Cart {
             return;
         }
 
+        
+
         $weight = $this->cart_total_product_weights();
         
         $cost = 0;
@@ -131,7 +133,7 @@ class Cart {
         return $cost;
     }
 
-    private function get_shipping_cost_for_always( $items ) {
+    private function get_shipping_cost_for_flat_rate( $items ) {
 
         $cart = WC()->cart;
 
@@ -145,7 +147,7 @@ class Cart {
         return array_sum( $costs );
     }
 
-    function filterByCondition( $data, $condition ) {
+    private function filterByCondition( $data, $condition ) {
         return array_filter( $data, function( $item ) use ( $condition ) {
             return $item['condition'] === $condition;
         });
@@ -176,39 +178,39 @@ class Cart {
         return $total_weight;
     }
 
-    private function cart_total_dimension_fee( $cart ) {
-        $tpsm_dimensions_settings = $this->box_shipping_settings['box-shipping'] ?? [];
-        $total_fee = 0;
+    // private function cart_total_dimension_fee( $cart ) {
+    //     $tpsm_dimensions_settings = $this->box_shipping_settings['box-shipping'] ?? [];
+    //     $total_fee = 0;
     
-        foreach ( $cart->get_cart() as $cart_item ) {
-            $product    = $cart_item['data'];
-            $quantity   = $cart_item['quantity'];
-            $length     = floatval( $product->get_length() );
-            $width      = floatval( $product->get_width() );
-            $height     = floatval( $product->get_height() );
-            $fee        = 0;
+    //     foreach ( $cart->get_cart() as $cart_item ) {
+    //         $product    = $cart_item['data'];
+    //         $quantity   = $cart_item['quantity'];
+    //         $length     = floatval( $product->get_length() );
+    //         $width      = floatval( $product->get_width() );
+    //         $height     = floatval( $product->get_height() );
+    //         $fee        = 0;
 
-            // Check if all dimensions are valid (greater than zero)
-            if ( $length > 0 && $width > 0 && $height > 0 ) {
+    //         // Check if all dimensions are valid (greater than zero)
+    //         if ( $length > 0 && $width > 0 && $height > 0 ) {
 
-                if( !empty( $tpsm_dimensions_settings ) ) {
-                    foreach ( $tpsm_dimensions_settings as $value) {
-                        $tpsm_length    = $value['length'];
-                        $tpsm_width     = $value['width'];
-                        $tpsm_height    = $value['height'];
+    //             if( !empty( $tpsm_dimensions_settings ) ) {
+    //                 foreach ( $tpsm_dimensions_settings as $value) {
+    //                     $tpsm_length    = $value['length'];
+    //                     $tpsm_width     = $value['width'];
+    //                     $tpsm_height    = $value['height'];
     
-                        if( $length <= $tpsm_length && $width <= $tpsm_width && $height <= $tpsm_height ) {
-                            $fee  = $value['fee'];
-                            break;
-                        }
-                    }
-                    $total_fee += $fee * $quantity;
-                }
-            }
-        }
+    //                     if( $length <= $tpsm_length && $width <= $tpsm_width && $height <= $tpsm_height ) {
+    //                         $fee  = $value['fee'];
+    //                         break;
+    //                     }
+    //                 }
+    //                 $total_fee += $fee * $quantity;
+    //             }
+    //         }
+    //     }
     
-        return $total_fee;
-    }
+    //     return $total_fee;
+    // }
 }
 
 
