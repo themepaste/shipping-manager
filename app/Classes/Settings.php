@@ -182,7 +182,7 @@ class Settings {
         if ( ! isset( $_GET['tpsm-setting'] ) ) {
             $redirect_url = add_query_arg(
                 [
-                    'tpsm-setting'  => 'shipping-fees',
+                    'tpsm-setting'  => 'general',
                 ],
                 $this->setting_page_url
             );
