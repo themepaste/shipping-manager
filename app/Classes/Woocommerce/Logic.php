@@ -78,14 +78,23 @@ class Logic {
         $cart_total_weight_cost    = $this->get_shipping_cost_for_total_weight( $total_weight_items );
         $shipping_classes_cost     = $this->get_shippng_cost_for_shipping_classes( $shipping_classes_items );
 
-        $shipping_cost = $flat_rate_cost + $cart_total_price_cost + $cart_subtotal_price_cost + $cart_total_weight_cost + $per_weight_unit_cost;
+        $shipping_cost = $flat_rate_cost + $cart_total_price_cost + $cart_subtotal_price_cost + $cart_total_weight_cost + $per_weight_unit_cost + $shipping_classes_cost;
         
         // Sum all costs
         return $shipping_cost;
     }
 
     private function get_shippng_cost_for_shipping_classes( $items ) {
+        $cart_classes = $this->get_unique_shipping_classes_in_cart();
+        $cost = 0;
 
+        foreach ( $items as $item ) {
+            if( array_intersect( $item['multi'], $cart_classes ) ) {
+                $cost += $item['cost'];
+            }
+        }
+
+        return $cost;
     }
 
     /**
