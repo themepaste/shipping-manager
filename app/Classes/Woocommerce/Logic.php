@@ -137,8 +137,9 @@ class Logic {
         if ( is_null( $cart ) || empty( $items ) ) {
             return;
         }
+// $total = WC()->cart->get_total( 'edit' );
 
-        $total = (float) $cart->get_total( 'edit' );
+        $total = WC()->cart->get_cart_contents_total();
         $cost = 0;
 
         foreach ( $items as $item ) {
