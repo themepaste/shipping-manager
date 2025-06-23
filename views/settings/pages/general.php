@@ -110,9 +110,6 @@
             else if( 'text' == $field['type'] ) {
                 $settings_values[$key] = isset( $_POST[$field_name] ) ? sanitize_text_field( $_POST[$field_name] ) : '';
             }
-            else if( 'select' == $field['type'] ) {
-                $settings_values[$key] = isset( $_POST[$field_name] ) ? sanitize_text_field( $_POST[$field_name] ) : '';
-            }
         }
 
         update_option( $option_name, $settings_values );

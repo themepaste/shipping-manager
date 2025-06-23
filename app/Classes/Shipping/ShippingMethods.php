@@ -22,6 +22,13 @@ class ShippingMethods {
     use Asset;
 
     /**
+     * General settings.
+     *
+     * @var array
+     */
+    static public $tpsm_general_settings = [ 'is-plugin-enable' => '' ];
+
+    /**
      * Initialize the custom shipping method registration.
      *
      * Hooks into WooCommerce to register a custom shipping method.
@@ -29,6 +36,7 @@ class ShippingMethods {
      * @return void
      */
     public function __construct() {
+        self::$tpsm_general_settings = get_option( 'tpsm-general_settings' );
         $cart = new Logic();
         $this->filter( 'woocommerce_shipping_methods', [ $this, 'shipping_method' ] );
     }
@@ -42,7 +50,10 @@ class ShippingMethods {
      * @return array Modified list of shipping methods including the custom one.
      */
     public function shipping_method( $methods ) {
-        $methods[ RegisterShippingMethod::ID ] = RegisterShippingMethod::class;
+        
+        if( in_array( self::$tpsm_general_settings['is-plugin-enable'], ['yes', '1', 1], true ) ) {
+            $methods[ RegisterShippingMethod::ID ] = RegisterShippingMethod::class;
+        }
         return $methods;
     }
 }
