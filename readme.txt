@@ -1,21 +1,21 @@
-=== Shipping Manager – Table Rate, Weight Based, Box & Woocommerce advanced shipping ===
+=== Shipping Manager – Table Rate, Weight Based & Woocommerce advanced shipping ===
 Contributors: themepaste, habibnote
-Tags: shipping manager, Table Rate, woocommerce shipping, Weight Based, box shipping, flat rate
+Tags: Table Rate, woocommerce shipping, Weight Based, flat rate, shipping manager
 Requires at least: 5.8
 Tested up to: 6.8
 WC requires at least: 6.6
 WC tested up to: 9.8
 Requires PHP: 7.0
-Stable tag: 1.0.6
+Stable tag: 1.1.0
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Optimize WooCommerce shipping with dynamic rules, box management & real-time rates. Boost profits & customer satisfaction.  
+Powerful WooCommerce shipping plugin with table rate, weight-based rates, shipping class support, and advanced shipping rules. 
 
 == Description ==
 
 ### 🚚 All-in-One Shipping Manager Plugin for WooCommerce
-Shipping Manager offers a complete solution to simplify your WooCommerce shipping experience. You can dynamically customize the shipping fees for weight, box size, and more with **Table Rate Shipping WooCommerce**, WooCommerce **Weight-Based Shipping**, and Box Shipping for WooCommerce options. It handles all your shipping requirements to deliver flexible, accurate, and cost-effective logistics. 
+Shipping Manager offers a complete solution to simplify your WooCommerce shipping experience. You can dynamically customize the shipping fees for weight, Cart Total, Cart Subtotal and more with **Table Rate Shipping WooCommerce**, WooCommerce **Weight-Based Shipping**, and **Shipping Class** support for WooCommerce options. It handles all your shipping requirements to deliver flexible, accurate, and cost-effective logistics. 
 
 Explore more about the Shipping Manager plugin-
 
@@ -58,14 +58,17 @@ Shipping Manager gives you a powerful and user-friendly shipping solution for yo
 
 ### 🔥  Free Features:
 
+- Unlimited shipping methods*
+- Import & export exiting shipping methods*
+- One click disable unable our shipping methods site-wide*
+- Custom name and Description*
+- Tax support*
+- Flat rate fee *
 - Unit Weight Fee*  
-- Weight Range Pricing*  
-- Box Size and Fee*  
-- Free Shipping Bar*  
-- Shipping Calculator*  
-- Hide Other Shipping Methods*  
-- WooCommerce Per Product Shipping Rules [Upcoming]  
-- Override Other Rules [Upcoming]  
+- Weight Range Pricing* 
+- Cart Total Ranage Pricing *
+- Cart subtotal Range Pricing *
+- Shipping Class support*  
 
 ### 🚀 Pro Features [Upcoming]
 
@@ -81,21 +84,10 @@ Shipping Manager gives you a powerful and user-friendly shipping solution for yo
 - Delivery Date & Time Selection [PRO] 
 - Customizable Delivery Slips [PRO]  
 
-### ⚙️ Key Features Explained
-
-⚖️ **Unit Weight Fee:** Implement precise cost control with the Unit Weight Fee feature. This allows you to add a WooCommerce Weight-Based Shipping fee per unit of product weight. Thus, you can easily align shipping fees with actual logistics costs. Your store’s shipping charges will remain transparent and proportional to product weight.
-
-📦 **Box Size Management:** Easily configure and manage your packaging logistics with the Box Shipping for WooCommerce feature. Define multiple box sizes based on height, width, and length to accommodate your entire product catalog. Combine this with accurate shipping calculations to maintain transparency. 
-
-📏 **Free Shipping Bar:** Add a visual notification that shows how close the customer is to unlocking free shipping. This motivates customers to add more items to their cart, increasing your average order value.
-
-🧮 **Shipping Calculator:** Control the visibility of the shipping calculator on product pages by enabling or disabling it as needed. With the WooCommerce calculate shipping option, you can estimate the delivery cost without going to checkout. This improves transparency and reduces cart abandonment.
 
 ###🔜 Upcoming Features
 
 Take a sneak peek at the powerful functionalities of the Shipping Manager Plugin, which will soon be available. These features will give you even more control, WooCommerce Table Rate Shipping customization, and precision in managing shipping logistics for your WooCommerce store:
-
-📍 **Zone Distance Calculation:** Automatically calculate WooCommerce distance rate shipping charges based on delivery distance. This feature helps account for cost variations between local and long-distance deliveries without manual effort.
 
 🛣️ **Unit Fee for Distance:** Set additional charges based on the distance traveled per kilometer. Ideal for businesses offering regional delivery services, this ensures you’re not losing profit on faraway shipments.
 
