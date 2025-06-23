@@ -167,10 +167,7 @@ Go to Plugins > Add Plugin. Then, click the Choose File button and upload the ZI
 4. screenshot-4
 5. screenshot-5
 6. screenshot-6
-7. screenshot-7
-8. screenshot-8
-8. screenshot-9
-8. screenshot-10
+
 
 == Frequently Asked Questions ==
 
