@@ -39,7 +39,7 @@ class RegisterShippingMethod extends WC_Shipping_Method {
         $this->id                   = self::ID;
         $this->instance_id          = absint( $instance_id );
         $this->title                = __( 'Shipping Manager', 'shipping-manager' );
-        $this->method_title         = __( 'Shipping Manager', 'shipping-manager' );
+        $this->method_title         = __( 'Shipping Manager a', 'shipping-manager' );
         $this->method_description   = __( 'One solution for all shipping needs', 'shipping-manager' );;
         $this->enabled              = 'yes';
 
@@ -164,6 +164,10 @@ class RegisterShippingMethod extends WC_Shipping_Method {
 
         $tax_status = $this->get_option( 'tax_status', 'taxable' );
         $data       = $this->get_option( 'tpsm_hidden' ); // Here we get a json format all condition and data
+
+        if ( ! $this->get_tpsm_cost( $data ) || $this->get_tpsm_cost( $data ) == 0 ) {
+            return;
+        }
 
         $rate = array(
             'id'    => $this->id . ':' . $this->instance_id,

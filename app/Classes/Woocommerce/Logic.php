@@ -81,7 +81,7 @@ class Logic {
         $shipping_cost = $flat_rate_cost + $cart_total_price_cost + $cart_subtotal_price_cost + $cart_total_weight_cost + $per_weight_unit_cost + $shipping_classes_cost;
         
         // Sum all costs
-        return $shipping_cost;
+        return  $shipping_cost ;
     }
 
     private function get_shippng_cost_for_shipping_classes( $items ) {
@@ -137,9 +137,9 @@ class Logic {
         if ( is_null( $cart ) || empty( $items ) ) {
             return;
         }
-// $total = WC()->cart->get_total( 'edit' );
+        $total = WC()->cart->get_total( 'edit' );
 
-        $total = WC()->cart->get_cart_contents_total();
+        // $total = WC()->cart->get_cart_contents_total();
         $cost = 0;
 
         foreach ( $items as $item ) {

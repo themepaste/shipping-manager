@@ -20,22 +20,14 @@ if ( ! function_exists( 'tpsm_settings_options' ) ) {
         return apply_filters(
             'tpsm_settings_options',
             array(
-                // 'shipping-fees' => array(
-                //     'label' => __( 'Shipping Fees', 'shipping-manager' ),
+                // 'free-shipping' => array(
+                //     'label' => __( 'Free Shipping', 'shipping-manager' ),
                 //     'class' => '',
                 // ),
-                // 'box-shipping' => array(
-                //     'label' => __( 'Box Shipping', 'shipping-manager' ),
+                // 'shipping-calculator' => array(
+                //     'label' => __( 'Shipping Calculator', 'shipping-manager' ),
                 //     'class' => '',
                 // ),
-                'free-shipping' => array(
-                    'label' => __( 'Free Shipping', 'shipping-manager' ),
-                    'class' => '',
-                ),
-                'shipping-calculator' => array(
-                    'label' => __( 'Shipping Calculator', 'shipping-manager' ),
-                    'class' => '',
-                ),
             )
         );
     }
