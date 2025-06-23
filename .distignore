@@ -12,4 +12,6 @@ composer.json
 composer.lock
 .DS_Store
 package.json
+package-lock.json
 node_modules
+spa/
