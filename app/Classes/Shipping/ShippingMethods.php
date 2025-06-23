@@ -7,7 +7,7 @@ defined( 'ABSPATH' ) || exit;
 use ThemePaste\ShippingManager\Helpers\Utility;
 use ThemePaste\ShippingManager\Traits\Asset;
 use ThemePaste\ShippingManager\Traits\Hook;
-use ThemePaste\ShippingManager\Classes\Woocommerce\Cart;
+use ThemePaste\ShippingManager\Classes\Woocommerce\Logic;
 
 /**
  * Class ShippingMethod
@@ -16,10 +16,17 @@ use ThemePaste\ShippingManager\Classes\Woocommerce\Cart;
  *
  * @package ThemePaste\ShippingManager\Classes\Shipping
  */
-class ShippingMethod {
+class ShippingMethods {
 
     use Hook;
     use Asset;
+
+    /**
+     * General settings.
+     *
+     * @var array
+     */
+    static public $tpsm_general_settings = [ 'is-plugin-enable' => '' ];
 
     /**
      * Initialize the custom shipping method registration.
@@ -29,7 +36,8 @@ class ShippingMethod {
      * @return void
      */
     public function __construct() {
-        $cart = new Cart();
+        self::$tpsm_general_settings = get_option( 'tpsm-general_settings' );
+        $cart = new Logic();
         $this->filter( 'woocommerce_shipping_methods', [ $this, 'shipping_method' ] );
     }
 
@@ -42,7 +50,10 @@ class ShippingMethod {
      * @return array Modified list of shipping methods including the custom one.
      */
     public function shipping_method( $methods ) {
-        $methods[ RegisterShippingMethod::ID ] = RegisterShippingMethod::class;
+        
+        if( in_array( self::$tpsm_general_settings['is-plugin-enable'], ['yes', '1', 1], true ) ) {
+            $methods[ RegisterShippingMethod::ID ] = RegisterShippingMethod::class;
+        }
         return $methods;
     }
 }

@@ -36,7 +36,7 @@ final class App {
 		new Classes\Common();
 
 		// Register shipping methods setup.
-		new Classes\Shipping\ShippingMethod();
+		new Classes\Shipping\ShippingMethods();
 
 		// Register admin-specific hooks and classes.
 		if ( is_admin() ) {

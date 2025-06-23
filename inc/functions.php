@@ -20,22 +20,14 @@ if ( ! function_exists( 'tpsm_settings_options' ) ) {
         return apply_filters(
             'tpsm_settings_options',
             array(
-                'shipping-fees' => array(
-                    'label' => __( 'Shipping Fees', 'shipping-manager' ),
-                    'class' => '',
-                ),
-                'box-shipping' => array(
-                    'label' => __( 'Box Shipping', 'shipping-manager' ),
-                    'class' => '',
-                ),
-                'free-shipping' => array(
-                    'label' => __( 'Free Shipping', 'shipping-manager' ),
-                    'class' => '',
-                ),
-                'shipping-calculator' => array(
-                    'label' => __( 'Shipping Calculator', 'shipping-manager' ),
-                    'class' => '',
-                ),
+                // 'free-shipping' => array(
+                //     'label' => __( 'Free Shipping', 'shipping-manager' ),
+                //     'class' => '',
+                // ),
+                // 'shipping-calculator' => array(
+                //     'label' => __( 'Shipping Calculator', 'shipping-manager' ),
+                //     'class' => '',
+                // ),
             )
         );
     }
@@ -195,5 +187,25 @@ if ( ! function_exists( 'tpsm_isset' ) ) {
         }
 
         return $value;
+    }
+}
+
+/**
+ * Retrieves a list of shipping condition types.
+ *
+ * @since 1.0.0
+ *
+ * @return array Associative array with condition types as keys and their labels as values.
+ */
+if( ! function_exists( 'get_conditions_data' ) ) {
+    function get_conditions_data() {
+        return [
+            'tpsm-flat-rate'            => 'Flat Rate',
+            'tpsm-sub-total-price'      => 'Subtotal',
+            'tpsm-total-price'          => 'Total',
+            'tpsm-per-weight-unit'      => 'Per Weight Unit (' . get_option( 'woocommerce_weight_unit' ) . ')',
+            'tpsm-total-weight'         => 'Total Weight',
+            'tpsm-shipping-class'       => 'Shipping Class',
+        ];
     }
 }

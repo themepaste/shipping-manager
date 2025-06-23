@@ -31,6 +31,8 @@ class Settings {
     const SETTING_PAGE_ID = 'shipping-manager';
     public $setting_page_url;
 
+    private $localize_data = [];
+
     /**
      * Initialize the plugin settings page and hook into WordPress actions/filters.
      *
@@ -122,6 +124,35 @@ class Settings {
                 TPSM_ASSETS_URL . '/admin/js/settings.js'
             );
         }
+        if ( 'woocommerce_page_' . 'wc-settings' === $screen ) {
+            $this->enqueue_script(
+                'tpsm-settings-react',
+                TPSM_ASSETS_URL . '/admin/dist/bundle.js',
+            );
+        }
+
+        $this->localize_data['woocommerce_data'] = [
+            'currency'          => get_woocommerce_currency(),// e.g., 'USD'
+            'currency_symbol'   => get_woocommerce_currency_symbol(), // e.g., '$'
+            'weight_unit'       => get_option( 'woocommerce_weight_unit' ), // e.g., 'kg', 'g', 'lbs'
+        ]; 
+        $this->localize_data['shipping_rules_select'] = get_conditions_data();
+        $this->localize_data['wc_shipping_classess'] = $this->get_all_wc_classes();
+        $this->localize_data['assets_url'] = TPSM_ASSETS_URL;
+
+        $this->localize_script( 'tpsm-settings-react', 'TPSM_ADMIN', $this->localize_data );
+    }
+
+    private function get_all_wc_classes() {
+        $shipping_classes = WC()->shipping()->get_shipping_classes();
+        $new_shipping_class = [];
+        foreach ( $shipping_classes as $shipping_class ) {
+            $new_shipping_class[] = [
+                'value' => $shipping_class->slug,
+                'label' => $shipping_class->name,
+            ];
+        }
+        return $new_shipping_class;
     }
 
     /**
@@ -152,7 +183,7 @@ class Settings {
         if ( ! isset( $_GET['tpsm-setting'] ) ) {
             $redirect_url = add_query_arg(
                 [
-                    'tpsm-setting'  => 'shipping-fees',
+                    'tpsm-setting'  => 'general',
                 ],
                 $this->setting_page_url
             );

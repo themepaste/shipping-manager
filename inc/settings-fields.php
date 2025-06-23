@@ -25,14 +25,8 @@ if ( ! function_exists( 'tpsm_general_settings_fields' ) ) {
                 'label' => __( 'Disable/Enable', 'shipping-manager' ),
                 'type'  => 'switch',
                 'value' => '',
-                'desc'  => __( 'Enable or Disable the Shipping Manager method. Default: enabled.', 'shipping-manager' ),
-            ),
-            'is-plugin-taxable' => array(
-                'label' => __( 'Taxable', 'shipping-manager' ),
-                'type'  => 'select',
-                'value' => '',
-                'desc'  => __( 'Specify if the shipping method is taxable.', 'shipping-manager' ),
-            ),
+                'desc'  => __( 'Enable or disable all shipping methods site-wide.', 'shipping-manager' ),
+            )
         );
     }
 }

@@ -68,34 +68,6 @@
                         );
 
                     }
-                    else if( 'select' == $field['type'] ) {
-                        printf(
-                            '<div class="tpsm-setting-row">
-                                <div class="tpsm-field">
-                                    <div class="tpsm-field-label">
-                                        <label>%1$s:</label>
-                                    </div>
-                                    <div class="tpsm-field-input">
-                                        <div class="tpsm-select-wrapper">
-                                            <select name="%3$s" id="%3$s">
-                                                <option value="no" %4$s>%6$s</option>
-                                                <option value="yes" %5$s>%7$s</option>
-                                            </select>
-                                        </div>
-                                        <p class="tpsm-field-desc">%2$s</p>
-                                    </div>
-                                </div>
-                            </div>',
-                            esc_html( $field['label'] ),                                   // %1$s = Label
-                            esc_html( $field['desc'] ),                                    // %2$s = Description
-                            esc_attr( $prefix . '-' . $screen_slug . '_' . $key ),         // %3$s = Name and ID
-                            selected( $field['value'], 'no', false ),                      // %4$s = selected if 'no'
-                            selected( $field['value'], 'yes', false ),                     // %5$s = selected if 'yes'
-                            esc_html__( 'No', 'shipping-manager' ),                        // %6$s = Option text
-                            esc_html__( 'Yes', 'shipping-manager' )                        // %7$s = Option text
-                        );
-
-                    }
                 }
             ?>
 
@@ -136,9 +108,6 @@
                 $settings_values[$key] = isset( $_POST[$field_name] ) ? 1 : 0;
             }
             else if( 'text' == $field['type'] ) {
-                $settings_values[$key] = isset( $_POST[$field_name] ) ? sanitize_text_field( $_POST[$field_name] ) : '';
-            }
-            else if( 'select' == $field['type'] ) {
                 $settings_values[$key] = isset( $_POST[$field_name] ) ? sanitize_text_field( $_POST[$field_name] ) : '';
             }
         }

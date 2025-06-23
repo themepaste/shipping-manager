@@ -1,0 +1,130 @@
+.tpsm-shipping-rule-table-wrapper {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 100%;
+}
+.tpsm-shipping-rule-table {
+    width: 100%;
+}
+.tpsm-shipping-rule-table-wrapper thead tr th {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 20px;
+    text-align: left;
+}
+.tpsm-shipping-rule-table-wrapper table tr td {
+    text-align: left;
+    padding: 20px 0;
+}
+.tpsm-shipping-rule-table-wrapper thead tr th:first-child,
+.tpsm-shipping-rule-table-wrapper tbody tr td:first-child {
+    width: 20px;
+}
+.tpsm-shipping-rule-table-wrapper thead tr th:nth-child(2),
+.tpsm-shipping-rule-table-wrapper tbody tr td:nth-child(2) {
+    width: 30px;
+}
+.tpsm-shipping-rule-table-wrapper tbody tr td:nth-child(3) {
+    display: inline-flex;
+    gap: 10px;
+    align-items: center;
+}
+.tpsm-shipping-rule-table-wrapper thead tr th:nth-child(4),
+.tpsm-shipping-rule-table-wrapper tbody tr td:nth-child(4) {
+    width: 200px;
+}
+.tpsm-shipping-rule-table-wrapper thead tr th:last-child,
+.tpsm-shipping-rule-table-wrapper tbody tr td:last-child {
+    width: 50px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+
+.tpsm-shipping-rule-table-wrapper table tr td input {
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+}
+.tpsm-shipping-rule-table-wrapper table tr td input::placeholder {
+    color: #ddd;
+    font-size: 14px;
+    font-weight: 400;
+}
+.tpsm-shipping-rule-table-wrapper
+    table
+    tr
+    td
+    input[type='number']::-webkit-inner-spin-button,
+.tpsm-shipping-rule-table-wrapper
+    table
+    tr
+    td
+    input[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: textfield;
+    appearance: none;
+    margin: 0;
+}
+.tpsm-shipping-rule-table-wrapper table tr td button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    background-color: transparent;
+    cursor: pointer;
+}
+.tpsm-costs-column-data,
+.tpsm-max-min-field-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.tpsm-costs-column-data input,
+.tpsm-max-min-field-wrapper input {
+    width: 150px;
+}
+.tpsm-shipping-rule-actions {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    border-top: 1px solid #ddd;
+    padding-top: 20px;
+}
+.tpsm-shipping-rule-actions .tpsm-button {
+    padding: 9px 30px;
+    cursor: pointer;
+    border-radius: 4px;
+    background-color: #fff;
+    color: #f25500;
+    border: 1px solid #f25500;
+    font-weight: 500;
+}
+
+.tpsm-shipping-rule-actions .tpsm-button:last-child {
+    padding: 10px 30px;
+    cursor: pointer;
+    border-radius: 4px;
+    background-color: #f25500;
+    color: #fff;
+    border: none;
+    font-weight: 500;
+}
+.tpsm-shipping-rule-select {
+    min-height: none !important;
+    height: 42px !important;
+    width: fit-content;
+    padding: none !important;
+    border: 1px solid #ddd !important;
+    border-radius: 4px !important;
+    padding-right: 25px !important;
+}
+.tpsm-shipping-rule-select:hover {
+    color: #2c3338 !important;
+}
+#react-select-2-input {
+    box-shadow: none !important;
+}
