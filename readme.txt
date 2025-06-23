@@ -190,6 +190,22 @@ Yes, a trial version will be available to explore premium features before making
 Not at all! Shipping Manager is user-friendly and built for all users. It offers easy setup and management options without any coding skills. You can control everything using its intuitive dashboard.
 
 == Changelog ==
+
+= v1.0.6 - 2025.06.16 = 
+* [new] Change the settings dashboard.
+* [new] Supoort to use unlimited shipping methods 
+* [new] Import & export existing shipping methods by one click 
+* [new] One click & sitewide enable/disable shipping methods 
+* [new] Custom name and Description for shipping methods
+* [new] Flat rate fee 
+* [new] Cart total range pricing
+* [new] Cart subtotal range pricing
+* [new] Shipping class support
+* [fix] Fix issues.
+
+= v1.0.6 - 2025.06.16 =  
+* [fix] Fix issues.
+
 = v1.0.5 - 2025.05.26 =  
 * [fix] Fix issues.
 
