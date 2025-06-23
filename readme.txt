@@ -193,7 +193,7 @@ Not at all! Shipping Manager is user-friendly and built for all users. It offers
 
 = v1.0.6 - 2025.06.16 = 
 * [new] Change the settings dashboard.
-* [new] Supoort to use unlimited shipping methods 
+* [new] Support to use unlimited shipping methods 
 * [new] Import & export existing shipping methods by one click 
 * [new] One click & sitewide enable/disable shipping methods 
 * [new] Custom name and Description for shipping methods
