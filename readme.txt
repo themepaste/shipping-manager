@@ -57,18 +57,19 @@ Stay connected with us to get the trending news and updates from our:
 Shipping Manager gives you a powerful and user-friendly shipping solution for your WooCommerce store. No need to use multiple shipping solutions when you are getting everything in a single WooCommerce plugin—including Table Rate Shipping WooCommerce, WooCommerce Weight-Based Shipping, and Box Shipping for WooCommerce support. It’s the easiest option to ensure accurate shipping costs, better logistics, and happier customers.
 
 ### 🔥  Free Features:
-
+ 
 - Unlimited shipping methods*
-- Import & export exiting shipping methods*
-- One click disable unable our shipping methods site-wide*
-- Custom name and Description*
+- Import & export existing shipping methods*
+- One click & sitewide enable/disable shipping methods*
+- Custom name and Description for shipping methods*
 - Tax support*
 - Flat rate fee *
-- Unit Weight Fee*  
-- Weight Range Pricing* 
-- Cart Total Ranage Pricing *
-- Cart subtotal Range Pricing *
-- Shipping Class support*  
+- Unit weight fee*  
+- Weight range pricing* 
+- Cart total range pricing *
+- Cart subtotal range pricing *
+- Shipping class support*
+ 
 
 ### 🚀 Pro Features [Upcoming]
 
