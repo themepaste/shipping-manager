@@ -143,7 +143,7 @@ class RegisterShippingMethod extends WC_Shipping_Method {
                 'title'       => 'Import/Export',
                 'type'        => 'text',
                 'default'     => '',
-                'description' => 'Import/Export the data',
+                'description' => 'Paste rule data copied from another shipping method to quickly import all rules.',
             ),
             //This is a div to show the react container
             'custom_repeater_ui' => array(
