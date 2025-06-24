@@ -30,6 +30,7 @@ class Settings {
      */
     const SETTING_PAGE_ID = 'shipping-manager';
     public $setting_page_url;
+    public $woocommerce_shipping_page_url;
 
     private $localize_data = [];
 
@@ -43,6 +44,14 @@ class Settings {
         $this->setting_page_url = add_query_arg(
             [
                 'page' => self::SETTING_PAGE_ID,
+            ],
+            admin_url( 'admin.php' )
+        );
+
+        $this->woocommerce_shipping_page_url = add_query_arg(
+            [
+                'page'  => 'wc-settings',
+                'tab'   => 'shipping',
             ],
             admin_url( 'admin.php' )
         );
@@ -85,8 +94,14 @@ class Settings {
             esc_url( $this->setting_page_url ),
             esc_html__( 'Settings', 'shipping-manager' )
         );
+        $settings_linka = sprintf(
+            '<a href="%1$s">%2$s</a>',
+            esc_url( $this->woocommerce_shipping_page_url ),
+            esc_html__( 'Setup Method to Zones', 'shipping-manager' )
+        );
 
         array_unshift( $links, $settings_link );
+        array_unshift( $links,  $settings_linka );
 
         return $links;
     }

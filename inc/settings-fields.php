@@ -25,7 +25,7 @@ if ( ! function_exists( 'tpsm_general_settings_fields' ) ) {
                 'label' => __( 'Disable/Enable', 'shipping-manager' ),
                 'type'  => 'switch',
                 'value' => '',
-                'desc'  => __( 'Enable or disable all shipping methods site-wide.', 'shipping-manager' ),
+                'desc'  => __( 'Site-wide Shipping Manager Methods', 'shipping-manager' ),
             )
         );
     }
