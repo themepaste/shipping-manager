@@ -14,7 +14,7 @@ Powerful WooCommerce shipping plugin with table rate, weight-based rates, shippi
 
 == Description ==
 
-### 🚚 ** Table Rate Shipping Method ** Shipping Manager for WooCommerce 
+### 🚚 Table Rate Shipping Method Shipping Manager for WooCommerce 
 Shipping Manager offers a complete solution to simplify your WooCommerce shipping experience. You can dynamically customize the shipping fees for weight, Cart Total, Cart Subtotal and more with **Table Rate Shipping WooCommerce**, WooCommerce **Weight-Based Shipping**, and **Shipping Class** support for WooCommerce options. It handles all your shipping requirements to deliver flexible, accurate, and cost-effective logistics. 
 
 Explore more about the Shipping Manager plugin-
