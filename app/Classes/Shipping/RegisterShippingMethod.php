@@ -42,7 +42,7 @@ class RegisterShippingMethod extends WC_Shipping_Method {
         $this->method_title         = !empty(self::$tpsm_general_settings['method-title']) 
     ? self::$tpsm_general_settings['method-title'] 
     : __( 'Shipping Manager', 'shipping-manager' );
-        $this->method_description   = __( 'One solution for all shipping needs', 'shipping-manager' );;
+        $this->method_description   = __( 'One solution for all shipping needs', 'shipping-manager' );
         $this->enabled              = 'yes';
 
         $this->supports = array(
@@ -90,15 +90,14 @@ class RegisterShippingMethod extends WC_Shipping_Method {
 
         $this->form_fields = array(
             'custom_buttons_section' => array(
-                'title'       => __( 'Choose your settings', 'shipping-manager' ),
                 'type'        => 'title',
                 'description' => 
-                    '<a href="' . esc_url( $plugin_settings_url ) . '" class="button button-primary" style="margin-right: 10px;">' . 
-                        esc_html__( 'Plugin Settings', 'shipping-manager' ) . 
+                    '<a href="' . esc_url( $shipping_zones_url ) . '" class="button button-secondary" style="margin-right: 10px;">' . 
+                        esc_html__( 'Setup Shipping Methods to Zones', 'shipping-manager' ) . 
                     '</a>' .
-                    '<a href="' . esc_url( $shipping_zones_url ) . '" class="button button-secondary">' . 
-                        esc_html__( 'Zone Specific Settings', 'shipping-manager' ) . 
-                    '</a>',
+                    '<a href="' . esc_url( $plugin_settings_url ) . '" class="button button-primary">' . 
+                        esc_html__( 'Plugin Settings', 'shipping-manager' ) . 
+                    '</a>'
             ),
         );
     }
