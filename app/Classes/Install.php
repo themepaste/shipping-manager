@@ -17,6 +17,8 @@ class Install {
             $this->update_db_version(); 
         }
 
+        // add_option( 'tpsm_is_setup_wizard', true );
+
         //Update inital general settings
         update_option( 'tpsm-general_settings', [
             'method-title'      => '',
