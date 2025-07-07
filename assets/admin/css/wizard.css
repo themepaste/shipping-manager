@@ -1,5 +1,49 @@
 .tpsm-wizard-wrapper {
-    background-color: red;
-    height: 400px;
+    width: 100%;
+}
+.tpsm-wizard-container {
     width: 500px;
+    background-color: #fff;
+    margin: auto;
+    margin-top: 50px;
+    text-align: center;
+    padding: 20px;
+    border-radius: 4px;
+}
+.tpsm-wizard-container .tpsm-wizard-logo {
+    border-bottom: 1px solid #ddd;
+}
+.tpsm-wizard-container .tpsm-wizard-logo img {
+    width: 80px;
+    height: 80px;
+}
+.tpsm-wizard-container h3 {
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+.tpsm-wizard-container p {
+    font-size: 15px;
+    text-align: left;
+    margin-bottom: 35px;
+}
+.tpsm-wizard-container form {
+    padding-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid #ddd;
+}
+.tpsm-wizard-container form button.active {
+    padding-left: 15px;
+    padding-right: 15px;
+    font-size: 16px;
+    height: 37px;
+    line-height: 35px;
+    margin-bottom: 0;
+}
+.tpsm-wizard-container form button.active::after {
+    content: ' ➜';
+    position: absolute;
+    left: 0;
+    top: 0;
 }

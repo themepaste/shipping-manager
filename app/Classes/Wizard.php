@@ -20,12 +20,12 @@ class Wizard {
     }
 
     public function enqueue_assets( $screen ) {
-        // if ( 'tpsm_setup_wizard' === $screen ) {
+        if ( 'toplevel_page_' . 'tpsm_setup_wizard' === $screen ) {
             $this->enqueue_style(
                 'tpsm-setup-wizard',
                 TPSM_ASSETS_URL . '/admin/css/wizard.css',
             );
-        // }
+        }
     }
 
     public function redirect_to_setup_wizard_page() {
