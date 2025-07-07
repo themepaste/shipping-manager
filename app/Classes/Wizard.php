@@ -14,7 +14,7 @@ class Wizard {
     use Asset;
 
     public function __construct() {
-        // $this->action( 'admin_init', [$this, 'redirect_to_setup_wizard_page'] );
+        $this->action( 'admin_init', [$this, 'redirect_to_setup_wizard_page'] );
         $this->action( 'admin_menu', [$this, 'add_setup_wizard_page'] );
         $this->action( 'admin_enqueue_scripts', [$this, 'enqueue_assets'] );
     }
@@ -29,10 +29,20 @@ class Wizard {
     }
 
     public function redirect_to_setup_wizard_page() {
-        // if( get_option( 'tpsm_is_setup_wizard' ) ) {
-            // wp_redirect( admin_url( 'admin.php?page=tpsm_setup_wizard' ) );
-            // exit;
-        // }
+        if ( get_transient( 'tpsm_do_activation_redirect' ) ) {
+            delete_transient('tpsm_do_activation_redirect');
+        
+            if( get_option( 'tpsm_is_setup_wizard', 0 ) ) {
+                return;
+            }
+            wp_redirect( add_query_arg( 
+                array(
+                    'page'     => 'tpsm_setup_wizard',
+                ),
+                admin_url( 'admin.php' )
+            ) );
+            exit;
+        }
     }
 
     public function add_setup_wizard_page() {

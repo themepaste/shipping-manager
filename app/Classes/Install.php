@@ -17,7 +17,7 @@ class Install {
             $this->update_db_version(); 
         }
 
-        // add_option( 'tpsm_is_setup_wizard', true );
+        set_transient( 'tpsm_do_activation_redirect', true, 30 );
 
         //Update inital general settings
         update_option( 'tpsm-general_settings', [
