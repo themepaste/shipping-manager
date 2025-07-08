@@ -14,6 +14,11 @@ $args = array(
 );
 ?>
 
+<!-- For Display Notice  -->
+<div class="wrap">
+    <h1></h1>
+</div>
+
 <div class="wrap">
     <div class="themepaste-shipping-manager-wrapper">
         <?php echo Utility::get_template( 'settings/parts/topbar.php' ); ?>
