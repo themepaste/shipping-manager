@@ -13,6 +13,7 @@ class Admin {
     public function __construct() {
         $this->action( 'plugins_loaded', function() {
             new Wizard();
+            new Notice();
             ( new Settings() )->init();
         } );
     }
