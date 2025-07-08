@@ -57,8 +57,17 @@ class Wizard {
             100                                     
         );
 
+        add_submenu_page(
+            null,                                   // No parent slug means it's hidden
+            'Shipping Manager Setup Wizard',       // Page title
+            'Setup Wizard',                        // Menu title (not shown)
+            'manage_options',                      // Capability
+            'tpsm_setup_wizard',                   // Menu slug
+            [ $this, 'render_setup_wizard_page' ]  // Callback function
+        );
+
         // Remove it right after adding to hide from menu
-        // remove_menu_page( 'tpsm_setup_wizard' );
+        remove_menu_page( 'tpsm_setup_wizard' );
     }
 
     public function render_setup_wizard_page() {
