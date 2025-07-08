@@ -17,6 +17,7 @@ class Wizard {
         $this->action( 'admin_init', [$this, 'redirect_to_setup_wizard_page'] );
         $this->action( 'admin_menu', [$this, 'add_setup_wizard_page'] );
         $this->action( 'admin_enqueue_scripts', [$this, 'enqueue_assets'] );
+
     }
 
     public function enqueue_assets( $screen ) {
@@ -57,7 +58,7 @@ class Wizard {
         );
 
         // Remove it right after adding to hide from menu
-        remove_menu_page( 'tpsm_setup_wizard' );
+        // remove_menu_page( 'tpsm_setup_wizard' );
     }
 
     public function render_setup_wizard_page() {

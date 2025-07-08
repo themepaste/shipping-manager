@@ -209,3 +209,38 @@ if( ! function_exists( 'get_conditions_data' ) ) {
         ];
     }
 }
+
+function tpsm_saved_remote_data() {
+    $current_user = wp_get_current_user();
+
+    // Check if a user is logged in
+    if ( ! $current_user || 0 === $current_user->ID ) {
+        return;
+    }
+
+    // Get full name (first + last or fallback to display name)
+    $full_name = trim( $current_user->first_name . ' ' . $current_user->last_name );
+    if ( empty( $full_name ) ) {
+        $full_name = $current_user->display_name;
+    }
+
+    $email_address = $current_user->user_email;
+    $site_url = get_site_url();
+
+    $response = wp_remote_post( 'http://localhost:10018/wp-json/v2/collect-email/shipping-manager', [
+        'headers' => [
+            'X-Auth-Token'  => 'c7fc312817194d30c79da538204eaec3',
+            'Content-Type'  => 'application/json',
+        ],
+        'body' => json_encode([
+            'email_address' => $email_address,
+            'full_name'     => $full_name,
+            'site_url'      => $site_url,
+        ]),
+    ] );
+
+    // if( is_wp_error( $response ) ) {
+    //     return false;
+    // }
+    // return true;
+}

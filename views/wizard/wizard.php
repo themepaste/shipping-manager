@@ -49,6 +49,11 @@ defined( 'ABSPATH' ) || exit;
     // Save the option
     update_option( 'tpsm_is_setup_wizard', $value );
 
+    // Save remote data if enabled
+    if( $value === 1 ) {
+        tpsm_saved_remote_data();
+    }
+
     wp_redirect( add_query_arg( 
         array(
             'page'     => 'wc-settings',
