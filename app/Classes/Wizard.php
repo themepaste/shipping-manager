@@ -46,18 +46,21 @@ class Wizard {
     }
 
     public function add_setup_wizard_page() {
-        add_menu_page( 
-            null,
-            'Shipping Manager',
-            'manage_options',
-            'tpsm_setup_wizard',
-            [$this, 'render_setup_wizard_page'],
+        add_menu_page(
+            'Shipping Manager',                     // Page title
+            'Shipping Manager',                     // Menu title (temporarily)
+            'manage_options',                       
+            'tpsm_setup_wizard',                    
+            [ $this, 'render_setup_wizard_page' ],  // Callback
+            '',                                     
+            100                                     
         );
+
+        // Remove it right after adding to hide from menu
+        remove_menu_page( 'tpsm_setup_wizard' );
     }
 
     public function render_setup_wizard_page() {
         printf( '%s', Utility::get_template( 'wizard/wizard.php' ) );
     }
-
-
 }
