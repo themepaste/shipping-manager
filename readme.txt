@@ -194,7 +194,7 @@ Not at all! Shipping Manager is user-friendly and built for all users. It offers
 = v1.1.4 - 2025.07.14 = 
 * [new] Setup wizard included
 * [new] Notice added
-* [fix] Fi issues.
+* [fix] Fixed some issues.
 
 = v1.1.3 - 2025.06.30 = 
 * [fix] Fix class based shipping issues.
