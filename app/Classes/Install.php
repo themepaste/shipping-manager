@@ -23,7 +23,6 @@ class Install {
         update_option( 'tpsm-general_settings', [
             'method-title'      => '',
             'is-plugin-enable'  => 1,
-            'is-plugin-taxable' => 'no',
         ] );
     }
 
