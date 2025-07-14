@@ -6,7 +6,7 @@ Tested up to: 6.8
 WC requires at least: 6.6
 WC tested up to: 9.8
 Requires PHP: 7.0
-Stable tag: 1.1.3
+Stable tag: 1.1.4
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -190,6 +190,11 @@ Yes, a trial version will be available to explore premium features before making
 Not at all! Shipping Manager is user-friendly and built for all users. It offers easy setup and management options without any coding skills. You can control everything using its intuitive dashboard.
 
 == Changelog ==
+
+= v1.1.4 - 2025.07.14 = 
+* [new] Setup wizard included
+* [new] Notice added
+* [fix] Fi issues.
 
 = v1.1.3 - 2025.06.30 = 
 * [fix] Fix class based shipping issues.
