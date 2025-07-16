@@ -25,7 +25,8 @@ class Notice {
         }
 
         // Already completed? Then skip notice
-        if ( get_option( 'tpsm_is_setup_wizard', false ) ) {
+        $setup_wizard_value = get_option( 'tpsm_is_setup_wizard', null );
+        if ( $setup_wizard_value === '0' || $setup_wizard_value === '1' || $setup_wizard_value === 0 || $setup_wizard_value === 1 ) {
             return;
         }
 
