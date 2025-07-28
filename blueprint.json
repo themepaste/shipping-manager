@@ -1,0 +1,44 @@
+{
+    "name": "shipping-manager",
+    "displayName": "Shipping Manager for WooCommerce",
+    "description": "WooCommerce shipping plugin with table rates, weight-based rates, shipping class support, and advanced shipping rules.",
+    "version": "1.1.6",
+    "author": {
+        "name": "ThemePaste",
+        "url": "https://themepaste.com/"
+    },
+    "pluginUri": "https://themepaste.com/product/wordpress-plugins/shipping-manager-for-woocommerce",
+    "requires": {
+        "wordpress": ">=5.8",
+        "php": ">=7.0",
+        "plugins": ["woocommerce"]
+    },
+    "ui": {
+        "type": "widget",
+        "widget": "ShippingManagerDashboard"
+    },
+    "inputs": [
+        {
+            "name": "shipping_method",
+            "type": "select",
+            "options": ["Table Rate", "Weight Based", "Class Based"],
+            "default": "Table Rate"
+        },
+        {
+            "name": "weight_unit",
+            "type": "string",
+            "default": "kg"
+        },
+        {
+            "name": "base_rate",
+            "type": "number",
+            "default": 0
+        }
+    ],
+    "outputs": [
+        {
+            "name": "calculated_shipping",
+            "type": "number"
+        }
+    ]
+}
