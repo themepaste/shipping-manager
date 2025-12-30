@@ -106,7 +106,7 @@ class Wizard {
         ?>
 <style>
 /* Hide the top-level wizard menu item everywhere */
-#toplevel_page_tpasg_setup_wizard {
+#toplevel_page_tpsm_setup_wizard {
     display: none !important;
 }
 </style>

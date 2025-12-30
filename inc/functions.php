@@ -241,7 +241,7 @@ if ( !function_exists( 'tpsm_saved_remote_data' ) ) {
         $email_address = $current_user->user_email;
         $site_url = get_site_url();
 
-        wp_remote_post( 'http://localhost:10014/wp-json/v2/collect-email/shipping-manager', [
+        wp_remote_post( 'https://themepaste.com/wp-json/v2/collect-email/shipping-manager', [
             'headers' => [
                 'X-Auth-Token' => 'c7fc312817194d30c79da538204eaec3',
                 'Content-Type' => 'application/json',
