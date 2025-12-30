@@ -45,8 +45,8 @@ class Wizard {
 
         $redirect_url = add_query_arg(
             array(
-                'page'         => 'tp-admin-safety-guard',
-                'tpsa-setting' => 'analytics',
+                'page'         => 'shipping-manager',
+                'tpsm-setting' => 'general',
             ),
             admin_url( 'admin.php' )
         );
