@@ -1,8 +1,8 @@
 <?php
 
-defined( 'ABSPATH' ) || exit; 
+defined( 'ABSPATH' ) || exit;
 
-require_once( TPSM_PLUGIN_DIRNAME . '/inc/settings-fields.php' );
+require_once TPSM_PLUGIN_DIRNAME . '/inc/settings-fields.php';
 
 /**
  * Shipping Manager Plugin - Settings and Shipping Methods
@@ -15,7 +15,7 @@ require_once( TPSM_PLUGIN_DIRNAME . '/inc/settings-fields.php' );
  *
  * @return array Associative array of settings options.
  */
-if ( ! function_exists( 'tpsm_settings_options' ) ) {
+if ( !function_exists( 'tpsm_settings_options' ) ) {
     function tpsm_settings_options() {
         return apply_filters(
             'tpsm_settings_options',
@@ -38,7 +38,7 @@ if ( ! function_exists( 'tpsm_settings_options' ) ) {
  *
  * @return mixed Option value from the database.
  */
-if ( ! function_exists( 'tpsm_get_shipping_fees_settings' ) ) {
+if ( !function_exists( 'tpsm_get_shipping_fees_settings' ) ) {
     function tpsm_get_shipping_fees_settings() {
         return get_option( 'tpsm-shipping-fees_settings' );
     }
@@ -49,7 +49,7 @@ if ( ! function_exists( 'tpsm_get_shipping_fees_settings' ) ) {
  *
  * @return mixed Option value from the database.
  */
-if ( ! function_exists( 'tpsm_get_box_shipping_settings' ) ) {
+if ( !function_exists( 'tpsm_get_box_shipping_settings' ) ) {
     function tpsm_get_box_shipping_settings() {
         return get_option( 'tpsm-box-shipping_settings' );
     }
@@ -60,7 +60,7 @@ if ( ! function_exists( 'tpsm_get_box_shipping_settings' ) ) {
  *
  * @return mixed Option value from the database.
  */
-if ( ! function_exists( 'tpsm_get_free_shipping_settings' ) ) {
+if ( !function_exists( 'tpsm_get_free_shipping_settings' ) ) {
     function tpsm_get_free_shipping_settings() {
         return get_option( 'tpsm-free-shipping_settings' );
     }
@@ -71,7 +71,7 @@ if ( ! function_exists( 'tpsm_get_free_shipping_settings' ) ) {
  *
  * This function simulates a shipping package using the provided product ID and optional
  * destination details (country, state, postcode, city). It uses WooCommerce's internal
- * shipping method calculations to return a list of available shipping methods based on 
+ * shipping method calculations to return a list of available shipping methods based on
  * the current settings and the destination.
  *
  * @param string|null $country   Optional. Destination country code. Defaults to the customer's shipping country.
@@ -82,30 +82,30 @@ if ( ! function_exists( 'tpsm_get_free_shipping_settings' ) ) {
  *
  * @return array|false Returns an array of available shipping rates or false if not a valid product context.
  */
-if ( ! function_exists( 'tpsm_get_available_shipping_methods' ) ) {
+if ( !function_exists( 'tpsm_get_available_shipping_methods' ) ) {
     function tpsm_get_available_shipping_methods( $country = null, $state = null, $postcode = null, $city = null, $product_id = null ) {
-        if ( ! $product_id ) {
+        if ( !$product_id ) {
             return false;
         }
-    
+
         $product = wc_get_product( $product_id );
-        if ( ! $product ) {
+        if ( !$product ) {
             return false;
         }
-    
-        $country  = $country  ?: WC()->customer->get_shipping_country();
-        $state    = $state    ?: WC()->customer->get_shipping_state();
+
+        $country = $country ?: WC()->customer->get_shipping_country();
+        $state = $state ?: WC()->customer->get_shipping_state();
         $postcode = $postcode ?: WC()->customer->get_shipping_postcode();
-        $city     = $city     ?: WC()->customer->get_shipping_city();
-    
+        $city = $city ?: WC()->customer->get_shipping_city();
+
         $package = array(
-            'contents' => array(
+            'contents'        => array(
                 array(
                     'data'     => $product,
                     'quantity' => 1,
                 ),
             ),
-            'destination' => array(
+            'destination'     => array(
                 'country'   => $country,
                 'state'     => $state,
                 'postcode'  => $postcode,
@@ -117,10 +117,10 @@ if ( ! function_exists( 'tpsm_get_available_shipping_methods' ) ) {
             'contents_cost'   => $product->get_price(),
             'applied_coupons' => array(),
         );
-    
+
         $shipping = WC_Shipping::instance();
         $shipping->load_shipping_methods();
-    
+
         return $shipping->calculate_shipping_for_package( $package );
     }
 }
@@ -136,36 +136,38 @@ if ( ! function_exists( 'tpsm_get_available_shipping_methods' ) ) {
  *
  * @return void Outputs HTML directly.
  */
-if( ! function_exists( 'tpsm_taxable_field' ) ) {
+if ( !function_exists( 'tpsm_taxable_field' ) ) {
     function tpsm_taxable_field( $is_taxable = null ) {
-        if( is_null( $is_taxable ) ) {
+        if ( is_null( $is_taxable ) ) {
             $is_taxable = 'no';
         }?>
-            <div class="tpsm-field">
-                <div class="tpsm-field-label">
-                    <label><?php esc_html_e( 'Taxable: ', 'shipping-manager' ); ?></label>
-                </div>
-                <div class="tpsm-field-input">
-                    <div class="tpsm-switch-wrapper">
-                        <?php 
-                            printf(
-                                '<select disabled>
+<div class="tpsm-field">
+    <div class="tpsm-field-label">
+        <label><?php esc_html_e( 'Taxable: ', 'shipping-manager' ); ?></label>
+    </div>
+    <div class="tpsm-field-input">
+        <div class="tpsm-switch-wrapper">
+            <?php
+printf(
+            '<select disabled>
                                     <option value="yes" %3$s>%1$s</option>
                                     <option value="no" %4$s>%2$s</option>
                                 </select>',
-                                esc_html__( 'Yes', 'shipping-manager' ),
-                                esc_html__( 'No', 'shipping-manager' ),
-                                selected( $is_taxable, 'yes', false ),
-                                selected( $is_taxable, 'no', false ),
-                            );
-                        ?>
-                        
-                    </div>
-                    <p class="tpsm-field-desc"><?php esc_html_e( "'Yes' = Tax Included / 'No' = Tax excluded / Change it from Shipping Manager Settings", 'shipping-manager' ); ?></p>
-                </div>
-            </div>
-        <?php 
-    }
+            esc_html__( 'Yes', 'shipping-manager' ),
+            esc_html__( 'No', 'shipping-manager' ),
+            selected( $is_taxable, 'yes', false ),
+            selected( $is_taxable, 'no', false ),
+        );
+        ?>
+
+        </div>
+        <p class="tpsm-field-desc">
+            <?php esc_html_e( "'Yes' = Tax Included / 'No' = Tax excluded / Change it from Shipping Manager Settings", 'shipping-manager' ); ?>
+        </p>
+    </div>
+</div>
+<?php
+}
 }
 
 /**
@@ -180,9 +182,9 @@ if( ! function_exists( 'tpsm_taxable_field' ) ) {
  * @param mixed $value The value to check.
  * @return mixed|string Returns the original value if set, or an empty string if not set.
  */
-if ( ! function_exists( 'tpsm_isset' ) ) {
+if ( !function_exists( 'tpsm_isset' ) ) {
     function tpsm_isset( $value ) {
-        if ( ! isset( $value ) ) {
+        if ( !isset( $value ) ) {
             return '';
         }
 
@@ -197,21 +199,21 @@ if ( ! function_exists( 'tpsm_isset' ) ) {
  *
  * @return array Associative array with condition types as keys and their labels as values.
  */
-if( ! function_exists( 'get_conditions_data' ) ) {
+if ( !function_exists( 'get_conditions_data' ) ) {
     function get_conditions_data() {
         return [
-            'tpsm-flat-rate'            => 'Flat Rate',
-            'tpsm-sub-total-price'      => 'Subtotal',
-            'tpsm-total-price'          => 'Total',
-            'tpsm-per-weight-unit'      => 'Per Weight Unit (' . get_option( 'woocommerce_weight_unit' ) . ')',
-            'tpsm-total-weight'         => 'Total Weight',
-            'tpsm-shipping-class'       => 'Shipping Class',
+            'tpsm-flat-rate'       => 'Flat Rate',
+            'tpsm-sub-total-price' => 'Subtotal',
+            'tpsm-total-price'     => 'Total',
+            'tpsm-per-weight-unit' => 'Per Weight Unit (' . get_option( 'woocommerce_weight_unit' ) . ')',
+            'tpsm-total-weight'    => 'Total Weight',
+            'tpsm-shipping-class'  => 'Shipping Class',
         ];
     }
 }
 
-if( ! function_exists( 'tpsm_saved_remote_data' ) ) {
-    
+if ( !function_exists( 'tpsm_saved_remote_data' ) ) {
+
 /**
  * Sends the current user's information to a remote server.
  *
@@ -226,7 +228,7 @@ if( ! function_exists( 'tpsm_saved_remote_data' ) ) {
         $current_user = wp_get_current_user();
 
         // Check if a user is logged in
-        if ( ! $current_user || 0 === $current_user->ID ) {
+        if ( !$current_user || 0 === $current_user->ID ) {
             return;
         }
 
@@ -239,16 +241,16 @@ if( ! function_exists( 'tpsm_saved_remote_data' ) ) {
         $email_address = $current_user->user_email;
         $site_url = get_site_url();
 
-        $response = wp_remote_post( 'https://contractfinderdirect.com/wp-json/v2/collect-email/shipping-manager', [
+        wp_remote_post( 'http://localhost:10014/wp-json/v2/collect-email/shipping-manager', [
             'headers' => [
-                'X-Auth-Token'  => 'c7fc312817194d30c79da538204eaec3',
-                'Content-Type'  => 'application/json',
+                'X-Auth-Token' => 'c7fc312817194d30c79da538204eaec3',
+                'Content-Type' => 'application/json',
             ],
-            'body' => json_encode([
+            'body'    => json_encode( [
                 'email_address' => $email_address,
                 'full_name'     => $full_name,
                 'site_url'      => $site_url,
-            ]),
+            ] ),
         ] );
 
     }
