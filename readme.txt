@@ -19,7 +19,7 @@ Shipping Manager offers a complete solution to simplify your WooCommerce shippin
 
 Explore more about the Shipping Manager plugin-
 
-✅ [Documentation](https://themepaste.com/documentation/shipping-manager-documentation)
+✅ [Documentation](https://themepaste.com/product-name/shipping-manager/)
 ✅ [Support](https://themepaste.com/contact-us)
 
 ### 💡 Why Choose a Shipping Manager?

@@ -13,26 +13,26 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
 <p class="tpsm-rating-message">
     <?php
-    /**
-     * Output a translatable plugin rating message with:
-     * - Plugin name in bold.
-     * - 5-star graphic using Unicode.
-     * - Link to the WordPress plugin reviews section.
-     *
-     * The message format is:
-     * "If you like [Plugin Name], you can rate us ★★★★★ in plugins repository →"
-     */
+/**
+ * Output a translatable plugin rating message with:
+ * - Plugin name in bold.
+ * - 5-star graphic using Unicode.
+ * - Link to the WordPress plugin reviews section.
+ *
+ * The message format is:
+ * "If you like [Plugin Name], you can rate us ★★★★★ in plugins repository →"
+ */
 
-    printf(
-        /* translators: 1: Plugin name (bold), 2: Star symbols, 3: Opening <a> tag with URL, 4: Closing </a> tag */
-        esc_html__(
-            'If you like %1$s you can rate us %2$s %3$sin plugins repository →%4$s',
-            'shipping-manager'
-        ),
-        '<strong>' . esc_html__( 'Shipping Manager', 'shipping-manager' ) . '</strong>',
-        '<span class="tpsm-stars" aria-label="5 stars">★★★★★</span>',
-        '<strong><a href="' . esc_url( 'https://wordpress.org/plugins/shipping-manager/#reviews' ) . '" target="_blank" rel="noopener noreferrer">',
-        '</a></strong>'
-    );
-    ?>
+printf(
+    /* translators: 1: Plugin name (bold), 2: Star symbols, 3: Opening <a> tag with URL, 4: Closing </a> tag */
+    esc_html__(
+        'If you like %1$s you can rate us %2$s %3$sin plugins repository →%4$s',
+        'shipping-manager'
+    ),
+    '<strong>' . esc_html__( 'Shipping Manager', 'shipping-manager' ) . '</strong>',
+    '<span class="tpsm-stars" aria-label="5 stars">★★★★★</span>',
+    '<strong><a href="' . esc_url( 'https://wordpress.org/plugins/shipping-manager/#reviews' ) . '" target="_blank" rel="noopener noreferrer">',
+    '</a></strong>'
+);
+?>
 </p>

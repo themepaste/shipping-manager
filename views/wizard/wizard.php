@@ -1,8 +1,4 @@
-<?php
-
-defined( 'ABSPATH' ) || exit;
-
-?>
+<?php defined( 'ABSPATH' ) || exit; ?>
 <div class="tpsm-wizard-wrapper">
     <div class="tpsm-wizard-container">
 
