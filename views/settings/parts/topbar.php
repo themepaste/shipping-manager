@@ -27,7 +27,7 @@ printf( '<img src="%1$s" >', esc_url( $tpsm_icon ) );
     <!-- Right-aligned topbar info area -->
     <div class="tpsm-topbar-info-area">
         <!-- Link to plugin documentation -->
-        <a href="https://themepaste.com/product-name/shipping-manager/" target="_blank">
+        <a href="https://themepaste.com/documentation/shipping-manager/" target="_blank">
             <?php esc_html_e( 'Documentation', 'shipping-manager' ); ?>
         </a>
     </div>
