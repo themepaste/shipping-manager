@@ -50,17 +50,17 @@ class Settings {
 
         $this->woocommerce_shipping_page_url = add_query_arg(
             [
-                'page'  => 'wc-settings',
-                'tab'   => 'shipping',
+                'page' => 'wc-settings',
+                'tab'  => 'shipping',
             ],
             admin_url( 'admin.php' )
         );
 
         $this->action( 'admin_head', [$this, 'remove_save_button'] );
-        $this->action( 'admin_menu', [ $this, 'shipping_manager_setting_page' ] );
-        $this->action( 'admin_enqueue_scripts', [ $this, 'admin_enqueue_css' ] );
-        $this->action( 'admin_enqueue_scripts', [ $this, 'admin_enqueue_scripts' ] );
-        $this->filter( 'plugin_action_links_' . TPSM_PLUGIN_BASENAME, [ $this, 'settings_link' ] );
+        $this->action( 'admin_menu', [$this, 'shipping_manager_setting_page'] );
+        $this->action( 'admin_enqueue_scripts', [$this, 'admin_enqueue_css'] );
+        $this->action( 'admin_enqueue_scripts', [$this, 'admin_enqueue_scripts'] );
+        $this->filter( 'plugin_action_links_' . TPSM_PLUGIN_BASENAME, [$this, 'settings_link'] );
         $this->filter( 'tpsm_settings_options', [$this, 'add_setting_option_in_setting_page'] );
     }
 
@@ -101,7 +101,7 @@ class Settings {
         );
 
         array_unshift( $links, $settings_link );
-        array_unshift( $links,  $settings_linka );
+        array_unshift( $links, $settings_linka );
 
         return $links;
     }
@@ -113,7 +113,7 @@ class Settings {
      * @return void
      */
     public function admin_enqueue_css( $screen ) {
-        if ( 'toplevel_page_' . self::SETTING_PAGE_ID === $screen ) {
+        if ( 'woocommerce_page_' . self::SETTING_PAGE_ID === $screen ) {
             $this->enqueue_style(
                 'tpsm-settings',
                 TPSM_ASSETS_URL . '/admin/css/settings.css'
@@ -133,7 +133,7 @@ class Settings {
      * @return void
      */
     public function admin_enqueue_scripts( $screen ) {
-        if ( 'toplevel_page_' . self::SETTING_PAGE_ID === $screen ) {
+        if ( 'woocommerce_page_' . self::SETTING_PAGE_ID === $screen ) {
             $this->enqueue_script(
                 'tpsm-settings',
                 TPSM_ASSETS_URL . '/admin/js/settings.js'
@@ -147,10 +147,10 @@ class Settings {
         }
 
         $this->localize_data['woocommerce_data'] = [
-            'currency'          => get_woocommerce_currency(),// e.g., 'USD'
-            'currency_symbol'   => get_woocommerce_currency_symbol(), // e.g., '$'
-            'weight_unit'       => get_option( 'woocommerce_weight_unit' ), // e.g., 'kg', 'g', 'lbs'
-        ]; 
+            'currency'        => get_woocommerce_currency(), // e.g., 'USD'
+            'currency_symbol' => get_woocommerce_currency_symbol(), // e.g., '$'
+            'weight_unit'     => get_option( 'woocommerce_weight_unit' ), // e.g., 'kg', 'g', 'lbs'
+        ];
         $this->localize_data['shipping_rules_select'] = get_conditions_data();
         $this->localize_data['wc_shipping_classess'] = $this->get_all_wc_classes();
         $this->localize_data['assets_url'] = TPSM_ASSETS_URL;
@@ -177,16 +177,16 @@ class Settings {
      */
     public function shipping_manager_setting_page() {
         if ( class_exists( 'WooCommerce' ) ) {
-            add_menu_page(
-                esc_html__( 'Shipping Manager', 'shipping-manager' ),
-                esc_html__( 'Shipping Manager', 'shipping-manager' ),
-                'manage_options',
-                self::SETTING_PAGE_ID,
-                [ $this, 'settings_page_layout' ],
-                'dashicons-airplane',
-                56
+            add_submenu_page(
+                'woocommerce', // Parent slug (WooCommerce)
+                esc_html__( 'Shipping Manager', 'shipping-manager' ), // Page title
+                esc_html__( 'Shipping Manager', 'shipping-manager' ), // Menu title
+                'manage_woocommerce', // Capability (recommended)
+                self::SETTING_PAGE_ID, // Menu slug
+                [$this, 'settings_page_layout']// Callback
             );
         }
+
     }
 
     /**
@@ -195,10 +195,10 @@ class Settings {
      * @return void
      */
     public function settings_page_layout() {
-        if ( ! isset( $_GET['tpsm-setting'] ) ) {
+        if ( !isset( $_GET['tpsm-setting'] ) ) {
             $redirect_url = add_query_arg(
                 [
-                    'tpsm-setting'  => 'general',
+                    'tpsm-setting' => 'general',
                 ],
                 $this->setting_page_url
             );

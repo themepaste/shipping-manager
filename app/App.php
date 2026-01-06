@@ -18,34 +18,34 @@ use ThemePaste\ShippingManager\Traits\Hook;
  */
 final class App {
 
-	use Hook;
+    use Hook;
 
-	/**
-	 * Initialize all plugin hooks and core components.
-	 *
-	 * This method sets up both frontend and backend functionalities.
-	 *
-	 * @return void
-	 */
-	public static function hooks() {
+    /**
+     * Initialize all plugin hooks and core components.
+     *
+     * This method sets up both frontend and backend functionalities.
+     *
+     * @return void
+     */
+    public static function hooks() {
 
-		// Register activation-related setup such as DB installation, version check, etc.
-		new Classes\Install();
+        // Register activation-related setup such as DB installation, version check, etc.
+        new Classes\Install();
 
-		// Load common functionality (AJAX, scripts, etc.)
-		new Classes\Common();
+        // Load common functionality (AJAX, scripts, etc.)
+        new Classes\Common();
 
-		// Register shipping methods setup.
-		new Classes\Shipping\ShippingMethods();
+        // Register shipping methods setup.
+        new Classes\Shipping\ShippingMethods();
 
-		// Register admin-specific hooks and classes.
-		if ( is_admin() ) {
-			new Classes\Admin();
-		}
+        // Register admin-specific hooks and classes.
+        if ( is_admin() ) {
+            new Classes\Admin();
+        }
 
-		// Register frontend-specific hooks and classes.
-		if ( ! is_admin() ) {
-			new Classes\Front();
-		}
-	}
+        // Register frontend-specific hooks and classes.
+        if ( !is_admin() ) {
+            new Classes\Front();
+        }
+    }
 }
