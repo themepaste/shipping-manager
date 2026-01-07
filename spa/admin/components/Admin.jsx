@@ -17,15 +17,34 @@ import Select from 'react-select';
  */
 function Admin() {
   const [rows, setRows] = useState([
-    { condition: 'tpsm-flat-rate', cost: '', min: '', max: '', multi: [] },
+    {
+      condition: 'tpsm-flat-rate',
+      cost: '',
+      equal: '',
+      value: '',
+      min: '',
+      max: '',
+      multi: [],
+    },
   ]);
   const [selectedRows, setSelectedRows] = useState([]);
+  const [selectOparator, setSelectOparator] = useState('equals');
 
   const conditionsValues = Object.keys(TPSM_ADMIN.shipping_rules_select);
   const conditionsLabel = Object.values(TPSM_ADMIN.shipping_rules_select);
 
   console.log(TPSM_ADMIN);
   const classOptions = TPSM_ADMIN.wc_shipping_classess;
+
+  const operators = [
+    { value: 'equals', label: 'Equals' },
+    { value: 'not-equals', label: 'Not equal' },
+    { value: 'greater', label: 'Greater than' },
+    { value: 'less', label: 'Less than' },
+    { value: 'greater-equal', label: 'Greater than or equal to' },
+    { value: 'less-equal', label: 'Less than or equal to' },
+    { value: 'between', label: 'Between' },
+  ];
 
   useEffect(() => {
     const hiddenField = document.getElementById(
@@ -97,6 +116,8 @@ function Admin() {
       {
         condition: conditionsValues[0],
         cost: '',
+        equal: '',
+        value: '',
         min: '',
         max: '',
         multi: [],
@@ -221,6 +242,59 @@ function Admin() {
                     {renderOptGroup('Cart', 1, 4)}
                     {renderOptGroup('Product', 4)}
                   </select>
+
+                  {row.condition === 'tpsm-cart-quantity' && (
+                    <>
+                      {/* select operator */}
+                      <div className="tpsm-max-min-field-wrapper">
+                        <select
+                          className="tpsm-shipping-rule-select"
+                          value={selectOparator}
+                          onChange={(e) => setSelectOparator(e.target.value)}
+                        >
+                          {operators.map((op) => (
+                            <option key={op.value} value={op.value}>
+                              {op.label}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                      {selectOparator !== 'between' && (
+                        <>
+                          <div className="tpsm-max-min-field-wrapper">
+                            <input
+                              type="number"
+                              placeholder="Value"
+                              value=""
+                              onChange=""
+                            />
+                          </div>
+                        </>
+                      )}
+                      {selectOparator === 'between' && (
+                        <>
+                          <div className="tpsm-max-min-field-wrapper">
+                            <input
+                              type="number"
+                              placeholder="Min"
+                              value=""
+                              onChange=""
+                            />
+                          </div>
+                          <div className="tpsm-max-min-field-wrapper">
+                            <input
+                              type="number"
+                              placeholder="Max"
+                              value={row.max}
+                              onChange={(e) =>
+                                handleRowChange(index, 'max', e.target.value)
+                              }
+                            />
+                          </div>
+                        </>
+                      )}
+                    </>
+                  )}
 
                   {row.condition === 'tpsm-total-price' && (
                     <>
