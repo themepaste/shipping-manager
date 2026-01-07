@@ -203,6 +203,7 @@ if ( !function_exists( 'get_conditions_data' ) ) {
     function get_conditions_data() {
         return [
             'tpsm-flat-rate'       => 'Flat Rate',
+            'tpsm-cart-quantity'   => 'Quantity',
             'tpsm-sub-total-price' => 'Subtotal',
             'tpsm-total-price'     => 'Total',
             'tpsm-per-weight-unit' => 'Per Weight Unit (' . get_option( 'woocommerce_weight_unit' ) . ')',
