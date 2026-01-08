@@ -1,10 +1,9 @@
-<?php 
+<?php
 
 namespace ThemePaste\ShippingManager\Classes\Woocommerce;
 
 defined( 'ABSPATH' ) || exit;
 
-use ThemePaste\ShippingManager\Helpers\Utility;
 use ThemePaste\ShippingManager\Traits\Asset;
 use ThemePaste\ShippingManager\Traits\Hook;
 
@@ -20,8 +19,6 @@ class Logic {
     use Hook;
     use Asset;
 
-    // public $shipping_fees_settings;
-    // public $box_shipping_settings;
     public $free_shipping_settings;
 
     /**
@@ -30,20 +27,17 @@ class Logic {
      * Registers necessary filters/hooks.
      */
     public function __construct() {
-        // $this->shipping_fees_settings   = tpsm_get_shipping_fees_settings();
-        // $this->box_shipping_settings    = tpsm_get_box_shipping_settings();
-        $this->free_shipping_settings   = tpsm_get_free_shipping_settings();
+        $this->free_shipping_settings = tpsm_get_free_shipping_settings();
 
         new FreeShipping( $this->free_shipping_settings );
-        $this->filter( 'tpsm_shipping_fees_cost', [ $this, 'shipping_fees_cost' ] );
+        $this->filter( 'tpsm_shipping_fees_cost', [$this, 'shipping_fees_cost'] );
     }
 
-    
     /**
      * Calculate shipping cost based on cart total price, weight, and shipping classes.
-     * 
+     *
      * @param array $data Shipping fees data.
-     * 
+     *
      * @return float Shipping cost.
      */
     public function shipping_fees_cost( $data ) {
@@ -53,7 +47,7 @@ class Logic {
         }
         $cart = WC()->cart;
 
-        if( ! is_array( $data ) && empty( $data ) ) {
+        if ( !is_array( $data ) && empty( $data ) ) {
             return;
         }
 
@@ -64,24 +58,24 @@ class Logic {
         /**
          * Filter the shipping cost based on cart total price, weight, and shipping classes.
          */
-        $flat_rate_items        = $this->dataFilterByConditionName( $data, 'tpsm-flat-rate' );
-        $total_price_items      = $this->dataFilterByConditionName( $data, 'tpsm-total-price' );
-        $sub_total_price_items  = $this->dataFilterByConditionName( $data, 'tpsm-sub-total-price' );
-        $per_weight_unit_items  = $this->dataFilterByConditionName( $data, 'tpsm-per-weight-unit' );
-        $total_weight_items     = $this->dataFilterByConditionName( $data, 'tpsm-total-weight' );
+        $flat_rate_items = $this->dataFilterByConditionName( $data, 'tpsm-flat-rate' );
+        $total_price_items = $this->dataFilterByConditionName( $data, 'tpsm-total-price' );
+        $sub_total_price_items = $this->dataFilterByConditionName( $data, 'tpsm-sub-total-price' );
+        $per_weight_unit_items = $this->dataFilterByConditionName( $data, 'tpsm-per-weight-unit' );
+        $total_weight_items = $this->dataFilterByConditionName( $data, 'tpsm-total-weight' );
         $shipping_classes_items = $this->dataFilterByConditionName( $data, 'tpsm-shipping-class' );
 
-        $flat_rate_cost            = $this->get_shipping_cost_for_flat_rate( $flat_rate_items );
-        $cart_total_price_cost     = $this->get_shipping_cost_for_total_price( $total_price_items );
-        $cart_subtotal_price_cost  = $this->get_shipping_cost_for_subtotal_price( $sub_total_price_items );
-        $per_weight_unit_cost      = $this->get_shipping_cost_for_per_weight_unit( $per_weight_unit_items );
-        $cart_total_weight_cost    = $this->get_shipping_cost_for_total_weight( $total_weight_items );
-        $shipping_classes_cost     = $this->get_shippng_cost_for_shipping_classes( $shipping_classes_items );
+        $flat_rate_cost = $this->get_shipping_cost_for_flat_rate( $flat_rate_items );
+        $cart_total_price_cost = $this->get_shipping_cost_for_total_price( $total_price_items );
+        $cart_subtotal_price_cost = $this->get_shipping_cost_for_subtotal_price( $sub_total_price_items );
+        $per_weight_unit_cost = $this->get_shipping_cost_for_per_weight_unit( $per_weight_unit_items );
+        $cart_total_weight_cost = $this->get_shipping_cost_for_total_weight( $total_weight_items );
+        $shipping_classes_cost = $this->get_shippng_cost_for_shipping_classes( $shipping_classes_items );
 
         $shipping_cost = $flat_rate_cost + $cart_total_price_cost + $cart_subtotal_price_cost + $cart_total_weight_cost + $per_weight_unit_cost + $shipping_classes_cost;
-        
+
         // Sum all costs
-        return  $shipping_cost ;
+        return $shipping_cost;
     }
 
     private function get_shippng_cost_for_shipping_classes( $items ) {
@@ -89,7 +83,7 @@ class Logic {
         $cost = 0;
 
         foreach ( $items as $item ) {
-            if( array_intersect( $item['multi'], $cart_classes ) ) {
+            if ( array_intersect( $item['multi'], $cart_classes ) ) {
                 $cost += $item['cost'];
             }
         }
@@ -115,7 +109,7 @@ class Logic {
         $cost = 0;
 
         foreach ( $items as $item ) {
-            if( $subtotal <= $item['max'] && $subtotal >= $item['min'] ) {
+            if ( $subtotal <= $item['max'] && $subtotal >= $item['min'] ) {
                 $cost += $item['cost'];
             }
         }
@@ -131,7 +125,7 @@ class Logic {
      * @return int Shipping cost.
      */
     private function get_shipping_cost_for_total_price( $items ) {
-        
+
         $cart = WC()->cart;
 
         if ( is_null( $cart ) || empty( $items ) ) {
@@ -141,7 +135,7 @@ class Logic {
         $cost = 0;
 
         foreach ( $items as $item ) {
-            if( $total <= $item['max'] && $total >= $item['min'] ) {
+            if ( $total <= $item['max'] && $total >= $item['min'] ) {
                 $cost += $item['cost'];
             }
         }
@@ -187,10 +181,10 @@ class Logic {
         }
 
         $weight = $this->cart_total_product_weights();
-        
+
         $cost = 0;
         foreach ( $items as $item ) {
-            if( $weight <= $item['max'] && $weight >= $item['min'] ) {
+            if ( $weight <= $item['max'] && $weight >= $item['min'] ) {
                 $cost += $item['cost'];
             }
         }
@@ -200,9 +194,9 @@ class Logic {
 
     /**
      * Calculates shipping cost based on flat rate shipping.
-     * 
+     *
      * @param array $items Array of items with shipping cost data.
-     * 
+     *
      * @return float Shipping cost.
      */
     private function get_shipping_cost_for_flat_rate( $items ) {
@@ -228,9 +222,9 @@ class Logic {
      * @return array The filtered array containing only items that match the condition.
      */
     private function dataFilterByConditionName( $data, $condition ) {
-        return array_filter( $data, function( $item ) use ( $condition ) {
+        return array_filter( $data, function ( $item ) use ( $condition ) {
             return $item['condition'] === $condition;
-        });
+        } );
     }
 
     /**
@@ -240,14 +234,14 @@ class Logic {
      *
      * @return float The total weight of all products in the cart.
      */
-    private function cart_total_product_weights( ) {
+    private function cart_total_product_weights() {
         $cart = WC()->cart;
         $total_weight = 0;
 
         foreach ( $cart->get_cart() as $cart_item ) {
-            $product  = $cart_item['data'];
+            $product = $cart_item['data'];
             $quantity = $cart_item['quantity'];
-            $weight   = $product->get_weight();
+            $weight = $product->get_weight();
 
             // Validate that the weight is set and greater than zero
             if ( $weight !== '' && $weight !== null && floatval( $weight ) > 0 ) {
@@ -265,33 +259,33 @@ class Logic {
      * Only considers products with valid dimensions (greater than zero).
      *
      * @param WC_Cart $cart The WooCommerce cart object.
-     * 
+     *
      * @return float The total dimension-based shipping fee for the cart.
      */
 
     private function cart_total_dimension_fee( $cart ) {
         $tpsm_dimensions_settings = $this->box_shipping_settings['box-shipping'] ?? [];
         $total_fee = 0;
-    
+
         foreach ( $cart->get_cart() as $cart_item ) {
-            $product    = $cart_item['data'];
-            $quantity   = $cart_item['quantity'];
-            $length     = floatval( $product->get_length() );
-            $width      = floatval( $product->get_width() );
-            $height     = floatval( $product->get_height() );
-            $fee        = 0;
+            $product = $cart_item['data'];
+            $quantity = $cart_item['quantity'];
+            $length = floatval( $product->get_length() );
+            $width = floatval( $product->get_width() );
+            $height = floatval( $product->get_height() );
+            $fee = 0;
 
             // Check if all dimensions are valid (greater than zero)
             if ( $length > 0 && $width > 0 && $height > 0 ) {
 
-                if( !empty( $tpsm_dimensions_settings ) ) {
-                    foreach ( $tpsm_dimensions_settings as $value) {
-                        $tpsm_length    = $value['length'];
-                        $tpsm_width     = $value['width'];
-                        $tpsm_height    = $value['height'];
-    
-                        if( $length <= $tpsm_length && $width <= $tpsm_width && $height <= $tpsm_height ) {
-                            $fee  = $value['fee'];
+                if ( !empty( $tpsm_dimensions_settings ) ) {
+                    foreach ( $tpsm_dimensions_settings as $value ) {
+                        $tpsm_length = $value['length'];
+                        $tpsm_width = $value['width'];
+                        $tpsm_height = $value['height'];
+
+                        if ( $length <= $tpsm_length && $width <= $tpsm_width && $height <= $tpsm_height ) {
+                            $fee = $value['fee'];
                             break;
                         }
                     }
@@ -299,7 +293,7 @@ class Logic {
                 }
             }
         }
-    
+
         return $total_fee;
     }
 
@@ -332,7 +326,7 @@ class Logic {
                 if ( $shipping_class_id ) {
                     $shipping_class = get_term( $shipping_class_id, 'product_shipping_class' );
 
-                    if ( $shipping_class && ! is_wp_error( $shipping_class ) ) {
+                    if ( $shipping_class && !is_wp_error( $shipping_class ) ) {
                         $shipping_classes[] = $shipping_class->slug;
                     }
                 }
@@ -343,7 +337,3 @@ class Logic {
         return array_unique( $shipping_classes );
     }
 }
-
-
-
-

@@ -258,8 +258,10 @@ function Admin() {
                             <input
                               type="number"
                               placeholder="Value"
-                              value=""
-                              onChange=""
+                              value={row.value}
+                              onChange={(e) =>
+                                handleRowChange(index, 'value', e.target.value)
+                              }
                             />
                           </div>
                         </>
