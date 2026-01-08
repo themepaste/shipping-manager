@@ -213,6 +213,41 @@ if ( !function_exists( 'get_conditions_data' ) ) {
     }
 }
 
+if ( !function_exists( 'get_filter_operators' ) ) {
+    function get_filter_operators() {
+        return [
+            [
+                'value' => 'equals',
+                'label' => __( 'Equals', 'your-text-domain' ),
+            ],
+            [
+                'value' => 'not-equals',
+                'label' => __( 'Not equal', 'your-text-domain' ),
+            ],
+            [
+                'value' => 'greater',
+                'label' => __( 'Greater than', 'your-text-domain' ),
+            ],
+            [
+                'value' => 'less',
+                'label' => __( 'Less than', 'your-text-domain' ),
+            ],
+            [
+                'value' => 'greater-equal',
+                'label' => __( 'Greater than or equal to', 'your-text-domain' ),
+            ],
+            [
+                'value' => 'less-equal',
+                'label' => __( 'Less than or equal to', 'your-text-domain' ),
+            ],
+            [
+                'value' => 'between',
+                'label' => __( 'Between', 'your-text-domain' ),
+            ],
+        ];
+    }
+}
+
 if ( !function_exists( 'tpsm_saved_remote_data' ) ) {
 
 /**

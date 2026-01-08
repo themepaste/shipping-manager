@@ -33,18 +33,11 @@ function Admin() {
   const conditionsValues = Object.keys(TPSM_ADMIN.shipping_rules_select);
   const conditionsLabel = Object.values(TPSM_ADMIN.shipping_rules_select);
 
-  console.log(TPSM_ADMIN);
+  // console.log(TPSM_ADMIN);
   const classOptions = TPSM_ADMIN.wc_shipping_classess;
+  const operators = TPSM_ADMIN.operators;
 
-  const operators = [
-    { value: 'equals', label: 'Equals' },
-    { value: 'not-equals', label: 'Not equal' },
-    { value: 'greater', label: 'Greater than' },
-    { value: 'less', label: 'Less than' },
-    { value: 'greater-equal', label: 'Greater than or equal to' },
-    { value: 'less-equal', label: 'Less than or equal to' },
-    { value: 'between', label: 'Between' },
-  ];
+  console.log(TPSM_ADMIN.operators);
 
   useEffect(() => {
     const hiddenField = document.getElementById(

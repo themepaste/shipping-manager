@@ -152,6 +152,7 @@ class Settings {
             'weight_unit'     => get_option( 'woocommerce_weight_unit' ), // e.g., 'kg', 'g', 'lbs'
         ];
         $this->localize_data['shipping_rules_select'] = get_conditions_data();
+        $this->localize_data['operators'] = get_filter_operators();
         $this->localize_data['wc_shipping_classess'] = $this->get_all_wc_classes();
         $this->localize_data['assets_url'] = TPSM_ASSETS_URL;
 
