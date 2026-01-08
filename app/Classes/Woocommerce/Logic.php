@@ -119,6 +119,13 @@ class Logic {
         return $cost;
     }
 
+    /**
+     * Calculate shipping cost based on cart quantity.
+     *
+     * @param array $items Array of items with shipping cost data.
+     *
+     * @return float Shipping cost.
+     */
     private function get_shipping_cost_cart_quantity( $items ) {
 
         $cart = WC()->cart;
