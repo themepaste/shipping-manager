@@ -6,7 +6,7 @@ Tested up to: 6.8
 WC requires at least: 6.6
 WC tested up to: 9.8
 Requires PHP: 7.0
-Stable tag: 1.1.9
+Stable tag: 2.0.0
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -190,6 +190,16 @@ Yes, a trial version will be available to explore premium features before making
 Not at all! Shipping Manager is user-friendly and built for all users. It offers easy setup and management options without any coding skills. You can control everything using its intuitive dashboard.
 
 == Changelog ==
+
+= 2.0.0 =
+
+* [New] Added cart quantity–based shipping cost conditions.
+* [New] Shipping rules now support operators: equals, not equals, greater than, less than, greater than or equal, and less than or equal.
+* [Improved] Shipping cost calculation now dynamically adjusts based on total cart item quantity.
+* [Improved] Enhanced flexibility for creating advanced shipping rules.
+* [Compatibility] Fully compatible with the latest WooCommerce version.
+
+
 
 = v1.1.8 - v1.1.9 =
 
