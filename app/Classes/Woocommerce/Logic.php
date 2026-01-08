@@ -67,13 +67,14 @@ class Logic {
         $shipping_classes_items = $this->dataFilterByConditionName( $data, 'tpsm-shipping-class' );
 
         $flat_rate_cost = $this->get_shipping_cost_for_flat_rate( $flat_rate_items );
+        $cart_quantity_cost = $this->get_shipping_cost_cart_quantity( $tpsm_cart_quantity );
         $cart_total_price_cost = $this->get_shipping_cost_for_total_price( $total_price_items );
         $cart_subtotal_price_cost = $this->get_shipping_cost_for_subtotal_price( $sub_total_price_items );
         $per_weight_unit_cost = $this->get_shipping_cost_for_per_weight_unit( $per_weight_unit_items );
         $cart_total_weight_cost = $this->get_shipping_cost_for_total_weight( $total_weight_items );
         $shipping_classes_cost = $this->get_shippng_cost_for_shipping_classes( $shipping_classes_items );
 
-        $shipping_cost = $flat_rate_cost + $cart_total_price_cost + $cart_subtotal_price_cost + $cart_total_weight_cost + $per_weight_unit_cost + $shipping_classes_cost;
+        $shipping_cost = $flat_rate_cost + $cart_quantity_cost + $cart_total_price_cost + $cart_subtotal_price_cost + $cart_total_weight_cost + $per_weight_unit_cost + $shipping_classes_cost;
 
         // Sum all costs
         return $shipping_cost;
@@ -116,6 +117,52 @@ class Logic {
         }
 
         return $cost;
+    }
+
+    private function get_shipping_cost_cart_quantity( $items ) {
+
+        $cart = WC()->cart;
+
+        if ( is_null( $cart ) || empty( $items ) ) {
+            return;
+        }
+
+        $total_qty = $cart->get_cart_contents_count();
+        $shipping_cost = 0;
+
+        foreach ( $items as $item ) {
+            if ( 'equals' == $item['equal'] ) {
+                if ( $total_qty == $item['value'] ) {
+                    $shipping_cost += $item['cost'];
+                }
+            } else if ( 'not-equals' == $item['equal'] ) {
+                if ( $total_qty != $item['value'] ) {
+                    $shipping_cost += $item['cost'];
+                }
+            } else if ( 'greater' == $item['equal'] ) {
+                if ( $total_qty > $item['value'] ) {
+                    $shipping_cost += $item['cost'];
+                }
+            } else if ( 'less' == $item['equal'] ) {
+                if ( $total_qty < $item['value'] ) {
+                    $shipping_cost += $item['cost'];
+                }
+            } else if ( 'greater-equal' == $item['equal'] ) {
+                if ( $total_qty >= $item['value'] ) {
+                    $shipping_cost += $item['cost'];
+                }
+            } else if ( 'less-equal' == $item['equal'] ) {
+                if ( $total_qty <= $item['value'] ) {
+                    $shipping_cost += $item['cost'];
+                }
+            }
+        }
+
+        //added tax
+        $total_shipping_cost = $shipping_cost + WC()->cart->get_cart_contents_tax();
+
+        // return the value
+        return $total_shipping_cost;
     }
 
     /**

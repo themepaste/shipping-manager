@@ -240,10 +240,10 @@ if ( !function_exists( 'get_filter_operators' ) ) {
                 'value' => 'less-equal',
                 'label' => __( 'Less than or equal to', 'your-text-domain' ),
             ],
-            [
-                'value' => 'between',
-                'label' => __( 'Between', 'your-text-domain' ),
-            ],
+            // [
+            //     'value' => 'between',
+            //     'label' => __( 'Between', 'your-text-domain' ),
+            // ],
         ];
     }
 }
