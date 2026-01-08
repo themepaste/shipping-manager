@@ -57,7 +57,7 @@ class Settings {
         );
 
         $this->action( 'admin_head', [$this, 'remove_save_button'] );
-        $this->action( 'admin_menu', [$this, 'shipping_manager_setting_page'] );
+        $this->action( 'admin_menu', [$this, 'shipping_manager_setting_page'], 51 );
         $this->action( 'admin_enqueue_scripts', [$this, 'admin_enqueue_css'] );
         $this->action( 'admin_enqueue_scripts', [$this, 'admin_enqueue_scripts'] );
         $this->filter( 'plugin_action_links_' . TPSM_PLUGIN_BASENAME, [$this, 'settings_link'] );
@@ -184,7 +184,7 @@ class Settings {
                 esc_html__( 'Shipping Manager', 'shipping-manager' ), // Menu title
                 'manage_woocommerce', // Capability (recommended)
                 self::SETTING_PAGE_ID, // Menu slug
-                [$this, 'settings_page_layout']// Callback
+                [$this, 'settings_page_layout'], // Callback
             );
         }
 
