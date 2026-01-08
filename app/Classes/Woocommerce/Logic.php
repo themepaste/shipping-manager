@@ -59,6 +59,7 @@ class Logic {
          * Filter the shipping cost based on cart total price, weight, and shipping classes.
          */
         $flat_rate_items = $this->dataFilterByConditionName( $data, 'tpsm-flat-rate' );
+        $tpsm_cart_quantity = $this->dataFilterByConditionName( $data, 'tpsm-cart-quantity' );
         $total_price_items = $this->dataFilterByConditionName( $data, 'tpsm-total-price' );
         $sub_total_price_items = $this->dataFilterByConditionName( $data, 'tpsm-sub-total-price' );
         $per_weight_unit_items = $this->dataFilterByConditionName( $data, 'tpsm-per-weight-unit' );

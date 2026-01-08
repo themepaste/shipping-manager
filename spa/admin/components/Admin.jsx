@@ -243,7 +243,10 @@ function Admin() {
                         <select
                           className="tpsm-shipping-rule-select"
                           value={selectOparator}
-                          onChange={(e) => setSelectOparator(e.target.value)}
+                          onChange={(e) => {
+                            handleRowChange(index, 'equal', e.target.value);
+                            setSelectOparator(e.target.value);
+                          }}
                         >
                           {operators.map((op) => (
                             <option key={op.value} value={op.value}>
