@@ -4,11 +4,11 @@ import Admin from './components/Admin';
 import './assets/style.css';
 
 function Main() {
-    return <Admin />;
+  return <Admin />;
 }
 
 ReactDOM.createRoot(
-    document.getElementById('tpsm-shipping-rules-wrapper')
+  document.getElementById('tpsm-shipping-rules-wrapper'),
 ).render(<Main />);
 
 export default Main;
