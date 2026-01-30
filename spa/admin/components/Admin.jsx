@@ -37,11 +37,11 @@ function Admin() {
   const classOptions = TPSM_ADMIN.wc_shipping_classess;
   const operators = TPSM_ADMIN.operators;
 
-  console.log(TPSM_ADMIN.operators);
+  // console.log(TPSM_ADMIN.operators);
 
   useEffect(() => {
     const hiddenField = document.getElementById(
-      'woocommerce_shipping-manager_tpsm_hidden'
+      'woocommerce_shipping-manager_tpsm_hidden',
     );
     if (hiddenField && hiddenField.value) {
       try {
@@ -74,7 +74,7 @@ function Admin() {
 
   useEffect(() => {
     const hiddenField = document.getElementById(
-      'woocommerce_shipping-manager_tpsm_hidden'
+      'woocommerce_shipping-manager_tpsm_hidden',
     );
     if (hiddenField) {
       hiddenField.value = JSON.stringify(rows);
@@ -162,7 +162,7 @@ function Admin() {
    */
   const handleCheckboxChange = (index) => {
     setSelectedRows((prev) =>
-      prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
+      prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index],
     );
   };
 
@@ -378,7 +378,7 @@ function Admin() {
                       isMulti
                       placeholder="Select classes..."
                       value={classOptions.filter((opt) =>
-                        row.multi.includes(opt.value)
+                        row.multi.includes(opt.value),
                       )}
                       onChange={(selectedOptions) =>
                         handleMultiSelectChange(index, selectedOptions)
