@@ -234,7 +234,7 @@ function Admin() {
                     }
                   >
                     {renderOptGroup('General', 0, 1)}
-                    {renderOptGroup('Cart', 1, 4)}
+                    {renderOptGroup('Cart', 1, 5)}
                     {renderOptGroup('Product', 4)}
                   </select>
 
@@ -349,6 +349,32 @@ function Admin() {
                     </>
                   )}
                   {row.condition === 'tpsm-total-weight' && (
+                    <>
+                      <div className="tpsm-max-min-field-wrapper">
+                        {parse(TPSM_ADMIN.woocommerce_data.weight_unit)}
+                        <input
+                          type="number"
+                          placeholder="Min"
+                          value={row.min}
+                          onChange={(e) =>
+                            handleRowChange(index, 'min', e.target.value)
+                          }
+                        />
+                      </div>
+                      <div className="tpsm-max-min-field-wrapper">
+                        {parse(TPSM_ADMIN.woocommerce_data.weight_unit)}
+                        <input
+                          type="number"
+                          placeholder="Max"
+                          value={row.max}
+                          onChange={(e) =>
+                            handleRowChange(index, 'max', e.target.value)
+                          }
+                        />
+                      </div>
+                    </>
+                  )}
+                  {row.condition === 'tpsm-per-dimension' && (
                     <>
                       <div className="tpsm-max-min-field-wrapper">
                         {parse(TPSM_ADMIN.woocommerce_data.weight_unit)}
