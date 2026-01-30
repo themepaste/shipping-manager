@@ -33,6 +33,8 @@ function Admin() {
   const conditionsValues = Object.keys(TPSM_ADMIN.shipping_rules_select);
   const conditionsLabel = Object.values(TPSM_ADMIN.shipping_rules_select);
 
+  // console.log(conditionsLabel);
+
   // console.log(TPSM_ADMIN);
   const classOptions = TPSM_ADMIN.wc_shipping_classess;
   const operators = TPSM_ADMIN.operators;

@@ -206,6 +206,7 @@ if ( !function_exists( 'get_conditions_data' ) ) {
             'tpsm-cart-quantity'   => 'Quantity',
             'tpsm-sub-total-price' => 'Subtotal',
             'tpsm-total-price'     => 'Total',
+            'tpsm-per-dimension'   => 'Total Dimensions',
             'tpsm-per-weight-unit' => 'Per Weight Unit (' . get_option( 'woocommerce_weight_unit' ) . ')',
             'tpsm-total-weight'    => 'Total Weight',
             'tpsm-shipping-class'  => 'Shipping Class',
