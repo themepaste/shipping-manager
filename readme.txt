@@ -6,7 +6,7 @@ Tested up to: 6.8
 WC requires at least: 6.6
 WC tested up to: 9.8
 Requires PHP: 7.0
-Stable tag: 1.2.0
+Stable tag: 1.2.1
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -190,6 +190,20 @@ Yes, a trial version will be available to explore premium features before making
 Not at all! Shipping Manager is user-friendly and built for all users. It offers easy setup and management options without any coding skills. You can control everything using its intuitive dashboard.
 
 == Changelog ==
+
+* [New] Added dimension-based shipping rules (length × width × height).
+* [New] Support for combined quantity and dimension-based shipping conditions.
+* [Fixed] Fixed incorrect shipping cost calculation when cart quantities update rapidly.
+* [Fixed] Resolved issue where shipping rules were not reapplied on cart refresh.
+* [Fixed] Fixed admin issue where saved shipping rules were not loading correctly.
+* [JS] Fixed JavaScript errors during dynamic shipping rule updates.
+* [JS] Improved performance of cart recalculation and event handling.
+* [React] Refactored shipping rules editor components for better state management.
+* [React] Fixed unnecessary re-renders causing duplicated rule previews.
+* [Improved] More accurate shipping recalculation during AJAX cart updates.
+* [Improved] Enhanced validation and error feedback for shipping rule inputs.
+* [Compatibility] Tested and verified compatibility with the latest WooCommerce and WordPress versions.
+
 
 = 1.2.0 =
 
