@@ -6,7 +6,7 @@ Tested up to: 6.8
 WC requires at least: 6.6
 WC tested up to: 9.8
 Requires PHP: 7.0
-Stable tag: 1.2.1
+Stable tag: 1.2.2
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -191,6 +191,12 @@ Not at all! Shipping Manager is user-friendly and built for all users. It offers
 
 == Changelog ==
 
+=1.2.2=
+* [fix] Fixed notice issue.
+* [fix] Fix class based shipping issues.
+* [fix] Fix issues.
+
+= 1.2.1 =
 * [New] Added dimension-based shipping rules (length × width × height).
 * [New] Support for combined quantity and dimension-based shipping conditions.
 * [Fixed] Fixed incorrect shipping cost calculation when cart quantities update rapidly.
