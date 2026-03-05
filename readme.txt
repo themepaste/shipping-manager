@@ -6,7 +6,7 @@ Tested up to: 6.8
 WC requires at least: 6.6
 WC tested up to: 9.8
 Requires PHP: 7.0
-Stable tag: 1.2.2
+Stable tag: 1.2.3
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -190,6 +190,12 @@ Yes, a trial version will be available to explore premium features before making
 Not at all! Shipping Manager is user-friendly and built for all users. It offers easy setup and management options without any coding skills. You can control everything using its intuitive dashboard.
 
 == Changelog ==
+
+=1.2.3=
+* [fix] Fixed React "Target container is not a DOM element" error.
+* [improvement] Improved admin panel script loading performance.
+* [improvement] Optimized React app initialization to prevent delayed rendering.
+* [stability] Enhanced compatibility with slow-loading environments.
 
 =1.2.2=
 * [fix] Fixed notice issue.
