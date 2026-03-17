@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import parse from 'html-react-parser';
 import Select from 'react-select';
 
@@ -33,13 +33,8 @@ function Admin() {
   const conditionsValues = Object.keys(TPSM_ADMIN.shipping_rules_select);
   const conditionsLabel = Object.values(TPSM_ADMIN.shipping_rules_select);
 
-  // console.log(conditionsLabel);
-
-  // console.log(TPSM_ADMIN);
   const classOptions = TPSM_ADMIN.wc_shipping_classess;
   const operators = TPSM_ADMIN.operators;
-
-  // console.log(TPSM_ADMIN.operators);
 
   useEffect(() => {
     const hiddenField = document.getElementById(
@@ -235,7 +230,7 @@ function Admin() {
                   >
                     {renderOptGroup('General', 0, 1)}
                     {renderOptGroup('Cart', 1, 5)}
-                    {renderOptGroup('Product', 4)}
+                    {renderOptGroup('Product', 5, 9)}
                   </select>
 
                   {row.condition === 'tpsm-cart-quantity' && (
