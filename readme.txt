@@ -6,7 +6,7 @@ Tested up to: 6.8
 WC requires at least: 6.6
 WC tested up to: 9.8
 Requires PHP: 7.0
-Stable tag: 1.2.3
+Stable tag: 1.2.4
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -190,6 +190,13 @@ Yes, a trial version will be available to explore premium features before making
 Not at all! Shipping Manager is user-friendly and built for all users. It offers easy setup and management options without any coding skills. You can control everything using its intuitive dashboard.
 
 == Changelog ==
+
+= 1.2.4 =
+* [feature] Added shipping rules based on total cart dimensions (min/max limits).
+* [feature] Introduced minimum and maximum price conditions for shipping cost calculation.
+* [improvement] Enhanced flexibility for creating advanced shipping rules.
+* [fix] Fixed SPA-related issues affecting dynamic content updates.
+* [stability] Improved overall performance and reliability of rule processing.
 
 =1.2.3=
 * [fix] Fixed React "Target container is not a DOM element" error.
