@@ -166,14 +166,16 @@ class RegisterShippingMethod extends WC_Shipping_Method {
         $tax_status = $this->get_option( 'tax_status', 'taxable' );
         $data       = $this->get_option( 'tpsm_hidden' ); // Here we get a json format all condition and data
 
-        if ( ! $this->get_tpsm_cost( $data ) || $this->get_tpsm_cost( $data ) == 0 ) {
+        $cost = $this->get_tpsm_cost( $data );
+
+        if ( ! $cost || $cost == 0 ) {
             return;
         }
 
         $rate = array(
             'id'    => $this->id . ':' . $this->instance_id,
             'label' => $this->title,
-            'cost'  => $this->get_tpsm_cost( $data ),
+            'cost'  => $cost,
             'calc_tax' => 'per_order',
         );
 

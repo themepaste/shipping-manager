@@ -52,7 +52,6 @@ class Wizard {
         );
 
         wp_safe_redirect( $redirect_url );
-        error_log( 'Redirecting to: ' . $redirect_url );
         exit;
     }
 
@@ -76,7 +75,7 @@ class Wizard {
             wp_safe_redirect(
                 add_query_arg(
                     array(
-                        'page' => 'tpasg_setup_wizard',
+                        'page' => 'tpsm_setup_wizard',
                     ),
                     admin_url( 'admin.php' )
                 )

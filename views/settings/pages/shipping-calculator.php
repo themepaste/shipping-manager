@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 
 $prefix             = 'tpsm';
 $screen_slug        = $args['current_screen'];
-$is_taxable         = $args['general_settings']['is-plugin-taxable'];
+$is_taxable         = $args['general_settings']['is-plugin-taxable'] ?? 'no';
 $submit_button      = $prefix . '-' . $screen_slug . '_submit';
 $option_name        = $prefix . '-' . $screen_slug . '_' . 'settings';
 $saved_settings     = get_option( $option_name );
@@ -109,18 +109,18 @@ $shipping_calculator_settings_fields = tpsm_shipping_calculator_settings_fields(
         foreach ( $shipping_calculator_settings_fields as $key => $field ) {
             $field_name = $prefix . '-' . $screen_slug . '_' . $key;
 
-            if( 'switch' == $field['type'] ) {
+            if ( 'switch' == $field['type'] ) {
                 $settings_values[$key] = isset( $_POST[$field_name] ) ? 1 : 0;
+            } else {
+                $settings_values[$key] = isset( $_POST[$field_name] ) ? sanitize_text_field( $_POST[$field_name] ) : '';
             }
-            $settings_values[$key] = isset( $_POST[$field_name] ) ? sanitize_text_field( $_POST[$field_name] ) : '';
         }
 
         // Save setting to database 
         update_option( $option_name, $settings_values );
 
 
-        //Redirect url
-        wp_redirect( add_query_arg( 
+        wp_safe_redirect( add_query_arg(
             array(
                 'page'          => 'shipping-manager',
                 'tpsm-setting'  => $screen_slug,

@@ -85,11 +85,10 @@ class Common {
 	 * @return void
 	 */
 	public function enqueue_scripts() {
-		$this->enqueue_script(
-			'tpsm-common',
-			TPSM_ASSETS_URL . '/common/js/common.js',
-			[ 'jquery' ]
-		);
+		// Register a virtual handle (no file) so wp_localize_script can attach
+		// the TPSM inline data object without loading an empty JS file.
+		wp_register_script( 'tpsm-common', false, [ 'jquery' ], null, true );
+		wp_enqueue_script( 'tpsm-common' );
 
 		// Pass data to JavaScript using localized script.
 		$this->localize_script(

@@ -219,31 +219,31 @@ if ( !function_exists( 'get_filter_operators' ) ) {
         return [
             [
                 'value' => 'equals',
-                'label' => __( 'Equals', 'your-text-domain' ),
+                'label' => __( 'Equals', 'shipping-manager' ),
             ],
             [
                 'value' => 'not-equals',
-                'label' => __( 'Not equal', 'your-text-domain' ),
+                'label' => __( 'Not equal', 'shipping-manager' ),
             ],
             [
                 'value' => 'greater',
-                'label' => __( 'Greater than', 'your-text-domain' ),
+                'label' => __( 'Greater than', 'shipping-manager' ),
             ],
             [
                 'value' => 'less',
-                'label' => __( 'Less than', 'your-text-domain' ),
+                'label' => __( 'Less than', 'shipping-manager' ),
             ],
             [
                 'value' => 'greater-equal',
-                'label' => __( 'Greater than or equal to', 'your-text-domain' ),
+                'label' => __( 'Greater than or equal to', 'shipping-manager' ),
             ],
             [
                 'value' => 'less-equal',
-                'label' => __( 'Less than or equal to', 'your-text-domain' ),
+                'label' => __( 'Less than or equal to', 'shipping-manager' ),
             ],
             // [
             //     'value' => 'between',
-            //     'label' => __( 'Between', 'your-text-domain' ),
+            //     'label' => __( 'Between', 'shipping-manager' ),
             // ],
         ];
     }

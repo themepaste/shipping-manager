@@ -6,7 +6,7 @@ Tested up to: 6.8
 WC requires at least: 6.6
 WC tested up to: 9.8
 Requires PHP: 7.0
-Stable tag: 1.2.4
+Stable tag: 1.2.5
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -190,6 +190,20 @@ Yes, a trial version will be available to explore premium features before making
 Not at all! Shipping Manager is user-friendly and built for all users. It offers easy setup and management options without any coding skills. You can control everything using its intuitive dashboard.
 
 == Changelog ==
+
+= 1.2.5 =
+* [fix] Fixed shipping cost filter firing three times per request — now cached to a single call for better performance.
+* [fix] Fixed incorrect tax double-counting in cart quantity and total price shipping cost calculations.
+* [fix] Fixed `WC_Cart::get_subtotal()` called with invalid argument causing subtotal to be calculated incorrectly.
+* [fix] Fixed PHP TypeError on PHP 8+ when no shipping classes exist in the cart (`array_intersect` receiving null).
+* [fix] Fixed shipping calculator enable/disable toggle not saving correctly due to unconditional value overwrite.
+* [fix] Fixed setup wizard activation redirect using wrong page slug (`tpasg_setup_wizard` → `tpsm_setup_wizard`).
+* [security] Replaced `wp_redirect()` with `wp_safe_redirect()` across all admin settings pages.
+* [security] Fixed unescaped output in setup wizard notice template.
+* [security] Fixed undefined array key `is-plugin-taxable` producing PHP notices.
+* [improvement] Removed debug `error_log()` statement left in production code.
+* [improvement] Fixed wrong text domain (`your-text-domain`) in filter operator labels — strings are now translatable.
+* [improvement] Eliminated unnecessary HTTP request for empty `common.js` — AJAX data now output as inline script only.
 
 = 1.2.4 =
 * [feature] Added shipping rules based on total cart dimensions (min/max limits).

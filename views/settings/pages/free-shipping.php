@@ -219,8 +219,7 @@ $shipping_bar_style_fields = $settings_fields['free-shipping-bar']['child-fields
 
         update_option( $on_shipping_bar, $shipping_bar_styles_values );
 
-        //Redirect url
-        wp_redirect( add_query_arg( 
+        wp_safe_redirect( add_query_arg(
             array(
                 'page'          => 'shipping-manager',
                 'tpsm-setting'  => $screen_slug,

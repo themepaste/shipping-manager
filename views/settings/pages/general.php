@@ -114,7 +114,7 @@
 
         update_option( $option_name, $settings_values );
 
-        wp_redirect( add_query_arg( 
+        wp_safe_redirect( add_query_arg(
             array(
                 'page'          => 'shipping-manager',
                 'tpsm-setting'  => $screen_slug,

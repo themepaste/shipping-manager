@@ -107,7 +107,7 @@ class Logic {
             return;
         }
 
-        $subtotal = WC()->cart->get_subtotal( $items );
+        $subtotal = WC()->cart->get_subtotal();
         $cost = 0;
 
         foreach ( $items as $item ) {
@@ -165,11 +165,7 @@ class Logic {
             }
         }
 
-        //added tax
-        $total_shipping_cost = $shipping_cost + WC()->cart->get_cart_contents_tax();
-
-        // return the value
-        return $total_shipping_cost;
+        return $shipping_cost;
     }
 
     /**
@@ -186,7 +182,7 @@ class Logic {
         if ( is_null( $cart ) || empty( $items ) ) {
             return;
         }
-        $total = WC()->cart->get_cart_contents_total() + WC()->cart->get_cart_contents_tax();
+        $total = WC()->cart->get_cart_contents_total();
         $cost = 0;
 
         foreach ( $items as $item ) {
@@ -366,7 +362,7 @@ class Logic {
         $cart = WC()->cart;
 
         if ( is_null( $cart ) ) {
-            return;
+            return [];
         }
 
         $cart_items = $cart->get_cart();
