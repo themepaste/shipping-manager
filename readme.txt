@@ -15,7 +15,7 @@ Powerful WooCommerce shipping plugin with table rate, weight-based rates, shippi
 == Description ==
 
 ### 🚚 Table Rate Shipping Method Shipping Manager for WooCommerce 
-Shipping Manager offers a complete solution to simplify your WooCommerce shipping experience. You can dynamically customize the shipping fees for weight, Cart Total, Cart Subtotal and more with **Table Rate Shipping WooCommerce**, WooCommerce **Weight-Based Shipping**, and **Shipping Class** support for WooCommerce options. It handles all your shipping requirements to deliver flexible, accurate, and cost-effective logistics. 
+Shipping Manager offers a comprehensive, all-in-one solution to simplify your WooCommerce shipping experience. Eliminate the need for multiple add-ons by dynamically customizing shipping fees based on weight, cart total, cart subtotal, and more. With full support for Table Rate Shipping, Weight-Based Shipping, and Shipping Classes, this plugin handles all your logistical requirements to deliver a flexible, accurate, and cost-effective checkout experience.
 
 Explore more about the Shipping Manager plugin-
 
@@ -23,13 +23,14 @@ Explore more about the Shipping Manager plugin-
 ✅ [Support](https://themepaste.com/contact-us)
 
 ### 💡 Why Choose a Shipping Manager?
-Shipping Manager is the perfect WooCommerce Advanced Shipping solution for any big or small-sized eCommerce business. It manages complex logistics with features that are easy to configure and implement on your WooCommerce store. Enjoy complete control over shipping fees, boxes, and delivery options without any coding. Deliver better, smarter, and faster to enhance customer experience with this feature-rich Shipping Manager for WooCommerce. 
+Shipping Manager is the ultimate advanced shipping solution for eCommerce businesses of any size. It takes the hassle out of complex logistics with features that are intuitive to configure directly within your WooCommerce store. Enjoy complete control over your shipping fees, packaging boxes, and delivery options—zero coding required. Deliver better, smarter, and faster to enhance your customer's shopping experience.
 
-### 🌟 Overview of Shipping Manager
+### 🌟 Plugin Overview
 
-⚫ Shipping Manager gives you complete control over WooCommerce shipping with transparent total costs. 
-⚫ Allows you to set accurate and flexible shipping fees based on weight, box size, distance, and more.
-⚫ Built for store owners, marketers, and developers alike without any steep learning curve. 
+⚫ **Complete Control**: Gain full authority over your WooCommerce shipping rules with 100% transparent cost calculations. 
+⚫ **Highly Flexible**: Set highly accurate shipping fees based on precise variables like weight, box size, and distance.
+
+⚫ **User-Friendly**: Built thoughtfully for store owners, marketers, and developers alike, ensuring there is no steep learning curve. 
 
 ### 🤝Connect With a Worldwide Network of Shipping & Logistics Experts!
 
@@ -56,19 +57,19 @@ Stay connected with us to get the trending news and updates from our:
 
 Shipping Manager gives you a powerful and user-friendly shipping solution for your WooCommerce store. No need to use multiple shipping solutions when you are getting everything in a single WooCommerce plugin—including Table Rate Shipping WooCommerce, WooCommerce Weight-Based Shipping, and Box Shipping for WooCommerce support. It’s the easiest option to ensure accurate shipping costs, better logistics, and happier customers.
 
-### 🔥  Free Features:
+### 🔥  Core Free Features:
  
 - Unlimited shipping methods*
 - Import & export existing shipping methods*
-- One click & sitewide enable/disable shipping methods*
-- Custom name and Description for shipping methods*
-- Tax support*
-- Flat rate fee *
-- Unit weight fee*  
-- Weight range pricing* 
+- One-click sitewide enable/disable for shipping methods*
+- Custom names and descriptions for shipping method*
+- Built-in tax support*
+- Flat rate fee setup *
+- Unit weight fee calculations*  
+- Weight range pricing rules* 
 - Cart total range pricing *
 - Cart subtotal range pricing *
-- Shipping class support*
+- Full WooCommerce Shipping Class support*
  
 
 ### 🚀 Pro Features [Upcoming]
