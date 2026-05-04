@@ -6,7 +6,7 @@ Tested up to: 6.8
 WC requires at least: 6.6
 WC tested up to: 9.8
 Requires PHP: 7.0
-Stable tag: 1.2.5
+Stable tag: 1.2.6
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -191,6 +191,13 @@ Yes, a trial version will be available to explore premium features before making
 Not at all! Shipping Manager is user-friendly and built for all users. It offers easy setup and management options without any coding skills. You can control everything using its intuitive dashboard.
 
 == Changelog ==
+
+= 1.2.6 =
+* [add] Added dimension-based shipping support.
+* [add] Introduced maximum and minimum dimension settings.
+* [update] Improved shipping description options.
+* [update] Updated plugin banner design.
+* [fix] Minor bug fixes and performance improvements.
 
 = 1.2.5 =
 * [fix] Fixed shipping cost filter firing three times per request — now cached to a single call for better performance.
