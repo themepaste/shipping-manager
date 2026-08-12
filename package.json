@@ -1,6 +1,6 @@
 {
     "name": "shipping-manager",
-    "version": "1.0.0",
+    "version": "1.3.0",
     "main": "index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
@@ -10,8 +10,8 @@
     },
     "keywords": [],
     "author": "",
-    "license": "ISC",
-    "description": "",
+    "license": "GPL-2.0-or-later",
+    "description": "Admin rules builder for the Shipping Manager WooCommerce plugin.",
     "dependencies": {
         "@babel/preset-env": "^7.27.2",
         "@babel/preset-react": "^7.27.1",

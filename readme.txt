@@ -6,7 +6,7 @@ Tested up to: 6.8
 WC requires at least: 6.6
 WC tested up to: 11.0
 Requires PHP: 7.4
-Stable tag: 1.2.7
+Stable tag: 1.3.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -315,7 +315,7 @@ Only if you explicitly opt in during the setup wizard, and then only your WordPr
 
 == Changelog ==
 
-= 1.2.7 =
+= 1.3.0 =
 * [add] Eight new rule conditions WooCommerce does not offer: **Specific Products** (live product/variation search), **Product Category**, **Product Tag**, **Postcode** (exact, `SW1*` wildcards, `1000...2000` ranges), **State / County**, **Coupon Applied**, **Cart Volume** (dimensional pricing) and **Line Items** — plus a **Per Item** multiplier. Sixteen conditions in total.
 * [add] Rebuilt Import/Export as a proper panel: copy rules to the clipboard, paste them back, download a .json file or import one, choosing whether to replace or append. The raw JSON text field is gone.
 * [add] Every rule now has an optional label and its own enable/disable switch, so you can park a rule without deleting it. Rules saved before this update stay enabled.
@@ -477,3 +477,7 @@ Only if you explicitly opt in during the setup wizard, and then only your WordPr
 * [new] Initial release.
 
 == Upgrade Notice ==
+
+= 1.3.0 =
+Major feature release. Adds eight new rule conditions (specific products, product category, product tag, postcode, state, coupon, cart volume, line items), a real import/export panel, and per-rule labels and on/off switches. Also fixes a PHP 8 fatal error during checkout and shrinks the admin bundle from 1.7 MB to ~330 KB.
+IMPORTANT: the separate "WooCommerce -> Shipping Manager" admin page has been removed; everything is now configured per shipping zone under WooCommerce -> Settings -> Shipping. The site-wide enable/disable toggle is gone (disable per zone instead), and the non-functional "Total Dimensions" condition has been removed. Your existing rules are preserved.

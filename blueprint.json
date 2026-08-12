@@ -2,7 +2,7 @@
     "name": "shipping-manager",
     "displayName": "Shipping Manager for WooCommerce",
     "description": "WooCommerce shipping plugin with table rates, weight-based rates, shipping class support, and advanced shipping rules.",
-    "version": "1.2.7",
+    "version": "1.3.0",
     "author": {
         "name": "ThemePaste",
         "url": "https://themepaste.com/"
