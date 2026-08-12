@@ -233,15 +233,87 @@ if ( !function_exists( 'tpsm_isset' ) ) {
  */
 if ( !function_exists( 'tpsm_get_conditions_data' ) ) {
     function tpsm_get_conditions_data() {
-        return [
-            'tpsm-flat-rate'       => 'Flat Rate',
-            'tpsm-cart-quantity'   => 'Quantity',
-            'tpsm-sub-total-price' => 'Subtotal',
-            'tpsm-total-price'     => 'Total',
-            'tpsm-per-weight-unit' => 'Per Weight Unit (' . get_option( 'woocommerce_weight_unit' ) . ')',
-            'tpsm-total-weight'    => 'Total Weight',
-            'tpsm-shipping-class'  => 'Shipping Class',
-        ];
+        $weight_unit = get_option( 'woocommerce_weight_unit' );
+
+        return apply_filters(
+            'tpsm_conditions_data',
+            [
+                // General
+                'tpsm-flat-rate'        => __( 'Flat Rate', 'shipping-manager' ),
+                'tpsm-per-item'         => __( 'Per Item', 'shipping-manager' ),
+                // Cart
+                'tpsm-cart-quantity'    => __( 'Quantity', 'shipping-manager' ),
+                'tpsm-line-items'       => __( 'Line Items', 'shipping-manager' ),
+                'tpsm-sub-total-price'  => __( 'Subtotal', 'shipping-manager' ),
+                'tpsm-total-price'      => __( 'Total', 'shipping-manager' ),
+                // Product
+                'tpsm-per-weight-unit'  => sprintf(
+                    /* translators: %s: store weight unit, e.g. kg. */
+                    __( 'Per Weight Unit (%s)', 'shipping-manager' ),
+                    $weight_unit
+                ),
+                'tpsm-total-weight'     => __( 'Total Weight', 'shipping-manager' ),
+                'tpsm-shipping-class'   => __( 'Shipping Class', 'shipping-manager' ),
+                'tpsm-product-category' => __( 'Product Category', 'shipping-manager' ),
+                // Destination
+                'tpsm-postcode'         => __( 'Postcode', 'shipping-manager' ),
+            ]
+        );
+    }
+}
+
+/**
+ * Rule conditions arranged into the optgroups the rules builder renders.
+ *
+ * Returned as an explicit slug list per group. The UI used to slice the flat
+ * conditions array by index, which silently mis-grouped everything whenever a
+ * condition was added or removed.
+ *
+ * @return array Group label => list of condition slugs.
+ */
+if ( !function_exists( 'tpsm_get_condition_groups' ) ) {
+    function tpsm_get_condition_groups() {
+        return apply_filters(
+            'tpsm_condition_groups',
+            [
+                __( 'General', 'shipping-manager' )     => [ 'tpsm-flat-rate', 'tpsm-per-item' ],
+                __( 'Cart', 'shipping-manager' )        => [ 'tpsm-cart-quantity', 'tpsm-line-items', 'tpsm-sub-total-price', 'tpsm-total-price' ],
+                __( 'Product', 'shipping-manager' )     => [ 'tpsm-per-weight-unit', 'tpsm-total-weight', 'tpsm-shipping-class', 'tpsm-product-category' ],
+                __( 'Destination', 'shipping-manager' ) => [ 'tpsm-postcode' ],
+            ]
+        );
+    }
+}
+
+/**
+ * Product categories, formatted for the rules builder's multi-select.
+ *
+ * @return array List of ['value' => slug, 'label' => name].
+ */
+if ( !function_exists( 'tpsm_get_product_categories' ) ) {
+    function tpsm_get_product_categories() {
+        $terms = get_terms(
+            [
+                'taxonomy'   => 'product_cat',
+                'hide_empty' => false,
+                'number'     => 500,
+            ]
+        );
+
+        if ( is_wp_error( $terms ) || empty( $terms ) ) {
+            return [];
+        }
+
+        $options = [];
+
+        foreach ( $terms as $term ) {
+            $options[] = [
+                'value' => $term->slug,
+                'label' => $term->name,
+            ];
+        }
+
+        return $options;
     }
 }
 
@@ -287,13 +359,17 @@ if ( !function_exists( 'tpsm_get_filter_operators' ) ) {
 if ( !function_exists( 'tpsm_get_condition_description' ) ) {
     function tpsm_get_condition_description( $condition ) {
         $descriptions = [
-            'tpsm-flat-rate'       => __( 'always applies; use it for a base charge.', 'shipping-manager' ),
-            'tpsm-cart-quantity'   => __( 'compares the number of items in the cart against a value.', 'shipping-manager' ),
-            'tpsm-sub-total-price' => __( 'matches when the cart subtotal falls in a range.', 'shipping-manager' ),
-            'tpsm-total-price'     => __( 'matches when the cart total falls in a range.', 'shipping-manager' ),
-            'tpsm-per-weight-unit' => __( 'multiplies the cost by the total cart weight.', 'shipping-manager' ),
-            'tpsm-total-weight'    => __( 'matches when the total cart weight falls in a range.', 'shipping-manager' ),
-            'tpsm-shipping-class'  => __( 'applies when the cart contains any of the selected shipping classes.', 'shipping-manager' ),
+            'tpsm-flat-rate'        => __( 'always applies; use it for a base charge.', 'shipping-manager' ),
+            'tpsm-per-item'         => __( 'multiplies the cost by the number of items in the cart.', 'shipping-manager' ),
+            'tpsm-cart-quantity'    => __( 'compares the total number of items in the cart against a value.', 'shipping-manager' ),
+            'tpsm-line-items'       => __( 'compares how many different products are in the cart.', 'shipping-manager' ),
+            'tpsm-sub-total-price'  => __( 'matches when the cart subtotal falls in a range.', 'shipping-manager' ),
+            'tpsm-total-price'      => __( 'matches when the cart total falls in a range.', 'shipping-manager' ),
+            'tpsm-per-weight-unit'  => __( 'multiplies the cost by the total cart weight.', 'shipping-manager' ),
+            'tpsm-total-weight'     => __( 'matches when the total cart weight falls in a range.', 'shipping-manager' ),
+            'tpsm-shipping-class'   => __( 'applies when the cart contains any of the selected shipping classes.', 'shipping-manager' ),
+            'tpsm-product-category' => __( 'applies when the cart contains a product from any selected category.', 'shipping-manager' ),
+            'tpsm-postcode'         => __( 'applies when the delivery postcode matches; supports wildcards and ranges.', 'shipping-manager' ),
         ];
 
         return $descriptions[$condition] ?? '';

@@ -30,7 +30,7 @@ class Logic {
         $this->free_shipping_settings = tpsm_get_free_shipping_settings();
 
         new FreeShipping( $this->free_shipping_settings );
-        $this->filter( 'tpsm_shipping_fees_cost', [$this, 'shipping_fees_cost'] );
+        $this->filter( 'tpsm_shipping_fees_cost', [$this, 'shipping_fees_cost'], 10, 2 );
     }
 
     /**
@@ -40,7 +40,7 @@ class Logic {
      *
      * @return float Shipping cost.
      */
-    public function shipping_fees_cost( $data ) {
+    public function shipping_fees_cost( $data, $package = array() ) {
 
         if ( is_string( $data ) ) {
             $data = json_decode( $data, true );
@@ -53,11 +53,17 @@ class Logic {
             return 0;
         }
 
-        // Drop anything that is not a well-formed rule row.
+        // Drop malformed rows, and rows the merchant has switched off. Rows
+        // saved before per-rule toggles existed have no 'enabled' key and are
+        // treated as on.
         $data = array_filter(
             $data,
             function ( $item ) {
-                return is_array( $item ) && isset( $item['condition'] );
+                if ( !is_array( $item ) || !isset( $item['condition'] ) ) {
+                    return false;
+                }
+
+                return !array_key_exists( 'enabled', $item ) || (bool) $item['enabled'];
             }
         );
 
@@ -81,19 +87,241 @@ class Logic {
         $per_weight_unit_items = $this->dataFilterByConditionName( $data, 'tpsm-per-weight-unit' );
         $total_weight_items = $this->dataFilterByConditionName( $data, 'tpsm-total-weight' );
         $shipping_classes_items = $this->dataFilterByConditionName( $data, 'tpsm-shipping-class' );
+        $per_item_items = $this->dataFilterByConditionName( $data, 'tpsm-per-item' );
+        $line_item_items = $this->dataFilterByConditionName( $data, 'tpsm-line-items' );
+        $category_items = $this->dataFilterByConditionName( $data, 'tpsm-product-category' );
+        $postcode_items = $this->dataFilterByConditionName( $data, 'tpsm-postcode' );
 
-        $flat_rate_cost = $this->get_shipping_cost_for_flat_rate( $flat_rate_items );
-        $cart_quantity_cost = $this->get_shipping_cost_cart_quantity( $tpsm_cart_quantity );
-        $cart_total_price_cost = $this->get_shipping_cost_for_total_price( $total_price_items );
-        $cart_subtotal_price_cost = $this->get_shipping_cost_for_subtotal_price( $sub_total_price_items );
-        $per_weight_unit_cost = $this->get_shipping_cost_for_per_weight_unit( $per_weight_unit_items );
-        $cart_total_weight_cost = $this->get_shipping_cost_for_total_weight( $total_weight_items );
-        $shipping_classes_cost = $this->get_shippng_cost_for_shipping_classes( $shipping_classes_items );
-
-        $shipping_cost = $flat_rate_cost + $cart_quantity_cost + $cart_total_price_cost + $cart_subtotal_price_cost + $cart_total_weight_cost + $per_weight_unit_cost + $shipping_classes_cost;
+        $shipping_cost = $this->get_shipping_cost_for_flat_rate( $flat_rate_items )
+            + $this->get_shipping_cost_cart_quantity( $tpsm_cart_quantity )
+            + $this->get_shipping_cost_for_total_price( $total_price_items )
+            + $this->get_shipping_cost_for_subtotal_price( $sub_total_price_items )
+            + $this->get_shipping_cost_for_per_weight_unit( $per_weight_unit_items )
+            + $this->get_shipping_cost_for_total_weight( $total_weight_items )
+            + $this->get_shippng_cost_for_shipping_classes( $shipping_classes_items )
+            + $this->get_shipping_cost_for_per_item( $per_item_items )
+            + $this->get_shipping_cost_for_line_items( $line_item_items )
+            + $this->get_shipping_cost_for_product_categories( $category_items )
+            + $this->get_shipping_cost_for_postcode( $postcode_items, $package );
 
         // Sum all costs
         return $shipping_cost;
+    }
+
+    /**
+     * Multiply the cost by the number of items in the cart.
+     *
+     * @param array $items Rule rows.
+     * @return float
+     */
+    private function get_shipping_cost_for_per_item( $items ) {
+        $cart = WC()->cart;
+
+        if ( is_null( $cart ) || empty( $items ) ) {
+            return 0;
+        }
+
+        $quantity = (float) $cart->get_cart_contents_count();
+        $costs    = array_map( 'floatval', array_column( $items, 'cost' ) );
+
+        return $quantity * array_sum( $costs );
+    }
+
+    /**
+     * Compare the number of distinct line items in the cart.
+     *
+     * @param array $items Rule rows.
+     * @return float
+     */
+    private function get_shipping_cost_for_line_items( $items ) {
+        $cart = WC()->cart;
+
+        if ( is_null( $cart ) || empty( $items ) ) {
+            return 0;
+        }
+
+        $line_count = (float) count( $cart->get_cart() );
+        $cost       = 0;
+
+        foreach ( $items as $item ) {
+            if ( $this->compare( $line_count, $item ) ) {
+                $cost += $this->value( $item, 'cost' );
+            }
+        }
+
+        return $cost;
+    }
+
+    /**
+     * Apply a cost when the cart holds a product from a selected category.
+     *
+     * @param array $items Rule rows.
+     * @return float
+     */
+    private function get_shipping_cost_for_product_categories( $items ) {
+        if ( empty( $items ) ) {
+            return 0;
+        }
+
+        $cart_categories = $this->get_unique_product_categories_in_cart();
+        $cost            = 0;
+
+        foreach ( $items as $item ) {
+            $selected = isset( $item['multi'] ) && is_array( $item['multi'] ) ? $item['multi'] : [];
+
+            if ( $selected && array_intersect( $selected, $cart_categories ) ) {
+                $cost += $this->value( $item, 'cost' );
+            }
+        }
+
+        return $cost;
+    }
+
+    /**
+     * Apply a cost when the destination postcode matches.
+     *
+     * @param array $items   Rule rows.
+     * @param array $package Shipping package, for its destination.
+     * @return float
+     */
+    private function get_shipping_cost_for_postcode( $items, $package ) {
+        if ( empty( $items ) ) {
+            return 0;
+        }
+
+        $postcode = isset( $package['destination']['postcode'] ) ? $package['destination']['postcode'] : '';
+
+        if ( '' === $postcode ) {
+            return 0;
+        }
+
+        $cost = 0;
+
+        foreach ( $items as $item ) {
+            $patterns = isset( $item['value'] ) ? (string) $item['value'] : '';
+
+            if ( $this->postcode_matches( $postcode, $patterns ) ) {
+                $cost += $this->value( $item, 'cost' );
+            }
+        }
+
+        return $cost;
+    }
+
+    /**
+     * Match a postcode against a comma or newline separated pattern list.
+     *
+     * Supports the same shorthand WooCommerce uses for shipping zones:
+     * exact values, `*` wildcards (e.g. `SW1*`) and numeric ranges
+     * (e.g. `1000...2000`).
+     *
+     * @param string $postcode Destination postcode.
+     * @param string $patterns Pattern list.
+     * @return bool
+     */
+    private function postcode_matches( $postcode, $patterns ) {
+        $patterns = preg_split( '/[\s,]+/', strtoupper( trim( $patterns ) ), -1, PREG_SPLIT_NO_EMPTY );
+
+        if ( empty( $patterns ) ) {
+            return false;
+        }
+
+        $postcode = strtoupper( str_replace( ' ', '', $postcode ) );
+
+        foreach ( $patterns as $pattern ) {
+            // Numeric range: 1000...2000
+            if ( false !== strpos( $pattern, '...' ) ) {
+                list( $from, $to ) = array_pad( explode( '...', $pattern, 2 ), 2, '' );
+
+                if ( is_numeric( $from ) && is_numeric( $to ) && is_numeric( $postcode )
+                    && (float) $postcode >= (float) $from && (float) $postcode <= (float) $to ) {
+                    return true;
+                }
+                continue;
+            }
+
+            // Wildcard: SW1*
+            if ( false !== strpos( $pattern, '*' ) ) {
+                $regex = '/^' . str_replace( '\*', '.*', preg_quote( $pattern, '/' ) ) . '$/';
+
+                if ( preg_match( $regex, $postcode ) ) {
+                    return true;
+                }
+                continue;
+            }
+
+            if ( $pattern === $postcode ) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Compare a value against a rule's operator and value.
+     *
+     * @param float $actual Value from the cart.
+     * @param array $item   Rule row.
+     * @return bool
+     */
+    private function compare( $actual, $item ) {
+        $operator = isset( $item['equal'] ) && '' !== $item['equal'] ? $item['equal'] : 'equals';
+        $expected = $this->value( $item, 'value' );
+
+        switch ( $operator ) {
+            case 'equals':
+                return $actual === $expected;
+            case 'not-equals':
+                return $actual !== $expected;
+            case 'greater':
+                return $actual > $expected;
+            case 'less':
+                return $actual < $expected;
+            case 'greater-equal':
+                return $actual >= $expected;
+            case 'less-equal':
+                return $actual <= $expected;
+        }
+
+        return false;
+    }
+
+    /**
+     * Unique product category slugs present in the cart.
+     *
+     * @return string[]
+     */
+    private function get_unique_product_categories_in_cart() {
+        $cart = WC()->cart;
+
+        if ( is_null( $cart ) ) {
+            return [];
+        }
+
+        $slugs = [];
+
+        foreach ( $cart->get_cart() as $cart_item ) {
+            $product = isset( $cart_item['data'] ) ? $cart_item['data'] : null;
+
+            if ( !$product ) {
+                continue;
+            }
+
+            // Variations inherit their categories from the parent product.
+            $product_id = $product->is_type( 'variation' ) ? $product->get_parent_id() : $product->get_id();
+            $terms      = get_the_terms( $product_id, 'product_cat' );
+
+            if ( !$terms || is_wp_error( $terms ) ) {
+                continue;
+            }
+
+            foreach ( $terms as $term ) {
+                $slugs[] = $term->slug;
+            }
+        }
+
+        return array_unique( $slugs );
     }
 
     /**
@@ -198,32 +426,7 @@ class Logic {
         foreach ( $items as $item ) {
             // Rows saved before an operator was picked default to "equals",
             // which is what the rules UI shows for them.
-            $operator = isset( $item['equal'] ) && '' !== $item['equal'] ? $item['equal'] : 'equals';
-            $value    = $this->value( $item, 'value' );
-            $matches  = false;
-
-            switch ( $operator ) {
-                case 'equals':
-                    $matches = $total_qty === $value;
-                    break;
-                case 'not-equals':
-                    $matches = $total_qty !== $value;
-                    break;
-                case 'greater':
-                    $matches = $total_qty > $value;
-                    break;
-                case 'less':
-                    $matches = $total_qty < $value;
-                    break;
-                case 'greater-equal':
-                    $matches = $total_qty >= $value;
-                    break;
-                case 'less-equal':
-                    $matches = $total_qty <= $value;
-                    break;
-            }
-
-            if ( $matches ) {
+            if ( $this->compare( $total_qty, $item ) ) {
                 $shipping_cost += $this->value( $item, 'cost' );
             }
         }

@@ -1,0 +1,51 @@
+/**
+ * Shipping Manager action links on the Plugins screen.
+ *
+ * Plugin row actions are plain text links by WordPress convention, so these
+ * stay text links too — just in the plugin's brand colour so they read as
+ * "this plugin's actions" next to the core blue ones. No pills or buttons:
+ * a filled control in this row competes with the plugin title and looks
+ * out of place at admin density.
+ *
+ * Specificity: WordPress styles these via `.row-actions a` (0,1,1). Every rule
+ * below is `.plugins .row-actions a.tpsm-plugin-action…` so it beats core, and
+ * crucially every state carries the SAME specificity as every other state —
+ * source order alone decides, which makes hover impossible to accidentally
+ * out-rank.
+ */
+
+.plugins .row-actions a.tpsm-plugin-action {
+    color: #f25500;
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 0.12s ease;
+}
+
+/* The first-stop action carries slightly more weight than its sibling. */
+.plugins .row-actions a.tpsm-plugin-action-primary {
+    font-weight: 600;
+}
+
+.plugins .row-actions a.tpsm-plugin-action:hover,
+.plugins .row-actions a.tpsm-plugin-action:focus {
+    color: #b23e00;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.plugins .row-actions a.tpsm-plugin-action:focus {
+    box-shadow: none;
+    outline: 1px solid #f25500;
+    outline-offset: 2px;
+    border-radius: 2px;
+}
+
+.plugins .row-actions a.tpsm-plugin-action:focus:not(:focus-visible) {
+    outline: none;
+}
+
+/* Keep each action and its trailing separator on one line. */
+.plugins .row-actions span.tpsm-settings,
+.plugins .row-actions span.tpsm-zones {
+    white-space: nowrap;
+}

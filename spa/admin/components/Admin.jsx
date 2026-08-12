@@ -1,33 +1,32 @@
 import React, { useEffect, useState } from 'react';
 import parse from 'html-react-parser';
 import Select from 'react-select';
+import ImportExport from './ImportExport';
 
-/**
- * The main component for the shipping rules table.
- *
- * This component renders a table with a row for each shipping rule, and
- * columns for the condition, cost, and action. The condition column is a
- * select dropdown with options for the different conditions, and the cost
- * column is a text input. The action column has a button to delete the row.
- *
- * The component also has a button to add a new row, and buttons to duplicate
- * and delete the selected rows.
- *
- * @return {ReactElement} - A JSX element representing the shipping rules table.
- */
 const HIDDEN_FIELD_ID = 'woocommerce_shipping-manager_tpsm_hidden';
+
+// Conditions whose cost is multiplied out rather than matched on a comparison.
+const MULTIPLIER_CONDITIONS = ['tpsm-per-item', 'tpsm-per-weight-unit'];
+// Conditions driven by an operator + single value.
+const OPERATOR_CONDITIONS = ['tpsm-cart-quantity', 'tpsm-line-items'];
+// Conditions driven by a min/max range.
+const RANGE_CONDITIONS = ['tpsm-sub-total-price', 'tpsm-total-price', 'tpsm-total-weight'];
+// Conditions driven by a multi-select.
+const MULTI_CONDITIONS = ['tpsm-shipping-class', 'tpsm-product-category'];
 
 /**
  * A brand new, empty rule row.
  *
- * `equal` defaults to 'equals' so a quantity rule that the merchant never
- * touched still matches the operator the UI shows for it.
+ * `equal` defaults to 'equals' so a rule the merchant never touched still
+ * matches the operator the UI shows for it.
  *
  * @param {string} condition - Condition slug for the new row.
  * @return {Object} The new row.
  */
 const emptyRow = (condition) => ({
   condition,
+  label: '',
+  enabled: true,
   cost: '',
   equal: 'equals',
   value: '',
@@ -36,63 +35,65 @@ const emptyRow = (condition) => ({
   multi: [],
 });
 
+/**
+ * Normalise a row loaded from storage, backfilling anything a row saved by an
+ * older version is missing.
+ *
+ * @param {Object} row       Stored row.
+ * @param {string} fallback  Condition to use when the row has none.
+ * @return {Object} A complete row.
+ */
+const normalizeRow = (row, fallback) => ({
+  ...emptyRow(fallback),
+  ...row,
+  multi: Array.isArray(row.multi) ? row.multi : [],
+  equal: row.equal || 'equals',
+  // Rows predate the per-rule toggle; absent means enabled.
+  enabled: row.enabled === undefined ? true : Boolean(row.enabled),
+  label: typeof row.label === 'string' ? row.label : '',
+});
+
 function Admin() {
   // TPSM_ADMIN is injected via wp_localize_script; fall back to empty data so a
   // missing/failed localisation degrades instead of throwing.
   const adminData = typeof TPSM_ADMIN !== 'undefined' ? TPSM_ADMIN : {};
   const conditions = adminData.shipping_rules_select || {};
-  const conditionsValues = Object.keys(conditions);
-  const conditionsLabel = Object.values(conditions);
+  const conditionGroups = adminData.condition_groups || {};
+  const conditionHelp = adminData.condition_help || {};
   const classOptions = adminData.wc_shipping_classess || [];
+  const categoryOptions = adminData.product_categories || [];
   const operators = adminData.operators || [];
   const wooData = adminData.woocommerce_data || {};
   const currencySymbol = wooData.currency_symbol || '';
   const weightUnit = wooData.weight_unit || '';
+  const i18n = adminData.i18n || {};
 
-  const [rows, setRows] = useState([
-    emptyRow(conditionsValues[0] || 'tpsm-flat-rate'),
-  ]);
+  const firstCondition = Object.keys(conditions)[0] || 'tpsm-flat-rate';
+
+  const [rows, setRows] = useState([]);
   const [selectedRows, setSelectedRows] = useState([]);
 
   useEffect(() => {
     const hiddenField = document.getElementById(HIDDEN_FIELD_ID);
+
+    // The raw JSON field is now driven entirely by this app, so hide the row
+    // WooCommerce renders for it rather than showing merchants a blob of JSON.
+    if (hiddenField && hiddenField.closest('tr')) {
+      hiddenField.closest('tr').style.display = 'none';
+    }
+
     if (hiddenField && hiddenField.value) {
       try {
         const parsed = JSON.parse(hiddenField.value);
-
-        if (!Array.isArray(parsed)) {
-          return;
+        if (Array.isArray(parsed)) {
+          setRows(parsed.map((row) => normalizeRow(row, firstCondition)));
         }
-
-        // Backfill anything a row saved by an older version may be missing.
-        const normalized = parsed.map((row) => ({
-          ...emptyRow(conditionsValues[0] || 'tpsm-flat-rate'),
-          ...row,
-          multi: Array.isArray(row.multi) ? row.multi : [],
-          equal: row.equal || 'equals',
-        }));
-        setRows(normalized);
       } catch (e) {
         console.error('Invalid JSON in hidden field');
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  /**
-   * Updates the 'multi' property of the row at the specified index with
-   * the values of the selected options.
-   *
-   * @param {number} index - The index of the row to update.
-   * @param {Array<Object>} selectedOptions - An array of objects with
-   *                                          'value' and 'label' properties.
-   */
-  const handleMultiSelectChange = (index, selectedOptions) => {
-    const values = (selectedOptions || []).map((opt) => opt.value);
-    setRows((prev) =>
-      prev.map((row, i) => (i === index ? { ...row, multi: values } : row)),
-    );
-  };
 
   useEffect(() => {
     const hiddenField = document.getElementById(HIDDEN_FIELD_ID);
@@ -101,63 +102,38 @@ function Admin() {
     }
   }, [rows]);
 
-  /**
-   * Updates the row at the specified index by setting the specified field to the given value.
-   *
-   * @param {number} index - The index of the row to update.
-   * @param {string} field - The field to update (one of 'condition', 'cost', 'min', 'max', or 'multi').
-   * @param {string|number|Array<string|number>} value - The new value for the specified field.
-   */
+  const updateRow = (index, patch) =>
+    setRows((prev) => prev.map((row, i) => (i === index ? { ...row, ...patch } : row)));
 
-  const handleRowChange = (index, field, value) => {
-    // Copy the row rather than mutating it in place.
-    setRows((prev) =>
-      prev.map((row, i) => (i === index ? { ...row, [field]: value } : row)),
-    );
-  };
+  const handleRowChange = (index, field, value) => updateRow(index, { [field]: value });
 
-  /**
-   * Adds a new row to the rows state with default values.
-   */
+  const handleMultiSelectChange = (index, selectedOptions) =>
+    updateRow(index, { multi: (selectedOptions || []).map((opt) => opt.value) });
 
-  const addRow = () => {
-    setRows((prev) => [
-      ...prev,
-      emptyRow(conditionsValues[0] || 'tpsm-flat-rate'),
-    ]);
-  };
+  const addRow = () => setRows((prev) => [...prev, emptyRow(firstCondition)]);
 
-  /**
-   * Deletes the row at the specified index and removes it from the selectedRows state.
-   *
-   * @param {number} index - The index of the row to delete.
-   */
   const deleteRow = (index) => {
     setRows((prev) => prev.filter((_, i) => i !== index));
     // Every selection above the removed row shifts down by one; without this
-    // the checkboxes ended up pointing at the wrong rules.
+    // the checkboxes end up pointing at the wrong rules.
     setSelectedRows((prev) =>
       prev.filter((i) => i !== index).map((i) => (i > index ? i - 1 : i)),
     );
   };
 
-  /**
-   * Deletes the selected rows and resets the selectedRows state.
-   *
-   * Loops over the rows and filters out the ones that are selected.
-   * Updates the rows state with the new array and resets the selectedRows
-   * state to an empty array.
-   */
+  const duplicateRow = (index) =>
+    setRows((prev) => {
+      const copy = { ...prev[index], multi: [...prev[index].multi] };
+      const next = [...prev];
+      next.splice(index + 1, 0, copy);
+      return next;
+    });
+
   const deleteSelectedRows = () => {
     setRows((prev) => prev.filter((_, i) => !selectedRows.includes(i)));
     setSelectedRows([]);
   };
 
-  /**
-   * Duplicates the selected rows and adds them to the rows state.
-   *
-   * Only has an effect if selectedRows is not empty.
-   */
   const duplicateSelectedRows = () => {
     const duplicates = selectedRows
       .filter((index) => rows[index])
@@ -165,271 +141,291 @@ function Admin() {
     setRows((prev) => [...prev, ...duplicates]);
   };
 
-  /**
-   * Toggles the selection state of a row at the specified index.
-   *
-   * @param {number} index - The index of the row to toggle.
-   *
-   * Updates the selectedRows state by adding the index to the selection
-   * if it is not already selected, or removing it if it is.
-   */
-  const handleCheckboxChange = (index) => {
+  const handleCheckboxChange = (index) =>
     setSelectedRows((prev) =>
       prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index],
     );
+
+  const importRules = (rules) => {
+    setRows(rules.map((row) => normalizeRow(row, firstCondition)));
+    setSelectedRows([]);
   };
 
+  const allSelected = rows.length > 0 && selectedRows.length === rows.length;
+  const enabledCount = rows.filter((row) => row.enabled).length;
+
   /**
-   * Returns an optgroup element with options populated from
-   * conditionsValues and conditionsLabel, starting from index
-   * `start` and ending at index `end`.
+   * The inputs a given condition needs, beside its cost.
    *
-   * @param {string} label - The label for the optgroup element.
-   * @param {number} start - The starting index (inclusive).
-   * @param {number} end - The ending index (exclusive).
-   *
-   * @returns {ReactElement} - An optgroup element.
+   * @param {Object} row   Rule row.
+   * @param {number} index Row index.
+   * @return {ReactElement|null} The inputs.
    */
-  const renderOptGroup = (label, start, end) => (
-    <optgroup label={label} key={label}>
-      {conditionsValues.slice(start, end).map((value, idx) => (
-        <option key={start + idx} value={value}>
-          {conditionsLabel[start + idx]}
-        </option>
-      ))}
-    </optgroup>
-  );
+  const renderConditionInputs = (row, index) => {
+    if (MULTIPLIER_CONDITIONS.includes(row.condition)) {
+      return (
+        <span className="tpsm-rule-hint">
+          × {row.condition === 'tpsm-per-weight-unit' ? weightUnit : i18n.value || 'qty'}
+        </span>
+      );
+    }
+
+    if (OPERATOR_CONDITIONS.includes(row.condition)) {
+      return (
+        <>
+          <select
+            className="tpsm-input tpsm-input-select"
+            value={row.equal || 'equals'}
+            onChange={(e) => handleRowChange(index, 'equal', e.target.value)}
+          >
+            {operators.map((op) => (
+              <option key={op.value} value={op.value}>
+                {op.label}
+              </option>
+            ))}
+          </select>
+          <input
+            className="tpsm-input"
+            type="number"
+            placeholder={i18n.value || 'Value'}
+            value={row.value}
+            onChange={(e) => handleRowChange(index, 'value', e.target.value)}
+          />
+        </>
+      );
+    }
+
+    if (RANGE_CONDITIONS.includes(row.condition)) {
+      const unit =
+        row.condition === 'tpsm-total-weight' ? weightUnit : parse(currencySymbol || '');
+      return (
+        <>
+          <span className="tpsm-input-group">
+            <span className="tpsm-input-affix">{unit}</span>
+            <input
+              className="tpsm-input"
+              type="number"
+              placeholder={i18n.min || 'Min'}
+              value={row.min}
+              onChange={(e) => handleRowChange(index, 'min', e.target.value)}
+            />
+          </span>
+          <span className="tpsm-input-group">
+            <span className="tpsm-input-affix">{unit}</span>
+            <input
+              className="tpsm-input"
+              type="number"
+              placeholder={i18n.max || 'Max'}
+              value={row.max}
+              onChange={(e) => handleRowChange(index, 'max', e.target.value)}
+            />
+          </span>
+        </>
+      );
+    }
+
+    if (MULTI_CONDITIONS.includes(row.condition)) {
+      const isCategory = row.condition === 'tpsm-product-category';
+      const options = isCategory ? categoryOptions : classOptions;
+      return (
+        <Select
+          className="tpsm-rule-multi"
+          classNamePrefix="tpsm-select"
+          options={options}
+          isMulti
+          placeholder={isCategory ? i18n.selectCategories : i18n.selectClasses}
+          value={options.filter((opt) => row.multi.includes(opt.value))}
+          onChange={(selected) => handleMultiSelectChange(index, selected)}
+        />
+      );
+    }
+
+    if (row.condition === 'tpsm-postcode') {
+      return (
+        <input
+          className="tpsm-input tpsm-input-wide"
+          type="text"
+          placeholder={i18n.postcodes}
+          value={row.value}
+          onChange={(e) => handleRowChange(index, 'value', e.target.value)}
+        />
+      );
+    }
+
+    return null;
+  };
 
   return (
-    <>
-      <div className="tpsm-shipping-rule-table-wrapper">
-        <table className="tpsm-shipping-rule-table">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>
-                <input
-                  type="checkbox"
-                  checked={
-                    rows.length > 0 && selectedRows.length === rows.length
-                  }
-                  onChange={(e) => {
-                    if (e.target.checked) {
-                      setSelectedRows(rows.map((_, i) => i));
-                    } else {
-                      setSelectedRows([]);
-                    }
-                  }}
-                />
-              </th>
-              <th>Conditions</th>
-              <th>Costs</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {rows.map((row, index) => (
-              <tr key={index}>
-                <td>{index + 1}</td>
-                <td>
-                  <input
-                    type="checkbox"
-                    checked={selectedRows.includes(index)}
-                    onChange={() => handleCheckboxChange(index)}
-                  />
-                </td>
-                <td>
-                  <select
-                    className="tpsm-shipping-rule-select"
-                    value={row.condition}
-                    onChange={(e) =>
-                      handleRowChange(index, 'condition', e.target.value)
-                    }
-                  >
-                    {renderOptGroup('General', 0, 1)}
-                    {renderOptGroup('Cart', 1, 4)}
-                    {renderOptGroup('Product', 4, 7)}
-                  </select>
+    <div className="tpsm-rules">
+      <ImportExport rows={rows} onImport={importRules} i18n={i18n} />
 
-                  {row.condition === 'tpsm-cart-quantity' && (
-                    <>
-                      {/* select operator — per row, not shared across rows */}
-                      <div className="tpsm-max-min-field-wrapper">
-                        <select
-                          className="tpsm-shipping-rule-select"
-                          value={row.equal || 'equals'}
-                          onChange={(e) =>
-                            handleRowChange(index, 'equal', e.target.value)
-                          }
-                        >
-                          {operators.map((op) => (
-                            <option key={op.value} value={op.value}>
-                              {op.label}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-                      <div className="tpsm-max-min-field-wrapper">
-                        <input
-                          type="number"
-                          placeholder="Value"
-                          value={row.value}
-                          onChange={(e) =>
-                            handleRowChange(index, 'value', e.target.value)
-                          }
-                        />
-                      </div>
-                    </>
-                  )}
+      <div className="tpsm-rules-toolbar">
+        <label className="tpsm-check">
+          <input
+            type="checkbox"
+            checked={allSelected}
+            onChange={(e) => setSelectedRows(e.target.checked ? rows.map((_, i) => i) : [])}
+          />
+          <span>
+            {selectedRows.length
+              ? `${selectedRows.length} / ${rows.length}`
+              : (i18n.ruleCount || '%d rules').replace('%d', rows.length)}
+          </span>
+        </label>
 
-                  {row.condition === 'tpsm-total-price' && (
-                    <>
-                      <div className="tpsm-max-min-field-wrapper">
-                        {parse(currencySymbol)}
-                        <input
-                          type="number"
-                          placeholder="Min"
-                          value={row.min}
-                          onChange={(e) =>
-                            handleRowChange(index, 'min', e.target.value)
-                          }
-                        />
-                      </div>
-                      <div className="tpsm-max-min-field-wrapper">
-                        {parse(currencySymbol)}
-                        <input
-                          type="number"
-                          placeholder="Max"
-                          value={row.max}
-                          onChange={(e) =>
-                            handleRowChange(index, 'max', e.target.value)
-                          }
-                        />
-                      </div>
-                    </>
-                  )}
-                  {row.condition === 'tpsm-sub-total-price' && (
-                    <>
-                      <div className="tpsm-max-min-field-wrapper">
-                        {parse(currencySymbol)}
-                        <input
-                          type="number"
-                          placeholder="Min"
-                          value={row.min}
-                          onChange={(e) =>
-                            handleRowChange(index, 'min', e.target.value)
-                          }
-                        />
-                      </div>
-                      <div className="tpsm-max-min-field-wrapper">
-                        {parse(currencySymbol)}
-                        <input
-                          type="number"
-                          placeholder="Max"
-                          value={row.max}
-                          onChange={(e) =>
-                            handleRowChange(index, 'max', e.target.value)
-                          }
-                        />
-                      </div>
-                    </>
-                  )}
-                  {row.condition === 'tpsm-total-weight' && (
-                    <>
-                      <div className="tpsm-max-min-field-wrapper">
-                        {weightUnit}
-                        <input
-                          type="number"
-                          placeholder="Min"
-                          value={row.min}
-                          onChange={(e) =>
-                            handleRowChange(index, 'min', e.target.value)
-                          }
-                        />
-                      </div>
-                      <div className="tpsm-max-min-field-wrapper">
-                        {weightUnit}
-                        <input
-                          type="number"
-                          placeholder="Max"
-                          value={row.max}
-                          onChange={(e) =>
-                            handleRowChange(index, 'max', e.target.value)
-                          }
-                        />
-                      </div>
-                    </>
-                  )}
-                  {row.condition === 'tpsm-shipping-class' && (
-                    <Select
-                      options={classOptions}
-                      isMulti
-                      placeholder="Select classes..."
-                      value={classOptions.filter((opt) =>
-                        row.multi.includes(opt.value),
-                      )}
-                      onChange={(selectedOptions) =>
-                        handleMultiSelectChange(index, selectedOptions)
-                      }
-                      styles={{
-                        container: (base) => ({
-                          ...base,
-                          minWidth: '350px',
-                        }),
-                      }}
-                    />
-                  )}
-                </td>
+        <span className="tpsm-rules-meta">
+          {enabledCount !== rows.length && (
+            <span className="tpsm-badge tpsm-badge-muted">
+              {rows.length - enabledCount} {i18n.disabled || 'disabled'}
+            </span>
+          )}
+          <span className="tpsm-rules-note">{i18n.totalNote}</span>
+        </span>
 
-                <td>
-                  <div className="tpsm-costs-column-data">
-                    {parse(currencySymbol)}
-                    <input
-                      type="number"
-                      value={row.cost}
-                      onChange={(e) =>
-                        handleRowChange(index, 'cost', e.target.value)
-                      }
-                      placeholder="10.00"
-                    />
-                  </div>
-                </td>
-                <td>
-                  <button type="button" onClick={() => deleteRow(index)}>
-                    <img
-                      src={(adminData.assets_url || '') + '/admin/img/delete.png'}
-                      alt="Delete row"
-                      width="20"
-                      height="20"
-                    />
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-
-        <div className="tpsm-shipping-rule-actions">
-          <button className="tpsm-button" type="button" onClick={addRow}>
-            Add New Row
-          </button>
+        <span className="tpsm-rules-toolbar-actions">
           <button
-            className="tpsm-button"
             type="button"
+            className="tpsm-btn"
+            disabled={!selectedRows.length}
             onClick={duplicateSelectedRows}
           >
-            Duplicate Selected
+            {i18n.duplicate}
           </button>
           <button
-            className="tpsm-button"
             type="button"
+            className="tpsm-btn tpsm-btn-danger"
+            disabled={!selectedRows.length}
             onClick={deleteSelectedRows}
           >
-            Delete Selected
+            {i18n.deleteSelected}
+          </button>
+        </span>
+      </div>
+
+      {rows.length === 0 ? (
+        <div className="tpsm-empty">
+          <p>{i18n.noRules}</p>
+          <button type="button" className="tpsm-btn tpsm-btn-primary" onClick={addRow}>
+            {i18n.addRule}
           </button>
         </div>
-      </div>
-    </>
+      ) : (
+        <ul className="tpsm-rule-list">
+          {rows.map((row, index) => (
+            <li
+              key={index}
+              className={`tpsm-rule ${row.enabled ? '' : 'is-disabled'} ${
+                selectedRows.includes(index) ? 'is-selected' : ''
+              }`}
+            >
+              <div className="tpsm-rule-select">
+                <input
+                  type="checkbox"
+                  aria-label={`Select rule ${index + 1}`}
+                  checked={selectedRows.includes(index)}
+                  onChange={() => handleCheckboxChange(index)}
+                />
+                <span className="tpsm-rule-index">{index + 1}</span>
+              </div>
+
+              <div className="tpsm-rule-main">
+                <div className="tpsm-rule-top">
+                  <input
+                    className="tpsm-input tpsm-rule-label"
+                    type="text"
+                    placeholder={i18n.labelPlaceholder}
+                    value={row.label}
+                    onChange={(e) => handleRowChange(index, 'label', e.target.value)}
+                  />
+
+                  <label className="tpsm-toggle" title={i18n.enabled}>
+                    <input
+                      type="checkbox"
+                      checked={row.enabled}
+                      onChange={(e) => handleRowChange(index, 'enabled', e.target.checked)}
+                    />
+                    <span className="tpsm-toggle-track" aria-hidden="true" />
+                    <span className="tpsm-toggle-text">
+                      {row.enabled ? i18n.enabled : i18n.disabled}
+                    </span>
+                  </label>
+                </div>
+
+                <div className="tpsm-rule-body">
+                  <select
+                    className="tpsm-input tpsm-input-select tpsm-rule-condition"
+                    value={row.condition}
+                    onChange={(e) => handleRowChange(index, 'condition', e.target.value)}
+                  >
+                    {Object.keys(conditionGroups).map((group) => (
+                      <optgroup label={group} key={group}>
+                        {(conditionGroups[group] || [])
+                          .filter((slug) => conditions[slug])
+                          .map((slug) => (
+                            <option key={slug} value={slug}>
+                              {conditions[slug]}
+                            </option>
+                          ))}
+                      </optgroup>
+                    ))}
+                  </select>
+
+                  {renderConditionInputs(row, index)}
+
+                  <span className="tpsm-rule-cost">
+                    <span className="tpsm-input-affix">{parse(currencySymbol || '')}</span>
+                    <input
+                      className="tpsm-input"
+                      type="number"
+                      step="0.01"
+                      value={row.cost}
+                      onChange={(e) => handleRowChange(index, 'cost', e.target.value)}
+                      placeholder="0.00"
+                    />
+                  </span>
+
+                  <span className="tpsm-rule-actions">
+                    <button
+                      type="button"
+                      className="tpsm-icon-btn"
+                      title={i18n.duplicate}
+                      onClick={() => duplicateRow(index)}
+                    >
+                      <svg viewBox="0 0 16 16" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                        <rect x="5.5" y="5.5" width="8" height="8" rx="1.5" />
+                        <path d="M10.5 3.5h-7a1 1 0 0 0-1 1v7" />
+                      </svg>
+                    </button>
+                    <button
+                      type="button"
+                      className="tpsm-icon-btn tpsm-icon-btn-danger"
+                      title={i18n.deleteSelected}
+                      onClick={() => deleteRow(index)}
+                    >
+                      <svg viewBox="0 0 16 16" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                        <path d="M2.5 4.5h11M6 4.5V3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v1.5M4 4.5l.6 8a1 1 0 0 0 1 .9h4.8a1 1 0 0 0 1-.9l.6-8" />
+                      </svg>
+                    </button>
+                  </span>
+                </div>
+
+                {conditionHelp[row.condition] && (
+                  <p className="tpsm-rule-help">{conditionHelp[row.condition]}</p>
+                )}
+              </div>
+            </li>
+          ))}
+        </ul>
+      )}
+
+      {rows.length > 0 && (
+        <div className="tpsm-rules-footer">
+          <button type="button" className="tpsm-btn tpsm-btn-primary" onClick={addRow}>
+            + {i18n.addRule}
+          </button>
+        </div>
+      )}
+    </div>
   );
 }
 

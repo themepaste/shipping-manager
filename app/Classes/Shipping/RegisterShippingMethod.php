@@ -194,7 +194,7 @@ class RegisterShippingMethod extends WC_Shipping_Method {
         $tax_status = $this->get_option( 'tax_status', 'taxable' );
         $data       = $this->get_option( 'tpsm_hidden' ); // Here we get a json format all condition and data
 
-        $cost = (float) $this->get_tpsm_cost( $data );
+        $cost = (float) $this->get_tpsm_cost( $data, $package );
 
         if ( $cost <= 0 ) {
             return;
@@ -223,9 +223,12 @@ class RegisterShippingMethod extends WC_Shipping_Method {
      *
      * @return float
      */
-    private function get_tpsm_cost( $data ) {
+    private function get_tpsm_cost( $data, $package = array() ) {
 
-        return apply_filters( 'tpsm_shipping_fees_cost', $data );
+        // The package carries the destination, which destination-based rules
+        // (postcode) need. Passed as a second argument so existing one-argument
+        // callbacks keep working unchanged.
+        return apply_filters( 'tpsm_shipping_fees_cost', $data, $package );
     }
 
     /**

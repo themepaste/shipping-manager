@@ -87,6 +87,7 @@ class Settings {
         $this->action( 'admin_init', [$this, 'redirect_to_default_tab'] );
         $this->action( 'admin_enqueue_scripts', [$this, 'admin_enqueue_css'] );
         $this->action( 'admin_enqueue_scripts', [$this, 'admin_enqueue_scripts'] );
+        $this->action( 'admin_enqueue_scripts', [$this, 'plugins_page_assets'] );
         $this->filter( 'plugin_action_links_' . TPSM_PLUGIN_BASENAME, [$this, 'settings_link'] );
     }
 
@@ -126,26 +127,42 @@ class Settings {
             ? $this->setting_page_url
             : $this->method_settings_url;
 
-        // Unshifted in reverse, so the row reads: Settings | Setup Method to Zones | …
-        array_unshift(
-            $links,
-            sprintf(
-                '<a href="%1$s">%2$s</a>',
-                esc_url( $this->woocommerce_shipping_page_url ),
-                esc_html__( 'Setup Method to Zones', 'shipping-manager' )
-            )
-        );
-
-        array_unshift(
-            $links,
-            sprintf(
-                '<a href="%1$s">%2$s</a>',
+        // Named keys rather than array_unshift: WordPress wraps each action in
+        // <span class="{key}">, so this yields meaningful hooks instead of "0".
+        $tpsm_links = [
+            'tpsm-settings' => sprintf(
+                '<a class="tpsm-plugin-action tpsm-plugin-action-primary" href="%1$s">%2$s</a>',
                 esc_url( $settings_url ),
                 esc_html__( 'Settings', 'shipping-manager' )
-            )
-        );
+            ),
+            'tpsm-zones'    => sprintf(
+                '<a class="tpsm-plugin-action" href="%1$s">%2$s</a>',
+                esc_url( $this->woocommerce_shipping_page_url ),
+                esc_html__( 'Setup Method to Zones', 'shipping-manager' )
+            ),
+        ];
 
-        return $links;
+        return array_merge( $tpsm_links, $links );
+    }
+
+    /**
+     * Style this plugin's action links on the Plugins screen.
+     *
+     * Keeps them visually distinct from WordPress's own blue actions, using the
+     * plugin's brand colour.
+     *
+     * @param string $screen Current admin screen ID.
+     * @return void
+     */
+    public function plugins_page_assets( $screen ) {
+        if ( 'plugins.php' !== $screen ) {
+            return;
+        }
+
+        $this->enqueue_style(
+            'tpsm-plugins-page',
+            TPSM_ASSETS_URL . '/admin/css/plugins-page.css'
+        );
     }
 
     /**
@@ -224,9 +241,13 @@ class Settings {
             'weight_unit'     => get_option( 'woocommerce_weight_unit' ), // e.g., 'kg', 'g', 'lbs'
         ];
         $this->localize_data['shipping_rules_select'] = tpsm_get_conditions_data();
+        $this->localize_data['condition_groups'] = tpsm_get_condition_groups();
+        $this->localize_data['condition_help'] = $this->get_condition_help();
         $this->localize_data['operators'] = tpsm_get_filter_operators();
         $this->localize_data['wc_shipping_classess'] = $this->get_all_wc_classes();
+        $this->localize_data['product_categories'] = tpsm_get_product_categories();
         $this->localize_data['assets_url'] = TPSM_ASSETS_URL;
+        $this->localize_data['i18n'] = $this->get_builder_strings();
 
         $this->localize_script( 'tpsm-settings-react', 'TPSM_ADMIN', $this->localize_data );
     }
@@ -262,6 +283,62 @@ class Settings {
         $tab = isset( $_GET['tab'] ) ? sanitize_text_field( wp_unslash( $_GET['tab'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only screen check.
 
         return 'shipping' === $tab;
+    }
+
+    /**
+     * Short help text per condition, shown in the rules builder.
+     *
+     * @return array
+     */
+    private function get_condition_help() {
+        $help = [];
+
+        foreach ( array_keys( tpsm_get_conditions_data() ) as $slug ) {
+            $help[$slug] = tpsm_get_condition_description( $slug );
+        }
+
+        return $help;
+    }
+
+    /**
+     * Translatable strings for the React rules builder.
+     *
+     * @return array
+     */
+    private function get_builder_strings() {
+        return [
+            'addRule'         => __( 'Add Rule', 'shipping-manager' ),
+            'duplicate'       => __( 'Duplicate', 'shipping-manager' ),
+            'deleteSelected'  => __( 'Delete Selected', 'shipping-manager' ),
+            'enabled'         => __( 'Enabled', 'shipping-manager' ),
+            'disabled'        => __( 'Disabled', 'shipping-manager' ),
+            'label'           => __( 'Label', 'shipping-manager' ),
+            'labelPlaceholder' => __( 'Optional name for this rule', 'shipping-manager' ),
+            'condition'       => __( 'Condition', 'shipping-manager' ),
+            'cost'            => __( 'Cost', 'shipping-manager' ),
+            'actions'         => __( 'Actions', 'shipping-manager' ),
+            'noRules'         => __( 'No shipping rules yet. Add your first rule to start charging for delivery.', 'shipping-manager' ),
+            'min'             => __( 'Min', 'shipping-manager' ),
+            'max'             => __( 'Max', 'shipping-manager' ),
+            'value'           => __( 'Value', 'shipping-manager' ),
+            'selectClasses'   => __( 'Select shipping classes…', 'shipping-manager' ),
+            'selectCategories' => __( 'Select product categories…', 'shipping-manager' ),
+            'postcodes'       => __( 'e.g. 1000...2000, SW1*, 90210', 'shipping-manager' ),
+            'importExport'    => __( 'Import / Export', 'shipping-manager' ),
+            'copy'            => __( 'Copy', 'shipping-manager' ),
+            'copied'          => __( 'Copied to clipboard', 'shipping-manager' ),
+            'paste'           => __( 'Paste', 'shipping-manager' ),
+            'download'        => __( 'Download', 'shipping-manager' ),
+            'importFile'      => __( 'Import file', 'shipping-manager' ),
+            'replaceAll'      => __( 'Replace all rules', 'shipping-manager' ),
+            'appendRules'     => __( 'Append to existing', 'shipping-manager' ),
+            'invalidJson'     => __( 'That does not look like valid Shipping Manager rule data.', 'shipping-manager' ),
+            'imported'        => __( 'Imported %d rules.', 'shipping-manager' ),
+            'ruleCount'       => __( '%d rules', 'shipping-manager' ),
+            'clipboardFailed' => __( 'Could not reach the clipboard. Copy the text manually.', 'shipping-manager' ),
+            'summary'         => __( 'Rules summary', 'shipping-manager' ),
+            'totalNote'       => __( 'Costs from every matching rule are added together.', 'shipping-manager' ),
+        ];
     }
 
     private function get_all_wc_classes() {
