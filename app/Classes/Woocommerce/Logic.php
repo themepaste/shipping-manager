@@ -45,14 +45,30 @@ class Logic {
         if ( is_string( $data ) ) {
             $data = json_decode( $data, true );
         }
-        $cart = WC()->cart;
 
-        if ( !is_array( $data ) && empty( $data ) ) {
-            return;
+        // Guard with OR, not AND: a decoded scalar (e.g. `5`) is not an array
+        // but is also not empty, and used to reach array_filter() below, which
+        // is a TypeError on PHP 8 during checkout.
+        if ( !is_array( $data ) || empty( $data ) ) {
+            return 0;
         }
 
+        // Drop anything that is not a well-formed rule row.
+        $data = array_filter(
+            $data,
+            function ( $item ) {
+                return is_array( $item ) && isset( $item['condition'] );
+            }
+        );
+
+        if ( empty( $data ) ) {
+            return 0;
+        }
+
+        $cart = function_exists( 'WC' ) ? WC()->cart : null;
+
         if ( is_null( $cart ) ) {
-            return;
+            return 0;
         }
 
         /**
@@ -80,13 +96,55 @@ class Logic {
         return $shipping_cost;
     }
 
+    /**
+     * Read a rule value as a float, treating missing/blank values as 0.
+     *
+     * @param array  $item Rule row.
+     * @param string $key  Key to read.
+     * @return float
+     */
+    private function value( $item, $key ) {
+        return isset( $item[$key] ) && is_numeric( $item[$key] ) ? (float) $item[$key] : 0.0;
+    }
+
+    /**
+     * Whether $amount falls inside a rule's min/max range.
+     *
+     * A blank min or max means "unbounded" in that direction, which is what a
+     * merchant expects when they only fill in one side of the range.
+     *
+     * @param float $amount Value to test.
+     * @param array $item   Rule row.
+     * @return bool
+     */
+    private function in_range( $amount, $item ) {
+        $min = isset( $item['min'] ) && is_numeric( $item['min'] ) ? (float) $item['min'] : null;
+        $max = isset( $item['max'] ) && is_numeric( $item['max'] ) ? (float) $item['max'] : null;
+
+        if ( null !== $min && $amount < $min ) {
+            return false;
+        }
+
+        if ( null !== $max && $amount > $max ) {
+            return false;
+        }
+
+        return true;
+    }
+
     private function get_shippng_cost_for_shipping_classes( $items ) {
+        if ( empty( $items ) ) {
+            return 0;
+        }
+
         $cart_classes = $this->get_unique_shipping_classes_in_cart();
         $cost = 0;
 
         foreach ( $items as $item ) {
-            if ( array_intersect( $item['multi'], $cart_classes ) ) {
-                $cost += $item['cost'];
+            $selected = isset( $item['multi'] ) && is_array( $item['multi'] ) ? $item['multi'] : [];
+
+            if ( $selected && array_intersect( $selected, $cart_classes ) ) {
+                $cost += $this->value( $item, 'cost' );
             }
         }
 
@@ -104,15 +162,15 @@ class Logic {
         $cart = WC()->cart;
 
         if ( is_null( $cart ) || empty( $items ) ) {
-            return;
+            return 0;
         }
 
-        $subtotal = WC()->cart->get_subtotal();
+        $subtotal = (float) $cart->get_subtotal();
         $cost = 0;
 
         foreach ( $items as $item ) {
-            if ( $subtotal <= $item['max'] && $subtotal >= $item['min'] ) {
-                $cost += $item['cost'];
+            if ( $this->in_range( $subtotal, $item ) ) {
+                $cost += $this->value( $item, 'cost' );
             }
         }
 
@@ -131,37 +189,42 @@ class Logic {
         $cart = WC()->cart;
 
         if ( is_null( $cart ) || empty( $items ) ) {
-            return;
+            return 0;
         }
 
-        $total_qty = $cart->get_cart_contents_count();
+        $total_qty = (float) $cart->get_cart_contents_count();
         $shipping_cost = 0;
 
         foreach ( $items as $item ) {
-            if ( 'equals' == $item['equal'] ) {
-                if ( $total_qty == $item['value'] ) {
-                    $shipping_cost += $item['cost'];
-                }
-            } else if ( 'not-equals' == $item['equal'] ) {
-                if ( $total_qty != $item['value'] ) {
-                    $shipping_cost += $item['cost'];
-                }
-            } else if ( 'greater' == $item['equal'] ) {
-                if ( $total_qty > $item['value'] ) {
-                    $shipping_cost += $item['cost'];
-                }
-            } else if ( 'less' == $item['equal'] ) {
-                if ( $total_qty < $item['value'] ) {
-                    $shipping_cost += $item['cost'];
-                }
-            } else if ( 'greater-equal' == $item['equal'] ) {
-                if ( $total_qty >= $item['value'] ) {
-                    $shipping_cost += $item['cost'];
-                }
-            } else if ( 'less-equal' == $item['equal'] ) {
-                if ( $total_qty <= $item['value'] ) {
-                    $shipping_cost += $item['cost'];
-                }
+            // Rows saved before an operator was picked default to "equals",
+            // which is what the rules UI shows for them.
+            $operator = isset( $item['equal'] ) && '' !== $item['equal'] ? $item['equal'] : 'equals';
+            $value    = $this->value( $item, 'value' );
+            $matches  = false;
+
+            switch ( $operator ) {
+                case 'equals':
+                    $matches = $total_qty === $value;
+                    break;
+                case 'not-equals':
+                    $matches = $total_qty !== $value;
+                    break;
+                case 'greater':
+                    $matches = $total_qty > $value;
+                    break;
+                case 'less':
+                    $matches = $total_qty < $value;
+                    break;
+                case 'greater-equal':
+                    $matches = $total_qty >= $value;
+                    break;
+                case 'less-equal':
+                    $matches = $total_qty <= $value;
+                    break;
+            }
+
+            if ( $matches ) {
+                $shipping_cost += $this->value( $item, 'cost' );
             }
         }
 
@@ -180,14 +243,14 @@ class Logic {
         $cart = WC()->cart;
 
         if ( is_null( $cart ) || empty( $items ) ) {
-            return;
+            return 0;
         }
-        $total = WC()->cart->get_cart_contents_total();
+        $total = (float) $cart->get_cart_contents_total();
         $cost = 0;
 
         foreach ( $items as $item ) {
-            if ( $total <= $item['max'] && $total >= $item['min'] ) {
-                $cost += $item['cost'];
+            if ( $this->in_range( $total, $item ) ) {
+                $cost += $this->value( $item, 'cost' );
             }
         }
 
@@ -205,11 +268,11 @@ class Logic {
         $cart = WC()->cart;
 
         if ( is_null( $cart ) || empty( $items ) ) {
-            return;
+            return 0;
         }
 
         $weight = $this->cart_total_product_weights();
-        $costs = array_column( $items, 'cost' );
+        $costs = array_map( 'floatval', array_column( $items, 'cost' ) );
 
         $cost = $weight * array_sum( $costs );
 
@@ -228,15 +291,15 @@ class Logic {
         $cart = WC()->cart;
 
         if ( is_null( $cart ) || empty( $items ) ) {
-            return;
+            return 0;
         }
 
         $weight = $this->cart_total_product_weights();
 
         $cost = 0;
         foreach ( $items as $item ) {
-            if ( $weight <= $item['max'] && $weight >= $item['min'] ) {
-                $cost += $item['cost'];
+            if ( $this->in_range( $weight, $item ) ) {
+                $cost += $this->value( $item, 'cost' );
             }
         }
 
@@ -255,7 +318,7 @@ class Logic {
         $cart = WC()->cart;
 
         if ( is_null( $cart ) || empty( $items ) ) {
-            return;
+            return 0;
         }
 
         $costs = array_column( $items, 'cost' );
@@ -274,7 +337,7 @@ class Logic {
      */
     private function dataFilterByConditionName( $data, $condition ) {
         return array_filter( $data, function ( $item ) use ( $condition ) {
-            return $item['condition'] === $condition;
+            return isset( $item['condition'] ) && $item['condition'] === $condition;
         } );
     }
 
@@ -315,7 +378,12 @@ class Logic {
      */
 
     private function cart_total_dimension_fee( $cart ) {
-        $tpsm_dimensions_settings = $this->box_shipping_settings['box-shipping'] ?? [];
+        // Read from the stored option: $this->box_shipping_settings was never
+        // assigned, so this used to touch an undefined property.
+        $box_shipping_settings    = tpsm_get_box_shipping_settings();
+        $tpsm_dimensions_settings = is_array( $box_shipping_settings ) && isset( $box_shipping_settings['box-shipping'] )
+            ? $box_shipping_settings['box-shipping']
+            : [];
         $total_fee = 0;
 
         foreach ( $cart->get_cart() as $cart_item ) {

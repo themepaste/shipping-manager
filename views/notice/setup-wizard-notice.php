@@ -6,7 +6,7 @@ $setup_url = esc_url( admin_url( 'admin.php?page=tpsm_setup_wizard' ) );
     <p style="display: flex; align-items: center; justify-content: space-between;">
         <span>
             <strong>
-                <?php echo esc_html( '🎉 Welcome! Please complete the setup wizard.', 'shipping-manager' ); ?>
+                <?php esc_html_e( '🎉 Welcome! Please complete the setup wizard.', 'shipping-manager' ); ?>
             </strong>
             <?php esc_html_e( 'Before you can use Shipping Manager, you need to complete the setup wizard.', 'shipping-manager' ); ?>
         </span>

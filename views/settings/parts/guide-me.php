@@ -2,9 +2,6 @@
 // Exit if accessed directly
 defined( 'ABSPATH' ) || exit;
 
-// Get the current settings screen key from arguments
-$current_screen = $args['current_screen'];
-
 // Determine the corresponding documentation URL based on the current screen
 $doc_url = 'https://themepaste.com/documentation/shipping-manager/';
 ?>

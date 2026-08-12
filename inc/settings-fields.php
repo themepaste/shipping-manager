@@ -7,27 +7,69 @@
 
 defined( 'ABSPATH' ) || exit;
 
-if ( ! function_exists( 'tpsm_general_settings_fields' ) ) {
+if ( ! function_exists( 'tpsm_get_settings_fields_for_screen' ) ) {
     /**
-     * General Settings Fields
+     * Map a settings screen slug to its field definitions.
      *
+     * Returns an empty array for screens this plugin does not own (for example
+     * tabs registered by the Pro add-on), so their own handlers stay in charge.
+     *
+     * @param string $screen_slug Settings screen slug.
      * @return array
      */
-    function tpsm_general_settings_fields() {
-        return array(
-            'method-title' => array(
-                'label' => __( 'Method Title', 'shipping-manager' ),
-                'type'  => 'text',
-                'value' => '',
-                'desc'  => __( 'Default Title: "Shipping Manager"', 'shipping-manager' ),
-            ),
-            'is-plugin-enable' => array(
-                'label' => __( 'Disable/Enable', 'shipping-manager' ),
-                'type'  => 'switch',
-                'value' => '',
-                'desc'  => __( 'Site-wide Shipping Manager Methods', 'shipping-manager' ),
-            )
-        );
+    function tpsm_get_settings_fields_for_screen( $screen_slug ) {
+        switch ( $screen_slug ) {
+            case 'free-shipping':
+                return tpsm_free_shipping_settings_fields();
+            case 'shipping-calculator':
+                return tpsm_shipping_calculator_settings_fields();
+        }
+
+        return array();
+    }
+}
+
+if ( ! function_exists( 'tpsm_sanitize_settings_fields' ) ) {
+    /**
+     * Read and sanitize a set of settings fields out of $_POST.
+     *
+     * Nonce and capability checks are the caller's responsibility.
+     *
+     * @param array  $fields      Field definitions keyed by setting name.
+     * @param string $screen_slug Settings screen slug, used to build input names.
+     * @return array Sanitized values keyed by setting name.
+     */
+    function tpsm_sanitize_settings_fields( $fields, $screen_slug ) {
+        $values = array();
+
+        foreach ( $fields as $key => $field ) {
+            $field_name = 'tpsm-' . $screen_slug . '_' . $key;
+            $type       = isset( $field['type'] ) ? $field['type'] : 'text';
+            // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Nonce verified by the caller; each branch below sanitizes.
+            $raw = isset( $_POST[ $field_name ] ) ? wp_unslash( $_POST[ $field_name ] ) : null;
+
+            // Reject non-scalar submissions outright; sanitize_hex_color() is a
+            // TypeError on PHP 8 if it is handed an array.
+            $scalar = is_scalar( $raw ) ? (string) $raw : '';
+
+            switch ( $type ) {
+                case 'switch':
+                    // An unchecked checkbox is simply absent from the request.
+                    $values[ $key ] = null === $raw ? 0 : 1;
+                    break;
+
+                case 'picker':
+                    $color          = sanitize_hex_color( $scalar );
+                    $values[ $key ] = $color ? $color : '';
+                    break;
+
+                default:
+                    $values[ $key ] = sanitize_text_field( $scalar );
+                    break;
+            }
+        }
+
+        return $values;
     }
 }
 

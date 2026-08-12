@@ -4,7 +4,6 @@ defined( 'ABSPATH' ) || exit;
 
 $prefix             = 'tpsm';
 $screen_slug        = $args['current_screen'];
-$is_taxable         = $args['general_settings']['is-plugin-taxable'] ?? 'no';
 $submit_button      = $prefix . '-' . $screen_slug . '_submit';
 $option_name        = $prefix . '-' . $screen_slug . '_' . 'settings';
 $saved_settings     = get_option( $option_name );
@@ -57,12 +56,14 @@ $shipping_calculator_settings_fields = tpsm_shipping_calculator_settings_fields(
                                         printf( '<select name="%1$s" id="%1$s">', esc_attr( $select_id ) );
 
                                         $options = $field['options'];
-                                        foreach ( $options as $key => $option ) {
+                                        // Distinct loop variables: reusing $key here shadowed the
+                                        // outer foreach's field key.
+                                        foreach ( $options as $option_key => $option_label ) {
                                             printf(
                                                 '<option value="%1$s" %3$s>%2$s</option>',
-                                                esc_attr( strtolower( $key ) ),
-                                                esc_html( $option ),
-                                                selected( strtolower( $key ), $field['value'], false )
+                                                esc_attr( strtolower( $option_key ) ),
+                                                esc_html( $option_label ),
+                                                selected( strtolower( $option_key ), $field['value'], false )
                                             );
                                         }
                                         ?>
@@ -84,50 +85,7 @@ $shipping_calculator_settings_fields = tpsm_shipping_calculator_settings_fields(
         </form>
     </div>
 </div>
-
-
-<?php 
-    /**
-     * Proccessing the form 
-     * 
-     * Save Free Shipping Setting option
-     */
-    if( isset( $_POST[$submit_button] ) ) {
-
-        if ( ! isset( $_POST['tpsm-nonce_name'] ) || ! wp_verify_nonce( $_POST['tpsm-nonce_name'], 'tpsm-nonce_action' ) ) {
-            wp_die( esc_html__( 'Nonce verification failed.', 'shipping-manager' ) );
-        }
-    
-        // Check capabilities if needed
-        if ( ! current_user_can( 'manage_options' ) ) {
-            wp_die( esc_html__( 'Unauthorized user', 'shipping-manager' ) );
-        }
-
-        $settings_values = [];
-
-        // Main Setting 
-        foreach ( $shipping_calculator_settings_fields as $key => $field ) {
-            $field_name = $prefix . '-' . $screen_slug . '_' . $key;
-
-            if ( 'switch' == $field['type'] ) {
-                $settings_values[$key] = isset( $_POST[$field_name] ) ? 1 : 0;
-            } else {
-                $settings_values[$key] = isset( $_POST[$field_name] ) ? sanitize_text_field( $_POST[$field_name] ) : '';
-            }
-        }
-
-        // Save setting to database 
-        update_option( $option_name, $settings_values );
-
-
-        wp_safe_redirect( add_query_arg(
-            array(
-                'page'          => 'shipping-manager',
-                'tpsm-setting'  => $screen_slug,
-            ),
-            admin_url( 'admin.php' )
-        ) );
-
-        exit;
-    }
-?>
+<?php
+/**
+ * Saving is handled by Settings::handle_settings_submit() on `admin_init`.
+ */

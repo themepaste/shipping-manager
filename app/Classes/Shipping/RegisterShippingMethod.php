@@ -9,6 +9,7 @@ namespace ThemePaste\ShippingManager\Classes\Shipping;
 
 defined( 'ABSPATH' ) || exit;
 
+use ThemePaste\ShippingManager\Helpers\Utility;
 use WC_Shipping_Method;
 
 /**
@@ -24,24 +25,15 @@ class RegisterShippingMethod extends WC_Shipping_Method {
     const ID = 'shipping-manager';
 
     /**
-     * General settings.
-     *
-     * @var array
-     */
-    static public $tpsm_general_settings = [ 'method-title' => '' ];
-
-    /**
      * Constructor.
      */
     public function __construct( $instance_id = 0 ) {
-        self::$tpsm_general_settings = get_option( 'tpsm-general_settings' );
-
         $this->id                   = self::ID;
         $this->instance_id          = absint( $instance_id );
-        $this->title                = __( 'Shipping Manager', 'shipping-manager' ); 
-        $this->method_title         = !empty(self::$tpsm_general_settings['method-title']) 
-    ? self::$tpsm_general_settings['method-title'] 
-    : __( 'Shipping Manager', 'shipping-manager' );
+        // The per-instance "Method Name" field below overrides this, so there is
+        // no separate site-wide title setting.
+        $this->title                = __( 'Shipping Manager', 'shipping-manager' );
+        $this->method_title         = __( 'Shipping Manager', 'shipping-manager' );
         $this->method_description   = __( 'One solution for all shipping needs', 'shipping-manager' );
         $this->enabled              = 'yes';
 
@@ -58,7 +50,12 @@ class RegisterShippingMethod extends WC_Shipping_Method {
 
         $this->title              = $shipping_method_name;
         $this->method_title       = $shipping_method_name;
-        $this->method_description = $shipping_method_desc ;
+        $this->method_description = $shipping_method_desc;
+
+        // WC_Shipping_Method::add_rate() stamps $this->tax_status onto every
+        // rate and uses it in is_taxable(); without this it always stayed at
+        // the class default regardless of the merchant's choice.
+        $this->tax_status = $this->get_option( 'tax_status', 'taxable' );
     }
 
     /**
@@ -75,30 +72,61 @@ class RegisterShippingMethod extends WC_Shipping_Method {
 
     /**
      * Define form fields for admin settings.
+     *
+     * The global (non-instance) section renders a setup guide via
+     * admin_options() instead of a settings form, so there are no fields here.
      */
     public function init_form_fields() {
-        // Link to your plugin settings page
-        $plugin_settings_url = add_query_arg(
+        $this->form_fields = array();
+    }
+
+    /**
+     * Render the settings screen for this method.
+     *
+     * WooCommerce calls this for BOTH screens:
+     *  - the global "Shipping Manager" section (instance_id 0), where we show
+     *    the setup guide;
+     *  - a zone's method instance (instance_id > 0), which must keep rendering
+     *    WooCommerce's normal settings form — method name, tax status,
+     *    Import/Export and the container the React rules table mounts into.
+     *
+     * @return void
+     */
+    public function admin_options() {
+        if ( $this->instance_id ) {
+            parent::admin_options();
+            return;
+        }
+
+        $shipping_zones_url = add_query_arg(
             array(
-                'page' => self::ID,
+                'page' => 'wc-settings',
+                'tab'  => 'shipping',
             ),
             admin_url( 'admin.php' )
         );
 
-        // Link to WooCommerce Shipping Zones settings
-        $shipping_zones_url = admin_url( 'admin.php?page=wc-settings&tab=shipping' );
-
-        $this->form_fields = array(
-            'custom_buttons_section' => array(
-                'type'        => 'title',
-                'description' => 
-                    '<a href="' . esc_url( $shipping_zones_url ) . '" class="button button-secondary" style="margin-right: 10px;">' . 
-                        esc_html__( 'Setup Shipping Methods to Zones', 'shipping-manager' ) . 
-                    '</a>' .
-                    '<a href="' . esc_url( $plugin_settings_url ) . '" class="button button-primary">' . 
-                        esc_html__( 'Plugin Settings', 'shipping-manager' ) . 
-                    '</a>'
-            ),
+        echo Utility::get_template( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Template escapes at the point of use.
+            'settings/method-guide.php',
+            array(
+                'zone_usage'  => tpsm_get_zone_usage(),
+                'conditions'  => tpsm_get_conditions_data(),
+                'zones_url'   => $shipping_zones_url,
+                'classes_url' => add_query_arg( array( 'section' => 'classes' ), $shipping_zones_url ),
+                'tax_url'     => add_query_arg(
+                    array(
+                        'page' => 'wc-settings',
+                        'tab'  => 'tax',
+                    ),
+                    admin_url( 'admin.php' )
+                ),
+                'store'       => array(
+                    'currency'         => get_woocommerce_currency(),
+                    'weight_unit'      => get_option( 'woocommerce_weight_unit' ),
+                    'shipping_classes' => count( WC()->shipping()->get_shipping_classes() ),
+                    'taxes_enabled'    => wc_tax_enabled(),
+                ),
+            )
         );
     }
 
@@ -166,9 +194,9 @@ class RegisterShippingMethod extends WC_Shipping_Method {
         $tax_status = $this->get_option( 'tax_status', 'taxable' );
         $data       = $this->get_option( 'tpsm_hidden' ); // Here we get a json format all condition and data
 
-        $cost = $this->get_tpsm_cost( $data );
+        $cost = (float) $this->get_tpsm_cost( $data );
 
-        if ( ! $cost || $cost == 0 ) {
+        if ( $cost <= 0 ) {
             return;
         }
 

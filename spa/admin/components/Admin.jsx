@@ -15,44 +15,68 @@ import Select from 'react-select';
  *
  * @return {ReactElement} - A JSX element representing the shipping rules table.
  */
+const HIDDEN_FIELD_ID = 'woocommerce_shipping-manager_tpsm_hidden';
+
+/**
+ * A brand new, empty rule row.
+ *
+ * `equal` defaults to 'equals' so a quantity rule that the merchant never
+ * touched still matches the operator the UI shows for it.
+ *
+ * @param {string} condition - Condition slug for the new row.
+ * @return {Object} The new row.
+ */
+const emptyRow = (condition) => ({
+  condition,
+  cost: '',
+  equal: 'equals',
+  value: '',
+  min: '',
+  max: '',
+  multi: [],
+});
+
 function Admin() {
+  // TPSM_ADMIN is injected via wp_localize_script; fall back to empty data so a
+  // missing/failed localisation degrades instead of throwing.
+  const adminData = typeof TPSM_ADMIN !== 'undefined' ? TPSM_ADMIN : {};
+  const conditions = adminData.shipping_rules_select || {};
+  const conditionsValues = Object.keys(conditions);
+  const conditionsLabel = Object.values(conditions);
+  const classOptions = adminData.wc_shipping_classess || [];
+  const operators = adminData.operators || [];
+  const wooData = adminData.woocommerce_data || {};
+  const currencySymbol = wooData.currency_symbol || '';
+  const weightUnit = wooData.weight_unit || '';
+
   const [rows, setRows] = useState([
-    {
-      condition: 'tpsm-flat-rate',
-      cost: '',
-      equal: '',
-      value: '',
-      min: '',
-      max: '',
-      multi: [],
-    },
+    emptyRow(conditionsValues[0] || 'tpsm-flat-rate'),
   ]);
   const [selectedRows, setSelectedRows] = useState([]);
-  const [selectOparator, setSelectOparator] = useState('equals');
-
-  const conditionsValues = Object.keys(TPSM_ADMIN.shipping_rules_select);
-  const conditionsLabel = Object.values(TPSM_ADMIN.shipping_rules_select);
-
-  const classOptions = TPSM_ADMIN.wc_shipping_classess;
-  const operators = TPSM_ADMIN.operators;
 
   useEffect(() => {
-    const hiddenField = document.getElementById(
-      'woocommerce_shipping-manager_tpsm_hidden',
-    );
+    const hiddenField = document.getElementById(HIDDEN_FIELD_ID);
     if (hiddenField && hiddenField.value) {
       try {
         const parsed = JSON.parse(hiddenField.value);
-        // Ensure 'multi' is added if missing
+
+        if (!Array.isArray(parsed)) {
+          return;
+        }
+
+        // Backfill anything a row saved by an older version may be missing.
         const normalized = parsed.map((row) => ({
+          ...emptyRow(conditionsValues[0] || 'tpsm-flat-rate'),
           ...row,
-          multi: row.multi || [],
+          multi: Array.isArray(row.multi) ? row.multi : [],
+          equal: row.equal || 'equals',
         }));
         setRows(normalized);
       } catch (e) {
         console.error('Invalid JSON in hidden field');
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   /**
@@ -64,15 +88,14 @@ function Admin() {
    *                                          'value' and 'label' properties.
    */
   const handleMultiSelectChange = (index, selectedOptions) => {
-    const updatedRows = [...rows];
-    updatedRows[index].multi = selectedOptions.map((opt) => opt.value);
-    setRows(updatedRows);
+    const values = (selectedOptions || []).map((opt) => opt.value);
+    setRows((prev) =>
+      prev.map((row, i) => (i === index ? { ...row, multi: values } : row)),
+    );
   };
 
   useEffect(() => {
-    const hiddenField = document.getElementById(
-      'woocommerce_shipping-manager_tpsm_hidden',
-    );
+    const hiddenField = document.getElementById(HIDDEN_FIELD_ID);
     if (hiddenField) {
       hiddenField.value = JSON.stringify(rows);
     }
@@ -87,31 +110,20 @@ function Admin() {
    */
 
   const handleRowChange = (index, field, value) => {
-    const updatedRows = [...rows];
-    updatedRows[index][field] = value;
-    setRows(updatedRows);
+    // Copy the row rather than mutating it in place.
+    setRows((prev) =>
+      prev.map((row, i) => (i === index ? { ...row, [field]: value } : row)),
+    );
   };
 
   /**
    * Adds a new row to the rows state with default values.
-   *
-   * The new row has the default condition set to the first value
-   * in conditionsValues and initializes cost, min, max as empty strings,
-   * and multi as an empty array.
    */
 
   const addRow = () => {
-    setRows([
-      ...rows,
-      {
-        condition: conditionsValues[0],
-        cost: '',
-        equal: '',
-        value: '',
-        min: '',
-        max: '',
-        multi: [],
-      },
+    setRows((prev) => [
+      ...prev,
+      emptyRow(conditionsValues[0] || 'tpsm-flat-rate'),
     ]);
   };
 
@@ -121,9 +133,12 @@ function Admin() {
    * @param {number} index - The index of the row to delete.
    */
   const deleteRow = (index) => {
-    const updatedRows = rows.filter((_, i) => i !== index);
-    setRows(updatedRows);
-    setSelectedRows(selectedRows.filter((i) => i !== index));
+    setRows((prev) => prev.filter((_, i) => i !== index));
+    // Every selection above the removed row shifts down by one; without this
+    // the checkboxes ended up pointing at the wrong rules.
+    setSelectedRows((prev) =>
+      prev.filter((i) => i !== index).map((i) => (i > index ? i - 1 : i)),
+    );
   };
 
   /**
@@ -134,8 +149,7 @@ function Admin() {
    * state to an empty array.
    */
   const deleteSelectedRows = () => {
-    const updatedRows = rows.filter((_, i) => !selectedRows.includes(i));
-    setRows(updatedRows);
+    setRows((prev) => prev.filter((_, i) => !selectedRows.includes(i)));
     setSelectedRows([]);
   };
 
@@ -145,8 +159,10 @@ function Admin() {
    * Only has an effect if selectedRows is not empty.
    */
   const duplicateSelectedRows = () => {
-    const duplicates = selectedRows.map((index) => ({ ...rows[index] }));
-    setRows([...rows, ...duplicates]);
+    const duplicates = selectedRows
+      .filter((index) => rows[index])
+      .map((index) => ({ ...rows[index], multi: [...rows[index].multi] }));
+    setRows((prev) => [...prev, ...duplicates]);
   };
 
   /**
@@ -194,7 +210,9 @@ function Admin() {
               <th>
                 <input
                   type="checkbox"
-                  checked={selectedRows.length === rows.length}
+                  checked={
+                    rows.length > 0 && selectedRows.length === rows.length
+                  }
                   onChange={(e) => {
                     if (e.target.checked) {
                       setSelectedRows(rows.map((_, i) => i));
@@ -229,21 +247,20 @@ function Admin() {
                     }
                   >
                     {renderOptGroup('General', 0, 1)}
-                    {renderOptGroup('Cart', 1, 5)}
-                    {renderOptGroup('Product', 5, 9)}
+                    {renderOptGroup('Cart', 1, 4)}
+                    {renderOptGroup('Product', 4, 7)}
                   </select>
 
                   {row.condition === 'tpsm-cart-quantity' && (
                     <>
-                      {/* select operator */}
+                      {/* select operator — per row, not shared across rows */}
                       <div className="tpsm-max-min-field-wrapper">
                         <select
                           className="tpsm-shipping-rule-select"
-                          value={selectOparator}
-                          onChange={(e) => {
-                            handleRowChange(index, 'equal', e.target.value);
-                            setSelectOparator(e.target.value);
-                          }}
+                          value={row.equal || 'equals'}
+                          onChange={(e) =>
+                            handleRowChange(index, 'equal', e.target.value)
+                          }
                         >
                           {operators.map((op) => (
                             <option key={op.value} value={op.value}>
@@ -252,49 +269,23 @@ function Admin() {
                           ))}
                         </select>
                       </div>
-                      {selectOparator !== 'between' && (
-                        <>
-                          <div className="tpsm-max-min-field-wrapper">
-                            <input
-                              type="number"
-                              placeholder="Value"
-                              value={row.value}
-                              onChange={(e) =>
-                                handleRowChange(index, 'value', e.target.value)
-                              }
-                            />
-                          </div>
-                        </>
-                      )}
-                      {selectOparator === 'between' && (
-                        <>
-                          <div className="tpsm-max-min-field-wrapper">
-                            <input
-                              type="number"
-                              placeholder="Min"
-                              value=""
-                              onChange=""
-                            />
-                          </div>
-                          <div className="tpsm-max-min-field-wrapper">
-                            <input
-                              type="number"
-                              placeholder="Max"
-                              value={row.max}
-                              onChange={(e) =>
-                                handleRowChange(index, 'max', e.target.value)
-                              }
-                            />
-                          </div>
-                        </>
-                      )}
+                      <div className="tpsm-max-min-field-wrapper">
+                        <input
+                          type="number"
+                          placeholder="Value"
+                          value={row.value}
+                          onChange={(e) =>
+                            handleRowChange(index, 'value', e.target.value)
+                          }
+                        />
+                      </div>
                     </>
                   )}
 
                   {row.condition === 'tpsm-total-price' && (
                     <>
                       <div className="tpsm-max-min-field-wrapper">
-                        {parse(TPSM_ADMIN.woocommerce_data.currency_symbol)}
+                        {parse(currencySymbol)}
                         <input
                           type="number"
                           placeholder="Min"
@@ -305,7 +296,7 @@ function Admin() {
                         />
                       </div>
                       <div className="tpsm-max-min-field-wrapper">
-                        {parse(TPSM_ADMIN.woocommerce_data.currency_symbol)}
+                        {parse(currencySymbol)}
                         <input
                           type="number"
                           placeholder="Max"
@@ -320,7 +311,7 @@ function Admin() {
                   {row.condition === 'tpsm-sub-total-price' && (
                     <>
                       <div className="tpsm-max-min-field-wrapper">
-                        {parse(TPSM_ADMIN.woocommerce_data.currency_symbol)}
+                        {parse(currencySymbol)}
                         <input
                           type="number"
                           placeholder="Min"
@@ -331,7 +322,7 @@ function Admin() {
                         />
                       </div>
                       <div className="tpsm-max-min-field-wrapper">
-                        {parse(TPSM_ADMIN.woocommerce_data.currency_symbol)}
+                        {parse(currencySymbol)}
                         <input
                           type="number"
                           placeholder="Max"
@@ -346,7 +337,7 @@ function Admin() {
                   {row.condition === 'tpsm-total-weight' && (
                     <>
                       <div className="tpsm-max-min-field-wrapper">
-                        {parse(TPSM_ADMIN.woocommerce_data.weight_unit)}
+                        {weightUnit}
                         <input
                           type="number"
                           placeholder="Min"
@@ -357,33 +348,7 @@ function Admin() {
                         />
                       </div>
                       <div className="tpsm-max-min-field-wrapper">
-                        {parse(TPSM_ADMIN.woocommerce_data.weight_unit)}
-                        <input
-                          type="number"
-                          placeholder="Max"
-                          value={row.max}
-                          onChange={(e) =>
-                            handleRowChange(index, 'max', e.target.value)
-                          }
-                        />
-                      </div>
-                    </>
-                  )}
-                  {row.condition === 'tpsm-per-dimension' && (
-                    <>
-                      <div className="tpsm-max-min-field-wrapper">
-                        {parse(TPSM_ADMIN.woocommerce_data.weight_unit)}
-                        <input
-                          type="number"
-                          placeholder="Min"
-                          value={row.min}
-                          onChange={(e) =>
-                            handleRowChange(index, 'min', e.target.value)
-                          }
-                        />
-                      </div>
-                      <div className="tpsm-max-min-field-wrapper">
-                        {parse(TPSM_ADMIN.woocommerce_data.weight_unit)}
+                        {weightUnit}
                         <input
                           type="number"
                           placeholder="Max"
@@ -418,7 +383,7 @@ function Admin() {
 
                 <td>
                   <div className="tpsm-costs-column-data">
-                    {parse(TPSM_ADMIN.woocommerce_data.currency_symbol)}
+                    {parse(currencySymbol)}
                     <input
                       type="number"
                       value={row.cost}
@@ -432,8 +397,9 @@ function Admin() {
                 <td>
                   <button type="button" onClick={() => deleteRow(index)}>
                     <img
-                      src={TPSM_ADMIN.assets_url + '/admin/img/delete.png'}
-                      with="20"
+                      src={(adminData.assets_url || '') + '/admin/img/delete.png'}
+                      alt="Delete row"
+                      width="20"
                       height="20"
                     />
                   </button>

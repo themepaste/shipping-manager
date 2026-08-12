@@ -1,196 +1,287 @@
-=== Shipping Manager – Table Rate, Weight Based & Woocommerce advanced shipping ===
+=== Shipping Manager – WooCommerce Table Rate, Weight Based & Advanced Shipping Rules ===
 Contributors: themepaste, habibnote
-Tags: Table Rate, woocommerce shipping, Weight Based, flat rate, shipping manager
+Tags: woocommerce shipping, table rate shipping, weight based shipping, shipping rates, shipping zones
 Requires at least: 5.8
 Tested up to: 6.8
 WC requires at least: 6.6
-WC tested up to: 9.8
-Requires PHP: 7.0
-Stable tag: 1.2.6
-License: GPLv3 or later
+WC tested up to: 11.0
+Requires PHP: 7.4
+Stable tag: 1.2.7
+License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Powerful WooCommerce shipping plugin with table rate, weight-based rates, shipping class support, and advanced shipping rules. 
+Table rate shipping for WooCommerce. Build shipping rules by cart total, weight, quantity and shipping class. No coding required.
 
 == Description ==
 
-### 🚚 Table Rate Shipping Method Shipping Manager for WooCommerce 
-Shipping Manager offers a comprehensive, all-in-one solution to simplify your WooCommerce shipping experience. Eliminate the need for multiple add-ons by dynamically customizing shipping fees based on weight, cart total, cart subtotal, and more. With full support for Table Rate Shipping, Weight-Based Shipping, and Shipping Classes, this plugin handles all your logistical requirements to deliver a flexible, accurate, and cost-effective checkout experience.
+**Shipping Manager is a table rate shipping plugin for WooCommerce.** It lets you charge exactly what shipping costs you, by building rules based on cart total, cart subtotal, item quantity, total weight, weight unit, and WooCommerce shipping classes — all from one screen, with no code.
 
-Explore more about the Shipping Manager plugin-
+WooCommerce ships with Flat Rate and Free Shipping. Those work until your pricing has an *"it depends"* in it: heavier orders cost more, big orders ship free, fragile items carry a surcharge. Shipping Manager adds a shipping method you drop into any WooCommerce shipping zone, and inside it you build a table of rules. At checkout, every rule that matches the cart is added up into a single, accurate shipping rate.
 
-✅ [Documentation](https://themepaste.com/product-name/shipping-manager/)
-✅ [Support](https://themepaste.com/contact-us)
+= Why store owners choose Shipping Manager =
 
-### 💡 Why Choose a Shipping Manager?
-Shipping Manager is the ultimate advanced shipping solution for eCommerce businesses of any size. It takes the hassle out of complex logistics with features that are intuitive to configure directly within your WooCommerce store. Enjoy complete control over your shipping fees, packaging boxes, and delivery options—zero coding required. Deliver better, smarter, and faster to enhance your customer's shopping experience.
+* **Rules, not guesswork.** Stop rounding shipping up "to be safe" and losing conversions, or rounding down and eating the cost.
+* **One method, unlimited rules.** Stack as many conditions as you need. Matching costs add together.
+* **Per zone.** Different countries and regions can have completely different pricing.
+* **Nothing to learn.** It lives inside WooCommerce's own shipping settings, where you already work.
+* **No coding.** No snippets, no `functions.php`, no filters.
 
-### 🌟 Plugin Overview
+= How it works =
 
-⚫ **Complete Control**: Gain full authority over your WooCommerce shipping rules with 100% transparent cost calculations. 
-⚫ **Highly Flexible**: Set highly accurate shipping fees based on precise variables like weight, box size, and distance.
+Shipping Manager plugs into WooCommerce's native shipping system rather than replacing it:
 
-⚫ **User-Friendly**: Built thoughtfully for store owners, marketers, and developers alike, ensuring there is no steep learning curve. 
+`Shipping zone → Shipping Manager method → your rules → rate shown at checkout`
 
-### 🤝Connect With a Worldwide Network of Shipping & Logistics Experts!
+1. **Add the method to a shipping zone.** Go to *WooCommerce → Settings → Shipping*, open a zone, choose *Add shipping method*, and pick **Shipping Manager**.
+2. **Build your rules.** Click the method to open its settings. Each row in the rules table is one condition and one cost.
+3. **Done.** WooCommerce shows the calculated rate at cart and checkout.
 
-Shipping Manager is not just a plugin that meets your WooCommerce shipping requirements. It connects you with a growing network of eCommerce entrepreneurs, shipping coordinators, WooCommerce developers, and logistics experts worldwide. 
+Because it is a normal WooCommerce shipping method, everything you already know still applies: shipping zones, shipping classes, tax settings, and the cart/checkout blocks all work as usual.
 
-#### Why Be Part of Our Community?
+= Shipping rules you can build =
 
-👉 Collaborate with shipping professionals, solving similar challenges  
-👉 Share strategies for reducing costs and improving delivery experiences  
-👉 Get early access to cutting-edge shipping features before public release  
-👉 Contribute ideas that shape the future of eCommerce logistics  
+Every rule row picks one condition and a cost. **Costs from all matching rules are added together**, which is what makes stacked pricing possible.
 
-Stay connected with us to get the trending news and updates from our:
+**General**
 
-🔗[Official Facebook Page](https://www.facebook.com/themepaste) 
-🔗[Pinterest](https://uk.pinterest.com/themepaste/)
-🔗[Linkedin](https://www.linkedin.com/company/themepaste)
-🔗[Instagram](https://www.instagram.com/themepasteuk) 
-🔗[Official Support Page](https://themepaste.com/contact-us)
+* **Flat Rate** — always applies. Use it for a base handling charge.
 
-**Let's build smarter shipping solutions - one store at a time. 🚀**
+**Cart**
 
-### 🧩 Looking for an All-Rounder Shipping Manager for Your Website?
+* **Quantity** — compares the number of items in the cart using *equals, not equal, greater than, less than, greater than or equal, less than or equal*.
+* **Subtotal** — applies when the cart subtotal falls inside a minimum/maximum range.
+* **Total** — applies when the cart total falls inside a minimum/maximum range.
 
-Shipping Manager gives you a powerful and user-friendly shipping solution for your WooCommerce store. No need to use multiple shipping solutions when you are getting everything in a single WooCommerce plugin—including Table Rate Shipping WooCommerce, WooCommerce Weight-Based Shipping, and Box Shipping for WooCommerce support. It’s the easiest option to ensure accurate shipping costs, better logistics, and happier customers.
+**Product**
 
-### 🔥  Core Free Features:
- 
-- Unlimited shipping methods*
-- Import & export existing shipping methods*
-- One-click sitewide enable/disable for shipping methods*
-- Custom names and descriptions for shipping method*
-- Built-in tax support*
-- Flat rate fee setup *
-- Unit weight fee calculations*  
-- Weight range pricing rules* 
-- Cart total range pricing *
-- Cart subtotal range pricing *
-- Full WooCommerce Shipping Class support*
- 
+* **Per Weight Unit** — multiplies the cost by the cart's total weight. Enter the price of one kg (or lb) and it scales automatically.
+* **Total Weight** — applies when the cart's total weight falls inside a minimum/maximum range.
+* **Shipping Class** — applies when the cart contains any of the WooCommerce shipping classes you select.
 
-### 🚀 Pro Features [Upcoming]
+Leave a minimum or maximum **empty** to mean "no limit" on that side. A rule with a minimum of 100 and an empty maximum applies to every cart of 100 and above.
 
-- Advanced Processing Fees [PRO]
-- Distance Calculation [PRO]  
-- Create Multiple Rulesets [PRO]  
-- Shipping Class Support [PRO]  
-- Dynamic Shipping Zone Selection [PRO]  
-- Shipping Method Selection [PRO]  
-- Coupon Integration for Minimum Amount Calculation [PRO]  
-- Design Customization Options [PRO]  
-- Filter Shipping Zones & Classes [PRO]  
-- Delivery Date & Time Selection [PRO] 
-- Customizable Delivery Slips [PRO]  
+= Recipes: common setups =
 
+**Weight-based shipping**
+Add one *Per Weight Unit* rule at your per-kg rate. Optionally add a *Flat Rate* row as a base handling fee. A 3 kg order at 2.00/kg plus a 5.00 base = 11.00.
 
-###🔜 Upcoming Features
+**Tiered table rate by order value**
+Add three *Subtotal* rules: 0–49.99 → 9.95, 50–99.99 → 4.95, 100 and above (leave max empty) → 0. Bigger carts ship cheaper, automatically.
 
-Take a sneak peek at the powerful functionalities of the Shipping Manager Plugin, which will soon be available. These features will give you even more control, WooCommerce Table Rate Shipping customization, and precision in managing shipping logistics for your WooCommerce store:
+**Free shipping over a threshold**
+Add a *Subtotal* rule with a minimum of 0 and a maximum just under your threshold, carrying your normal cost. Carts above the threshold match no rule, so no cost is added.
 
-🛣️ **Unit Fee for Distance:** Set additional charges based on the distance traveled per kilometer. Ideal for businesses offering regional delivery services, this ensures you’re not losing profit on faraway shipments.
+**Surcharge for bulky or fragile goods**
+Create a WooCommerce shipping class (for example "Fragile"), assign it to those products, then add a *Shipping Class* rule selecting it with your surcharge. It only applies when one of those products is in the cart.
 
-🏷️ **WooCommerce Per Product Shipping Rules:** Assign unique shipping rules to specific products. Whether you’re selling fragile items, oversized goods, or lightweight merchandise, you can tailor shipping rates accordingly.
+**Per-item packing fee**
+Add a *Quantity* rule using *greater than or equal* with your break point, and the extra packing cost.
 
-📋 **Override Other Rules:** Prioritize specific shipping conditions by overriding all other rules when needed. This gives you control in exceptional cases or during promotional events.
+**Different pricing per country**
+Add the Shipping Manager method to each shipping zone separately. Each one keeps its own independent rules table.
 
-⚙️ **Advanced Processing Fees [PRO]:** Prioritize specific shipping conditions by overriding all other rules when needed. This gives you control in exceptional cases or during promotional events.
+= Free features =
 
-🗂️ **Create Multiple Rulesets [PRO]:** Build and apply multiple sets of WooCommerce advanced shipping rules for different product types, regions, or promotional events. Gain flexibility in setting logic-based pricing strategies.
+* Table rate shipping for WooCommerce
+* Weight-based shipping — per weight unit and total weight ranges
+* Cart total and cart subtotal range pricing
+* Cart quantity rules with six comparison operators
+* Full WooCommerce shipping class support (multi-select)
+* Flat rate / base handling fee
+* Unlimited rules per method
+* Unlimited methods — add it to as many shipping zones as you like
+* Custom method name and description shown to customers at checkout
+* Per-method tax status (Taxable or None)
+* Import/export rules as text to copy a setup between methods or sites
+* Built-in setup guide that tells you what is configured and what is missing
+* Works with WooCommerce High-Performance Order Storage (HPOS)
+* Works with the WooCommerce Cart and Checkout blocks
+* Translation ready
 
-🗃️ **Shipping Class Support [PRO]:** Apply tailored rules to specific shipping classes. This is particularly helpful if your product catalog is divided into categories with unique shipping needs.
+= Pro features (upcoming) =
 
-🗺️ **Dynamic Shipping Zone Selection [PRO]:** Use multi-select options to configure flexible shipping zones based on geographical preferences or restrictions—perfect for global eCommerce brands.
+* Distance-based shipping calculation
+* Role-based shipping rates
+* Advanced class-based shipping
+* Premium delivery day and time slot selection
+* Multiple rulesets per method
+* Advanced processing fees
+* Coupon-aware free shipping thresholds
+* Delivery date selection and customizable delivery slips
+* Real-time shipment tracking
+* Shipping rule analytics
+* Multi-vendor marketplace support
 
-🚛 **Shipping Method Selection [PRO]:** Allow customers to choose from multiple shipping methods during checkout, enhancing customer satisfaction and giving them control over delivery timelines and cost.
+= Compatibility =
 
-🎟️ **Coupon Integration for Minimum Amount Calculation [PRO]:** Make your free shipping or discount rules smarter by incorporating coupon use. Accurately calculate if the cart qualifies after a discount is applied.
+* **WooCommerce** 6.6 and above, tested up to 11.0
+* **WordPress** 5.8 and above
+* **PHP** 7.4 and above
+* **HPOS** (High-Performance Order Storage) — declared compatible
+* **Cart & Checkout blocks** — declared compatible
+* **Shipping zones and shipping classes** — uses WooCommerce's own, no duplicates to maintain
+* Works with any theme, because rates render through WooCommerce's standard cart and checkout templates
 
-🛠️ **Design Customization Options [PRO]:** Modify the look and feel of your shipping calculator to perfectly match your website’s design, creating a seamless and branded user experience.
+= Privacy and external services =
 
-🧹 **Filter Shipping Zones & Classes [PRO]:** Gain complete control over where and how your WooCommerce shipping rules apply. Include or exclude zones and classes to streamline delivery planning.
+Shipping Manager does **not** track visitors and does not send any customer or order data anywhere.
 
-📅 **Delivery Date & Time Selection [PRO]:** Let customers select their preferred delivery date and time, adding a layer of convenience that can improve overall satisfaction and reduce delivery friction.
+During the optional setup wizard shown after activation you may choose *"Allow & Continue"*. Only if you actively opt in, the plugin sends your **WordPress account name, your account email address, and your site URL** once to ThemePaste, so we can send you product and security update notices. Choosing *"Not now"* sends nothing. No data is transmitted at any other time.
 
-📲 **Real-Time Shipping Tracking [PRO]:** Provide shipment tracking directly from your store by integrating with shipping providers. Customers stay informed, and your support workload decreases.
+* Service: ThemePaste — https://themepaste.com
+* Privacy policy: https://themepaste.com/privacy-policy
+* Terms: https://themepaste.com/terms-conditions
 
-📝 **Customizable Delivery Slips [PRO]:** Create and print personalized delivery slips that match your brand and operational needs. Helps with better order tracking and fulfillment accuracy.
+= Documentation and support =
 
-🌍 **Geo-Based Shipping Logic [PRO]:** Create rules based on user geolocation for smarter delivery planning. 
+* [Documentation](https://themepaste.com/documentation/shipping-manager/)
+* [Support](https://themepaste.com/contact-us)
 
-📊 **Shipping Rule Analytics [PRO]:** Visualize which rules are triggered most and monitor performance. 
-
-↕️ **Export/Import Shipping Rules:** Quickly migrate rules between sites or reuse on new builds.
-
-⏳ **Estimated Delivery Countdown:** Display delivery countdown timers for urgency and clarity.
-
-👥 **Multi-Vendor Compatibility:** Add support for marketplace-style setups with vendor-specific rules. [PRO]
-
-💱 **Multilingual & Currency Support:** Seamless integration with WPML and multi-currency plugins.
-
-
-### 🔧 What’s Next?
-
-If you like WooCommerce Shipping Manager, then check out our WordPress maintenance services. 
-
-Keep your WordPress site running smoothly with our exceptional maintenance service on an affordable budget. 
-
-We’re also launching exciting new plugins that will revolutionize your WordPress experience!
-
-🚀 Need more help? Check our [Support Docs](https://themepaste.com/documentation/shipping-manager-documentation) or [Contact Our Team](https://themepaste.com/contact-us)
+Follow ThemePaste on [Facebook](https://www.facebook.com/themepaste), [LinkedIn](https://www.linkedin.com/company/themepaste), [Instagram](https://www.instagram.com/themepasteuk) and [Pinterest](https://uk.pinterest.com/themepaste/).
 
 == Installation ==
 
-Install Shipping Manager in just a few simple steps by following the steps mentioned below.
+= Requirements =
 
-**Step 1: Find the Shipping Manager plugin**
-First, log in to your WordPress site’s admin dashboard. Go to Plugins → Add New. Now, type Shipping Manager in the search bar. 
+* WordPress 5.8 or newer
+* WooCommerce 6.6 or newer, installed and active
+* PHP 7.4 or newer
 
-**Step 2: Install and Activate**
-Now, click Install & Activate and view the plugin on the left-hand side of the dashboard panel. 
+= Install from the WordPress dashboard =
 
+1. Go to **Plugins → Add New**.
+2. Search for **Shipping Manager**.
+3. Click **Install Now**, then **Activate**.
 
-**However, You can also install the Shipping Manager plugin after downloading the ZIP file.**
-The ZIP file is available on WordPress.org, where you can download it.
+= Install from a ZIP file =
 
-**Install And Activate after downloading the plugin ZIP file**
-Go to Plugins > Add Plugin. Then, click the Choose File button and upload the ZIP file you downloaded. Then click the Install Now button and wait until the installation process is completed.
+1. Download the ZIP from WordPress.org.
+2. Go to **Plugins → Add New → Upload Plugin**.
+3. Choose the ZIP, click **Install Now**, then **Activate**.
 
+= After activating: set up your first rate =
 
-== Screenshots ==
-
-1. screenshot-1
-2. screenshot-2
-3. screenshot-3
-4. screenshot-4
-5. screenshot-5
-6. screenshot-6
-
+1. Go to **WooCommerce → Settings → Shipping → Shipping Manager**. This screen shows a setup guide and tells you whether the method is live yet.
+2. Click **Setup Shipping Methods to Zones**, or go to the **Shipping zones** tab.
+3. Open the zone you want to price (or click **Add zone** and choose its regions).
+4. Click **Add shipping method**, select **Shipping Manager**, and continue.
+5. Click the new method to open its settings.
+6. Set the **Method Name** customers see at checkout, and the **Tax status**.
+7. In the **Shipping Rules** table, click **Add New Row**, pick a condition, and enter its cost. Add as many rows as you need.
+8. **Save changes**, then add a product to your cart and check the rate at checkout.
 
 == Frequently Asked Questions ==
 
-= What is a Shipping Manager? =  
-Shipping Manager is a powerful WooCommerce plugin that helps you manage WooCommerce shipping fees, delivery options, and packaging with advanced customization.
+= What is table rate shipping? =
 
-= Is the Shipping Manager Free? =  
-Yes, Shipping Manager offers a free version packed with essential and advanced WooCommerce shipping features for your eCommerce stores.
+Table rate shipping means charging different amounts depending on what is in the cart, instead of one fixed price. Shipping Manager builds that table from rules: cart total, subtotal, quantity, weight, and shipping class.
 
-= Can I use Shipping Manager with any WordPress site? =  
-Yes, it works with any WordPress site with WooCommerce since it's designed specifically for eCommerce sites. 
+= Do I need to know how to code? =
 
-= Can I use the free version to implement basic shipping features on my site? =  
-Absolutely! The free version supports weight-based pricing, box management, and free shipping rules. These features are perfect for the basic shipping needs of a WooCommerce store. However, you can upgrade to the pro version to access advanced WooCommerce international shipping.
+No. Everything is configured from the WooCommerce shipping settings screen. There are no snippets, filters, or files to edit.
 
-= Does Shipping Manager provide a Trial version before upgrading to Pro? =  
-Yes, a trial version will be available to explore premium features before making a purchase.
+= Where do I configure the plugin? =
 
-= Do I need any coding knowledge to run the Shipping Manager plugin? =  
-Not at all! Shipping Manager is user-friendly and built for all users. It offers easy setup and management options without any coding skills. You can control everything using its intuitive dashboard.
+Everything lives in **WooCommerce → Settings → Shipping**. The **Shipping Manager** tab there shows a setup guide, and the actual rules are inside each shipping method you add to a zone. The quickest route is the **Settings** link under Shipping Manager on the Plugins screen, which opens that guide directly. The plugin does not add its own separate top-level admin page.
+
+= How are multiple rules combined? =
+
+Every rule that matches the cart contributes its cost, and those costs are **added together** into one rate. If you want rules to be mutually exclusive, give them non-overlapping ranges.
+
+= Can I have different shipping prices per country or region? =
+
+Yes. Add the Shipping Manager method to each WooCommerce shipping zone you want to price. Each method keeps its own separate rules table, so your domestic and international pricing are fully independent.
+
+= Can I offer free shipping over a certain amount? =
+
+Yes. Add a *Subtotal* rule that covers everything below your threshold and carries your normal cost. Carts above the threshold match no rule, so nothing is charged. You can also use WooCommerce's built-in Free Shipping method alongside Shipping Manager in the same zone.
+
+= Why is my shipping rate not showing at checkout? =
+
+Work through these in order:
+
+1. Is the method added to a shipping zone whose regions include the customer's address?
+2. Does at least one rule actually match the cart? A rate is only shown when the calculated cost is above zero.
+3. For weight rules, do your products have weights set?
+4. For shipping class rules, are the classes assigned to the products?
+5. Is the customer's address inside the zone you configured?
+
+The setup guide at *WooCommerce → Settings → Shipping → Shipping Manager* reports which of these are in place.
+
+= Why is my weight rule being ignored? =
+
+Weight rules read each product's **Weight** field under *Product data → Shipping*. Products with no weight are counted as zero, so a cart of weightless products will not reach any minimum you set.
+
+= Can I copy my rules to another zone or another site? =
+
+Yes. Each method's settings include an **Import/Export** field containing its rules as text. Copy that value and paste it into the same field on another method to duplicate the whole setup.
+
+= Does it work with the new Cart and Checkout blocks? =
+
+Yes. Shipping Manager declares compatibility with the WooCommerce Cart and Checkout blocks, and with High-Performance Order Storage (HPOS).
+
+= Does it support taxes? =
+
+Yes. Each Shipping Manager method has its own **Tax status** setting — *Taxable* lets WooCommerce apply your shipping tax rates, *None* leaves the rate untaxed.
+
+= Does it work with product variations? =
+
+Yes. Weight and shipping class are read from the variation that is actually in the cart, falling back to the parent product where the variation does not define them.
+
+= Is it translation ready? =
+
+Yes. All strings use the `shipping-manager` text domain and can be translated on translate.wordpress.org or with any translation plugin.
+
+= Is Shipping Manager free? =
+
+Yes. Everything listed under "Free features" above is included at no cost. A Pro version with distance-based, role-based and delivery-scheduling features is in development.
+
+= Does the plugin collect any data? =
+
+Only if you explicitly opt in during the setup wizard, and then only your WordPress account name, email address and site URL — once. No visitor, customer or order data is ever transmitted. See the "Privacy and external services" section above.
+
+== Screenshots ==
+
+1. The Shipping Manager setup guide under WooCommerce → Settings → Shipping.
+2. Adding the Shipping Manager method to a WooCommerce shipping zone.
+3. Building shipping rules in the rules table.
+4. Weight-based and shipping class rule conditions.
+5. Method name, description and tax status settings.
+6. The calculated shipping rate shown at checkout.
 
 == Changelog ==
+
+= 1.2.7 =
+* [add] Restored the **Settings** link on the Plugins screen. It now opens the Shipping Manager setup guide, so a freshly installed site has a one-click route to everything.
+* [fix] The setup guide's primary button label was invisible (orange text on the orange button) because a broader link rule out-ranked it; button styling is now specific enough to win.
+* [improvement] Redesigned the setup guide: proper spacing below the WooCommerce sub-navigation, inline icons, connected step markers, stat tiles, and a fully responsive layout down to phone width.
+* [improvement] Documentation and support links in the admin now point to the plugin's WordPress.org page and support forum.
+* [add] WooCommerce -> Settings -> Shipping -> Shipping Manager is now a styled setup guide matching the plugin's own admin theme: it reports whether the method is added to a zone, walks through the three setup steps, documents every rule condition, shows your store's currency/weight unit/shipping classes/tax state, and links straight to each of your configured methods.
+* [change] Removed the "Total Dimensions" rule condition. It appeared in the rules dropdown but had no cost calculation behind it, so any rule using it silently added nothing to the rate.
+* [change] Removed the standalone WooCommerce -> Shipping Manager admin page. Everything is configured per shipping zone in WooCommerce -> Settings -> Shipping, where each Shipping Manager method already has its own Method Name, Method Description, Tax status and Shipping Rules.
+* [change] The shipping method is now always available; the site-wide Disable/Enable toggle is gone. Disable it per zone in WooCommerce's shipping settings instead.
+* [security] Added `wp_unslash()` before sanitizing every `$_POST`/`$_GET` value, so values containing quotes are no longer stored escaped.
+* [security] Any remaining settings screen saves under the same `manage_woocommerce` capability its menu page is registered with; shop managers could previously open a settings page but were rejected on save.
+* [security] Hardened template loading against directory traversal and stopped `extract()` from being able to clobber local variables.
+* [security] The shipping calculator AJAX endpoint now rejects product IDs that are not published products.
+* [fix] Settings are now saved on `admin_init` instead of during page render, so the post-save redirect works and the form no longer shows pre-save values.
+* [fix] Fixed a PHP 8 `TypeError` during checkout when the stored shipping-rule JSON decoded to a non-array.
+* [fix] Fixed "array offset on bool" warnings when the plugin options had never been saved.
+* [fix] Shipping rules with only a minimum or only a maximum now apply; a blank bound means "unbounded" instead of zero.
+* [fix] The `[tpsm-shipping-calculator]` shortcode now returns its markup instead of echoing it, so it renders in place rather than at the top of the page.
+* [fix] The shipping rules builder now mounts inside WooCommerce's shipping-method modal, where it previously failed to render at all.
+* [fix] Each shipping rule row keeps its own comparison operator; the operator dropdown was shared across all rows and saved values were not restored.
+* [fix] Row selection no longer points at the wrong rules after deleting a row.
+* [fix] The free shipping progress bar's position/alignment are no longer stored as translated labels, which broke them on non-English stores.
+* [fix] The shipping calculator's country dropdown defaults to the shopper's/store's country instead of a hardcoded value.
+* [fix] Dismissing the setup notice now sticks instead of reappearing on the next page load.
+* [fix] The shipping method's Tax status setting is now applied to the generated rate.
+* [improvement] Admin bundle rebuilt in production mode: 1.7 MB down to 311 KB, with no `eval()`.
+* [improvement] The admin bundle and WooCommerce lookups now load only on the shipping settings tab, and frontend assets only when the calculator is enabled.
+* [improvement] Declared HPOS and Cart/Checkout Blocks compatibility with WooCommerce.
+* [improvement] Prefixed the global `get_conditions_data()` / `get_filter_operators()` functions to avoid collisions (old names kept as aliases).
+* [improvement] The plugin now degrades with an admin notice instead of fataling when WooCommerce is unavailable.
+* [improvement] Rewrote the readme as full documentation: how the rules engine works, every condition explained, worked setup recipes, a troubleshooting FAQ, and a privacy disclosure for the optional opt-in.
 
 = 1.2.6 =
 * [add] Added dimension-based shipping support.
@@ -315,4 +406,3 @@ Not at all! Shipping Manager is user-friendly and built for all users. It offers
 * [new] Initial release.
 
 == Upgrade Notice ==
-

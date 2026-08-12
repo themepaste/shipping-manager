@@ -67,6 +67,22 @@ if ( !function_exists( 'tpsm_get_free_shipping_settings' ) ) {
 }
 
 /**
+ * Whether the frontend shipping calculator is switched on.
+ *
+ * Used to keep the calculator's CSS/JS (and its jQuery dependency) off pages
+ * where the calculator is never rendered.
+ *
+ * @return bool
+ */
+if ( !function_exists( 'tpsm_is_shipping_calculator_enabled' ) ) {
+    function tpsm_is_shipping_calculator_enabled() {
+        $settings = get_option( 'tpsm-shipping-calculator_settings' );
+
+        return is_array( $settings ) && !empty( $settings['shipping-calculator-enable'] );
+    }
+}
+
+/**
  * Calculate and return available shipping methods for a single product.
  *
  * This function simulates a shipping package using the provided product ID and optional
@@ -84,19 +100,31 @@ if ( !function_exists( 'tpsm_get_free_shipping_settings' ) ) {
  */
 if ( !function_exists( 'tpsm_get_available_shipping_methods' ) ) {
     function tpsm_get_available_shipping_methods( $country = null, $state = null, $postcode = null, $city = null, $product_id = null ) {
-        if ( !$product_id ) {
+        if ( !$product_id || !function_exists( 'wc_get_product' ) ) {
             return false;
         }
 
         $product = wc_get_product( $product_id );
-        if ( !$product ) {
+        if ( !$product || !$product->needs_shipping() ) {
             return false;
         }
 
-        $country = $country ?: WC()->customer->get_shipping_country();
-        $state = $state ?: WC()->customer->get_shipping_state();
-        $postcode = $postcode ?: WC()->customer->get_shipping_postcode();
-        $city = $city ?: WC()->customer->get_shipping_city();
+        // WC()->customer is only populated once WooCommerce has initialised its
+        // session, so fall back to the store base location when it is missing.
+        $customer = function_exists( 'WC' ) ? WC()->customer : null;
+
+        if ( $customer ) {
+            $country  = $country ?: $customer->get_shipping_country();
+            $state    = $state ?: $customer->get_shipping_state();
+            $postcode = $postcode ?: $customer->get_shipping_postcode();
+            $city     = $city ?: $customer->get_shipping_city();
+        }
+
+        if ( !$country ) {
+            $base     = wc_get_base_location();
+            $country  = isset( $base['country'] ) ? $base['country'] : '';
+            $state    = $state ?: ( isset( $base['state'] ) ? $base['state'] : '' );
+        }
 
         $package = array(
             'contents'        => array(
@@ -117,6 +145,10 @@ if ( !function_exists( 'tpsm_get_available_shipping_methods' ) ) {
             'contents_cost'   => $product->get_price(),
             'applied_coupons' => array(),
         );
+
+        if ( !class_exists( 'WC_Shipping' ) ) {
+            return false;
+        }
 
         $shipping = WC_Shipping::instance();
         $shipping->load_shipping_methods();
@@ -199,14 +231,13 @@ if ( !function_exists( 'tpsm_isset' ) ) {
  *
  * @return array Associative array with condition types as keys and their labels as values.
  */
-if ( !function_exists( 'get_conditions_data' ) ) {
-    function get_conditions_data() {
+if ( !function_exists( 'tpsm_get_conditions_data' ) ) {
+    function tpsm_get_conditions_data() {
         return [
             'tpsm-flat-rate'       => 'Flat Rate',
             'tpsm-cart-quantity'   => 'Quantity',
             'tpsm-sub-total-price' => 'Subtotal',
             'tpsm-total-price'     => 'Total',
-            'tpsm-per-dimension'   => 'Total Dimensions',
             'tpsm-per-weight-unit' => 'Per Weight Unit (' . get_option( 'woocommerce_weight_unit' ) . ')',
             'tpsm-total-weight'    => 'Total Weight',
             'tpsm-shipping-class'  => 'Shipping Class',
@@ -214,8 +245,8 @@ if ( !function_exists( 'get_conditions_data' ) ) {
     }
 }
 
-if ( !function_exists( 'get_filter_operators' ) ) {
-    function get_filter_operators() {
+if ( !function_exists( 'tpsm_get_filter_operators' ) ) {
+    function tpsm_get_filter_operators() {
         return [
             [
                 'value' => 'equals',
@@ -241,11 +272,107 @@ if ( !function_exists( 'get_filter_operators' ) ) {
                 'value' => 'less-equal',
                 'label' => __( 'Less than or equal to', 'shipping-manager' ),
             ],
-            // [
-            //     'value' => 'between',
-            //     'label' => __( 'Between', 'shipping-manager' ),
-            // ],
         ];
+    }
+}
+
+/**
+ * Plain-language description of what a rule condition compares.
+ *
+ * Used by the setup guide on the Shipping Manager settings section.
+ *
+ * @param string $condition Condition slug.
+ * @return string
+ */
+if ( !function_exists( 'tpsm_get_condition_description' ) ) {
+    function tpsm_get_condition_description( $condition ) {
+        $descriptions = [
+            'tpsm-flat-rate'       => __( 'always applies; use it for a base charge.', 'shipping-manager' ),
+            'tpsm-cart-quantity'   => __( 'compares the number of items in the cart against a value.', 'shipping-manager' ),
+            'tpsm-sub-total-price' => __( 'matches when the cart subtotal falls in a range.', 'shipping-manager' ),
+            'tpsm-total-price'     => __( 'matches when the cart total falls in a range.', 'shipping-manager' ),
+            'tpsm-per-weight-unit' => __( 'multiplies the cost by the total cart weight.', 'shipping-manager' ),
+            'tpsm-total-weight'    => __( 'matches when the total cart weight falls in a range.', 'shipping-manager' ),
+            'tpsm-shipping-class'  => __( 'applies when the cart contains any of the selected shipping classes.', 'shipping-manager' ),
+        ];
+
+        return $descriptions[$condition] ?? '';
+    }
+}
+
+/**
+ * Find every shipping zone the Shipping Manager method has been added to.
+ *
+ * Only ever called while rendering the admin settings section — it walks all
+ * zones, which is too costly to do during rate calculation.
+ *
+ * @return array List of ['zone_name', 'method_title', 'rule_count', 'edit_url'].
+ */
+if ( !function_exists( 'tpsm_get_zone_usage' ) ) {
+    function tpsm_get_zone_usage() {
+        if ( !class_exists( 'WC_Shipping_Zones' ) ) {
+            return [];
+        }
+
+        $method_id = \ThemePaste\ShippingManager\Classes\Shipping\RegisterShippingMethod::ID;
+        $zones     = WC_Shipping_Zones::get_zones();
+
+        // get_zones() omits the catch-all "Locations not covered" zone (ID 0).
+        $zones[] = [
+            'zone_name'        => WC_Shipping_Zones::get_zone( 0 )->get_zone_name(),
+            'shipping_methods' => WC_Shipping_Zones::get_zone( 0 )->get_shipping_methods(),
+        ];
+
+        $usage = [];
+
+        foreach ( $zones as $zone ) {
+            if ( empty( $zone['shipping_methods'] ) ) {
+                continue;
+            }
+
+            foreach ( $zone['shipping_methods'] as $method ) {
+                if ( $method->id !== $method_id ) {
+                    continue;
+                }
+
+                $rules = json_decode( (string) $method->get_option( 'tpsm_hidden' ), true );
+
+                $usage[] = [
+                    'zone_name'    => $zone['zone_name'],
+                    'method_title' => $method->get_title(),
+                    'rule_count'   => is_array( $rules ) ? count( $rules ) : 0,
+                    'edit_url'     => add_query_arg(
+                        [
+                            'page'        => 'wc-settings',
+                            'tab'         => 'shipping',
+                            'instance_id' => $method->get_instance_id(),
+                        ],
+                        admin_url( 'admin.php' )
+                    ),
+                ];
+            }
+        }
+
+        return $usage;
+    }
+}
+
+/**
+ * Back-compat aliases.
+ *
+ * The original names were unprefixed and generic enough to collide with other
+ * plugins or themes in the global namespace. They are kept so that an older Pro
+ * add-on keeps working, but new code should use the prefixed versions.
+ */
+if ( !function_exists( 'get_conditions_data' ) ) {
+    function get_conditions_data() {
+        return tpsm_get_conditions_data();
+    }
+}
+
+if ( !function_exists( 'get_filter_operators' ) ) {
+    function get_filter_operators() {
+        return tpsm_get_filter_operators();
     }
 }
 
@@ -278,12 +405,16 @@ if ( !function_exists( 'tpsm_saved_remote_data' ) ) {
         $email_address = $current_user->user_email;
         $site_url = get_site_url();
 
+        // Fire and forget: the opt-in redirect must not stall (or fail) because
+        // the remote endpoint is slow or unreachable.
         wp_remote_post( 'https://themepaste.com/wp-json/v2/collect-email/shipping-manager', [
-            'headers' => [
+            'timeout'  => 5,
+            'blocking' => false,
+            'headers'  => [
                 'X-Auth-Token' => 'c7fc312817194d30c79da538204eaec3',
                 'Content-Type' => 'application/json',
             ],
-            'body'    => json_encode( [
+            'body'     => wp_json_encode( [
                 'email_address' => $email_address,
                 'full_name'     => $full_name,
                 'site_url'      => $site_url,

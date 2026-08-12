@@ -26,7 +26,7 @@ class Wizard {
             return;
         }
 
-        if ( !isset( $_POST['tpsm-nonce_name'] ) || !wp_verify_nonce( $_POST['tpsm-nonce_name'], 'tpsm-nonce_action' ) ) {
+        if ( !isset( $_POST['tpsm-nonce_name'] ) || !wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['tpsm-nonce_name'] ) ), 'tpsm-nonce_action' ) ) {
             wp_die( esc_html__( 'Nonce verification failed.', 'shipping-manager' ) );
         }
 
@@ -34,7 +34,7 @@ class Wizard {
             wp_die( esc_html__( 'Unauthorized user', 'shipping-manager' ) );
         }
 
-        $choice = isset( $_POST['tpsm_optin_choice'] ) ? sanitize_text_field( $_POST['tpsm_optin_choice'] ) : '0';
+        $choice = isset( $_POST['tpsm_optin_choice'] ) ? sanitize_text_field( wp_unslash( $_POST['tpsm_optin_choice'] ) ) : '0';
         $value = (int) $choice === 1 ? 1 : 0;
 
         update_option( 'tpsm_is_setup_wizard', $value );
@@ -43,10 +43,13 @@ class Wizard {
             tpsm_saved_remote_data();
         }
 
+        // Land on the plugin's own section, which is the setup guide: it tells a
+        // brand new install exactly what to do next and links to everything.
         $redirect_url = add_query_arg(
             array(
-                'page'         => 'shipping-manager',
-                'tpsm-setting' => 'general',
+                'page'    => 'wc-settings',
+                'tab'     => 'shipping',
+                'section' => Settings::SETTING_PAGE_ID,
             ),
             admin_url( 'admin.php' )
         );
@@ -113,6 +116,10 @@ class Wizard {
 }
 
     public function render_setup_wizard_page() {
-        printf( '%s', Utility::get_template( 'wizard/wizard.php' ) );
+        if ( !current_user_can( 'manage_options' ) ) {
+            wp_die( esc_html__( 'Unauthorized user', 'shipping-manager' ) );
+        }
+
+        echo Utility::get_template( 'wizard/wizard.php' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Template output is escaped at the point of use.
     }
 }

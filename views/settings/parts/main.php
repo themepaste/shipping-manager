@@ -20,11 +20,13 @@ use ThemePaste\ShippingManager\Helpers\Utility;
                 $pro_template = Utility::get_pro_template( 'settings/pages/' . $key . '.php', $args );
 
                 // If a valid template is returned, output it
+                // phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped -- Template output is escaped at the point of use.
                 if ( $template ) {
                     echo $template;
                 } else if( $pro_template ) {
                     echo $pro_template;
                 } else {
+                    // phpcs:enable WordPress.Security.EscapeOutput.OutputNotEscaped
                     ?>
                     <div style="text-align: center;">
                         <p style="margin-top: 50px; font-size: 16px;">
@@ -40,8 +42,8 @@ use ThemePaste\ShippingManager\Helpers\Utility;
         }
     ?>
 
-    <?php 
+    <?php
     // Display the "Rate Us" section using a shared template part
-    echo Utility::get_template( 'settings/parts/rate-us.php' ); 
+    echo Utility::get_template( 'settings/parts/rate-us.php' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Template output is escaped at the point of use.
     ?>
 </div>

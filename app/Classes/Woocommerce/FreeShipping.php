@@ -52,25 +52,23 @@ class FreeShipping {
     private $shipping_bar_styles;
 
     /**
-     * @var array Settings.
-     */
-    private $general_settings;
-
-    /**
      * FreeShipping constructor.
      *
      * @param array $settings Configuration options.
      */
     public function __construct( $settings ) {
+        $settings = is_array( $settings ) ? $settings : [];
+
         $this->hide_other = $settings['hide-other'] ?? '';
         $this->free_shipping_bar = $settings['free-shipping-bar'] ?? '';
         $this->minimum_amount = $settings['minimum-amount'] ?? '';
         $this->cart_amount = $settings['cart-amount'] ?? '';
-        $this->shipping_bar_styles = get_option( 'tpsm-free-shipping-barfree-shipping_settings' );
-        $this->general_settings = get_option( 'tpsm-general_settings' );
+
+        $shipping_bar_styles = get_option( 'tpsm-free-shipping-barfree-shipping_settings' );
+        $this->shipping_bar_styles = is_array( $shipping_bar_styles ) ? $shipping_bar_styles : [];
 
         // If the free shipping bar is enabled and a minimum amount is set
-        if ( $this->free_shipping_bar && $this->minimum_amount && $this->general_settings['is-plugin-enable'] ) {
+        if ( $this->free_shipping_bar && $this->minimum_amount ) {
             $this->action( 'wp_footer', [$this, 'free_shipping_bar'] );
         }
 
@@ -95,10 +93,17 @@ class FreeShipping {
         if ( !function_exists( 'WC' ) || !WC()->cart ) {
             return false; // Or handle accordingly
         }
-        $cart_total = WC()->cart->get_subtotal();
-        $minimum_cart_amount = $this->cart_amount;
+        if ( !$this->minimum_amount || !is_numeric( $this->cart_amount ) ) {
+            return false;
+        }
 
-        return ( $cart_total > $minimum_cart_amount && $this->minimum_amount );
+        $cart_total = (float) WC()->cart->get_subtotal();
+        $minimum_cart_amount = (float) $this->cart_amount;
+
+        // Compare as floats, and treat "exactly the threshold" as qualifying —
+        // the progress bar already stops showing at that point, so a strict `>`
+        // left a gap where the bar was hidden but free shipping did not apply.
+        return $cart_total >= $minimum_cart_amount;
     }
 
     /**
@@ -116,11 +121,11 @@ class FreeShipping {
      * Display a shipping bar in the footer during checkout.
      */
     public function free_shipping_bar() {
-        if ( is_checkout() ) {
-            $cart_total = WC()->cart->get_subtotal();
-            $minimum_cart_amount = $this->cart_amount;
+        if ( is_checkout() && function_exists( 'WC' ) && WC()->cart ) {
+            $cart_total = (float) WC()->cart->get_subtotal();
+            $minimum_cart_amount = is_numeric( $this->cart_amount ) ? (float) $this->cart_amount : 0;
 
-            if ( !empty( $minimum_cart_amount ) && $minimum_cart_amount > 0 ) {
+            if ( $minimum_cart_amount > 0 ) {
                 $progress_bar_value = ( $cart_total / $minimum_cart_amount ) * 100;
 
                 if ( $minimum_cart_amount > $cart_total ) {
@@ -130,8 +135,9 @@ class FreeShipping {
 							<progress value="%2$s" max="100"></progress>
 						</div>',
                         esc_html( $this->shipping_bar_message( $minimum_cart_amount - $cart_total ) ), // Message showing remaining amount
-                        esc_html( $progress_bar_value ),
-                        wp_kses_post( $this->shipping_bar_styles() ),
+                        esc_attr( round( min( $progress_bar_value, 100 ), 2 ) ),
+                        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped attribute-by-attribute in shipping_bar_styles().
+                        $this->shipping_bar_styles()
                     );
                 }
             }
@@ -146,17 +152,16 @@ class FreeShipping {
      */
     private function shipping_bar_message( $price ) {
         $currency_symbol = get_woocommerce_currency_symbol();
+        $formatted_price = $currency_symbol . wc_format_decimal( $price, wc_get_price_decimals() );
 
-        if ( !empty( $this->shipping_bar_styles ) && is_array( $this->shipping_bar_styles ) ) {
-            if ( !empty( $this->shipping_bar_styles['shipping-bar-message'] ) ) {
-                return str_replace( '[left_price]', $currency_symbol . $price, $this->shipping_bar_styles['shipping-bar-message'] );
-            }
+        if ( !empty( $this->shipping_bar_styles['shipping-bar-message'] ) ) {
+            return str_replace( '[left_price]', $formatted_price, $this->shipping_bar_styles['shipping-bar-message'] );
         }
 
         return sprintf(
-            'You need %1$s%2$s more in your cart to qualify for free shipping.',
-            $currency_symbol,
-            $price
+            /* translators: %s: remaining cart amount, including the currency symbol. */
+            __( 'You need %s more in your cart to qualify for free shipping.', 'shipping-manager' ),
+            $formatted_price
         );
     }
 
@@ -166,22 +171,28 @@ class FreeShipping {
      * @return string Inline style string.
      */
     private function shipping_bar_styles() {
-        if ( !empty( $this->shipping_bar_styles ) && is_array( $this->shipping_bar_styles ) ) {
-            return sprintf(
-                'style="
-					text-align: %1$s;
-					color: %2$s;
-					background-color: %3$s;
-					%4$s;
-				"',
-                esc_attr( $this->shipping_bar_styles['shipping-bar-alignment'] ),
-                esc_attr( $this->shipping_bar_styles['shipping-bar-text-color'] ),
-                esc_attr( $this->shipping_bar_styles['shipping-bar-background-color'] ),
-                $this->shipping_bar_styles['shipping-bar-position'] === 'top' ? ( is_admin_bar_showing() ? 'top: 30px;' : 'top: 0;' ) : 'bottom: 0;'
-            );
+        if ( empty( $this->shipping_bar_styles ) ) {
+            return '';
         }
 
-        return '';
+        $styles = $this->shipping_bar_styles;
+
+        // Every key is optional: the merchant may never have opened the style
+        // panel, and reading a missing key warns on PHP 8.
+        $alignment  = isset( $styles['shipping-bar-alignment'] ) ? $styles['shipping-bar-alignment'] : 'center';
+        $text_color = isset( $styles['shipping-bar-text-color'] ) ? sanitize_hex_color( $styles['shipping-bar-text-color'] ) : '';
+        $background = isset( $styles['shipping-bar-background-color'] ) ? sanitize_hex_color( $styles['shipping-bar-background-color'] ) : '';
+        $position   = isset( $styles['shipping-bar-position'] ) ? $styles['shipping-bar-position'] : 'bottom';
+
+        $alignment = in_array( $alignment, [ 'left', 'center', 'right' ], true ) ? $alignment : 'center';
+
+        return sprintf(
+            'style="text-align: %1$s; color: %2$s; background-color: %3$s; %4$s"',
+            esc_attr( $alignment ),
+            esc_attr( $text_color ? $text_color : 'inherit' ),
+            esc_attr( $background ? $background : 'transparent' ),
+            'top' === $position ? ( is_admin_bar_showing() ? 'top: 30px;' : 'top: 0;' ) : 'bottom: 0;'
+        );
     }
 
     /**

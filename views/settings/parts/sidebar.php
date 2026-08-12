@@ -11,19 +11,19 @@ foreach ( $settings_option as $key => $value ) {
     $active_class = ( $current_screen === $key ) ? 'active' : '';
 
     // Build the URL for each settings tab using add_query_arg
-    $setting_url = esc_url( add_query_arg(
+    $setting_url = add_query_arg(
         array(
             'page'         => 'shipping-manager',
             'tpsm-setting' => $key,
         ),
         admin_url( 'admin.php' )
-    ) );
+    );
 
     // Output the menu item with proper escaping and conditional class
     printf(
         '<li><a class="%1$s" href="%2$s">%3$s</a></li>',
         esc_attr( $active_class ),
-        $setting_url,
+        esc_url( $setting_url ),
         esc_html( $value['label'] )
     );
 }

@@ -119,12 +119,15 @@ $shipping_bar_style_fields = $settings_fields['free-shipping-bar']['child-fields
                                             printf( '<select name="%1$s" id="%1$s">', esc_attr( $select_id ) );
 
                                             $options = $field['options'];
-                                            foreach ( $options as $option ) {
+                                            // Key off the array key, not the label: the label is
+                                            // translated, so a non-English store used to save a
+                                            // localised value that no longer matched 'top'/'left'/etc.
+                                            foreach ( $options as $option_key => $option_label ) {
                                                 printf(
                                                     '<option value="%1$s" %3$s>%2$s</option>',
-                                                    esc_attr( strtolower( $option ) ),
-                                                    esc_html( $option ),
-                                                    selected( strtolower( $option ), $field['value'], false )
+                                                    esc_attr( strtolower( $option_key ) ),
+                                                    esc_html( $option_label ),
+                                                    selected( strtolower( $option_key ), $field['value'], false )
                                                 );
                                             }
                                             ?>
@@ -172,61 +175,7 @@ $shipping_bar_style_fields = $settings_fields['free-shipping-bar']['child-fields
         </form>
     </div>
 </div>
-
-<?php 
-    /**
-     * Proccessing the form 
-     * 
-     * Save Free Shipping Setting option
-     */
-    if( isset( $_POST[$submit_button] ) ) {
-
-        if ( ! isset( $_POST['tpsm-nonce_name'] ) || ! wp_verify_nonce( $_POST['tpsm-nonce_name'], 'tpsm-nonce_action' ) ) {
-            wp_die( esc_html__( 'Nonce verification failed.', 'shipping-manager' ) );
-        }
-    
-        // Check capabilities if needed
-        if ( ! current_user_can( 'manage_options' ) ) {
-            wp_die( esc_html__( 'Unauthorized user', 'shipping-manager' ) );
-        }
-
-        $settings_values = [];
-
-        // Main Setting 
-        foreach ( $settings_fields as $key => $field ) {
-            $field_name = $prefix . '-' . $screen_slug . '_' . $key;
-
-            if( 'switch' == $field['type'] ) {
-                $settings_values[$key] = isset( $_POST[$field_name] ) ? 1 : 0;
-            }
-            else if( 'text' == $field['type'] ) {
-                $settings_values[$key] = isset( $_POST[$field_name] ) ? sanitize_text_field( $_POST[$field_name] ) : '';
-            }
-        }
-
-        // Save setting to database 
-        update_option( $option_name, $settings_values );
-
-        
-
-        // Shipping Bar style settings 
-        $shipping_bar_styles_values = [];
-        foreach ( $shipping_bar_style_fields as $key => $field ) {
-            $field_name = $prefix . '-' . $screen_slug . '_' . $key;
-
-            $shipping_bar_styles_values[$key] = isset( $_POST[$field_name] ) ? sanitize_text_field( $_POST[$field_name] ) : '';
-        }
-
-        update_option( $on_shipping_bar, $shipping_bar_styles_values );
-
-        wp_safe_redirect( add_query_arg(
-            array(
-                'page'          => 'shipping-manager',
-                'tpsm-setting'  => $screen_slug,
-            ),
-            admin_url( 'admin.php' )
-        ) );
-
-        exit;
-    }
-?>
+<?php
+/**
+ * Saving is handled by Settings::handle_settings_submit() on `admin_init`.
+ */

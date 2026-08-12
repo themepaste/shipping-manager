@@ -1,13 +1,20 @@
 const path = require('path');
 
 module.exports = (env, argv) => {
+    const isProduction = (argv.mode || 'production') === 'production';
+
     return {
-        mode: argv.mode || 'development',
+        // Default to production: the shipped bundle used to be a ~1.7 MB
+        // development build whose eval()-wrapped modules are both slow and a
+        // problem for WordPress.org review and strict CSP setups.
+        mode: argv.mode || 'production',
+        // No eval-based source maps in the distributed file.
+        devtool: isProduction ? false : 'source-map',
         entry: './spa/admin/Main.jsx',
         output: {
             path: path.resolve(__dirname, './assets/admin/dist'),
             filename: 'bundle.js',
-            publicPath: '/',
+            publicPath: '',
         },
         module: {
             rules: [

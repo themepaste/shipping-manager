@@ -61,12 +61,16 @@ class Front {
 
 		// Render the shipping calculator on single product pages if enabled.
 		if ( $this->is_shipping_calculator_enable ) {
-			switch ( $this->shipping_calculator_position ) {
+			// Fall back to the first option the settings dropdown shows, so an
+			// enabled calculator that was never given a position still renders.
+			$position = $this->shipping_calculator_position ?: 'before-add-to-cart-button';
+
+			switch ( $position ) {
 				case 'before-add-to-cart-button':
-					$this->action( 'woocommerce_before_add_to_cart_button', [ $this, 'custom_shipping_form' ] );
+					$this->action( 'woocommerce_before_add_to_cart_button', [ $this, 'render_shipping_form' ] );
 					break;
 				case 'after-add-to-cart-button':
-					$this->action( 'woocommerce_after_add_to_cart_button', [ $this, 'custom_shipping_form' ] );
+					$this->action( 'woocommerce_after_add_to_cart_button', [ $this, 'render_shipping_form' ] );
 					break;
 				case 'using-shortcode':
 					$this->shortcode( 'tpsm-shipping-calculator', [ $this, 'custom_shipping_form' ] );
@@ -76,12 +80,13 @@ class Front {
 	}
 
 	/**
-	 * Displays the shipping calculator form and available methods.
+	 * Builds the shipping calculator markup.
 	 *
-	 * Renders templates to show available shipping options and, if enabled,
-	 * a location input form beneath the add-to-cart button on product pages.
+	 * Returns (rather than echoes) the markup, because this is also used as a
+	 * shortcode callback — a shortcode that echoes gets its output flushed to
+	 * the top of the page instead of appearing where the shortcode was placed.
 	 *
-	 * @return void
+	 * @return string
 	 */
 	public function custom_shipping_form() {
 		$args = [
@@ -94,10 +99,10 @@ class Front {
 			),
 		];
 
-		echo '<div class="tpsm-shipping-calculator-wrapper">';
+		$output = '<div class="tpsm-shipping-calculator-wrapper">';
 
 		// Render the shipping methods template.
-		printf(
+		$output .= sprintf(
 			'<div class="%1$s" id="%1$s">%2$s</div>',
 			'tpsm-shipping-calculator-shipping-methods',
 			Utility::get_template( 'shipping-calculator/shipping-methods.php', $args )
@@ -105,10 +110,21 @@ class Front {
 
 		// Render the location input form if enabled.
 		if ( $this->is_enable_location_field ) {
-			echo Utility::get_template( 'shipping-calculator/shipping-form.php' );
+			$output .= Utility::get_template( 'shipping-calculator/shipping-form.php' );
 		}
 
-		echo '</div>';
+		$output .= '</div>';
+
+		return $output;
+	}
+
+	/**
+	 * Echoes the shipping calculator, for use as an action callback.
+	 *
+	 * @return void
+	 */
+	public function render_shipping_form() {
+		echo $this->custom_shipping_form(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Template output is escaped at the point of use.
 	}
 
 	/**
@@ -117,6 +133,10 @@ class Front {
 	 * @return void
 	 */
 	public function enqueue_css() {
+		if ( ! tpsm_is_shipping_calculator_enabled() ) {
+			return;
+		}
+
 		$this->enqueue_style(
 			'tpsm-front',
 			TPSM_ASSETS_URL . '/front/css/front.css'
@@ -129,6 +149,10 @@ class Front {
 	 * @return void
 	 */
 	public function enqueue_scripts() {
+		if ( ! tpsm_is_shipping_calculator_enabled() ) {
+			return;
+		}
+
 		$this->enqueue_script(
 			'tpsm-front',
 			TPSM_ASSETS_URL . '/front/js/front.js',

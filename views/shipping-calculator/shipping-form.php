@@ -23,13 +23,21 @@ defined( 'ABSPATH' ) || exit;
                 // Get all countries from WooCommerce
                 $countries = WC()->countries->get_countries();
 
+                // Preselect the shopper's country, falling back to the store's base
+                // country. This used to be hardcoded to 'BD'.
+                $default_country = WC()->customer ? WC()->customer->get_shipping_country() : '';
+
+                if ( ! $default_country ) {
+                    $base            = wc_get_base_location();
+                    $default_country = isset( $base['country'] ) ? $base['country'] : '';
+                }
+
                 // Loop through each country and display as an option
                 foreach ( $countries as $code => $name ) {
-                    $selected = ( $code === 'BD' ) ? 'selected' : '';
                     printf(
                         '<option value="%1$s" %2$s>%3$s</option>',
                         esc_attr( $code ),
-                        esc_attr( $selected ),
+                        selected( $code, $default_country, false ),
                         esc_html( $name )
                     );
                 }

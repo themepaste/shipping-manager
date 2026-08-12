@@ -11,7 +11,11 @@
 defined( 'ABSPATH' ) || exit;
 
 // Retrieve shipping methods from the provided arguments.
-$shipping_methods = $args['shipping-methods'];
+// tpsm_get_available_shipping_methods() returns false when it cannot build a
+// package, so this is not guaranteed to be an array.
+$shipping_methods = isset( $args['shipping-methods'] ) && is_array( $args['shipping-methods'] )
+    ? $args['shipping-methods']
+    : array();
 
 ?>
 
@@ -26,7 +30,7 @@ $shipping_methods = $args['shipping-methods'];
                 printf(
                     '<li>%s - %s</li>',
                     esc_html( $rate->get_label() ),
-                    wc_price( $rate->get_cost() )
+                    wp_kses_post( wc_price( $rate->get_cost() ) ) // wc_price() returns markup.
                 );
             }
         } else {

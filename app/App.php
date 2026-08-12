@@ -29,9 +29,6 @@ final class App {
      */
     public static function hooks() {
 
-        // Register activation-related setup such as DB installation, version check, etc.
-        new Classes\Install();
-
         // Load common functionality (AJAX, scripts, etc.)
         new Classes\Common();
 

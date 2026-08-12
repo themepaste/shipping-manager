@@ -41,17 +41,27 @@ class Utility {
 	 * @param array  $args Optional. An associative array of variables to pass to the template file.
 	 */
 	public static function get_template( $template, $args = array() ) {
+		// Never let a caller escape the views directory.
+		$template = ltrim( str_replace( '\\', '/', $template ), '/' );
+
+		if ( false !== strpos( $template, '..' ) ) {
+			return '';
+		}
+
 		$path = TPSM_PLUGIN_DIR . 'views/' . $template;
 
 		if ( file_exists( $path ) ) {
 			if ( ! empty( $args ) && is_array( $args ) ) {
-				extract( $args );
+				// EXTR_SKIP so a settings key can never clobber $path/$template/$args.
+				extract( $args, EXTR_SKIP ); // phpcs:ignore WordPress.PHP.DontExtract.extract_extract
 			}
 
 			ob_start();
 			include $path;
 			return ob_get_clean();
 		}
+
+		return '';
 	}
 
 	/**
@@ -66,27 +76,42 @@ class Utility {
 	 * @return string|null The output of the template file, or null if the file doesn't exist.
 	 */
 	public static function get_pro_template( $template, $args = array() ) {
-		if ( is_plugin_active( 'shipping-manager-pro/shipping-manager-pro.php' ) ) { 
+		// is_plugin_active() lives in wp-admin and is not loaded on the frontend
+		// or during AJAX, where calling it used to be a fatal error.
+		if ( ! function_exists( 'is_plugin_active' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/plugin.php';
+		}
+
+		$template = ltrim( str_replace( '\\', '/', $template ), '/' );
+
+		if ( false !== strpos( $template, '..' ) ) {
+			return '';
+		}
+
+		if ( is_plugin_active( 'shipping-manager-pro/shipping-manager-pro.php' ) ) {
 			$path = TPSM_REAL_PATH . '/shipping-manager-pro/views/' . $template;
-	
+
 			if ( file_exists( $path ) ) {
 				if ( ! empty( $args ) && is_array( $args ) ) {
-					extract( $args );
+					extract( $args, EXTR_SKIP ); // phpcs:ignore WordPress.PHP.DontExtract.extract_extract
 				}
-	
+
 				ob_start();
 				include $path;
 				return ob_get_clean();
 			}
 		}
-	} 
+
+		return '';
+	}
 
 	/**
 	 * @param string $var the variable name 
 	 * @return string
 	 */
 	public static function get_screen( $var = '' ) {
-		return isset( $_GET[$var]) ? sanitize_text_field( $_GET[$var] ) : null;
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only screen routing.
+		return isset( $_GET[ $var ] ) ? sanitize_key( wp_unslash( $_GET[ $var ] ) ) : null;
 	}
 
 
