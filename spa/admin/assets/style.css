@@ -464,6 +464,62 @@
     box-shadow: 0 0 0 1px var(--tpsm-brand);
 }
 
+/*
+ * react-select keeps a real <input> inside the control for typing. WordPress
+ * styles every admin input on focus with a blue border, box-shadow and outline,
+ * which showed up as a stray blue rectangle inside our orange control. Core's
+ * rules are `input[type="text"]:focus` etc. and carry !important in places, so
+ * neutralise the inner input explicitly.
+ */
+.tpsm-rules .tpsm-select__control input,
+.tpsm-rules .tpsm-select__control input:focus,
+.tpsm-rules .tpsm-select__input-container input,
+.tpsm-rules .tpsm-select__input-container input:focus {
+    border: 0 !important;
+    box-shadow: none !important;
+    outline: 0 !important;
+    background: transparent !important;
+    min-height: 0;
+    height: auto;
+    margin: 0;
+    padding: 0;
+}
+
+/* Tone down the clear "×" and dropdown arrow, which default to near-black. */
+.tpsm-rules .tpsm-select__clear-indicator,
+.tpsm-rules .tpsm-select__dropdown-indicator {
+    color: #a7aaad;
+    padding: 4px 6px;
+}
+
+.tpsm-rules .tpsm-select__clear-indicator:hover {
+    color: var(--tpsm-danger);
+}
+
+.tpsm-rules .tpsm-select__dropdown-indicator:hover {
+    color: var(--tpsm-brand);
+}
+
+.tpsm-rules .tpsm-select__indicator-separator {
+    background-color: var(--tpsm-line);
+}
+
+.tpsm-rules .tpsm-select__menu {
+    z-index: 20;
+    border: 1px solid var(--tpsm-line);
+    box-shadow: 0 4px 14px rgba(16, 24, 40, 0.1);
+}
+
+.tpsm-rules .tpsm-select__option--is-focused {
+    background: var(--tpsm-brand-tint);
+    color: var(--tpsm-heading);
+}
+
+.tpsm-rules .tpsm-select__option--is-selected {
+    background: var(--tpsm-brand);
+    color: #fff;
+}
+
 .tpsm-rules .tpsm-select__multi-value {
     background: var(--tpsm-brand-tint);
     border: 1px solid var(--tpsm-brand-line);

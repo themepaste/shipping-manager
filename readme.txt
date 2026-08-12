@@ -42,6 +42,8 @@ Because it is a normal WooCommerce shipping method, everything you already know 
 
 Every rule row picks one condition and a cost. **Costs from all matching rules are added together**, which is what makes stacked pricing possible.
 
+Rules are grouped by what they inspect. Every row picks one condition and a cost.
+
 **General**
 
 * **Flat Rate** — always applies. Use it for a base handling charge.
@@ -53,6 +55,7 @@ Every rule row picks one condition and a cost. **Costs from all matching rules a
 * **Line Items** — compares how many *different* products are in the cart, with the same operators. Useful for pick-and-pack fees.
 * **Subtotal** — applies when the cart subtotal falls inside a minimum/maximum range.
 * **Total** — applies when the cart total falls inside a minimum/maximum range.
+* **Cart Volume** — applies when the combined volume (length x width x height x quantity) falls in a range. This is dimensional / volumetric pricing, which WooCommerce cannot do at all.
 
 **Product**
 
@@ -60,10 +63,17 @@ Every rule row picks one condition and a cost. **Costs from all matching rules a
 * **Total Weight** — applies when the cart's total weight falls inside a minimum/maximum range.
 * **Shipping Class** — applies when the cart contains any of the WooCommerce shipping classes you select.
 * **Product Category** — applies when the cart contains a product from any category you select. No shipping class setup required.
+* **Product Tag** — the same, keyed on product tags.
+* **Specific Products** — target individual products, or a single variation, by searching for them. Uses WooCommerce's own product search, so it works on catalogs of any size.
 
 **Destination**
 
-* **Postcode** — applies when the delivery postcode matches. Accepts exact codes, `*` wildcards (`SW1*`) and numeric ranges (`1000...2000`), the same shorthand WooCommerce shipping zones use — so you can price by postcode without creating a zone per area.
+* **Postcode** — applies when the delivery postcode matches. Accepts exact codes, `*` wildcards (`SW1*`) and numeric ranges (`1000...2000`) — the same shorthand WooCommerce shipping zones use, so you can price by postcode without creating a zone per area.
+* **State / County** — applies when the delivery state or county code matches, e.g. `CA, NY, TX`.
+
+**Order**
+
+* **Coupon Applied** — applies when any of the listed coupon codes is on the order. Lets a coupon change the shipping price, which core WooCommerce coupons cannot do.
 
 Leave a minimum or maximum **empty** to mean "no limit" on that side. A rule with a minimum of 100 and an empty maximum applies to every cart of 100 and above.
 
@@ -90,6 +100,18 @@ Add a *Postcode* rule listing the ranges you want to surcharge, for example `100
 **Category-based handling fee**
 Add a *Product Category* rule selecting, say, "Furniture", with its handling cost. No shipping classes to set up.
 
+**Charge more for one specific product**
+Add a *Specific Products* rule, search for the product (or a single variation), and set its surcharge.
+
+**Let a coupon change the shipping price**
+Add a *Coupon Applied* rule listing codes such as `FREESHIP`. Core WooCommerce coupons can only grant free shipping outright; this adjusts the calculated rate instead.
+
+**Dimensional / volumetric pricing**
+Fill in length, width and height on your products, then add *Cart Volume* rules in bands — 0–5000 at 6.95, 5000 and above at 12.95.
+
+**Regional surcharge by state**
+Add a *State / County* rule listing the codes you surcharge, e.g. `AK, HI`.
+
 **Different pricing per country**
 Add the Shipping Manager method to each shipping zone separately. Each one keeps its own independent rules table.
 
@@ -98,13 +120,19 @@ Add the Shipping Manager method to each shipping zone separately. Each one keeps
 * Table rate shipping for WooCommerce
 * Weight-based shipping — per weight unit and total weight ranges
 * Cart total and cart subtotal range pricing
+* **16 rule conditions** covering the cart, its products, the destination and the order
 * Cart quantity and line-item rules with six comparison operators
 * Full WooCommerce shipping class support (multi-select)
-* Product category rules (multi-select)
+* Product category and product tag rules (multi-select)
+* Specific product and variation targeting, with live product search
 * Postcode rules with wildcard and range matching
+* State / county rules
+* Coupon-aware shipping rules
+* Volumetric (dimensional) pricing on total cart volume
 * Per-item and per-weight-unit multipliers
 * Flat rate / base handling fee
 * Unlimited rules per method, each with its own label and on/off switch
+* Duplicate any rule in place, or duplicate and delete in bulk
 * Unlimited methods — add it to as many shipping zones as you like
 * Custom method name and description shown to customers at checkout
 * Per-method tax status (Taxable or None)
@@ -228,6 +256,26 @@ The setup guide at *WooCommerce → Settings → Shipping → Shipping Manager* 
 
 Weight rules read each product's **Weight** field under *Product data → Shipping*. Products with no weight are counted as zero, so a cart of weightless products will not reach any minimum you set.
 
+= Can I charge by postcode without making a zone for each area? =
+
+Yes. Add a *Postcode* rule and list the codes, wildcards or ranges you want — `1000...1999, SW1*, 90210`. That is far less work than maintaining a WooCommerce shipping zone per postcode group.
+
+= Can I target one specific product, or one variation? =
+
+Yes. The *Specific Products* condition searches your catalog live and matches on the parent product ID or the individual variation ID, so you can surcharge a single variation without touching the rest.
+
+= Can shipping depend on a coupon? =
+
+Yes. The *Coupon Applied* condition matches any coupon code on the order. Core WooCommerce coupons can only grant free shipping outright; this lets a coupon change the calculated rate.
+
+= Does it support dimensional / volumetric weight? =
+
+Yes, via *Cart Volume*, which sums length x width x height x quantity across the cart and matches it against a range. Products missing any dimension contribute zero.
+
+= Can I turn a rule off without deleting it? =
+
+Yes. Every rule has its own enable/disable switch and an optional label, so you can park seasonal pricing and switch it back on later.
+
 = Can I copy my rules to another zone or another site? =
 
 Yes. Each method's settings include an **Import/Export** field containing its rules as text. Copy that value and paste it into the same field on another method to duplicate the whole setup.
@@ -268,10 +316,11 @@ Only if you explicitly opt in during the setup wizard, and then only your WordPr
 == Changelog ==
 
 = 1.2.7 =
-* [add] Four new rule conditions that WooCommerce does not offer on its own: **Product Category**, **Postcode** (exact, `SW1*` wildcards and `1000...2000` ranges), **Per Item** (cost x quantity) and **Line Items** (distinct products in the cart).
+* [add] Eight new rule conditions WooCommerce does not offer: **Specific Products** (live product/variation search), **Product Category**, **Product Tag**, **Postcode** (exact, `SW1*` wildcards, `1000...2000` ranges), **State / County**, **Coupon Applied**, **Cart Volume** (dimensional pricing) and **Line Items** — plus a **Per Item** multiplier. Sixteen conditions in total.
 * [add] Rebuilt Import/Export as a proper panel: copy rules to the clipboard, paste them back, download a .json file or import one, choosing whether to replace or append. The raw JSON text field is gone.
 * [add] Every rule now has an optional label and its own enable/disable switch, so you can park a rule without deleting it. Rules saved before this update stay enabled.
 * [add] Duplicate a single rule in place, alongside the existing bulk duplicate.
+* [fix] Multi-selects no longer show WordPress's blue focus ring inside the plugin's orange one; react-select's inner search input is now neutralised.
 * [improvement] Rebuilt the rules builder UI: card-per-rule layout, inline help for the selected condition, clearer grouping of conditions, and a full mobile layout.
 * [fix] Condition groups in the rules dropdown are now defined explicitly instead of by slicing the condition list by index, which mis-grouped every condition whenever one was added or removed.
 * [add] Restored the **Settings** link on the Plugins screen, styled in the plugin's brand colour so it stands out from WordPress's own row actions. It opens the Shipping Manager setup guide, so a freshly installed site has a one-click route to everything.

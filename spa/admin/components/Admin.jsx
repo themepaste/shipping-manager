@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import parse from 'html-react-parser';
 import Select from 'react-select';
+import AsyncSelect from 'react-select/async';
 import ImportExport from './ImportExport';
 
 const HIDDEN_FIELD_ID = 'woocommerce_shipping-manager_tpsm_hidden';
@@ -10,9 +11,20 @@ const MULTIPLIER_CONDITIONS = ['tpsm-per-item', 'tpsm-per-weight-unit'];
 // Conditions driven by an operator + single value.
 const OPERATOR_CONDITIONS = ['tpsm-cart-quantity', 'tpsm-line-items'];
 // Conditions driven by a min/max range.
-const RANGE_CONDITIONS = ['tpsm-sub-total-price', 'tpsm-total-price', 'tpsm-total-weight'];
-// Conditions driven by a multi-select.
-const MULTI_CONDITIONS = ['tpsm-shipping-class', 'tpsm-product-category'];
+const RANGE_CONDITIONS = [
+  'tpsm-sub-total-price',
+  'tpsm-total-price',
+  'tpsm-total-weight',
+  'tpsm-cart-volume',
+];
+// Conditions driven by a multi-select of a fixed option list.
+const MULTI_CONDITIONS = [
+  'tpsm-shipping-class',
+  'tpsm-product-category',
+  'tpsm-product-tag',
+];
+// Conditions driven by a free-text list.
+const TEXT_LIST_CONDITIONS = ['tpsm-postcode', 'tpsm-state', 'tpsm-coupon'];
 
 /**
  * A brand new, empty rule row.
@@ -33,6 +45,7 @@ const emptyRow = (condition) => ({
   min: '',
   max: '',
   multi: [],
+  multiLabels: {},
 });
 
 /**
@@ -47,6 +60,7 @@ const normalizeRow = (row, fallback) => ({
   ...emptyRow(fallback),
   ...row,
   multi: Array.isArray(row.multi) ? row.multi : [],
+  multiLabels: row.multiLabels && typeof row.multiLabels === 'object' ? row.multiLabels : {},
   equal: row.equal || 'equals',
   // Rows predate the per-rule toggle; absent means enabled.
   enabled: row.enabled === undefined ? true : Boolean(row.enabled),
@@ -62,6 +76,8 @@ function Admin() {
   const conditionHelp = adminData.condition_help || {};
   const classOptions = adminData.wc_shipping_classess || [];
   const categoryOptions = adminData.product_categories || [];
+  const tagOptions = adminData.product_tags || [];
+  const productSearch = adminData.product_search || {};
   const operators = adminData.operators || [];
   const wooData = adminData.woocommerce_data || {};
   const currencySymbol = wooData.currency_symbol || '';
@@ -109,6 +125,55 @@ function Admin() {
 
   const handleMultiSelectChange = (index, selectedOptions) =>
     updateRow(index, { multi: (selectedOptions || []).map((opt) => opt.value) });
+
+  /**
+   * Store selected product IDs plus their labels.
+   *
+   * The engine only reads the IDs, but keeping the labels on the row means the
+   * builder can render chips without a second lookup, and they survive
+   * export/import to another site.
+   *
+   * @param {number} index    Row index.
+   * @param {Array}  selected Selected options.
+   */
+  const handleProductChange = (index, selected) => {
+    const chosen = selected || [];
+    const labels = {};
+    chosen.forEach((opt) => {
+      labels[opt.value] = opt.label;
+    });
+    updateRow(index, { multi: chosen.map((opt) => opt.value), multiLabels: labels });
+  };
+
+  /**
+   * Look products up through WooCommerce's own admin search endpoint.
+   *
+   * @param {string} term Search term.
+   * @return {Promise<Array>} react-select options.
+   */
+  const searchProducts = (term) => {
+    if (!term || term.length < 2 || !productSearch.url) {
+      return Promise.resolve([]);
+    }
+
+    const url = `${productSearch.url}?action=woocommerce_json_search_products_and_variations&security=${encodeURIComponent(
+      productSearch.nonce || '',
+    )}&term=${encodeURIComponent(term)}`;
+
+    return fetch(url, { credentials: 'same-origin' })
+      .then((res) => (res.ok ? res.json() : {}))
+      .then((data) =>
+        Object.keys(data || {}).map((id) => ({
+          value: parseInt(id, 10),
+          label: String(data[id]).replace(/&(#\d+|[a-z]+);/gi, (m) => {
+            const el = document.createElement('textarea');
+            el.innerHTML = m;
+            return el.value;
+          }),
+        })),
+      )
+      .catch(() => []);
+  };
 
   const addRow = () => setRows((prev) => [...prev, emptyRow(firstCondition)]);
 
@@ -196,8 +261,12 @@ function Admin() {
     }
 
     if (RANGE_CONDITIONS.includes(row.condition)) {
-      const unit =
-        row.condition === 'tpsm-total-weight' ? weightUnit : parse(currencySymbol || '');
+      let unit = parse(currencySymbol || '');
+      if (row.condition === 'tpsm-total-weight') {
+        unit = weightUnit;
+      } else if (row.condition === 'tpsm-cart-volume') {
+        unit = '';
+      }
       return (
         <>
           <span className="tpsm-input-group">
@@ -225,27 +294,60 @@ function Admin() {
     }
 
     if (MULTI_CONDITIONS.includes(row.condition)) {
-      const isCategory = row.condition === 'tpsm-product-category';
-      const options = isCategory ? categoryOptions : classOptions;
+      const byCondition = {
+        'tpsm-product-category': [categoryOptions, i18n.selectCategories],
+        'tpsm-product-tag': [tagOptions, i18n.selectTags],
+        'tpsm-shipping-class': [classOptions, i18n.selectClasses],
+      };
+      const [options, placeholder] = byCondition[row.condition] || [classOptions, ''];
       return (
         <Select
           className="tpsm-rule-multi"
           classNamePrefix="tpsm-select"
           options={options}
           isMulti
-          placeholder={isCategory ? i18n.selectCategories : i18n.selectClasses}
+          placeholder={placeholder}
           value={options.filter((opt) => row.multi.includes(opt.value))}
           onChange={(selected) => handleMultiSelectChange(index, selected)}
         />
       );
     }
 
-    if (row.condition === 'tpsm-postcode') {
+    // Specific products: searched live through WooCommerce's own endpoint, so
+    // this works on catalogs far too large to localise up front.
+    if (row.condition === 'tpsm-product') {
+      return (
+        <AsyncSelect
+          className="tpsm-rule-multi"
+          classNamePrefix="tpsm-select"
+          isMulti
+          cacheOptions
+          defaultOptions={false}
+          placeholder={i18n.searchProducts}
+          loadOptions={searchProducts}
+          noOptionsMessage={({ inputValue }) =>
+            inputValue ? i18n.noResults : i18n.typeToSearch
+          }
+          value={(row.multi || []).map((id) => ({
+            value: id,
+            label: (row.multiLabels && row.multiLabels[id]) || `#${id}`,
+          }))}
+          onChange={(selected) => handleProductChange(index, selected)}
+        />
+      );
+    }
+
+    if (TEXT_LIST_CONDITIONS.includes(row.condition)) {
+      const placeholders = {
+        'tpsm-postcode': i18n.postcodes,
+        'tpsm-state': i18n.states,
+        'tpsm-coupon': i18n.coupons,
+      };
       return (
         <input
           className="tpsm-input tpsm-input-wide"
           type="text"
-          placeholder={i18n.postcodes}
+          placeholder={placeholders[row.condition]}
           value={row.value}
           onChange={(e) => handleRowChange(index, 'value', e.target.value)}
         />

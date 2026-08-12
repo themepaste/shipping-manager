@@ -255,8 +255,14 @@ if ( !function_exists( 'tpsm_get_conditions_data' ) ) {
                 'tpsm-total-weight'     => __( 'Total Weight', 'shipping-manager' ),
                 'tpsm-shipping-class'   => __( 'Shipping Class', 'shipping-manager' ),
                 'tpsm-product-category' => __( 'Product Category', 'shipping-manager' ),
+                'tpsm-product-tag'      => __( 'Product Tag', 'shipping-manager' ),
+                'tpsm-product'          => __( 'Specific Products', 'shipping-manager' ),
+                'tpsm-cart-volume'      => __( 'Cart Volume', 'shipping-manager' ),
                 // Destination
                 'tpsm-postcode'         => __( 'Postcode', 'shipping-manager' ),
+                'tpsm-state'            => __( 'State / County', 'shipping-manager' ),
+                // Order
+                'tpsm-coupon'           => __( 'Coupon Applied', 'shipping-manager' ),
             ]
         );
     }
@@ -277,9 +283,10 @@ if ( !function_exists( 'tpsm_get_condition_groups' ) ) {
             'tpsm_condition_groups',
             [
                 __( 'General', 'shipping-manager' )     => [ 'tpsm-flat-rate', 'tpsm-per-item' ],
-                __( 'Cart', 'shipping-manager' )        => [ 'tpsm-cart-quantity', 'tpsm-line-items', 'tpsm-sub-total-price', 'tpsm-total-price' ],
-                __( 'Product', 'shipping-manager' )     => [ 'tpsm-per-weight-unit', 'tpsm-total-weight', 'tpsm-shipping-class', 'tpsm-product-category' ],
-                __( 'Destination', 'shipping-manager' ) => [ 'tpsm-postcode' ],
+                __( 'Cart', 'shipping-manager' )        => [ 'tpsm-cart-quantity', 'tpsm-line-items', 'tpsm-sub-total-price', 'tpsm-total-price', 'tpsm-cart-volume' ],
+                __( 'Product', 'shipping-manager' )     => [ 'tpsm-per-weight-unit', 'tpsm-total-weight', 'tpsm-shipping-class', 'tpsm-product-category', 'tpsm-product-tag', 'tpsm-product' ],
+                __( 'Destination', 'shipping-manager' ) => [ 'tpsm-postcode', 'tpsm-state' ],
+                __( 'Order', 'shipping-manager' )       => [ 'tpsm-coupon' ],
             ]
         );
     }
@@ -292,9 +299,32 @@ if ( !function_exists( 'tpsm_get_condition_groups' ) ) {
  */
 if ( !function_exists( 'tpsm_get_product_categories' ) ) {
     function tpsm_get_product_categories() {
+        return tpsm_get_taxonomy_options( 'product_cat' );
+    }
+}
+
+/**
+ * Product tags, formatted for the rules builder's multi-select.
+ *
+ * @return array List of ['value' => slug, 'label' => name].
+ */
+if ( !function_exists( 'tpsm_get_product_tags' ) ) {
+    function tpsm_get_product_tags() {
+        return tpsm_get_taxonomy_options( 'product_tag' );
+    }
+}
+
+/**
+ * Terms of a taxonomy as select options.
+ *
+ * @param string $taxonomy Taxonomy name.
+ * @return array List of ['value' => slug, 'label' => name].
+ */
+if ( !function_exists( 'tpsm_get_taxonomy_options' ) ) {
+    function tpsm_get_taxonomy_options( $taxonomy ) {
         $terms = get_terms(
             [
-                'taxonomy'   => 'product_cat',
+                'taxonomy'   => $taxonomy,
                 'hide_empty' => false,
                 'number'     => 500,
             ]
@@ -369,7 +399,12 @@ if ( !function_exists( 'tpsm_get_condition_description' ) ) {
             'tpsm-total-weight'     => __( 'matches when the total cart weight falls in a range.', 'shipping-manager' ),
             'tpsm-shipping-class'   => __( 'applies when the cart contains any of the selected shipping classes.', 'shipping-manager' ),
             'tpsm-product-category' => __( 'applies when the cart contains a product from any selected category.', 'shipping-manager' ),
+            'tpsm-product-tag'      => __( 'applies when the cart contains a product with any selected tag.', 'shipping-manager' ),
+            'tpsm-product'          => __( 'applies when the cart contains any of the selected products or variations.', 'shipping-manager' ),
+            'tpsm-cart-volume'      => __( 'matches when the combined volume (L x W x H) of the cart falls in a range.', 'shipping-manager' ),
             'tpsm-postcode'         => __( 'applies when the delivery postcode matches; supports wildcards and ranges.', 'shipping-manager' ),
+            'tpsm-state'            => __( 'applies when the delivery state or county code matches, e.g. CA, NY.', 'shipping-manager' ),
+            'tpsm-coupon'           => __( 'applies when any of the listed coupon codes is on the order.', 'shipping-manager' ),
         ];
 
         return $descriptions[$condition] ?? '';

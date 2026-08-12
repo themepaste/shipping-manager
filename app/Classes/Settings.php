@@ -246,6 +246,13 @@ class Settings {
         $this->localize_data['operators'] = tpsm_get_filter_operators();
         $this->localize_data['wc_shipping_classess'] = $this->get_all_wc_classes();
         $this->localize_data['product_categories'] = tpsm_get_product_categories();
+        $this->localize_data['product_tags'] = tpsm_get_product_tags();
+        // Reuse WooCommerce's own product search rather than shipping another
+        // endpoint; it already handles variations, permissions and large catalogs.
+        $this->localize_data['product_search'] = [
+            'url'   => admin_url( 'admin-ajax.php' ),
+            'nonce' => wp_create_nonce( 'search-products' ),
+        ];
         $this->localize_data['assets_url'] = TPSM_ASSETS_URL;
         $this->localize_data['i18n'] = $this->get_builder_strings();
 
@@ -323,7 +330,13 @@ class Settings {
             'value'           => __( 'Value', 'shipping-manager' ),
             'selectClasses'   => __( 'Select shipping classes…', 'shipping-manager' ),
             'selectCategories' => __( 'Select product categories…', 'shipping-manager' ),
+            'selectTags'      => __( 'Select product tags…', 'shipping-manager' ),
+            'searchProducts'  => __( 'Search products…', 'shipping-manager' ),
+            'typeToSearch'    => __( 'Type to search products', 'shipping-manager' ),
+            'noResults'       => __( 'No products found', 'shipping-manager' ),
             'postcodes'       => __( 'e.g. 1000...2000, SW1*, 90210', 'shipping-manager' ),
+            'states'          => __( 'e.g. CA, NY, TX', 'shipping-manager' ),
+            'coupons'         => __( 'e.g. FREESHIP, SUMMER25', 'shipping-manager' ),
             'importExport'    => __( 'Import / Export', 'shipping-manager' ),
             'copy'            => __( 'Copy', 'shipping-manager' ),
             'copied'          => __( 'Copied to clipboard', 'shipping-manager' ),

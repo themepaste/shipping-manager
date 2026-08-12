@@ -91,6 +91,11 @@ class Logic {
         $line_item_items = $this->dataFilterByConditionName( $data, 'tpsm-line-items' );
         $category_items = $this->dataFilterByConditionName( $data, 'tpsm-product-category' );
         $postcode_items = $this->dataFilterByConditionName( $data, 'tpsm-postcode' );
+        $tag_items = $this->dataFilterByConditionName( $data, 'tpsm-product-tag' );
+        $product_items = $this->dataFilterByConditionName( $data, 'tpsm-product' );
+        $volume_items = $this->dataFilterByConditionName( $data, 'tpsm-cart-volume' );
+        $state_items = $this->dataFilterByConditionName( $data, 'tpsm-state' );
+        $coupon_items = $this->dataFilterByConditionName( $data, 'tpsm-coupon' );
 
         $shipping_cost = $this->get_shipping_cost_for_flat_rate( $flat_rate_items )
             + $this->get_shipping_cost_cart_quantity( $tpsm_cart_quantity )
@@ -102,10 +107,203 @@ class Logic {
             + $this->get_shipping_cost_for_per_item( $per_item_items )
             + $this->get_shipping_cost_for_line_items( $line_item_items )
             + $this->get_shipping_cost_for_product_categories( $category_items )
-            + $this->get_shipping_cost_for_postcode( $postcode_items, $package );
+            + $this->get_shipping_cost_for_postcode( $postcode_items, $package )
+            + $this->get_shipping_cost_for_product_tags( $tag_items )
+            + $this->get_shipping_cost_for_products( $product_items )
+            + $this->get_shipping_cost_for_cart_volume( $volume_items )
+            + $this->get_shipping_cost_for_state( $state_items, $package )
+            + $this->get_shipping_cost_for_coupons( $coupon_items, $package );
 
         // Sum all costs
         return $shipping_cost;
+    }
+
+    /**
+     * Apply a cost when the cart holds a product carrying a selected tag.
+     *
+     * @param array $items Rule rows.
+     * @return float
+     */
+    private function get_shipping_cost_for_product_tags( $items ) {
+        if ( empty( $items ) ) {
+            return 0;
+        }
+
+        $cart_tags = $this->get_unique_terms_in_cart( 'product_tag' );
+        $cost      = 0;
+
+        foreach ( $items as $item ) {
+            $selected = isset( $item['multi'] ) && is_array( $item['multi'] ) ? $item['multi'] : [];
+
+            if ( $selected && array_intersect( $selected, $cart_tags ) ) {
+                $cost += $this->value( $item, 'cost' );
+            }
+        }
+
+        return $cost;
+    }
+
+    /**
+     * Apply a cost when the cart holds one of the selected products.
+     *
+     * Matches on the variation ID as well as the parent product ID, so a rule
+     * can target either a whole product or one specific variation.
+     *
+     * @param array $items Rule rows.
+     * @return float
+     */
+    private function get_shipping_cost_for_products( $items ) {
+        $cart = WC()->cart;
+
+        if ( is_null( $cart ) || empty( $items ) ) {
+            return 0;
+        }
+
+        $cart_ids = [];
+
+        foreach ( $cart->get_cart() as $cart_item ) {
+            if ( !empty( $cart_item['product_id'] ) ) {
+                $cart_ids[] = (int) $cart_item['product_id'];
+            }
+            if ( !empty( $cart_item['variation_id'] ) ) {
+                $cart_ids[] = (int) $cart_item['variation_id'];
+            }
+        }
+
+        $cart_ids = array_unique( $cart_ids );
+        $cost     = 0;
+
+        foreach ( $items as $item ) {
+            $selected = isset( $item['multi'] ) && is_array( $item['multi'] ) ? $item['multi'] : [];
+            $selected = array_map( 'intval', $selected );
+
+            if ( $selected && array_intersect( $selected, $cart_ids ) ) {
+                $cost += $this->value( $item, 'cost' );
+            }
+        }
+
+        return $cost;
+    }
+
+    /**
+     * Match the combined volume of the cart against a range.
+     *
+     * Volume is length x width x height x quantity, in the store's dimension
+     * unit. Products missing any dimension contribute nothing.
+     *
+     * @param array $items Rule rows.
+     * @return float
+     */
+    private function get_shipping_cost_for_cart_volume( $items ) {
+        $cart = WC()->cart;
+
+        if ( is_null( $cart ) || empty( $items ) ) {
+            return 0;
+        }
+
+        $volume = 0;
+
+        foreach ( $cart->get_cart() as $cart_item ) {
+            $product = isset( $cart_item['data'] ) ? $cart_item['data'] : null;
+
+            if ( !$product ) {
+                continue;
+            }
+
+            $length = (float) $product->get_length();
+            $width  = (float) $product->get_width();
+            $height = (float) $product->get_height();
+
+            if ( $length > 0 && $width > 0 && $height > 0 ) {
+                $quantity = isset( $cart_item['quantity'] ) ? (float) $cart_item['quantity'] : 1;
+                $volume  += $length * $width * $height * $quantity;
+            }
+        }
+
+        $cost = 0;
+
+        foreach ( $items as $item ) {
+            if ( $this->in_range( $volume, $item ) ) {
+                $cost += $this->value( $item, 'cost' );
+            }
+        }
+
+        return $cost;
+    }
+
+    /**
+     * Apply a cost when the destination state matches.
+     *
+     * @param array $items   Rule rows.
+     * @param array $package Shipping package.
+     * @return float
+     */
+    private function get_shipping_cost_for_state( $items, $package ) {
+        if ( empty( $items ) ) {
+            return 0;
+        }
+
+        $state = isset( $package['destination']['state'] ) ? strtoupper( trim( $package['destination']['state'] ) ) : '';
+
+        if ( '' === $state ) {
+            return 0;
+        }
+
+        $cost = 0;
+
+        foreach ( $items as $item ) {
+            $wanted = $this->split_list( isset( $item['value'] ) ? $item['value'] : '' );
+
+            if ( in_array( $state, $wanted, true ) ) {
+                $cost += $this->value( $item, 'cost' );
+            }
+        }
+
+        return $cost;
+    }
+
+    /**
+     * Apply a cost when one of the listed coupons is on the order.
+     *
+     * @param array $items   Rule rows.
+     * @param array $package Shipping package.
+     * @return float
+     */
+    private function get_shipping_cost_for_coupons( $items, $package ) {
+        if ( empty( $items ) ) {
+            return 0;
+        }
+
+        $applied = isset( $package['applied_coupons'] ) && is_array( $package['applied_coupons'] )
+            ? $package['applied_coupons']
+            : ( WC()->cart ? WC()->cart->get_applied_coupons() : [] );
+
+        if ( empty( $applied ) ) {
+            return 0;
+        }
+
+        $applied = array_map( 'strtoupper', array_map( 'trim', $applied ) );
+        $cost    = 0;
+
+        foreach ( $items as $item ) {
+            $wanted = $this->split_list( isset( $item['value'] ) ? $item['value'] : '' );
+
+            if ( $wanted && array_intersect( $wanted, $applied ) ) {
+                $cost += $this->value( $item, 'cost' );
+            }
+        }
+
+        return $cost;
+    }
+
+    /**
+     * Split a comma/whitespace separated list into upper-case tokens.
+     *
+     * @param string $list Raw list.
+     * @return string[]
+     */
+    private function split_list( $list ) {
+        return preg_split( '/[\s,]+/', strtoupper( trim( (string) $list ) ), -1, PREG_SPLIT_NO_EMPTY ) ?: [];
     }
 
     /**
@@ -293,6 +491,16 @@ class Logic {
      * @return string[]
      */
     private function get_unique_product_categories_in_cart() {
+        return $this->get_unique_terms_in_cart( 'product_cat' );
+    }
+
+    /**
+     * Unique term slugs of a taxonomy present across the cart's products.
+     *
+     * @param string $taxonomy Taxonomy name.
+     * @return string[]
+     */
+    private function get_unique_terms_in_cart( $taxonomy ) {
         $cart = WC()->cart;
 
         if ( is_null( $cart ) ) {
@@ -308,9 +516,9 @@ class Logic {
                 continue;
             }
 
-            // Variations inherit their categories from the parent product.
+            // Variations inherit categories and tags from the parent product.
             $product_id = $product->is_type( 'variation' ) ? $product->get_parent_id() : $product->get_id();
-            $terms      = get_the_terms( $product_id, 'product_cat' );
+            $terms      = get_the_terms( $product_id, $taxonomy );
 
             if ( !$terms || is_wp_error( $terms ) ) {
                 continue;
