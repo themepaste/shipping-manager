@@ -66,9 +66,58 @@
     margin: 0;
 }
 
+/*
+ * Dropdowns must not be mistakable for text fields.
+ *
+ * WordPress gives <select> its caret through a background-image. The shared
+ * .tpsm-input rule above sets `background` and a symmetric `padding`, which
+ * wiped both — leaving dropdowns looking exactly like the number inputs beside
+ * them. Draw our own caret instead of relying on core's.
+ */
+.tpsm-rules select.tpsm-input,
 .tpsm-rules .tpsm-input-select {
     min-width: 150px;
-    padding-right: 26px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    padding-right: 32px;
+    background-color: #fff;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23787c82' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 6.5l4 4 4-4'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 9px center;
+    background-size: 14px 14px;
+    cursor: pointer;
+    text-overflow: ellipsis;
+}
+
+.tpsm-rules select.tpsm-input:hover {
+    border-color: var(--tpsm-brand);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23f25500' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 6.5l4 4 4-4'/%3E%3C/svg%3E");
+}
+
+/* -- Labelled field ------------------------------------------------------- */
+
+.tpsm-field {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+}
+
+.tpsm-field-label {
+    color: var(--tpsm-muted);
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+.tpsm-field-row {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
 }
 
 .tpsm-rules .tpsm-input-wide {
@@ -347,7 +396,13 @@
     border: 1px solid var(--tpsm-line);
     border-radius: 0 0 8px 8px;
     background: #fff;
-    overflow: hidden;
+    /* Not `hidden`: that clipped the dropdown menu of the last rule. Menus are
+       also portalled to <body>, but this keeps inline content from being cut. */
+    overflow: visible;
+}
+
+.tpsm-rule:last-child {
+    border-radius: 0 0 7px 7px;
 }
 
 .tpsm-rule {
@@ -504,19 +559,35 @@
     background-color: var(--tpsm-line);
 }
 
-.tpsm-rules .tpsm-select__menu {
-    z-index: 20;
-    border: 1px solid var(--tpsm-line);
-    box-shadow: 0 4px 14px rgba(16, 24, 40, 0.1);
+/*
+ * Menus are portalled to <body>, so they sit outside `.tpsm-rules` and cannot
+ * be scoped under it. Prefix-scoped class names keep these from leaking.
+ */
+.tpsm-select__menu-portal,
+.tpsm-select__menu {
+    z-index: 100000;
 }
 
-.tpsm-rules .tpsm-select__option--is-focused {
-    background: var(--tpsm-brand-tint);
-    color: var(--tpsm-heading);
+.tpsm-select__menu {
+    border: 1px solid #e2e4e7;
+    border-radius: 6px;
+    box-shadow: 0 6px 20px rgba(16, 24, 40, 0.14);
+    font-size: 13px;
+    overflow: hidden;
 }
 
-.tpsm-rules .tpsm-select__option--is-selected {
-    background: var(--tpsm-brand);
+.tpsm-select__option {
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+.tpsm-select__option--is-focused {
+    background: #fff3ec;
+    color: #1d2327;
+}
+
+.tpsm-select__option--is-selected {
+    background: #f25500;
     color: #fff;
 }
 

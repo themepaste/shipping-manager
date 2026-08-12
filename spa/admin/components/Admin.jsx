@@ -67,6 +67,37 @@ const normalizeRow = (row, fallback) => ({
   label: typeof row.label === 'string' ? row.label : '',
 });
 
+
+/**
+ * A form control with a small caption above it.
+ *
+ * Without captions the condition and operator dropdowns read as plain text
+ * fields — merchants could not tell there were options behind them.
+ *
+ * @param {Object} props
+ * @param {string} props.label    Caption text.
+ * @param {Node}   props.children The control.
+ * @return {ReactElement} The field.
+ */
+const Field = ({ label, children }) => (
+  <span className="tpsm-field">
+    <span className="tpsm-field-label">{label}</span>
+    {children}
+  </span>
+);
+
+/**
+ * Render react-select menus into <body>.
+ *
+ * The rule list clips its children, so an inline menu on the last rule was cut
+ * off. Portalling escapes every ancestor's overflow.
+ */
+const MENU_PORTAL = {
+  menuPortalTarget: typeof document !== 'undefined' ? document.body : null,
+  menuPosition: 'fixed',
+  styles: { menuPortal: (base) => ({ ...base, zIndex: 100000 }) },
+};
+
 function Admin() {
   // TPSM_ADMIN is injected via wp_localize_script; fall back to empty data so a
   // missing/failed localisation degrades instead of throwing.
@@ -238,24 +269,28 @@ function Admin() {
     if (OPERATOR_CONDITIONS.includes(row.condition)) {
       return (
         <>
-          <select
-            className="tpsm-input tpsm-input-select"
-            value={row.equal || 'equals'}
-            onChange={(e) => handleRowChange(index, 'equal', e.target.value)}
-          >
-            {operators.map((op) => (
-              <option key={op.value} value={op.value}>
-                {op.label}
-              </option>
-            ))}
-          </select>
-          <input
-            className="tpsm-input"
-            type="number"
-            placeholder={i18n.value || 'Value'}
-            value={row.value}
-            onChange={(e) => handleRowChange(index, 'value', e.target.value)}
-          />
+          <Field label={i18n.operator || 'Operator'}>
+            <select
+              className="tpsm-input tpsm-input-select"
+              value={row.equal || 'equals'}
+              onChange={(e) => handleRowChange(index, 'equal', e.target.value)}
+            >
+              {operators.map((op) => (
+                <option key={op.value} value={op.value}>
+                  {op.label}
+                </option>
+              ))}
+            </select>
+          </Field>
+          <Field label={i18n.value || 'Value'}>
+            <input
+              className="tpsm-input"
+              type="number"
+              placeholder={i18n.value || 'Value'}
+              value={row.value}
+              onChange={(e) => handleRowChange(index, 'value', e.target.value)}
+            />
+          </Field>
         </>
       );
     }
@@ -269,26 +304,30 @@ function Admin() {
       }
       return (
         <>
-          <span className="tpsm-input-group">
-            <span className="tpsm-input-affix">{unit}</span>
-            <input
-              className="tpsm-input"
-              type="number"
-              placeholder={i18n.min || 'Min'}
-              value={row.min}
-              onChange={(e) => handleRowChange(index, 'min', e.target.value)}
-            />
-          </span>
-          <span className="tpsm-input-group">
-            <span className="tpsm-input-affix">{unit}</span>
-            <input
-              className="tpsm-input"
-              type="number"
-              placeholder={i18n.max || 'Max'}
-              value={row.max}
-              onChange={(e) => handleRowChange(index, 'max', e.target.value)}
-            />
-          </span>
+          <Field label={i18n.min || 'Min'}>
+            <span className="tpsm-field-row">
+              {unit && <span className="tpsm-input-affix">{unit}</span>}
+              <input
+                className="tpsm-input"
+                type="number"
+                placeholder={i18n.min || 'Min'}
+                value={row.min}
+                onChange={(e) => handleRowChange(index, 'min', e.target.value)}
+              />
+            </span>
+          </Field>
+          <Field label={i18n.max || 'Max'}>
+            <span className="tpsm-field-row">
+              {unit && <span className="tpsm-input-affix">{unit}</span>}
+              <input
+                className="tpsm-input"
+                type="number"
+                placeholder={i18n.max || 'Max'}
+                value={row.max}
+                onChange={(e) => handleRowChange(index, 'max', e.target.value)}
+              />
+            </span>
+          </Field>
         </>
       );
     }
@@ -301,15 +340,18 @@ function Admin() {
       };
       const [options, placeholder] = byCondition[row.condition] || [classOptions, ''];
       return (
-        <Select
-          className="tpsm-rule-multi"
-          classNamePrefix="tpsm-select"
-          options={options}
-          isMulti
-          placeholder={placeholder}
-          value={options.filter((opt) => row.multi.includes(opt.value))}
-          onChange={(selected) => handleMultiSelectChange(index, selected)}
-        />
+        <Field label={conditions[row.condition] || ''}>
+          <Select
+            className="tpsm-rule-multi"
+            classNamePrefix="tpsm-select"
+            options={options}
+            isMulti
+            placeholder={placeholder}
+            value={options.filter((opt) => row.multi.includes(opt.value))}
+            onChange={(selected) => handleMultiSelectChange(index, selected)}
+            {...MENU_PORTAL}
+          />
+        </Field>
       );
     }
 
@@ -317,23 +359,26 @@ function Admin() {
     // this works on catalogs far too large to localise up front.
     if (row.condition === 'tpsm-product') {
       return (
-        <AsyncSelect
-          className="tpsm-rule-multi"
-          classNamePrefix="tpsm-select"
-          isMulti
-          cacheOptions
-          defaultOptions={false}
-          placeholder={i18n.searchProducts}
-          loadOptions={searchProducts}
-          noOptionsMessage={({ inputValue }) =>
-            inputValue ? i18n.noResults : i18n.typeToSearch
-          }
-          value={(row.multi || []).map((id) => ({
-            value: id,
-            label: (row.multiLabels && row.multiLabels[id]) || `#${id}`,
-          }))}
-          onChange={(selected) => handleProductChange(index, selected)}
-        />
+        <Field label={conditions[row.condition] || ''}>
+          <AsyncSelect
+            className="tpsm-rule-multi"
+            classNamePrefix="tpsm-select"
+            isMulti
+            cacheOptions
+            defaultOptions={false}
+            placeholder={i18n.searchProducts}
+            loadOptions={searchProducts}
+            noOptionsMessage={({ inputValue }) =>
+              inputValue ? i18n.noResults : i18n.typeToSearch
+            }
+            value={(row.multi || []).map((id) => ({
+              value: id,
+              label: (row.multiLabels && row.multiLabels[id]) || `#${id}`,
+            }))}
+            onChange={(selected) => handleProductChange(index, selected)}
+            {...MENU_PORTAL}
+          />
+        </Field>
       );
     }
 
@@ -344,13 +389,15 @@ function Admin() {
         'tpsm-coupon': i18n.coupons,
       };
       return (
-        <input
-          className="tpsm-input tpsm-input-wide"
-          type="text"
-          placeholder={placeholders[row.condition]}
-          value={row.value}
-          onChange={(e) => handleRowChange(index, 'value', e.target.value)}
-        />
+        <Field label={conditions[row.condition] || ''}>
+          <input
+            className="tpsm-input tpsm-input-wide"
+            type="text"
+            placeholder={placeholders[row.condition]}
+            value={row.value}
+            onChange={(e) => handleRowChange(index, 'value', e.target.value)}
+          />
+        </Field>
       );
     }
 
@@ -454,6 +501,7 @@ function Admin() {
                 </div>
 
                 <div className="tpsm-rule-body">
+                  <Field label={i18n.condition || 'Condition'}>
                   <select
                     className="tpsm-input tpsm-input-select tpsm-rule-condition"
                     value={row.condition}
@@ -471,19 +519,24 @@ function Admin() {
                       </optgroup>
                     ))}
                   </select>
+                  </Field>
 
                   {renderConditionInputs(row, index)}
 
                   <span className="tpsm-rule-cost">
-                    <span className="tpsm-input-affix">{parse(currencySymbol || '')}</span>
-                    <input
-                      className="tpsm-input"
-                      type="number"
-                      step="0.01"
-                      value={row.cost}
-                      onChange={(e) => handleRowChange(index, 'cost', e.target.value)}
-                      placeholder="0.00"
-                    />
+                    <Field label={i18n.cost || 'Cost'}>
+                      <span className="tpsm-field-row">
+                        <span className="tpsm-input-affix">{parse(currencySymbol || '')}</span>
+                        <input
+                          className="tpsm-input"
+                          type="number"
+                          step="0.01"
+                          value={row.cost}
+                          onChange={(e) => handleRowChange(index, 'cost', e.target.value)}
+                          placeholder="0.00"
+                        />
+                      </span>
+                    </Field>
                   </span>
 
                   <span className="tpsm-rule-actions">

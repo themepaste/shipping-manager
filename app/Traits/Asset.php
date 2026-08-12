@@ -92,4 +92,28 @@ trait Asset {
 		return $version;
 	}
 
+	/**
+	 * Cache-busting version for a bundled asset, from its modification time.
+	 *
+	 * The plugin version alone is not enough: rebuilt CSS/JS inside the same
+	 * release keeps the old query string, so browsers keep serving a stale file
+	 * and fixes appear not to have landed.
+	 *
+	 * @param string $relative_path Path relative to the plugin root, e.g. 'assets/admin/dist/bundle.js'.
+	 * @return string
+	 */
+	protected function file_version( $relative_path ) {
+		$file = TPSM_PLUGIN_DIR . ltrim( $relative_path, '/' );
+
+		if ( is_readable( $file ) ) {
+			$mtime = filemtime( $file );
+
+			if ( $mtime ) {
+				return TPSM_PLUGIN_VERSION . '.' . $mtime;
+			}
+		}
+
+		return TPSM_ASSETS_VERSION;
+	}
+
 }

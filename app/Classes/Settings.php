@@ -161,7 +161,9 @@ class Settings {
 
         $this->enqueue_style(
             'tpsm-plugins-page',
-            TPSM_ASSETS_URL . '/admin/css/plugins-page.css'
+            TPSM_ASSETS_URL . '/admin/css/plugins-page.css',
+            [],
+            $this->file_version( 'assets/admin/css/plugins-page.css' )
         );
     }
 
@@ -189,7 +191,9 @@ class Settings {
         if ( $this->is_method_settings_section( $screen ) ) {
             $this->enqueue_style(
                 'tpsm-method-guide',
-                TPSM_ASSETS_URL . '/admin/css/method-guide.css'
+                TPSM_ASSETS_URL . '/admin/css/method-guide.css',
+                [],
+                $this->file_version( 'assets/admin/css/method-guide.css' )
             );
         }
 
@@ -231,7 +235,7 @@ class Settings {
             'tpsm-settings-react',
             TPSM_ASSETS_URL . '/admin/dist/bundle.js',
             [],
-            null,
+            $this->file_version( 'assets/admin/dist/bundle.js' ),
             ['in_footer' => false]
         );
 
